@@ -8,7 +8,7 @@ project:
 website:
   #google-analytics: ""
   cookie-consent: true
-  title: "Cloud-SPAN Transcriptomics"
+  title: "Cloud-SPAN Metatranscriptomics"
   favicon: images/cloud-span-icon.png
   page-navigation: true         # prev and next options at the bottom of each page
   back-to-top-navigation: true
