@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.53">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="keywords" content="metagenomics, cloud computing, AWS, command line tools, data analysis, environmental science, learning resource">
+
+<title>Polishing an assembly – Cloud-SPAN Metagenomics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../docs/lesson04-polishing/02-QC-polished-assembly.html" rel="next">
+<link href="../../docs/lesson04-polishing/index.html" rel="prev">
+<link href="../../images/cloud-span-icon.png" rel="icon" type="image/png">
+<script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-9HW51GYWMM"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-9HW51GYWMM', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/cloud-span-icon.png" alt="Cloud-SPAN logo." class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../docs/miscellanea/precourse-instructions.html"> 
+<span class="menu-text">Precourse Instructions</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../docs/miscellanea/about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/lesson04-polishing/index.html">Polishing</a></li><li class="breadcrumb-item"><a href="../../docs/lesson04-polishing/01-polishing-assembly.html">Polishing an assembly</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson01-files-and-directories/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Files and Directories</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson01-files-and-directories/01-understanding-file-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Understanding your file system</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson01-files-and-directories/02-logging-onto-cloud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Logging onto the Cloud</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson01-files-and-directories/03-shell-introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducing the Shell</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson02-using-the-command-line/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Using the Command Line</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson02-using-the-command-line/01-navigating-file-directories.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Navigating Files and Directories</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson02-using-the-command-line/02-working-with-file.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working with Files and Directories</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson02-using-the-command-line/03-redirection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Redirection</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson03-qc-assembly/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">QC &amp; Assembly</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson03-qc-assembly/01-introduction-meta.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Metagenomics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson03-qc-assembly/02-QC-quality-raw-reads.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assessing Read Quality, Trimming and Filtering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson03-qc-assembly/03-assembly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Metagenome Assembly</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson04-polishing/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Polishing</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson04-polishing/01-polishing-assembly.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Polishing an assembly</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson04-polishing/02-QC-polished-assembly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">QC polished assembly</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson05-binning-functional-annotation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Binning &amp; Functional Annotation</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson05-binning-functional-annotation/01-binning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Metagenome Binning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson05-binning-functional-annotation/02-binning_quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">QC of metagenome bins</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson05-binning-functional-annotation/03-Functional-annotation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Functional annotation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson06-taxonomic-annotations/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Taxonomic Annotations</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson06-taxonomic-annotations/01-taxonomic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Taxonomic Assignment</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson06-taxonomic-annotations/02-Diversity-tackled-with-R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Diversity Tackled With R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson06-taxonomic-annotations/03-hands_on-diversity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Taxonomic Analysis with R</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Extras</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/miscellanea/extras/data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/miscellanea/extras/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/miscellanea/extras/workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Workflow Reference</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#polishing-with-short-reads" id="toc-polishing-with-short-reads" class="nav-link active" data-scroll-target="#polishing-with-short-reads">Polishing with short reads</a></li>
+  <li><a href="#why-bother-polishing" id="toc-why-bother-polishing" class="nav-link" data-scroll-target="#why-bother-polishing">Why bother polishing?</a></li>
+  <li><a href="#polishing-an-assembly-with-long-reads" id="toc-polishing-an-assembly-with-long-reads" class="nav-link" data-scroll-target="#polishing-an-assembly-with-long-reads">Polishing an assembly with long reads</a></li>
+  <li><a href="#polishing-with-short-reads-1" id="toc-polishing-with-short-reads-1" class="nav-link" data-scroll-target="#polishing-with-short-reads-1">Polishing with short reads</a>
+  <ul class="collapse">
+  <li><a href="#generating-the-pilon-input-files" id="toc-generating-the-pilon-input-files" class="nav-link" data-scroll-target="#generating-the-pilon-input-files">Generating the Pilon input files</a></li>
+  <li><a href="#running-pilon" id="toc-running-pilon" class="nav-link" data-scroll-target="#running-pilon">Running Pilon</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Cloud-SPAN/nerc-metagenomics-v2q/edit/main/docs/lesson04-polishing/01-polishing-assembly.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Cloud-SPAN/nerc-metagenomics-v2q/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
+
+<header id="title-block-header">
+<h1 class="title display-7">Polishing an assembly</h1>
+
+</header>
+
+
+<p>In the <a href="../../docs/lesson03-qc-assembly/03-assembly.html">previous episode</a> we generated a draft assembly using Flye from our long read Nanopore data.</p>
+<p>Long reads can span regions which make them difficult to assemble with short reads such as regions with large repeats. Despite this, some long reads will be misassembled. In addition, the base accuracy of long reads is lower than that of short reads and some bases will be incorrectly assigned. Consequently it is common to correct these errors by “polishing” an assembly. We will use two polishing strategies:</p>
+<ol type="1">
+<li>Polishing with long reads using <a href="https://github.com/nanoporetech/medaka">Medaka</a>. This maps the raw long reads to the assembly to identify contigs that have been incorrectly joined.</li>
+<li>Polishing with short reads using <a href="https://github.com/broadinstitute/pilon">Pilon</a> which uses the more accurate short read data to correct incorrectly called bases in the assembly. More detail on the advantages and disadvantages of short and long read sequencing is covered in our <a href="https://cloud-span.github.io/experimental_design00-overview/">Statistically useful experimental design</a> workshop in <a href="https://cloud-span.github.io/experimental_design01-principles/01-platform/index.html">Platform choice</a>.</li>
+</ol>
+<section id="polishing-with-short-reads" class="level3">
+<h3 class="anchored" data-anchor-id="polishing-with-short-reads">Polishing with short reads</h3>
+<!-- <img width="525" height="307" src="{{ page.root }}/fig/04_polishing_diagram_v1.png" alt="Diagram showing overlap of reads for polishing" /> &nbsp; &nbsp; &nbsp; -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/04_polishing_diagram_v1.png" alt="Diagram showing overlap of reads for polishing." width="525" height="307" class="figure-img"></p>
+<figcaption>Diagram showing overlap of reads for polishing.</figcaption>
+</figure>
+</div>
+<p>In the diagram, the long read assembly is shown at the top. The four short reads shown below the assembly have been aligned to it. The third position in the assembly is <code>A</code> but the three short reads that cover this region contain a <code>T</code>. The assembly probably contains a miscalled base but it can be corrected - or polished - at this position with the higher accuracy short read information. Typically short read polishing would be carried out three times with the base accuracy increasing each time. However, to reduce the compute requirements and the time required to finish the assembly, we will be performing it just once.</p>
+</section>
+<section id="why-bother-polishing" class="level2">
+<h2 class="anchored" data-anchor-id="why-bother-polishing">Why bother polishing?</h2>
+<p>How important polishing is to your analysis will depend on what you need it for. Usually we generate metagenome assemblies so we can compare the sequences to a database and find out what taxa they belong to.</p>
+<p>You might <strong>NOT</strong> need to polish your assembly if:</p>
+<ul>
+<li>you only need to taxa to the genus level (meaning single incorrect bases are not important)</li>
+</ul>
+<p>You <strong>DO</strong> need to polish your assembly if:</p>
+<ul>
+<li>you want to identify taxa to the species level (if possible). This is a common requirement since one of the main advantages of whole genome sequencing over amplicon sequencing is that you can assign annotations to the species level. We will cover <a href="../../docs/lesson06-taxonomic-annotations/index.html">Taxonomic annotations</a> later in the course.</li>
+<li>you want to generate protein predictions or identify protein structure domains to determine the functionality of metagenomes. This is discussed in more detail in Watson and Warr (2019): <a href="https://www.nature.com/articles/s41587-018-0004-z">Errors in long-read assemblies can critically affect protein prediction</a>.</li>
+</ul>
+</section>
+<section id="polishing-an-assembly-with-long-reads" class="level2">
+<h2 class="anchored" data-anchor-id="polishing-an-assembly-with-long-reads">Polishing an assembly with long reads</h2>
+<p>First we will polish the draft Flye assembly using the filtered raw long reads. As with the assembly, we need to use polishing software that is especially written for long read raw reads.</p>
+<p><a href="https://github.com/nanoporetech/medaka">Medaka</a> is a command line tool built by Oxford Nanopore Technologies which will polish an assembly by generating a consensus from raw Nanopore sequences using a recurrent neural network.</p>
+<p>We will be using one Medaka command, <code>medaka_consensus</code>. This pipeline will first align the raw reads to the draft assembly, then process this alignment to generate a pileup. The pileup is presented to a recurrent neural network in order to produce a consensus sequence.</p>
+<p>Medaka is installed on the AWS instance. Let’s take a look at the help page for <code>medaka_consensus</code>:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb1" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">medaka_consensus</span> <span class="at">-h</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<code>Output --- medaka_consensus</code> Help
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>medaka 1.7.2</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>Assembly polishing via neural networks. Medaka is optimized</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>to work with the Flye assembler.</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>medaka_consensus [-h] -i &lt;fastx&gt; -d &lt;fasta&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>     -h  show this help text.</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>     -i  fastx input basecalls (required).</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>     -d  fasta input assembly (required).</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>     -o  output folder (default: medaka).</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>     -g  don't fill gaps in consensus with draft sequence.</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>     -r  use gap-filling character instead of draft sequence (default: None)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>     -m  medaka model, (default: r941_min_hac_g507).</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>         Choices: r103_fast_g507 r103_hac_g507 r103_min_high_g345 r103_min_high_g360 r103_prom_high_g360 r103_sup_g507 r1041_e82_400bps_fast_g615 r1041_e82_400bps_hac_g615 r1041_e82_400bps_sup_g615 r104_e81_fast_g5015 r104_e81_hac_g5015 r104_e81_sup_g5015 r104_e81_sup_g610 r10_min_high_g303 r10_min_high_g340 r941_e81_fast_g514 r941_e81_hac_g514 r941_e81_sup_g514 r941_min_fast_g303 r941_min_fast_g507 r941_min_hac_g507 r941_min_high_g303 r941_min_high_g330 r941_min_high_g340_rle r941_min_high_g344 r941_min_high_g351 r941_min_high_g360 r941_min_sup_g507 r941_prom_fast_g303 r941_prom_fast_g507 r941_prom_hac_g507 r941_prom_high_g303 r941_prom_high_g330 r941_prom_high_g344 r941_prom_high_g360 r941_prom_high_g4011 r941_prom_sup_g507 r941_sup_plant_g610</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>         Alternatively a .tar.gz/.hdf file from 'medaka train'.</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>     -f  Force overwrite of outputs (default will reuse existing outputs).</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>     -x  Force recreation of alignment index.</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>     -t  number of threads with which to create features (default: 1).</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>     -b  batchsize, controls memory use (default: 100).</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>To use Medaka we need to specify certain parameters in the command, like we did when we ran Flye last session. The help page tells us that the basic format for medaka is <code>medaka_consensus [-h] -i &lt;fastx&gt; -d &lt;fasta&gt;1</code>, indicating that the <code>-i</code> and <code>-d</code> flags are mandatory.</p>
+<p>Let’s have a look at the flags and options we’re going to use:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Flag/option</th>
+<th>Meaning</th>
+<th>Our input</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>-i</code></td>
+<td>Input basecalls (i.e.&nbsp;what we are polishing with)</td>
+<td><code>-i data/nano_fastq/ERR5000342_sub12_filtered</code></td>
+</tr>
+<tr class="even">
+<td><code>-d</code></td>
+<td>Input assembly (i.e.&nbsp;what is being polished)</td>
+<td><code>-d results/assembly/assembly.fasta</code></td>
+</tr>
+<tr class="odd">
+<td><code>-m</code></td>
+<td>Neural network model to use (described in <a href="https://github.com/nanoporetech/medaka#models">the documentation</a>)</td>
+<td><code>-m r941_min_hac_g507</code></td>
+</tr>
+<tr class="even">
+<td><code>-o</code></td>
+<td>Output directory</td>
+<td><code>-o results/medaka</code></td>
+</tr>
+<tr class="odd">
+<td><code>-t</code></td>
+<td>Number of threads</td>
+<td><code>-t 8</code></td>
+</tr>
+</tbody>
+</table>
+<p>Once again we will run this command in the background and redirect the output to a file. This means we add <code>&amp;&gt;</code> to redirect the output and <code>&amp;</code> to the very end to make it run in the background.</p>
+<p>Before we start let’s make sure we’re in the <code>cs_course</code> folder and create a directory called <code>medaka</code> for our output in the <code>results</code> folder.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb3" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/cs_course</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> results/medaka</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now it’s time to run Medaka!</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb4" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">medaka_consensus</span> <span class="dt">\</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>-i data/nano_fastq/ERR5000342_sub12_filtered.fastq <span class="dt">\</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>-d results/assembly/assembly.fasta <span class="dt">\</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>-m r941_min_hac_g507 <span class="dt">\</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>-o results/medaka <span class="dt">\</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>-t 8 <span class="dt">\</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="op">&amp;&gt;</span> results/medaka/medaka.out <span class="kw">&amp;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can check the command is running using <code>jobs</code>:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb5" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">jobs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If it is successfully running you should see an output like:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb6" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>[1]+  Running                 medaka_consensus -i data/nano_fastq/ERR3152367_sub5_filtered.fastq -d results/assembly/assembly.fasta -m r941_min_hac_g507 -o results/medaka -t 8 &amp;&gt; results/medaka/medaka.out &amp;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can also look in the output file (<code>medaka.out</code>) to check the progress of the command. In this case Medaka will take about three hours to run.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb7" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> results/medaka/medaka.out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If the Medaka command has been run correctly you will see something like this near the start of the output:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb8" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>Checking program versions</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>This is medaka 1.7.2</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>This is medaka 1.7.2</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>Program    Version            Required   Pass</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>bcftools   1.16-20-g6f4732b   1.11       True</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>bgzip      1.16-16-g3c6f83f   1.11       True</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>minimap2   2.24               2.11       True</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>samtools   1.16.1-33-gbd942a0 1.11       True</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>tabix      1.16-16-g3c6f83f   1.11       True</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>Aligning basecalls to draft</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>Constructing minimap index.</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>[M::mm_idx_gen::0.515*0.99] collected minimizers</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>[M::mm_idx_gen::0.648*1.40] sorted minimizers</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>[M::main::0.877*1.29] loaded/built the index for 146 target sequence(s)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>[M::mm_idx_stat] kmer size: 15; skip: 10; is_hpc: 0; #seq: 146</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>[M::mm_idx_stat::0.910*1.28] distinct minimizers: 2598367 (94.68% are singletons); average occurrences: 1.076; average spacing: 5.350; total length: 14953273</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Help!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Medaka may give you a warning along the lines of:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb9" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>2023-03-31 12:22:21.572954: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>2023-03-31 12:22:21.573012: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>2023-03-31 12:22:24.690162: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Couldnot load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>2023-03-31 12:22:24.690198: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Don’t worry, you can safely ignore this warning wherever it pops up. It is telling us that it couldn’t load a library required for parallel computing using GPUs. We are not using a GPU setup and so this warning is irrelevant.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Help!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you have entered the command incorrectly you will usually find out quite quickly! An easy way to tell is if you get an output in your terminal that starts with ‘Exit’ rather than ‘Done’:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb10" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>[1]+  Exit 1                  medaka_consensus -i data/nano_fastq/ERR5000342_sub12_filtered.fastq -d results/assembly/assembly.fasta -m r941_min_hac_g507 -o results/medaka -t 8 &amp; results/medaka/medaka.out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Another way to tell is by looking inside the <code>medaka.out</code> log file. You will get some of the usual text output as Medaka loads its dependencies but once it starts processing the command it will tell you that something is wrong, e.g.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb11" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>Creating fai index file /home/csuser/cs_course/results/assembly/assembly.fasta.fai</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>[E::fai_build3_core] Failed to open the file /home/csuser/cs_course/results/assembly/assembly.fasta</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>[faidx] Could not build fai index /home/csuser/cs_course/results/assembly/assembly.fasta.fai</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>Failed to run alignment of reads to draft.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Things to check if your command fails:</p>
+<ul>
+<li>spelling/typos — have you spelled the command correctly and typed the directory names without error?</li>
+<li>paths — are all of your absolute/relative paths complete and accurate? (tip: using tab completion can help with peace of mind here, as you can check that your path definitely follows the right trail)</li>
+<li>flags — have you included all the mandatory flags, including the one (<code>-</code>) or two (<code>--</code>) dashes that usually accompany them?</li>
+<li>output — does the output in your log/.out file give you any clues as to where your error lies? e.g.&nbsp;in the example above the line “Failed to open the file /home/csuser/cs_course/results/assembly/assembly.fasta” suggests that this path might be wrong somehow.</li>
+</ul>
+<p>If you really can’t find your mistake then the your instructors and/or other participants will be able to help you sort it out, so there is no need to panic!</p>
+</div>
+</div>
+<p>Medaka first looks for the other programs that it needs (known as dependencies) and their versions. These dependencies are installed on the AWS instance. Once it confirms they are present, it begins by aligning the raw reads (basecalls) to the assembly using minimap.</p>
+<p>Once Medaka has completed the end of the file (which you can skip to by typing <kbd>G</kbd>) will contain something like:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb12" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> results/medaka/medaka.out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb13" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>[20:51:16 - DataIndx] Loaded 1/1 (100.00%) sample files.</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>[20:51:16 - DataIndx] Loaded 1/1 (100.00%) sample files.</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>[20:51:16 - DataIndx] Loaded 1/1 (100.00%) sample files.</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>[20:51:16 - DataIndx] Loaded 1/1 (100.00%) sample files.</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>[20:51:16 - DataIndx] Loaded 1/1 (100.00%) sample files.</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>[20:51:16 - DataIndx] Loaded 1/1 (100.00%) sample files.</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>[20:51:16 - DataIndx] Loaded 1/1 (100.00%) sample files.</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>[20:51:17 - DataIndx] Loaded 1/1 (100.00%) sample files.</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>[20:51:17 - DataIndx] Loaded 1/1 (100.00%) sample files.</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>[20:51:17 - DataIndx] Loaded 1/1 (100.00%) sample files.</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>Polished assembly written to medaka/consensus.fasta, have a nice day.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Once Medaka has completed (~ 3 hours on average) we can take a look at the files it has generated.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb14" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> results/medaka</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb15" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>calls_to_draft.bam  calls_to_draft.bam.bai  consensus.fasta  consensus.fasta.gaps_in_draft_coords.bed  consensus_probs.hdf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Medaka has created multiple files:</p>
+<ul>
+<li><code>calls_to_draft.bam</code> - a BAM file containing the alignment of the raw reads (basecalls) to the draft assembly</li>
+<li><code>calls_to_draft.bam.bai</code> — an index file of the above BAM file</li>
+<li><code>consensus.fasta</code> — the consensus sequence, or polished assembly in our case in FASTA format</li>
+<li><code>consensus.fasta.gaps_in_draft_coords.bed</code> — a BED file containing information about the location of any gaps in the consensus sequence which can be used when visualising the assembly</li>
+<li><code>consensus_probs.hdf</code> — a file that contains the output of the neural network calculations and is not an output for end-users, so we don’t need to worry about this file</li>
+</ul>
+<p>In our case we’re interested in the polished assembly, so we want the <code>consensus.fasta</code> file.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+BAM and SAM Files
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A <a href="https://genome.sph.umich.edu/wiki/SAM">SAM file</a>, is a tab-delimited text file that contains information for each individual read and its alignment to the genome. The paper by <a href="http://bioinformatics.oxfordjournals.org/content/25/16/2078.full">Heng Li et al.</a> provides the full specification.</p>
+<p>The compressed binary version of SAM is called a BAM file. We use this version to reduce size and to allow for indexing, which enables efficient random access of the data contained within the file.</p>
+<p>The file begins with a header, which is optional. The header describes the source of data, reference sequence, method of alignment etc. - these will change depending on the aligner being used. Following the header is the alignment section. Each line that follows corresponds to alignment information for a single read. There are 11 mandatory fields for essential mapping information and a variable number of other fields for aligner specific information.</p>
+<p>See <a href="https://cloud-span.github.io/04genomics/01-variant_calling/index.html">Genomics - Variant Calling</a> for a deeper dive.</p>
+</div>
+</div>
+</section>
+<section id="polishing-with-short-reads-1" class="level2">
+<h2 class="anchored" data-anchor-id="polishing-with-short-reads-1">Polishing with short reads</h2>
+<p>We will be using the program <a href="https://github.com/broadinstitute/pilon">Pilon</a> to further polish the draft assembly using the raw short reads. Pilon will improve a draft assembly by filling gaps, fixing misassemblies and correcting bases. You can read more about how it works in the paper <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0112963">Pilon: An Integrated Tool for Comprehensive Microbial Variant Detection and Genome Assembly Improvement</a>.</p>
+<p>Bioinformatics programs are not built equally. Some programs, like Flye or Medaka, require very few input files as they will generate any that they need within the pipeline. Some programs however, require a lot of user input to generate the input files that are needed.</p>
+<p>Pilon is in the latter group of bioinformatics software, so we will need to do some pre-processing using other programs to create some of the inputs needed.</p>
+<section id="generating-the-pilon-input-files" class="level3">
+<h3 class="anchored" data-anchor-id="generating-the-pilon-input-files">Generating the Pilon input files</h3>
+<p>We will first use the program <a href="https://github.com/lh3/bwa">BWA</a> to generate an alignment of the raw short reads against the draft genome in consensus.fasta. The steps will be:</p>
+<ol type="1">
+<li>indexing the polished assembly, consensus.fasta with <code>bwa index</code>. Indexing allows the aligner to quickly find potential alignment sites for query sequences in a genome, which saves time during alignment.</li>
+<li>creating a directory for the outputs of Pilon</li>
+<li>aligning the short reads (the illumina data) to the assembly, consensus.fasta with <code>bwa mem</code></li>
+<li>converting the short read alignment to a BAM file <code>samtools view</code></li>
+<li>sorting the short read alignment with <code>samtools sort</code></li>
+<li>indexing the short read alignment with <code>samtools index</code></li>
+</ol>
+<p>Make sure you are in the <code>cs_course</code> folder and use <code>bwa index</code> to index the consensus assembly:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb16" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/cs_course</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="ex">bwa</span> index results/medaka/consensus.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This should only take a few seconds to complete so we don’t need to run the job in the background. Once the indexing is complete you should see an output like:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb17" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>[bwa_index] Pack FASTA... 0.51 sec</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>[bwa_index] Construct BWT for the packed sequence...</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>[bwa_index] 5.86 seconds elapse.</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>[bwa_index] Update BWT... 0.10 sec</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>[bwa_index] Pack forward-only FASTA... 0.10 sec</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>[bwa_index] Construct SA from BWT and Occ... 1.81 sec</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>[main] Version: 0.7.17-r1188</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>[main] CMD: bwa index consensus.fasta</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>[main] Real time: 8.704 sec; CPU: 8.395 sec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This will generate five additional files in the <code>medaka</code> directory with the file extensions <code>.pac</code>, <code>.bwt</code>, <code>.ann</code>, <code>.amb</code> and <code>.sa</code>. These files are used by BWA in step 3.</p>
+<p>Next we will make a directory in the results directory for our pilon polishing outputs:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb18" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> results/pilon</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We will now do steps 3, 4 and 5 in one go by chaining them together with pipes.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Chaining together commands with a pipe
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It is possible to chain together commands in Linux (and Unix) using a command known as “pipe”. This allows the output from one command to be directly passed as input to other command without the need for using intermediate files. This is useful when the intermediate file is not needed and keeps your workspace tidy. The pipe command is the character <code>|</code> which is obtained with <kbd>⇧ Shift</kbd> + <kbd>\</kbd> on most keyboards.</p>
+<p>You can use multiple pipes in a single line of commands but data will only go from the left to the right:</p>
+<p><code>command1 | command2 | command3 | .... |</code></p>
+</div>
+</div>
+<p>We will be using two pipes to join three separate steps. First we will align the raw reads to the draft assembly, then convert the output to BAM format, before finally sorting this alignment to generate a sorted BAM file. Chaining the steps together together will only generate one final output file, avoiding the need to generate large intermediary files we don’t need again between the other two steps.</p>
+<ol type="1">
+<li>we will align the short reads (the illumina data) to the assembly, consensus.fasta with <code>bwa mem</code>: <code>bwa mem -t 8 results/medaka/consensus.fasta data/illumina_fastq/ERR4998593_1.fastq data/illumina_fastq/ERR4998593_2.fastq</code></li>
+<li>convert the short read alignment alignment to a BAM file with <code>samtools view</code>: <code>samtools view - -Sb</code></li>
+<li>sort the short read alignment with <code>samtools sort</code>: <code>samtools sort - -@4 -o pilon/short_read_alignment.bam</code></li>
+</ol>
+<p>Here are the various flags/options used in these commands and what they mean:</p>
+<!-- NB: below, the number of hyphens (---..) in the line below "|---|---...|" does help determine the length of each column. It's a matter of trying how many hyphens to use for each column -->
+<table class="caption-top table">
+<colgroup>
+<col style="width: 41%">
+<col style="width: 26%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Command</th>
+<th>Flag/option</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>bwa mem -t 8 [input assembly] [input short read file(s)]</code></td>
+<td>-t 8</td>
+<td>Number of threads (8)</td>
+</tr>
+<tr class="even">
+<td><code>samtools view - -Sb</code></td>
+<td>-</td>
+<td>Take piped output from <code>bwa mem</code> as input</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>-Sb</td>
+<td>Convert from SAM to BAM format</td>
+</tr>
+<tr class="even">
+<td><code>samtools sort - -@8 -o [filename]</code></td>
+<td>-</td>
+<td>Take piped output from <code>samtools view</code> as input</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>-<span class="citation" data-cites="8">@8</span></td>
+<td>Number of threads (8)</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>-o [filename]</td>
+<td>Output a file with name [filename]</td>
+</tr>
+</tbody>
+</table>
+<p>This will take around 60 minutes so we will use redirection and <code>&amp;</code> to print the output to a file and run the command in the background (just like in the previous lesson). We will also wrap our whole three-fold command in brackets so we run all three steps in the background.</p>
+<p>Add the pipes between these commands and run:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb19" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="ex">bwa</span> mem <span class="at">-t</span> 8 results/medaka/consensus.fasta data/illumina_fastq/ERR4998593_1.fastq data/illumina_fastq/ERR4998593_2.fastq <span class="kw">|</span> <span class="ex">samtools</span> view <span class="at">-</span> <span class="at">-Sb</span> <span class="kw">|</span> <span class="ex">samtools</span> sort <span class="at">-</span> <span class="at">-@8</span> <span class="at">-o</span> results/pilon/short_read_alignment.bam<span class="kw">)</span> <span class="op">&amp;&gt;</span> results/pilon/alignment.out <span class="kw">&amp;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Once the command is running, you can check the process of this job by looking at the <code>alignment.out</code> file.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb20" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> results/pilon/alignment.out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb21" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>[M::bwa_idx_load_from_disk] read 0 ALT contigs</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>[M::process] read 529802 sequences (80000102 bp)...</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>[M::process] read 529802 sequences (80000102 bp)...</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (2, 14035, 29, 8)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>[M::mem_pestat] skip orientation FF as there are not enough pairs</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>[M::mem_pestat] analyzing insert size distribution for orientation FR...</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>[M::mem_pestat] (25, 50, 75) percentile: (333, 416, 538)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 948)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>[M::mem_pestat] mean and std.dev: (435.53, 162.74)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>[M::mem_pestat] low and high boundaries for proper pairs: (1, 1153)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>[M::mem_pestat] analyzing insert size distribution for orientation RF...</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>[M::mem_pestat] (25, 50, 75) percentile: (891, 2304, 6802)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 18624)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>[M::mem_pestat] mean and std.dev: (3479.45, 2918.28)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The command should take around 45 minutes to run. Once completed, the end of the <code>alignment.out</code> file should contain something like:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb22" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>low and high boundaries for proper pairs: (1, 1222)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>[M::mem_pestat] skip orientation RF as there are not enough pairs</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>[M::mem_pestat] skip orientation RR as there are not enough pairs</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>[M::mem_process_seqs] Processed 182762 reads in 37.961 CPU sec, 5.397 real sec</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>[main] Version: 0.7.17-r1188</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>[main] CMD: bwa mem -t 8 ~/cs_course/results/medaka/consensus.fasta ~/cs_course/data/illumina_fastq/ERR4998593_1.fastq ~/cs_course/data/illumina_fastq/ERR4998593_2.fastq</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>[main] Real time: 2207.540 sec; CPU: 14851.383 sec</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>[bam_sort_core] merging from 7 files and 4 in-memory blocks...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We have now generated the <code>short_read_alignment.bam</code> file - this is a binary file (meaning it’s not human readable) so we won’t be checking its contents.</p>
+<p>Now carry out step 6, index the alignment:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb23" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> index results/pilon/short_read_alignment.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Something to think about
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Why didn’t we include this command in the sequence of pipes in the previous step?</p>
+<p>The answer is that we will need access to the BAM file produced for further analysis. If we included this step as part of a pipe the intermediate BAM file would not be saved.</p>
+</div>
+</div>
+<p>This command will take around one or two minutes so we don’t need to run it in the background.</p>
+<p>Once your prompt has returned you should also have a file named <code>short_read_alignment.bam.bai</code> in your pilon directory, which is the index.</p>
+</section>
+<section id="running-pilon" class="level3">
+<h3 class="anchored" data-anchor-id="running-pilon">Running Pilon</h3>
+<p>Now we have generated the necessary input files we can finally run Pilon.</p>
+<p>Pilon is installed on the AWS instance and we can view the help documentation using:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb24" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pilon</span> <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Output — Pilon help Documentation
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb25"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>Pilon version 1.24 Thu Jan 28 13:00:45 2021 -0500</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>   Usage: pilon --genome genome.fasta [--frags frags.bam] [--jumps jumps.bam] [--unpaired </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                unpaired.bam]  [...other options...]</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>          pilon --help for option details</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>         INPUTS:</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>           --genome genome.fasta</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>              The input genome we are trying to improve, which must be the reference used</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>              for the bam alignments.  At least one of --frags or --jumps must also be given.</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>           --frags frags.bam</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>              A bam file consisting of fragment paired-end alignments, aligned to the --genome</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>              argument using bwa or bowtie2.  This argument may be specified more than once.</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>           --jumps jumps.bam</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>              A bam file consisting of jump (mate pair) paired-end alignments, aligned to the</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>              --genome argument using bwa or bowtie2.  This argument may be specified more than once.</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>           --unpaired unpaired.bam</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>              A bam file consisting of unpaired alignments, aligned to the --genome argument</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>              using bwa or bowtie2.  This argument may be specified more than once.</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>           --bam any.bam</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>              A bam file of unknown type; Pilon will scan it and attempt to classify it as one</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>              of the above bam types.</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>           --nanopore ont.bam</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>              A bam file containing Oxford Nanopore read alignments. Experimental.</span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>           --pacbio pb.bam</span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>              A bam file containing Pacific Biosciences read alignments. Experimental.</span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>         OUTPUTS:</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>           --output prefix</span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>              Prefix for output files</span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>           --outdir directory</span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>              Use this directory for all output files.</span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>           --changes</span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>              If specified, a file listing changes in the &lt;output&gt;.fasta will be generated.</span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>           --vcf</span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>              If specified, a vcf file will be generated</span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>           --vcfqe</span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>               If specified, the VCF will contain a QE (quality-weighted evidence) field rather</span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>               than the default QP (quality-weighted percentage of evidence) field.</span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>           --tracks</span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>               This options will cause many track files (*.bed, *.wig) suitable for viewing in</span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>               a genome browser to be written.</span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a>         CONTROL:</span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a>           --variant</span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a>              Sets up heuristics for variant calling, as opposed to assembly improvement;</span>
+<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a>              equivalent to "--vcf --fix all,breaks".</span>
+<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a>           --chunksize</span>
+<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a>              Input FASTA elements larger than this will be processed in smaller pieces not to</span>
+<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a>              exceed this size (default 10000000).</span>
+<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a>           --diploid</span>
+<span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a>              Sample is from diploid organism; will eventually affect calling of heterozygous SNPs</span>
+<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a>           --fix fixlist</span>
+<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a>              A comma-separated list of categories of issues to try to fix:</span>
+<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a>                "snps": try to fix individual base errors;</span>
+<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a>                "indels": try to fix small indels;</span>
+<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a>                "gaps": try to fill gaps;</span>
+<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a>                "local": try to detect and fix local misassemblies;</span>
+<span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a>                "all": all of the above (default);</span>
+<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a>                "bases": shorthand for "snps" and "indels" (for back compatibility);</span>
+<span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a>                "none": none of the above; new fasta file will not be written.</span>
+<span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a>              The following are experimental fix types:</span>
+<span id="cb25-62"><a href="#cb25-62" aria-hidden="true" tabindex="-1"></a>                "amb": fix ambiguous bases in fasta output (to most likely alternative);</span>
+<span id="cb25-63"><a href="#cb25-63" aria-hidden="true" tabindex="-1"></a>                "breaks": allow local reassembly to open new gaps (with "local");</span>
+<span id="cb25-64"><a href="#cb25-64" aria-hidden="true" tabindex="-1"></a>                "circles": try to close circular elements when used with long corrected reads;</span>
+<span id="cb25-65"><a href="#cb25-65" aria-hidden="true" tabindex="-1"></a>                "novel": assemble novel sequence from unaligned non-jump reads.</span>
+<span id="cb25-66"><a href="#cb25-66" aria-hidden="true" tabindex="-1"></a>           --dumpreads</span>
+<span id="cb25-67"><a href="#cb25-67" aria-hidden="true" tabindex="-1"></a>              Dump reads for local re-assemblies.</span>
+<span id="cb25-68"><a href="#cb25-68" aria-hidden="true" tabindex="-1"></a>           --duplicates</span>
+<span id="cb25-69"><a href="#cb25-69" aria-hidden="true" tabindex="-1"></a>              Use reads marked as duplicates in the input BAMs (ignored by default).</span>
+<span id="cb25-70"><a href="#cb25-70" aria-hidden="true" tabindex="-1"></a>           --iupac</span>
+<span id="cb25-71"><a href="#cb25-71" aria-hidden="true" tabindex="-1"></a>              Output IUPAC ambiguous base codes in the output FASTA file when appropriate.</span>
+<span id="cb25-72"><a href="#cb25-72" aria-hidden="true" tabindex="-1"></a>           --nonpf</span>
+<span id="cb25-73"><a href="#cb25-73" aria-hidden="true" tabindex="-1"></a>              Use reads which failed sequencer quality filtering (ignored by default).</span>
+<span id="cb25-74"><a href="#cb25-74" aria-hidden="true" tabindex="-1"></a>           --targets targetlist</span>
+<span id="cb25-75"><a href="#cb25-75" aria-hidden="true" tabindex="-1"></a>              Only process the specified target(s).  Targets are comma-separated, and each target</span>
+<span id="cb25-76"><a href="#cb25-76" aria-hidden="true" tabindex="-1"></a>              is a fasta element name optionally followed by a base range.</span>
+<span id="cb25-77"><a href="#cb25-77" aria-hidden="true" tabindex="-1"></a>              Example: "scaffold00001,scaffold00002:10000-20000" would result in processing all of </span>
+<span id="cb25-78"><a href="#cb25-78" aria-hidden="true" tabindex="-1"></a>              scaffold00001 and coordinates 10000-20000 of scaffold00002.</span>
+<span id="cb25-79"><a href="#cb25-79" aria-hidden="true" tabindex="-1"></a>              If "targetlist" is the name of a file, each line will be treated as a target</span>
+<span id="cb25-80"><a href="#cb25-80" aria-hidden="true" tabindex="-1"></a>              specification.</span>
+<span id="cb25-81"><a href="#cb25-81" aria-hidden="true" tabindex="-1"></a>           --verbose</span>
+<span id="cb25-82"><a href="#cb25-82" aria-hidden="true" tabindex="-1"></a>              More verbose output.</span>
+<span id="cb25-83"><a href="#cb25-83" aria-hidden="true" tabindex="-1"></a>           --debug</span>
+<span id="cb25-84"><a href="#cb25-84" aria-hidden="true" tabindex="-1"></a>              Debugging output (implies verbose).</span>
+<span id="cb25-85"><a href="#cb25-85" aria-hidden="true" tabindex="-1"></a>           --version</span>
+<span id="cb25-86"><a href="#cb25-86" aria-hidden="true" tabindex="-1"></a>              Print version string and exit.</span>
+<span id="cb25-87"><a href="#cb25-87" aria-hidden="true" tabindex="-1"></a>         HEURISTICS:</span>
+<span id="cb25-88"><a href="#cb25-88" aria-hidden="true" tabindex="-1"></a>           --defaultqual qual</span>
+<span id="cb25-89"><a href="#cb25-89" aria-hidden="true" tabindex="-1"></a>              Assumes bases are of this quality if quals are no present in input BAMs (default 10).</span>
+<span id="cb25-90"><a href="#cb25-90" aria-hidden="true" tabindex="-1"></a>           --flank nbases</span>
+<span id="cb25-91"><a href="#cb25-91" aria-hidden="true" tabindex="-1"></a>              Controls how much of the well-aligned reads will be used; this many bases at each</span>
+<span id="cb25-92"><a href="#cb25-92" aria-hidden="true" tabindex="-1"></a>              end of the good reads will be ignored (default 10).</span>
+<span id="cb25-93"><a href="#cb25-93" aria-hidden="true" tabindex="-1"></a>           --gapmargin</span>
+<span id="cb25-94"><a href="#cb25-94" aria-hidden="true" tabindex="-1"></a>              Closed gaps must be within this number of bases of true size to be closed (100000)</span>
+<span id="cb25-95"><a href="#cb25-95" aria-hidden="true" tabindex="-1"></a>           --K</span>
+<span id="cb25-96"><a href="#cb25-96" aria-hidden="true" tabindex="-1"></a>              Kmer size used by internal assembler (default 47).</span>
+<span id="cb25-97"><a href="#cb25-97" aria-hidden="true" tabindex="-1"></a>           --mindepth depth</span>
+<span id="cb25-98"><a href="#cb25-98" aria-hidden="true" tabindex="-1"></a>              Variants (snps and indels) will only be called if there is coverage of good pairs</span>
+<span id="cb25-99"><a href="#cb25-99" aria-hidden="true" tabindex="-1"></a>              at this depth or more; if this value is &gt;= 1, it is an absolute depth, if it is a</span>
+<span id="cb25-100"><a href="#cb25-100" aria-hidden="true" tabindex="-1"></a>              fraction &lt; 1, then minimum depth is computed by multiplying this value by the mean</span>
+<span id="cb25-101"><a href="#cb25-101" aria-hidden="true" tabindex="-1"></a>              coverage for the region, with a minumum value of 5 (default 0.1: min depth to call</span>
+<span id="cb25-102"><a href="#cb25-102" aria-hidden="true" tabindex="-1"></a>              is 10% of mean coverage or 5, whichever is greater).</span>
+<span id="cb25-103"><a href="#cb25-103" aria-hidden="true" tabindex="-1"></a>           --mingap</span>
+<span id="cb25-104"><a href="#cb25-104" aria-hidden="true" tabindex="-1"></a>              Minimum size for unclosed gaps (default 10)</span>
+<span id="cb25-105"><a href="#cb25-105" aria-hidden="true" tabindex="-1"></a>           --minmq</span>
+<span id="cb25-106"><a href="#cb25-106" aria-hidden="true" tabindex="-1"></a>              Minimum alignment mapping quality for a read to count in pileups (default 0)</span>
+<span id="cb25-107"><a href="#cb25-107" aria-hidden="true" tabindex="-1"></a>           --minqual</span>
+<span id="cb25-108"><a href="#cb25-108" aria-hidden="true" tabindex="-1"></a>              Minimum base quality to consider for pileups (default 0)</span>
+<span id="cb25-109"><a href="#cb25-109" aria-hidden="true" tabindex="-1"></a>           --nostrays</span>
+<span id="cb25-110"><a href="#cb25-110" aria-hidden="true" tabindex="-1"></a>              Skip making a pass through the input BAM files to identify stray pairs, that is,</span>
+<span id="cb25-111"><a href="#cb25-111" aria-hidden="true" tabindex="-1"></a>              those pairs in which both reads are aligned but not marked valid because they have</span>
+<span id="cb25-112"><a href="#cb25-112" aria-hidden="true" tabindex="-1"></a>              inconsistent orientation or separation. Identifying stray pairs can help fill gaps</span>
+<span id="cb25-113"><a href="#cb25-113" aria-hidden="true" tabindex="-1"></a>              and assemble larger insertions, especially of repeat content.  However, doing so</span>
+<span id="cb25-114"><a href="#cb25-114" aria-hidden="true" tabindex="-1"></a>              sometimes consumes considerable memory.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>You can read more about the possible outputs Pilon can produce in the <a href="https://github.com/broadinstitute/pilon/wiki/Output-File-Descriptions">Wiki</a>.</p>
+<p>We can see there are many different options for pilon. We will be using the defaults for our assembly.</p>
+<ul>
+<li><code>--genome</code> — this will be the output assembly from Medaka</li>
+<li><code>--frags</code> — the short reads we used to create the BAM alignment were paired-end fragments, so we need to specify this using this flag</li>
+<li><code>--outdir</code> — this specifies a directory for all the output</li>
+</ul>
+<p>Check you are in the <code>cs_course</code> folder and run Pilon:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb26" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/cs_course</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pilon</span> <span class="at">--genome</span> results/medaka/consensus.fasta <span class="at">--frags</span> results/pilon/short_read_alignment.bam <span class="at">--outdir</span> results/pilon <span class="op">&amp;&gt;</span> results/pilon/pilon.out <span class="kw">&amp;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can again keep track of the analysis by looking at the <code>pilon.out</code> file with <code>less</code>.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb27" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> results/pilon/pilon.out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The top of the file:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb28" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>Pilon version 1.24 Thu Jan 28 13:00:45 2021 -0500</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>Genome: medaka/consensus.fasta</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>Fixing snps, indels, gaps, local</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>Input genome size: 18930486</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>Scanning BAMs</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>short_read_alignment.bam: 68579742 reads, 0 filtered, 7344428 mapped, 6036898 proper, 167134 stray, FR 100% 401+/-206, max 1018</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>Processing contig_1057:1-17080</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>frags short_read_alignment.bam: coverage 36</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>Total Reads: 9147, Coverage: 36, minDepth: 5</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>Confirmed 10586 of 17080 bases (61.98%)</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>Corrected 234 snps; 40 ambiguous bases; corrected 22 small insertions totaling 38 bases, 101 small deletions totaling 141 bases</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a># Attempting to fix local continuity breaks</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a># fix break: contig_1057:780-2830 0 -0 +0 NoSolution</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a># fix break: contig_1057:3081-4075 0 -0 +0 NoSolution</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a># fix break: contig_1057:4312-5132 0 -0 +0 NoSolution</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a># fix break: contig_1057:5367-5452 0 -0 +0 NoSolution</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a># fix break: contig_1057:5798-6336 0 -0 +0 NoSolution</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a># fix break: contig_1057:6798-8683 0 -0 +0 NoSolution</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a># fix break: contig_1057:8886-9132 0 -0 +0 NoSolution</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a># fix break: contig_1057:9394-12244 0 -0 +0 NoSolution</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>When Pilon finishes (around 1.5 hours) the end of the file will contain something like:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb29" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>Writing updated contig_1125_pilon to ./pilon.fasta</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>Writing updated contig_885_pilon to ./pilon.fasta</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>Writing updated contig_1130_pilon to ./pilon.fasta</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>Writing updated contig_1121_pilon to ./pilon.fasta</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>Writing updated contig_697_pilon to ./pilon.fasta</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>Mean frags coverage: 30</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>Mean total coverage: 30</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Navigate into the <code>pilon</code> directory and have a look at the output files Pilon has produced.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb30" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> results/pilon</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb31" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>alignment.out  pilon.fasta short_read_alignment.bam  short_read_alignment.bam.bai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can see pilon has produced a fasta file <code>pilon.fasta</code>, which is the newly polished assembly. This file is now our assembly.</p>
+<p>In the next episode we will assess the quality of this assembly and compare its quality to that of the unpolished assembly.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Recommended reading:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>While you’re waiting for the polishing to finish, here’s some things you might want to read about:</p>
+<ul>
+<li>Comparison of combined assembly and polishing methods <a href="https://link.springer.com/article/10.1186/s13059-021-02483-z">Trycycler: consensus long-read assemblies for bacterial genomes</a></li>
+<li>Polishing strategy for ONT and Pacbio Hifi reads <a href="https://www.nature.com/articles/s41592-022-01515-1">Polishing high-quality genome assemblies</a></li>
+<li>Comparison of polishing of ONT data with alignment free tool Jasper compared to POLCA, NextPolish and ntEdit <a href="https://www.biorxiv.org/content/10.1101/2022.06.14.496115v1.full">JASPER: a fast genome polishing tool that improves accuracy and creates population-specific reference genomes</a></li>
+<li>Comparison of short read polishers including pilon to the polisher Polypolish <a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1009802#">Polypolish: Short-read polishing of long-read bacterial genome assemblies</a></li>
+<li>Pilon short read polisher paper <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0112963">Pilon: An Integrated Tool for Comprehensive Microbial Variant Detection and Genome Assembly Improvement</a></li>
+<li>Accuracy of polishers including medaka for nanopore data <a href="https://github.com/rrwick/August-2019-consensus-accuracy-update#racon">Nanpore consensus quality</a></li>
+<li>Comparison of nanopore polishing tools <a href="https://www.nature.com/articles/s41598-021-00178-w">Comparative evaluation of Nanopore polishing tools for microbial genome assembly and polishing strategies for downstream analysis</a></li>
+</ul>
+</div>
+</div>
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/Cloud-SPAN\.github\.io\/metatranscriptomics\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../../docs/lesson04-polishing/index.html" class="pagination-link" aria-label="Polishing">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Polishing</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../docs/lesson04-polishing/02-QC-polished-assembly.html" class="pagination-link" aria-label="QC polished assembly">
+        <span class="nav-page-text">QC polished assembly</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> 2021–24 by <a href="https://cloud-span.york.ac.uk/">Cloud-SPAN</a></p>
+</div>   
+    <div class="nav-footer-center">
+
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Cloud-SPAN/nerc-metagenomics-v2q/edit/main/docs/lesson04-polishing/01-polishing-assembly.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Cloud-SPAN/nerc-metagenomics-v2q/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/SpanCloud">
+      <i class="bi bi-twitter" role="img" aria-label="Quarto Twitter">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Cloud-SPAN/nerc-metagenomics-v2q">
+      <i class="bi bi-github" role="img" aria-label="Quarto GitHub">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

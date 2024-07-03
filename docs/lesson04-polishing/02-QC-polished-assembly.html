@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.53">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="keywords" content="metagenomics, cloud computing, AWS, command line tools, data analysis, environmental science, learning resource">
+
+<title>QC polished assembly – Cloud-SPAN Metagenomics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../docs/lesson05-binning-functional-annotation/index.html" rel="next">
+<link href="../../docs/lesson04-polishing/01-polishing-assembly.html" rel="prev">
+<link href="../../images/cloud-span-icon.png" rel="icon" type="image/png">
+<script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-9HW51GYWMM"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-9HW51GYWMM', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/cloud-span-icon.png" alt="Cloud-SPAN logo." class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../docs/miscellanea/precourse-instructions.html"> 
+<span class="menu-text">Precourse Instructions</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../docs/miscellanea/about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/lesson04-polishing/index.html">Polishing</a></li><li class="breadcrumb-item"><a href="../../docs/lesson04-polishing/02-QC-polished-assembly.html">QC polished assembly</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson01-files-and-directories/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Files and Directories</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson01-files-and-directories/01-understanding-file-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Understanding your file system</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson01-files-and-directories/02-logging-onto-cloud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Logging onto the Cloud</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson01-files-and-directories/03-shell-introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducing the Shell</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson02-using-the-command-line/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Using the Command Line</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson02-using-the-command-line/01-navigating-file-directories.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Navigating Files and Directories</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson02-using-the-command-line/02-working-with-file.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working with Files and Directories</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson02-using-the-command-line/03-redirection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Redirection</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson03-qc-assembly/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">QC &amp; Assembly</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson03-qc-assembly/01-introduction-meta.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Metagenomics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson03-qc-assembly/02-QC-quality-raw-reads.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assessing Read Quality, Trimming and Filtering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson03-qc-assembly/03-assembly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Metagenome Assembly</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson04-polishing/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Polishing</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson04-polishing/01-polishing-assembly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Polishing an assembly</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson04-polishing/02-QC-polished-assembly.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">QC polished assembly</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson05-binning-functional-annotation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Binning &amp; Functional Annotation</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson05-binning-functional-annotation/01-binning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Metagenome Binning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson05-binning-functional-annotation/02-binning_quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">QC of metagenome bins</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson05-binning-functional-annotation/03-Functional-annotation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Functional annotation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson06-taxonomic-annotations/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Taxonomic Annotations</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson06-taxonomic-annotations/01-taxonomic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Taxonomic Assignment</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson06-taxonomic-annotations/02-Diversity-tackled-with-R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Diversity Tackled With R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson06-taxonomic-annotations/03-hands_on-diversity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Taxonomic Analysis with R</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Extras</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/miscellanea/extras/data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/miscellanea/extras/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/miscellanea/extras/workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Workflow Reference</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#why-qc-a-metagenome-assembly" id="toc-why-qc-a-metagenome-assembly" class="nav-link active" data-scroll-target="#why-qc-a-metagenome-assembly">Why QC a metagenome assembly?</a></li>
+  <li><a href="#what-do-we-mean-by-assembly-quality" id="toc-what-do-we-mean-by-assembly-quality" class="nav-link" data-scroll-target="#what-do-we-mean-by-assembly-quality">What do we mean by assembly quality?</a>
+  <ul class="collapse">
+  <li><a href="#contiguity" id="toc-contiguity" class="nav-link" data-scroll-target="#contiguity">Contiguity</a></li>
+  <li><a href="#degree-of-duplication" id="toc-degree-of-duplication" class="nav-link" data-scroll-target="#degree-of-duplication">Degree of duplication</a></li>
+  <li><a href="#degree-of-completeness" id="toc-degree-of-completeness" class="nav-link" data-scroll-target="#degree-of-completeness">Degree of completeness</a></li>
+  <li><a href="#chimeric-contigs" id="toc-chimeric-contigs" class="nav-link" data-scroll-target="#chimeric-contigs">Chimeric Contigs</a></li>
+  <li><a href="#low-base-quality" id="toc-low-base-quality" class="nav-link" data-scroll-target="#low-base-quality">Low base quality</a></li>
+  </ul></li>
+  <li><a href="#using-seqkit-to-generate-summary-statistics-of-an-assembly" id="toc-using-seqkit-to-generate-summary-statistics-of-an-assembly" class="nav-link" data-scroll-target="#using-seqkit-to-generate-summary-statistics-of-an-assembly">Using seqkit to generate summary statistics of an assembly</a>
+  <ul class="collapse">
+  <li><a href="#the-n50-length" id="toc-the-n50-length" class="nav-link" data-scroll-target="#the-n50-length">The N50 length</a></li>
+  <li><a href="#generating-statistics-for-all-three-assemblies" id="toc-generating-statistics-for-all-three-assemblies" class="nav-link" data-scroll-target="#generating-statistics-for-all-three-assemblies">Generating statistics for all three assemblies</a></li>
+  </ul></li>
+  <li><a href="#using-metaquast-to-further-assess-assembly-quality" id="toc-using-metaquast-to-further-assess-assembly-quality" class="nav-link" data-scroll-target="#using-metaquast-to-further-assess-assembly-quality">Using MetaQUAST to further assess assembly quality</a></li>
+  <li><a href="#writing-files" id="toc-writing-files" class="nav-link" data-scroll-target="#writing-files">Writing files</a>
+  <ul class="collapse">
+  <li><a href="#running-metaquast" id="toc-running-metaquast" class="nav-link" data-scroll-target="#running-metaquast">Running MetaQUAST</a></li>
+  <li><a href="#downloading-metaquast-report.html" id="toc-downloading-metaquast-report.html" class="nav-link" data-scroll-target="#downloading-metaquast-report.html">Downloading MetaQUAST report.html</a></li>
+  <li><a href="#understanding-metaquast-output" id="toc-understanding-metaquast-output" class="nav-link" data-scroll-target="#understanding-metaquast-output">Understanding MetaQUAST output</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Cloud-SPAN/nerc-metagenomics-v2q/edit/main/docs/lesson04-polishing/02-QC-polished-assembly.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Cloud-SPAN/nerc-metagenomics-v2q/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
+
+<header id="title-block-header">
+<h1 class="title display-7">QC polished assembly</h1>
+
+</header>
+
+
+<section id="why-qc-a-metagenome-assembly" class="level2">
+<h2 class="anchored" data-anchor-id="why-qc-a-metagenome-assembly">Why QC a metagenome assembly?</h2>
+<p>We now have a polished assembly (<code>pilon.fasta</code>). The next thing to do is to perform quality control (QC) checks to make sure we can be confident in our results and conclusions about the taxonomic, metabolic or functional composition of the communities that we are studying. This also allows us to check whether our efforts to improve the assembly with polishing were successful.</p>
+<p>The quality of metagenome assemblies is typically lower than it is for single genome assemblies due to the use of long reads.</p>
+<p>In this episode we explain what is meant by assembly quality and how to examine and compare the quality of your metagenome assemblies using <code>seqkit stats</code> and <a href="http://quast.sourceforge.net/metaquast">MetaQUAST</a>.</p>
+</section>
+<section id="what-do-we-mean-by-assembly-quality" class="level2">
+<h2 class="anchored" data-anchor-id="what-do-we-mean-by-assembly-quality">What do we mean by assembly quality?</h2>
+<p>There are several variables that affect assembly quality. Let’s go over them in more detail.</p>
+<section id="contiguity" class="level3">
+<h3 class="anchored" data-anchor-id="contiguity">Contiguity</h3>
+<p>A high quality assembly is highly contiguous meaning there are long stretches of the genome that have been successfully pieced together. The opposite of contiguous is fragmented.</p>
+<p>Contiguity is strongly correlated with both the technology used and the quality of the original DNA used. “Short read”-only assemblies are often very fragmented as it is much more difficult to assemble the short reads into a contiguous assembly. With long reads it is easier to span bits of a genome that are tricky to reassemble, like repeats. However, some preparation methods, such as bead-beating, result in long-reads which are relatively short.</p>
+<p>The extent to which contiguity matters depends on your research question. If you need to identify a large structural difference, high contiguity is important.</p>
+</section>
+<section id="degree-of-duplication" class="level3">
+<h3 class="anchored" data-anchor-id="degree-of-duplication">Degree of duplication</h3>
+<p>A duplication is when there is more than one copy of a particular region of the genome in the assembly. If a genome is much bigger than expected then there may have been duplication. Removing duplicated regions from assemblies is difficult but is made easier after the process of binning.</p>
+</section>
+<section id="degree-of-completeness" class="level3">
+<h3 class="anchored" data-anchor-id="degree-of-completeness">Degree of completeness</h3>
+<p>The more complete an assembly, the higher quality it is. Sometimes there are regions of the assembly that are unexpectedly missing, meaning the metagenome is incomplete.</p>
+</section>
+<section id="chimeric-contigs" class="level3">
+<h3 class="anchored" data-anchor-id="chimeric-contigs">Chimeric Contigs</h3>
+<p>Chimeric contigs are when contigs belonging to different genomes get stuck together as one continuous piece. This is caused during assembly, and can be controlled by the parameters used to generate the assembly. While it is difficult to identify chimeras, it is worth considering the parameters we use for the polishing and assembly steps because inappropriate parameters can result in problems such as these.</p>
+</section>
+<section id="low-base-quality" class="level3">
+<h3 class="anchored" data-anchor-id="low-base-quality">Low base quality</h3>
+<p>Low base quality happens when mutations are present in reads that do not reflect actual biological variation. This happens more in long reads due to a higher error rate. However, this is outweighed by the fact that using long reads for metagenome assemblies results in higher overall quality due to higher contiguity. This is why we ‘polished’ our genome in the last episode by comparing the draft assembly to raw short reads.</p>
+<hr>
+</section>
+</section>
+<section id="using-seqkit-to-generate-summary-statistics-of-an-assembly" class="level2">
+<h2 class="anchored" data-anchor-id="using-seqkit-to-generate-summary-statistics-of-an-assembly">Using seqkit to generate summary statistics of an assembly</h2>
+<p>After finishing the draft assembly we used <code>seqkit stats</code> to see some basic statistics about the assembly. We will be using it again to get summary statistics for all three of the assemblies (unpolished, long read polished and short read polished). We can then use those statistics to examine the polishing process.</p>
+<p>Let’s review the help documentation for seqkit stats.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb1" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">seqkit</span> stats <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Output — seqkit stats help documentation
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>simple statistics of FASTA/Q files</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>Tips:</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  1. For lots of small files (especially on SDD), use big value of '-j' to</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>     parallelize counting.</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>Usage:</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  seqkit stats [flags]</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>Aliases:</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  stats, stat</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>Flags:</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  -a, --all                  all statistics, including quartiles of seq length, sum_gap, N50</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  -b, --basename             only output basename of files</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  -E, --fq-encoding string   fastq quality encoding. available values: 'sanger', 'solexa', 'illumina-1.3+', 'illumina-1.5+', 'illumina-1.8+'. (default "sanger")</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  -G, --gap-letters string   gap letters (default "- .")</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  -h, --help                 help for stats</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  -e, --skip-err             skip error, only show warning message</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  -i, --stdin-label string   label for replacing default "-" for stdin (default "-")</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  -T, --tabular              output in machine-friendly tabular format</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>Global Flags:</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>      --alphabet-guess-seq-length int   length of sequence prefix of the first FASTA record based on which seqkit guesses the sequence type (0 for whole seq) (default 10000)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>      --id-ncbi                         FASTA head is NCBI-style, e.g. &gt;gi|110645304|ref|NC_002516.2| Pseud...</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>      --id-regexp string                regular expression for parsing ID (default "^(\\S+)\\s?")</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>      --infile-list string              file of input files list (one file per line), if given, they are appended to files from cli arguments</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  -w, --line-width int                  line width when outputting FASTA format (0 for no wrap) (default 60)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  -o, --out-file string                 out file ("-" for stdout, suffix .gz for gzipped out) (default "-")</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>      --quiet                           be quiet and do not show extra information</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  -t, --seq-type string                 sequence type (dna|rna|protein|unlimit|auto) (for auto, it automatically detect by the first sequence) (default "auto")</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  -j, --threads int                     number of CPUs. can also set with environment variable SEQKIT_THREADS) (default 4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<section id="the-n50-length" class="level3">
+<h3 class="anchored" data-anchor-id="the-n50-length">The N50 length</h3>
+<p>N50 is a metric indicating the distribution of contig lengths in an assembly. The value of N50 indicates that 50% of the total sequence is in contigs that are that size or larger. For a more thorough introduction to N50, read <a href="https://www.molecularecologist.com/2017/03/29/whats-n50/">What’s N50? By The Molecular Ecologist</a>.</p>
+<p>It indicates the average size of the contigs the assembly software has produced. A higher N50 length means that more of the assembly is in longer fragments. That means the chunks of sequence produced by the assembler are, on average, larger.</p>
+<p><code>seqkit stats</code> has an option to calculate the N50 length. Use the <code>seqkit stats</code> help documentation to answer the exercise below.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 1: Flag to get the N50 length
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li>Using the help documentation, what flag can we add to get the N50 length for this assembly?<br>
+</li>
+<li>What would the new command be if we added this flag?</li>
+</ol>
+<p>Bonus exercise: What flag would enable us to save the output table in a tabular (i.e.&nbsp;tsv) format?</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li>We can see from the help documentation that the flag <code>-a</code> or <code>--all</code> will calculate <code>all statistics, including quartiles of seq length, sum_gap, N50</code>.<br>
+</li>
+<li>The new command would be <code>seqkit stats -a results/assembly/assembly.fasta</code> or <code>seqkit stats --all results/assembly/assembly.fasta</code></li>
+</ol>
+<p>Bonus: The flag <code>-T</code> allows us to save it in a tabular output - this makes the table easier to use in other command line programs or programming languages such as R and Python. The command could be either <code>seqkit stats -a -T assembly/assembly.fasta</code> or we can combine the two flags <code>seqkit stats -aT assembly/assembly.fasta</code></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Next, run the command on the original draft assembly (<code>~/cs_course/results/assembly/assembly.fasta</code>) to calculate the N50 length and answer the questions below about the output.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hint: Seqkit stats N50 command
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb3" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/cs_course/</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">seqkit</span> stats <span class="at">-a</span> results/assembly/assembly.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 2: Calculating the N50 length
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li>What is the output if we run the new command from the above exercise?<br>
+</li>
+<li>What is the N50 length of this assembly?</li>
+</ol>
+<p>Bonus exercise: Looking at the <a href="https://bioinf.shenwei.me/seqkit/usage/#stats">information available online for Seqkit stats</a>, can you work out what the extra statistics other than N50 tell us?</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li></li>
+</ol>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb4" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>file            format  type  num_seqs     sum_len  min_len   avg_len  max_len     Q1      Q2      Q3  sum_gap     N50  Q20(%)  Q30(%)  GC(%)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>assembly.fasta  FASTA   DNA      1,161  18,872,828      528  16,255.7  118,427  7,513  11,854  19,634        0  20,921       0       0  66.26</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>(Your numbers will probably be slightly different to the solution given, as the assembly algorithm runs differently each time. As long as they are in the same ballpark there’s no need to worry!)</p>
+<ol start="2" type="a">
+<li>The N50 length for this assembly is 20,921 bp. This tells us that 50% of the assembly is in fragments that are nearly 21,000 bases long or longer!</li>
+</ol>
+<p>Bonus: <code>Q1</code>, <code>Q2</code> and <code>Q3</code> are the quartile ranges of sequence length. <code>sum_gap</code> is the total number of ambiguous bases (N’s) in the sequence. <code>Q20</code>(%) is the percentage of bases with a PHRED score over 20 and similarly <code>Q30</code>(%) is the percentage of bases with a PHRED score over 30. GC(%) is the <a href="https://en.wikipedia.org/wiki/GC-content">guanine-cytosine content</a> of the sequence.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="generating-statistics-for-all-three-assemblies" class="level3">
+<h3 class="anchored" data-anchor-id="generating-statistics-for-all-three-assemblies">Generating statistics for all three assemblies</h3>
+<p>Instead of passing just one FASTA file to <code>seqkit stats</code> we can use all three FASTA files at once.</p>
+<p>First we need to make sure we’re in the <code>cs_course</code> directory.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb5" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/cs_course/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The three files we want to generate statistics for are:</p>
+<ul>
+<li>Draft assembly generated by Flye in <code>results/assembly/assembly.fasta</code></li>
+<li>Long-read polished assembly generated by Medaka in <code>results/medaka/consensus.fasta</code></li>
+<li>Short-read polished assembly generated by Pilon in <code>results/pilon/pilon.fasta</code></li>
+</ul>
+<p>This makes our command:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb6" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">seqkit</span> stats <span class="at">-a</span> results/assembly/assembly.fasta results/medaka/consensus.fasta results/pilon/pilon.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb7" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>file                    format type num_seqs sum_len    min_len avg_len  max_len Q1      Q2     Q3       sum_gap N50    Q20(%) Q30(%) GC(%)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>assembly/assembly.fasta FASTA  DNA  791      11,979,728 662     15,145   95,860  7,148   11,019 18,874   0       19,835 0.00   0.00   66.58</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>medaka/consensus.fasta  FASTA  DNA  791      12,019,945 662     15,195.9 96,516  7,127.5 10,960 18,914.5 0       19,831 0.00   0.00   65.16</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>pilon/pilon.fasta       FASTA  DNA  791      11,950,064 662     15,107.5 95,826  7,108.5 10,902 18,830   0       19,748 0.00   0.00   66.13</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 3: Comparing the Assemblies
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Using the seqkit output for all three assemblies, compare the statistics for each of the three assemblies. What has changed across the two rounds of polishing? (From assembly&gt;medaka&gt;pilon)</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Between the original assembly and the medaka polished assembly:</p>
+<ul>
+<li>Total length, maximum length and average length have all increased. The N50 and GC content have decreased.</li>
+</ul>
+<p>Between the medaka polished assembly and the pilon polished assembly:</p>
+<ul>
+<li>All variables have either decreased in length or stayed the same, except the maximum length which is higher (as is GC content by a very small margin).</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>We can compare these basic assembly statistics in this way. However, these may not tell the full story as there will also have been changes to the overall sequence (e.g.&nbsp;correcting individual base errors).</p>
+</section>
+</section>
+<section id="using-metaquast-to-further-assess-assembly-quality" class="level2">
+<h2 class="anchored" data-anchor-id="using-metaquast-to-further-assess-assembly-quality">Using MetaQUAST to further assess assembly quality</h2>
+<p>We will use <a href="http://quast.sourceforge.net/metaquast">MetaQUAST</a> to further evaluate our metagenomic assemblies. MetaQUAST is based on the QUAST genome quality tool but accounts for high species diversity and misassemblies.</p>
+<p>MetaQUAST assesses the quality of assemblies using alignments to close references. This means we need to determine which references are appropriate for our data. MetaQUAST can automatically select reference genomes to align the assembly to, but it does not always pick the most appropriate references. Instead we will provide it with a list of references. For now you can just use our list, but next lesson we will show you how we generated it so you know how to do it for your own data in future.</p>
+<p>So far we’ve been able to do a lot of work with files that already exist, but now we need to write our own file using the text editor Nano.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Text editors
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Text editors, like Nano, “notepad” on Windows or “TextEdit” on Mac are used to edit any plain text files. Plain text files are those that contain only characters, not images or formatting.</p>
+<p>We are using Nano because it is one of the least complex Unix text editors. However, many programmers use Emacs or Vim (both of which require more time to learn), or a graphical editor such as Gedit.</p>
+<p>No matter what editor you use, you will need to know where it searches for and saves files. If you start it from the shell, it will (probably) use your current working directory as its default location.</p>
+</div>
+</div>
+</section>
+<section id="writing-files" class="level2">
+<h2 class="anchored" data-anchor-id="writing-files">Writing files</h2>
+<p>First, we need to create a directory to put the reference genomes list in. We’ll put it in a new folder in the data directory, since it’s an input not an output.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb8" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/cs_course/data</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ref_genomes</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ref_genomes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To open Nano type the command <code>nano</code> followed by the name of the text file we want to generate.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb9" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> reference_genomes.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>When you press enter your terminal should change. You will see a white bar at the top with <code>GNU nano 4.8</code> and some suggested commands at the bottom of the page. There should also be a white box or cursor which indicates where your cursor is. It will look something like this:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/nano202405.png" class="img-fluid figure-img"></p>
+<figcaption>nano202405.png</figcaption>
+</figure>
+</div>
+<p>The text at the bottom of the screen shows the keyboard shortcuts for performing various tasks in <code>Nano</code>. We will talk more about how to interpret this information soon.</p>
+<p>Copy and paste the following list of organism names into this file (don’t forget that <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>v</kbd> won’t work in Linux (Unix). Try <kbd>Shift</kbd>+<kbd>Insert</kbd> instead, or right click and select paste from the drop-down menu - see the note below).</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb10" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Bradyrhizobium</span> erythrophlei</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Bradyrhizobium</span> lablabi</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Bradyrhizobium</span> canariense</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Bradyrhizobium</span> sp. 200</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Bradyrhizobium</span> sp. 170</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Bradyrhizobium</span> diazoefficiens</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Bradyrhizobium</span> sp. 186</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Rhodopseudomonas</span> palustris</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="ex">Afipia</span> sp. GAS231</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="ex">Bradyrhizobium</span> arachidis</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="ex">Bradyrhizobium</span> icense</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="ex">Bradyrhizobium</span> sp. CCBAU 051011</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="ex">Rhodoplanes</span> sp. Z2-YC6860</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="ex">Bradyrhizobium</span> sp. S2-20-1</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="ex">Bradyrhizobium</span> sp. S2-11-2</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="ex">Bradyrhizobium</span> sp. CCBAU 51753</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="ex">Bradyrhizobium</span> genosp. L</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="ex">Bradyrhizobium</span> paxllaeri</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="ex">Frigoriglobus</span> tundricola</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="ex">Bradyrhizobium</span> sp. A19</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Once we’re happy with our text, we can press <kbd>Ctrl</kbd>-<kbd>o</kbd> (press the <kbd>Ctrl</kbd> or <kbd>Control</kbd> key and, while holding it down, press the <kbd>o</kbd> key) to write our data to disk. You will then be prompted with <code>File Name to Write: reference_genomes.txt</code> at the bottom of the screen. Pressing <kbd>Enter</kbd> will confirm and save your changes. Once the file is saved, we can use <kbd>Ctrl</kbd>-<kbd>x</kbd> to quit the <code>nano</code> editor and return to the shell.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Control, Ctrl, or ^ Key
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Control key is also called the “Ctrl” key. There are various ways in which using the Control key may be described. For example, you may see an instruction to press the <kbd>Ctrl</kbd> key and, while holding it down, press the <kbd>X</kbd> key, described as any of:</p>
+<ul>
+<li><code>Control-X</code></li>
+<li><code>Control+X</code></li>
+<li><code>Ctrl-X</code></li>
+<li><code>Ctrl+X</code></li>
+<li><code>^X</code></li>
+<li><code>C-x</code></li>
+</ul>
+</div>
+</div>
+<p>In <code>nano</code>, along the bottom of the screen you’ll see <code>^G Get Help ^O WriteOut</code>. This means that you can use <kbd>Ctrl</kbd>-<kbd>G</kbd> to get help and <kbd>Ctrl</kbd>-<kbd>O</kbd> to save your file.</p>
+<p>If you are using a Mac, you might be more familiar with the <code>Command</code> key, which is labelled with a <kbd>⌘</kbd> . But you will often use the the <code>Ctrl</code> key when working in a Terminal. :</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Copying and pasting in Git bash
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Most people will want to use <kbd>Ctrl</kbd>+<kbd>C</kbd> and <kbd>Ctrl</kbd>+<kbd>V</kbd> to copy and paste. However in GitBash these shortcuts have other functions. <kbd>Ctrl</kbd>+<kbd>C</kbd> interrupts the currently running command and <kbd>Ctrl</kbd>+<kbd>V</kbd> tells the terminal to treat every keystroke as a literal character, so will add shortcuts like <kbd>Ctrl</kbd>+<kbd>C</kbd> as characters. Instead you can copy and paste using the mouse:</p>
+<ul>
+<li>Left click and drag to highlight text, then right click to copy. Move the cursor to where you want to paste and right click to paste.</li>
+</ul>
+</div>
+</div>
+<p>You should then be able to see this file when you <code>ls</code> and view it using <code>less</code>.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb11" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> reference_genomes.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb12" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>reference_genomes.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb13" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Bradyrhizobium erythrophlei</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>Bradyrhizobium lablabi</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>Bradyrhizobium canariense</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>Bradyrhizobium sp. 200</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>Bradyrhizobium sp. 170</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>Bradyrhizobium diazoefficiens</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>Bradyrhizobium sp. 186</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>Rhodopseudomonas palustris</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>Afipia sp. GAS231</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>Bradyrhizobium arachidis</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>Bradyrhizobium icense</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>Bradyrhizobium sp. CCBAU 051011</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>Rhodoplanes sp. Z2-YC6860</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>Bradyrhizobium sp. S2-20-1</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>Bradyrhizobium sp. S2-11-2</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>Bradyrhizobium sp. CCBAU 51753</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>Bradyrhizobium genosp. L</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>Bradyrhizobium paxllaeri</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>Frigoriglobus tundricola</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>Bradyrhizobium sp. A19</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>(END)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="running-metaquast" class="level3">
+<h3 class="anchored" data-anchor-id="running-metaquast">Running MetaQUAST</h3>
+<p>Once we have our list of reference genomes we can run MetaQUAST on the original assembly and the two polished assemblies.</p>
+<p>First we should make a directory in <code>results</code> where we’ll store the MetaQUAST output.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb14" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/cs_course</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> results/metaquast</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next let’s look at the help documentation to work out which commands are right for us.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb15" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">metaquast.py</span> <span class="at">-h</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Output — MetaQUAST help documentation
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb16"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>MetaQUAST: Quality Assessment Tool for Metagenome Assemblies</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>Version: 5.2.0</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>Usage: python metaquast.py [options] &lt;files_with_contigs&gt;</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>Options:</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>-o  --output-dir  &lt;dirname&gt;       Directory to store all result files [default: quast_results/results_&lt;datetime&gt;]</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>-r   &lt;filename,filename,...&gt;      Comma-separated list of reference genomes or directory with reference genomes</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>--references-list &lt;filename&gt;      Text file with list of reference genome names for downloading from NCBI</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>-g  --features [type:]&lt;filename&gt;  File with genomic feature coordinates in the references (GFF, BED, NCBI or TXT)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>                                   Optional 'type' can be specified for extracting only a specific feature type from GFF</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>-m  --min-contig  &lt;int&gt;           Lower threshold for contig length [default: 500]</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>-t  --threads     &lt;int&gt;           Maximum number of threads [default: 25% of CPUs]</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>Advanced options:</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>-s  --split-scaffolds                 Split assemblies by continuous fragments of N's and add such "contigs" to the comparison</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>-l  --labels "label, label, ..."      Names of assemblies to use in reports, comma-separated. If contain spaces, use quotes</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>-L                                    Take assembly names from their parent directory names</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>-e  --eukaryote                       Genome is eukaryotic (primarily affects gene prediction)</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    --fungus                          Genome is fungal (primarily affects gene prediction)</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    --large                           Use optimal parameters for evaluation of large genomes</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>                                      In particular, imposes '-e -m 3000 -i 500 -x 7000' (can be overridden manually)</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>-k  --k-mer-stats                     Compute k-mer-based quality metrics (recommended for large genomes)</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>                                      This may significantly increase memory and time consumption on large genomes</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    --k-mer-size                      Size of k used in --k-mer-stats [default: 101]</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    --circos                          Draw Circos plot</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>-f  --gene-finding                    Predict genes using MetaGeneMark</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>    --glimmer                         Use GlimmerHMM for gene prediction (instead of the default finder, see above)</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>    --gene-thresholds &lt;int,int,...&gt;   Comma-separated list of threshold lengths of genes to search with Gene Finding module</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>                                      [default: 0,300,1500,3000]</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>    --rna-finding                     Predict ribosomal RNA genes using Barrnap</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>-b  --conserved-genes-finding         Count conserved orthologs using BUSCO (only on Linux)</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>    --operons  &lt;filename&gt;             File with operon coordinates in the reference (GFF, BED, NCBI or TXT)</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>    --max-ref-number &lt;int&gt;            Maximum number of references (per each assembly) to download after looking in SILVA database.</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>                                      Set 0 for not looking in SILVA at all [default: 50]</span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    --blast-db &lt;filename&gt;             Custom BLAST database (.nsq file). By default, MetaQUAST searches references in SILVA database</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>    --use-input-ref-order             Use provided order of references in MetaQUAST summary plots (default order: by the best average value)</span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>    --contig-thresholds &lt;int,int,...&gt; Comma-separated list of contig length thresholds [default: 0,1000,5000,10000,25000,50000]</span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>    --x-for-Nx &lt;int&gt;                  Value of 'x' for Nx, Lx, etc metrics reported in addition to N50, L50, etc (0, 100) [default: 90]</span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>    --reuse-combined-alignments       Reuse the alignments from the combined_reference stage on runs_per_reference stages.</span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>-u  --use-all-alignments              Compute genome fraction, # genes, # operons in QUAST v1.* style.</span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>                                      By default, QUAST filters Minimap's alignments to keep only best ones</span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>-i  --min-alignment &lt;int&gt;             The minimum alignment length [default: 65]</span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>    --min-identity &lt;float&gt;            The minimum alignment identity (80.0, 100.0) [default: 90.0]</span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>-a  --ambiguity-usage &lt;none|one|all&gt;  Use none, one, or all alignments of a contig when all of them</span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>                                      are almost equally good (see --ambiguity-score) [default: one]</span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>    --ambiguity-score &lt;float&gt;         Score S for defining equally good alignments of a single contig. All alignments are sorted</span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>                                      by decreasing LEN * IDY% value. All alignments with LEN * IDY% &lt; S * best(LEN * IDY%) are</span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>                                      discarded. S should be between 0.8 and 1.0 [default: 0.99]</span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a>    --unique-mapping                  Disable --ambiguity-usage=all for the combined reference run,</span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a>                                      i.e. use user-specified or default ('one') value of --ambiguity-usage</span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>    --strict-NA                       Break contigs in any misassembly event when compute NAx and NGAx.</span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a>                                      By default, QUAST breaks contigs only by extensive misassemblies (not local ones)</span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a>-x  --extensive-mis-size  &lt;int&gt;       Lower threshold for extensive misassembly size. All relocations with inconsistency</span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>                                      less than extensive-mis-size are counted as local misassemblies [default: 1000]</span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>    --local-mis-size  &lt;int&gt;           Lower threshold on local misassembly size. Local misassemblies with inconsistency</span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a>                                      less than local-mis-size are counted as (long) indels [default: 200]</span>
+<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a>    --scaffold-gap-max-size  &lt;int&gt;    Max allowed scaffold gap length difference. All relocations with inconsistency</span>
+<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a>                                      less than scaffold-gap-size are counted as scaffold gap misassemblies [default: 10000]</span>
+<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a>    --unaligned-part-size  &lt;int&gt;      Lower threshold for detecting partially unaligned contigs. Such contig should have</span>
+<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a>                                      at least one unaligned fragment &gt;= the threshold [default: 500]</span>
+<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a>    --skip-unaligned-mis-contigs      Do not distinguish contigs with &gt;= 50% unaligned bases as a separate group</span>
+<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a>                                      By default, QUAST does not count misassemblies in them</span>
+<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a>    --fragmented                      Reference genome may be fragmented into small pieces (e.g. scaffolded reference)</span>
+<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a>    --fragmented-max-indent  &lt;int&gt;    Mark translocation as fake if both alignments are located no further than N bases</span>
+<span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a>                                      from the ends of the reference fragments [default: 200]</span>
+<span id="cb16-67"><a href="#cb16-67" aria-hidden="true" tabindex="-1"></a>                                      Requires --fragmented option</span>
+<span id="cb16-68"><a href="#cb16-68" aria-hidden="true" tabindex="-1"></a>    --upper-bound-assembly            Simulate upper bound assembly based on the reference genome and reads</span>
+<span id="cb16-69"><a href="#cb16-69" aria-hidden="true" tabindex="-1"></a>    --upper-bound-min-con  &lt;int&gt;      Minimal number of 'connecting reads' needed for joining upper bound contigs into a scaffold</span>
+<span id="cb16-70"><a href="#cb16-70" aria-hidden="true" tabindex="-1"></a>                                      [default: 2 for mate-pairs and 1 for long reads]</span>
+<span id="cb16-71"><a href="#cb16-71" aria-hidden="true" tabindex="-1"></a>    --est-insert-size  &lt;int&gt;          Use provided insert size in upper bound assembly simulation [default: auto detect from reads or 255]</span>
+<span id="cb16-72"><a href="#cb16-72" aria-hidden="true" tabindex="-1"></a>    --report-all-metrics              Keep all quality metrics in the main report even if their values are '-' for all assemblies or</span>
+<span id="cb16-73"><a href="#cb16-73" aria-hidden="true" tabindex="-1"></a>                                      if they are not applicable (e.g., reference-based metrics in the no-reference mode)</span>
+<span id="cb16-74"><a href="#cb16-74" aria-hidden="true" tabindex="-1"></a>    --plots-format  &lt;str&gt;             Save plots in specified format [default: pdf].</span>
+<span id="cb16-75"><a href="#cb16-75" aria-hidden="true" tabindex="-1"></a>                                      Supported formats: emf, eps, pdf, png, ps, raw, rgba, svg, svgz</span>
+<span id="cb16-76"><a href="#cb16-76" aria-hidden="true" tabindex="-1"></a>    --memory-efficient                Run everything using one thread, separately per each assembly.</span>
+<span id="cb16-77"><a href="#cb16-77" aria-hidden="true" tabindex="-1"></a>                                      This may significantly reduce memory consumption on large genomes</span>
+<span id="cb16-78"><a href="#cb16-78" aria-hidden="true" tabindex="-1"></a>    --space-efficient                 Create only reports and plots files. Aux files including .stdout, .stderr, .coords will not be created.</span>
+<span id="cb16-79"><a href="#cb16-79" aria-hidden="true" tabindex="-1"></a>                                      This may significantly reduce space consumption on large genomes. Icarus viewers also will not be built</span>
+<span id="cb16-80"><a href="#cb16-80" aria-hidden="true" tabindex="-1"></a>-1  --pe1     &lt;filename&gt;              File with forward paired-end reads (in FASTQ format, may be gzipped)</span>
+<span id="cb16-81"><a href="#cb16-81" aria-hidden="true" tabindex="-1"></a>-2  --pe2     &lt;filename&gt;              File with reverse paired-end reads (in FASTQ format, may be gzipped)</span>
+<span id="cb16-82"><a href="#cb16-82" aria-hidden="true" tabindex="-1"></a>    --pe12    &lt;filename&gt;              File with interlaced forward and reverse paired-end reads. (in FASTQ format, may be gzipped)</span>
+<span id="cb16-83"><a href="#cb16-83" aria-hidden="true" tabindex="-1"></a>    --mp1     &lt;filename&gt;              File with forward mate-pair reads (in FASTQ format, may be gzipped)</span>
+<span id="cb16-84"><a href="#cb16-84" aria-hidden="true" tabindex="-1"></a>    --mp2     &lt;filename&gt;              File with reverse mate-pair reads (in FASTQ format, may be gzipped)</span>
+<span id="cb16-85"><a href="#cb16-85" aria-hidden="true" tabindex="-1"></a>    --mp12    &lt;filename&gt;              File with interlaced forward and reverse mate-pair reads (in FASTQ format, may be gzipped)</span>
+<span id="cb16-86"><a href="#cb16-86" aria-hidden="true" tabindex="-1"></a>    --single  &lt;filename&gt;              File with unpaired short reads (in FASTQ format, may be gzipped)</span>
+<span id="cb16-87"><a href="#cb16-87" aria-hidden="true" tabindex="-1"></a>    --pacbio     &lt;filename&gt;           File with PacBio reads (in FASTQ format, may be gzipped)</span>
+<span id="cb16-88"><a href="#cb16-88" aria-hidden="true" tabindex="-1"></a>    --nanopore   &lt;filename&gt;           File with Oxford Nanopore reads (in FASTQ format, may be gzipped)</span>
+<span id="cb16-89"><a href="#cb16-89" aria-hidden="true" tabindex="-1"></a>    --ref-sam &lt;filename&gt;              SAM alignment file obtained by aligning reads to reference genome file</span>
+<span id="cb16-90"><a href="#cb16-90" aria-hidden="true" tabindex="-1"></a>    --ref-bam &lt;filename&gt;              BAM alignment file obtained by aligning reads to reference genome file</span>
+<span id="cb16-91"><a href="#cb16-91" aria-hidden="true" tabindex="-1"></a>    --sam     &lt;filename,filename,...&gt; Comma-separated list of SAM alignment files obtained by aligning reads to assemblies</span>
+<span id="cb16-92"><a href="#cb16-92" aria-hidden="true" tabindex="-1"></a>                                      (use the same order as for files with contigs)</span>
+<span id="cb16-93"><a href="#cb16-93" aria-hidden="true" tabindex="-1"></a>    --bam     &lt;filename,filename,...&gt; Comma-separated list of BAM alignment files obtained by aligning reads to assemblies</span>
+<span id="cb16-94"><a href="#cb16-94" aria-hidden="true" tabindex="-1"></a>                                      (use the same order as for files with contigs)</span>
+<span id="cb16-95"><a href="#cb16-95" aria-hidden="true" tabindex="-1"></a>                                      Reads (or SAM/BAM file) are used for structural variation detection and</span>
+<span id="cb16-96"><a href="#cb16-96" aria-hidden="true" tabindex="-1"></a>                                      coverage histogram building in Icarus</span>
+<span id="cb16-97"><a href="#cb16-97" aria-hidden="true" tabindex="-1"></a>    --sv-bedpe  &lt;filename&gt;            File with structural variations (in BEDPE format)</span>
+<span id="cb16-98"><a href="#cb16-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-99"><a href="#cb16-99" aria-hidden="true" tabindex="-1"></a>Speedup options:</span>
+<span id="cb16-100"><a href="#cb16-100" aria-hidden="true" tabindex="-1"></a>    --no-check                        Do not check and correct input fasta files. Use at your own risk (see manual)</span>
+<span id="cb16-101"><a href="#cb16-101" aria-hidden="true" tabindex="-1"></a>    --no-plots                        Do not draw plots</span>
+<span id="cb16-102"><a href="#cb16-102" aria-hidden="true" tabindex="-1"></a>    --no-html                         Do not build html reports and Icarus viewers</span>
+<span id="cb16-103"><a href="#cb16-103" aria-hidden="true" tabindex="-1"></a>    --no-icarus                       Do not build Icarus viewers</span>
+<span id="cb16-104"><a href="#cb16-104" aria-hidden="true" tabindex="-1"></a>    --no-snps                         Do not report SNPs (may significantly reduce memory consumption on large genomes)</span>
+<span id="cb16-105"><a href="#cb16-105" aria-hidden="true" tabindex="-1"></a>    --no-gc                           Do not compute GC% and GC-distribution</span>
+<span id="cb16-106"><a href="#cb16-106" aria-hidden="true" tabindex="-1"></a>    --no-sv                           Do not run structural variation detection (make sense only if reads are specified)</span>
+<span id="cb16-107"><a href="#cb16-107" aria-hidden="true" tabindex="-1"></a>    --no-read-stats                   Do not align reads to assemblies</span>
+<span id="cb16-108"><a href="#cb16-108" aria-hidden="true" tabindex="-1"></a>                                      Reads will be aligned to reference and used for coverage analysis,</span>
+<span id="cb16-109"><a href="#cb16-109" aria-hidden="true" tabindex="-1"></a>                                      upper bound assembly simulation, and structural variation detection.</span>
+<span id="cb16-110"><a href="#cb16-110" aria-hidden="true" tabindex="-1"></a>                                      Use this option if you do not need read statistics for assemblies.</span>
+<span id="cb16-111"><a href="#cb16-111" aria-hidden="true" tabindex="-1"></a>    --fast                            A combination of all speedup options except --no-check</span>
+<span id="cb16-112"><a href="#cb16-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-113"><a href="#cb16-113" aria-hidden="true" tabindex="-1"></a>Other:</span>
+<span id="cb16-114"><a href="#cb16-114" aria-hidden="true" tabindex="-1"></a>    --silent                          Do not print detailed information about each step to stdout (log file is not affected)</span>
+<span id="cb16-115"><a href="#cb16-115" aria-hidden="true" tabindex="-1"></a>    --test                            Run MetaQUAST on the data from the test_data folder, output to quast_test_output</span>
+<span id="cb16-116"><a href="#cb16-116" aria-hidden="true" tabindex="-1"></a>    --test-no-ref                     Run MetaQUAST without references on the data from the test_data folder, output to quast_test_output.</span>
+<span id="cb16-117"><a href="#cb16-117" aria-hidden="true" tabindex="-1"></a>                                      MetaQUAST will download SILVA 16S rRNA database (~170 Mb) for searching reference genomes</span>
+<span id="cb16-118"><a href="#cb16-118" aria-hidden="true" tabindex="-1"></a>                                      Internet connection is required</span>
+<span id="cb16-119"><a href="#cb16-119" aria-hidden="true" tabindex="-1"></a>-h  --help                            Print full usage message</span>
+<span id="cb16-120"><a href="#cb16-120" aria-hidden="true" tabindex="-1"></a>-v  --version                         Print version</span>
+<span id="cb16-121"><a href="#cb16-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-122"><a href="#cb16-122" aria-hidden="true" tabindex="-1"></a>Online QUAST manual is available at http://quast.sf.net/manual</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>The documentation gives the usage as <code>python metaquast.py [options] &lt;files_with_contigs&gt;</code>.</p>
+<ul>
+<li>We can disregard the <code>python</code> portion of this</li>
+</ul>
+<p>The main “option” we want to include is <code>--references-list</code>, which supplies a text file containing our list of reference genomes (this is the file we just made).</p>
+<p>The <code>&lt;files_with_contigs&gt;</code> part just means that this is where we put the assemblies to be evaluated. We’ll list them all one after the other so we can compare their outputs easily. We’ll also use the <code>--output</code> or <code>-o</code> flag to specify where the output should be stored.</p>
+<p>Our command therefore looks like:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb17" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">metaquast.py</span> <span class="at">--references-list</span> data/ref_genomes/reference_genomes.txt results/assembly/assembly.fasta results/medaka/consensus.fasta results/pilon/pilon.fasta <span class="at">--output</span> results/metaquast <span class="op">&amp;&gt;</span> results/metaquast/metaquast.out <span class="kw">&amp;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that once again we are running the command in the background using the <code>&amp;</code> symbol and redirecting the output to a file (<code>metaquast.out</code>) using <code>&gt;</code>. This is because it takes around 8-10 minutes to run.</p>
+<p>If you open up <code>metaquast.out</code> after running the command you should see something like this as MetaQUAST starts downloading the reference species we specified in our files:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb18" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> results/metaquast</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> metaquast.out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb19" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>Version: 5.2.0</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>System information:</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  OS: Linux-5.4.0-131-generic-x86_64-with-glibc2.31 (linux_64)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  Python version: 3.9.7</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  CPUs number: 8</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>Started: 2023-03-16 16:32:09</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>Logging to /home/csuser/cs_course/results/metaquast/quast_results/results_YYYY_MM_DD_HH_MM_SS/metaquast.log</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>NOTICE: Maximum number of threads is set to 2 (use --threads option to set it manually)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>Contigs:</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  Pre-processing...</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  1  results/assembly/assembly.fasta ==&gt; assembly</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  2  results/medaka/consensus.fasta==&gt; consensus</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>  3  results/pilon/pilon.fasta ==&gt; pilon</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>List of references was provided, starting to download reference genomes from NCBI...</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>2023-03-16 16:32:11</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>2023-03-16 16:32:11</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>Trying to download found references from NCBI. Totally 20 organisms to try.</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>  Bradyrhizobium_erythrophlei     | successfully downloaded (total 1, 19 more to go)</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>  Bradyrhizobium_lablabi          | successfully downloaded (total 2, 18 more to go)</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>  Bradyrhizobium_canariense       | successfully downloaded (total 3, 17 more to go)</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>  Bradyrhizobium_sp._200          | successfully downloaded (total 4, 16 more to go)</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>  Bradyrhizobium_sp._170          | successfully downloaded (total 5, 15 more to go)</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>  Bradyrhizobium_diazoefficiens   | successfully downloaded (total 6, 14 more to go)</span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>  Bradyrhizobium_sp._186          | successfully downloaded (total 7, 13 more to go)</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>  Rhodopseudomonas_palustris      | successfully downloaded (total 8, 12 more to go)</span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>  Afipia_sp._GAS231               | successfully downloaded (total 9, 11 more to go)</span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>  Bradyrhizobium_arachidis        | successfully downloaded (total 10, 10 more to go)</span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>  Bradyrhizobium_icense           | successfully downloaded (total 11, 9 more to go)</span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>  Bradyrhizobium_sp._CCBAU_051011 | successfully downloaded (total 12, 8 more to go)</span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>  Rhodoplanes_sp._Z2-YC6860       | successfully downloaded (total 13, 7 more to go)</span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>  Bradyrhizobium_sp._S2-20-1      | successfully downloaded (total 14, 6 more to go)</span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>  Bradyrhizobium_sp._S2-11-2      | successfully downloaded (total 15, 5 more to go)</span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>  Bradyrhizobium_sp._CCBAU_51753  | successfully downloaded (total 16, 4 more to go)</span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>  Bradyrhizobium_genosp._L        | successfully downloaded (total 17, 3 more to go)</span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>  Bradyrhizobium_paxllaeri        | successfully downloaded (total 18, 2 more to go)</span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>  Frigoriglobus_tundricola        | successfully downloaded (total 19, 1 more to go)</span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>  Bradyrhizobium_sp._A19          | successfully downloaded (total 20, 0 more to go)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Once MetaQUAST has finished you should see an output like:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb20" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>[2]+  Done   metaquast.py --references-list data/ref_genomes/reference_genomes.txt results/assembly/assembly.fasta results/medaka/consensus.fasta results/pilon/pilon.fasta --output results/metaquast &amp;&gt; results/metaquast/metaquast.out &amp; </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can also look in your <code>metaquast.out</code> and jump to the end using <kbd>Shift</kbd>+<kbd>g</kbd>.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb21" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>MetaQUAST finished.</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  Log is saved to /home/csuser/cs_course/results/metaquast/metaquast.log</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>Finished: 2023-03-16 13:12:43</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>Elapsed time: 0:10:51.624140</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>Total NOTICEs: 45; WARNINGs: 0; non-fatal ERRORs: 0</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>Thank you for using QUAST!</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can now navigate into the <code>metaquast</code> directory to see our output files.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb22" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> results/metaquast</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Outut</strong></pre>
+</div>
+<div class="sourceCode" id="cb23" data-filename="Outut"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>combined_reference  icarus_viewers  metaquast.out  quast_downloaded_references  runs_per_reference</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>icarus.html         metaquast.log   not_aligned    report.html                  summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can see that MetaQUAST has generated multiple different files.</p>
+<p>If you want to explore all the files you can download this whole directory using <code>scp</code>, with <code>-r</code> flag to download all directories and what they contain. This will require ~500MB of space.</p>
+<p>However, most of this information is in the <code>report.html</code> file so we can download just that one instead. As this is a HTML file we will first need to download it to our local computer in order to open it.</p>
+</section>
+<section id="downloading-metaquast-report.html" class="level3">
+<h3 class="anchored" data-anchor-id="downloading-metaquast-report.html">Downloading MetaQUAST report.html</h3>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb24" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> <span class="at">-i</span> login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk:~/cs_course/results/metaquast/report.html .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Make sure you replace both the NNNs with your instance number. The <code>results.html</code> file relies on some of the other files generated by MetaQUAST so with only the one file you won’t have full functionality but we can still view the information we want.</p>
+<p>If you haven’t managed to download the file you can view <a href="../../docs/miscellanea/files/metaquast_report_ERR5000342.html">our example report here</a>.</p>
+<p>You should take a few minutes to explore the file before answering the following exercise.</p>
+<!-- <img align="centre" width="505" height="416" src="{{ page.root }}/fig/05-metaquast_output.png" alt="MetaQUAST statistics output" /> -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/05-metaquast_output.png" alt="MetaQUAST statistics output" width="505" height="416" class="figure-img"></p>
+<figcaption>MetaQUAST statistics output.</figcaption>
+</figure>
+</div>
+</section>
+<section id="understanding-metaquast-output" class="level3">
+<h3 class="anchored" data-anchor-id="understanding-metaquast-output">Understanding MetaQUAST output</h3>
+<p>The output is organised into several sections, with a column for each assembly. The worst scoring column is shown in red, the best in blue.</p>
+<section id="genome-statistics" class="level4">
+<h4 class="anchored" data-anchor-id="genome-statistics">Genome statistics</h4>
+<p>This section determines the quality of the assembly based on the size of the total assembly. The duplication ratio is the amount of the total assembly that is represented more than once. The more fragmented the assembly, the higher this value will be. See <strong>What makes an assembly bad</strong> section above to see further details.</p>
+</section>
+<section id="misassemblies" class="level4">
+<h4 class="anchored" data-anchor-id="misassemblies">Misassemblies</h4>
+<p>Missassemblies are when pieces in an assembly are overlapped in the incorrect way. In the MetaQUAST manual, they define missassemblies in the four following ways (taken from the manual):</p>
+<p>Misassemblies is the number of positions in the contigs (breakpoints) that satisfy one of the following criteria.</p>
+<ul>
+<li>the left flanking sequence aligns over 1 kbp away from the right flanking sequence on the reference;</li>
+<li>flanking sequences overlap on more than 1 kbp;</li>
+<li>flanking sequences align to different strands or different chromosomes;</li>
+<li>flanking sequences align on different reference genomes (MetaQUAST only)</li>
+</ul>
+<p>These can be caused by errors in the assembly, or they can be caused by structural variation in the sample, such as inversions, relocations and translocation.</p>
+</section>
+<section id="mismatches" class="level4">
+<h4 class="anchored" data-anchor-id="mismatches">Mismatches</h4>
+<p>This is where there are incorrect bases in the contigs making up the assembly. The summary gives you the total number of mismatches per 100kbp of sequence and short insertions and deletions (indels) per 100kbp.</p>
+</section>
+<section id="statistics-without-reference" class="level4">
+<h4 class="anchored" data-anchor-id="statistics-without-reference">Statistics without reference</h4>
+<p>The statistics without a reference are based on the full assembly rather than comparing the assembly to the species that you have asked it to compare to. The largest contig is an indicator of how good the overall assembly is. If the largest contig is small, it means that the rest of the assembly is of a poor quality.</p>
+<p>There is a detailed description of each of the outputs in the <a href="https://quast.sourceforge.net/docs/manual.html#sec3">MetaQUAST manual</a> which you can use to understand the output more fully.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Comparing assemblies using MetaQUAST
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Using the above image how has the iterative polishing from assembly &gt; consensus &gt; pilon improved the assembly?</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>In all three assemblies there is a low duplication ratio and this decreases with each round of polishing. Completeness of the assembly increases with polishing, as does largest alignment. In these areas polishing has improved the assembly. However, the number of mismatches and misassemblies increased with polishing and the size of the largest contig decreased. These conflicting statistics illustrate the difficulty in assessing the quality of an assembly.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/Cloud-SPAN\.github\.io\/metatranscriptomics\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../../docs/lesson04-polishing/01-polishing-assembly.html" class="pagination-link" aria-label="Polishing an assembly">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Polishing an assembly</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../docs/lesson05-binning-functional-annotation/index.html" class="pagination-link" aria-label="Binning &amp; Functional Annotation">
+        <span class="nav-page-text">Binning &amp; Functional Annotation</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> 2021–24 by <a href="https://cloud-span.york.ac.uk/">Cloud-SPAN</a></p>
+</div>   
+    <div class="nav-footer-center">
+
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Cloud-SPAN/nerc-metagenomics-v2q/edit/main/docs/lesson04-polishing/02-QC-polished-assembly.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Cloud-SPAN/nerc-metagenomics-v2q/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/SpanCloud">
+      <i class="bi bi-twitter" role="img" aria-label="Quarto Twitter">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Cloud-SPAN/nerc-metagenomics-v2q">
+      <i class="bi bi-github" role="img" aria-label="Quarto GitHub">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

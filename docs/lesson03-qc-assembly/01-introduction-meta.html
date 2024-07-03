@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.53">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="keywords" content="metagenomics, cloud computing, AWS, command line tools, data analysis, environmental science, learning resource">
+
+<title>Introduction to Metagenomics – Cloud-SPAN Metagenomics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../docs/lesson03-qc-assembly/02-QC-quality-raw-reads.html" rel="next">
+<link href="../../docs/lesson03-qc-assembly/index.html" rel="prev">
+<link href="../../images/cloud-span-icon.png" rel="icon" type="image/png">
+<script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-9HW51GYWMM"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-9HW51GYWMM', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/cloud-span-icon.png" alt="Cloud-SPAN logo." class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../docs/miscellanea/precourse-instructions.html"> 
+<span class="menu-text">Precourse Instructions</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../docs/miscellanea/about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/lesson03-qc-assembly/index.html">QC &amp; Assembly</a></li><li class="breadcrumb-item"><a href="../../docs/lesson03-qc-assembly/01-introduction-meta.html">Introduction to Metagenomics</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson01-files-and-directories/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Files and Directories</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson01-files-and-directories/01-understanding-file-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Understanding your file system</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson01-files-and-directories/02-logging-onto-cloud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Logging onto the Cloud</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson01-files-and-directories/03-shell-introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducing the Shell</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson02-using-the-command-line/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Using the Command Line</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson02-using-the-command-line/01-navigating-file-directories.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Navigating Files and Directories</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson02-using-the-command-line/02-working-with-file.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working with Files and Directories</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson02-using-the-command-line/03-redirection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Redirection</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson03-qc-assembly/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">QC &amp; Assembly</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson03-qc-assembly/01-introduction-meta.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Introduction to Metagenomics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson03-qc-assembly/02-QC-quality-raw-reads.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assessing Read Quality, Trimming and Filtering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson03-qc-assembly/03-assembly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Metagenome Assembly</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson04-polishing/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Polishing</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson04-polishing/01-polishing-assembly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Polishing an assembly</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson04-polishing/02-QC-polished-assembly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">QC polished assembly</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson05-binning-functional-annotation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Binning &amp; Functional Annotation</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson05-binning-functional-annotation/01-binning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Metagenome Binning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson05-binning-functional-annotation/02-binning_quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">QC of metagenome bins</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson05-binning-functional-annotation/03-Functional-annotation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Functional annotation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson06-taxonomic-annotations/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Taxonomic Annotations</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson06-taxonomic-annotations/01-taxonomic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Taxonomic Assignment</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson06-taxonomic-annotations/02-Diversity-tackled-with-R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Diversity Tackled With R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson06-taxonomic-annotations/03-hands_on-diversity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Taxonomic Analysis with R</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Extras</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/miscellanea/extras/data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/miscellanea/extras/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/miscellanea/extras/workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Workflow Reference</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-is-the-difference-between-genomics-and-metagenomics" id="toc-what-is-the-difference-between-genomics-and-metagenomics" class="nav-link active" data-scroll-target="#what-is-the-difference-between-genomics-and-metagenomics">What is the difference between Genomics and Metagenomics?</a></li>
+  <li><a href="#metagenomics" id="toc-metagenomics" class="nav-link" data-scroll-target="#metagenomics">Metagenomics</a></li>
+  <li><a href="#community-sequencing-approaches" id="toc-community-sequencing-approaches" class="nav-link" data-scroll-target="#community-sequencing-approaches">Community sequencing approaches</a>
+  <ul class="collapse">
+  <li><a href="#whole-metagenome-sequencing-wms" id="toc-whole-metagenome-sequencing-wms" class="nav-link" data-scroll-target="#whole-metagenome-sequencing-wms">Whole metagenome sequencing (WMS)</a></li>
+  <li><a href="#amplicon-sequencing" id="toc-amplicon-sequencing" class="nav-link" data-scroll-target="#amplicon-sequencing">Amplicon sequencing</a></li>
+  </ul></li>
+  <li><a href="#nanopore-long-read-vs-illumina-short-read-data" id="toc-nanopore-long-read-vs-illumina-short-read-data" class="nav-link" data-scroll-target="#nanopore-long-read-vs-illumina-short-read-data">Nanopore (long-read) vs Illumina (short-read) data</a></li>
+  <li><a href="#our-data" id="toc-our-data" class="nav-link" data-scroll-target="#our-data">Our data</a></li>
+  <li><a href="#bioinformatic-workflows" id="toc-bioinformatic-workflows" class="nav-link" data-scroll-target="#bioinformatic-workflows">Bioinformatic workflows</a></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next steps</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Cloud-SPAN/nerc-metagenomics-v2q/edit/main/docs/lesson03-qc-assembly/01-introduction-meta.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Cloud-SPAN/nerc-metagenomics-v2q/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
+
+<header id="title-block-header">
+<h1 class="title display-7">Introduction to Metagenomics</h1>
+
+</header>
+
+
+<section id="what-is-the-difference-between-genomics-and-metagenomics" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-the-difference-between-genomics-and-metagenomics">What is the difference between Genomics and Metagenomics?</h2>
+<p>In <strong>genomics</strong>, we sequence and analyse the genome of a single species. We often have a known reference genome to which we can align all our reads.</p>
+<p>In <strong>metagenomics</strong> we sequence samples composed of many genomes. These might be environmental samples from soil or anaerobic digestors for example, or samples from the skin or digestive tracts of animals. Such samples typically include species that are difficult to culture and thus lack reference genomes. The challenge in metagenomics is to assemble this mix of diverse genomes into its constituent genomes.</p>
+</section>
+<section id="metagenomics" class="level2">
+<h2 class="anchored" data-anchor-id="metagenomics">Metagenomics</h2>
+<p>A metagenome is a collection of genomic sequences from various (micro) organisms coexisting in a given space. They are snapshots that tell us about the taxonomic, metabolic or functional composition of the communities that we study.</p>
+<p>Analysing multiple genomes rather than individual genomes introduces additional complexity:</p>
+<ul>
+<li>Taxonomic assignment: How can we separate the sequences to the different putative organisms or taxonomic units?</li>
+<li>Community Composition: How can we quantify the relative abundances of the taxonomic units present?</li>
+</ul>
+<p>A typical metagenomic workflow is designed to answer two questions:</p>
+<ol type="1">
+<li>What species are present in the sample and what are their relative abundances?</li>
+<li>What is the functional capacity of the organisms or the community?</li>
+</ol>
+</section>
+<section id="community-sequencing-approaches" class="level2">
+<h2 class="anchored" data-anchor-id="community-sequencing-approaches">Community sequencing approaches</h2>
+<p>There are two technologies used in mixed community sequencing which have different use cases, advantages and disadvantages: <strong>Whole genome metagenomics</strong> and <strong>Amplicon/(16S) sequencing</strong>.</p>
+<section id="whole-metagenome-sequencing-wms" class="level3">
+<h3 class="anchored" data-anchor-id="whole-metagenome-sequencing-wms">Whole metagenome sequencing (WMS)</h3>
+<p>Random parts of <strong>all of the genomes</strong> present in a sample are sequenced in WMS. We aim to find what organism, or “taxonomic unit”, they come from, what part of their genome they come from, and what functions they encode. This can be done by cross-referencing the sequences obtained with databases of information.</p>
+<p>If the metagenome is complex and deeply sequenced enough, we may even be able obtain full individual genomes from WMS and a strong understanding of the functional capacity of the microbiome.</p>
+<p>For abundant organisms in a metagenome sample, there are likely to be enough data to generate reasonable genome coverage. However, this is not the case for low abundance organisms. Often deeper sequencing/ more total sequencing data is required to assemble the genomes of these organisms. If your research question can be addressed by considering the most abundant organisms, you need do less sequencing than if your question requires an understanding of the rarest organisms present.</p>
+<p>The cost of both preparing the samples and the computational effort required to analyse them can become prohibitively expensive quickly. Before starting you need to think carefully about the question your dataset is trying to answer and how many samples you will need to sequence to get one. This is especially the case when you are trying to include biological or technical replication in your experimental design.</p>
+</section>
+<section id="amplicon-sequencing" class="level3">
+<h3 class="anchored" data-anchor-id="amplicon-sequencing">Amplicon sequencing</h3>
+<p>An <strong>amplicon</strong> is a small piece of DNA or RNA that will be amplified through PCR (Polymerase Chain Reaction). Amplicon sequencing is cheaper than WMS because only a small part of the genome is sequenced. This makes it affordable to include additional replicates.</p>
+<p>The region being amplified needs to be present in all the individuals in the community being characterised, and be highly conserved. 16 rRNA is often used for amplicon sequencing in bacteria for this reason (for eukaryotes 18S rRNA is used instead).</p>
+<p>For organisms that are well characterised, establishing identity can give you information about functional capacity of the community. For organisms which are not well characterised - and these are common in such samples - we will know little other than relative abundances in the community.</p>
+<p>Despite this, there are workflows such as <a href="https://qiime2.org/">QIIME2</a>, which are free and community led, which use database annotations of the reference versions of the organisms identified from the amplicon, to suggest what metabolic functions maybe present. The amplicon sequence is also limited because species may have genomic differences, but may be indistinguishable from the amplicon sequence alone. This means that amplicon sequencing can rarely resolve to less than a genus level.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 30%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Attribute</th>
+<th>Amplicon</th>
+<th>Whole genome metagenomics</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Cost</td>
+<td>Cheap</td>
+<td>Expensive</td>
+</tr>
+<tr class="even">
+<td>Coverage depth</td>
+<td>High</td>
+<td>Lower - medium</td>
+</tr>
+<tr class="odd">
+<td>Taxonomy detection</td>
+<td>Specific to amplicons used</td>
+<td>All in sample</td>
+</tr>
+<tr class="even">
+<td>Genome coverage</td>
+<td>Only region amplified</td>
+<td>All of genome</td>
+</tr>
+<tr class="odd">
+<td>Taxonomic resolution</td>
+<td>Lower</td>
+<td>Higher</td>
+</tr>
+<tr class="even">
+<td>Turnaround time</td>
+<td>Fast</td>
+<td>Slower - more computational time for analysis needed</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="nanopore-long-read-vs-illumina-short-read-data" class="level2">
+<h2 class="anchored" data-anchor-id="nanopore-long-read-vs-illumina-short-read-data">Nanopore (long-read) vs Illumina (short-read) data</h2>
+<p>In our <a href="https://cloud-span.github.io/experimental_design01-principles/01-platform/index.html">Statistically Useful Experimental Design</a> course we cover how to choose your sequencing platform based on your research question. However, it’s a bit different when doing a whole metagenome assembly experiment.</p>
+<p>For single genome analyses you can choose between assembling your genome one of two ways: using a reference as a template or <em>de novo</em> (without a reference). Which route you choose depends on whether there is a reasonable reference available for the genome you’re assembling.</p>
+<p>When looking at whole metagenome assembly, there will not be a reference available for the metagenome as a whole. You are also unlikely to know what species will be present. All of your assembly stages will therefore be <em>de novo</em>. This makes using long reads preferable as it’s easier to piece them together.</p>
+<p>We will talk about this more later in this lesson as part of the <a href="https://cloud-span.github.io/nerc-metagenomics03-qc-assembly/03-assembly/index.html">Genome Assembly</a> section. There are pros and cons to each using both long and short reads, and so using them in combination is usually the best method. These pros and cons are irrespective of the application.</p>
+<p>However, for metagenome analysis, if you were to use only short read sequencing for the assembly you would end up with a much more fragmented assembly to work with.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 30%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Short reads</th>
+<th>Long reads</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Technologies</td>
+<td>Illumina</td>
+<td>Nanopore and pacbio</td>
+</tr>
+<tr class="even">
+<td>Number of reads generated</td>
+<td>800 million paired end<strong>*</strong></td>
+<td>Depends on read length, and instrument, but usually only 10s of thousands<strong>**</strong></td>
+</tr>
+<tr class="odd">
+<td>Base accuracy</td>
+<td>Very high</td>
+<td>Low</td>
+</tr>
+<tr class="even">
+<td>Ease of assembly</td>
+<td>Very difficult</td>
+<td>Easier</td>
+</tr>
+<tr class="odd">
+<td>Format output files</td>
+<td>Fastq</td>
+<td>Fastq, Fast5</td>
+</tr>
+<tr class="even">
+<td>Read length</td>
+<td>150-300bp</td>
+<td>Commonly 10-30kb<strong>***</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>* As of July 2022, the NextSeq 550 high-output system runs were capable of generating upto <a href="https://emea.illumina.com/systems/sequencing-platforms/nextseq/specifications.html">800 million paired-end reads</a> in one run</strong></p>
+<p><strong>** There are different Nanopore instruments. The smaller instruments, like the minION, will generate far fewer reads. Larger instruments like the promethION will result in ~10-20k reads, but this will vary a lot between samples and their quality. They will never result in millions of reads like the Illumina platforms.</strong></p>
+<p><strong>*** The read length will vary based on the DNA extraction method. If the DNA is very fragmented it will not result in very long reads. In many metagenomes bead beating is required to lyse cells, and so read length will still be longer than Illumina but shorter than non-metagenomic samples sequenced.</strong></p>
+</section>
+<section id="our-data" class="level2">
+<h2 class="anchored" data-anchor-id="our-data">Our data</h2>
+<p>The data we will be using for the rest of the course (and that we’ve been using already!) comes from a 2022 paper titled <a href="https://environmentalmicrobiome.biomedcentral.com/articles/10.1186/s40793-022-00424-2">In-depth characterization of denitrifier communities across different soil ecosystems in the tundra</a>.</p>
+<p>The paper looks at microbial communities across 43 mountain tundra sites in Northern Finland. The researchers took soil samples from each site and followed a metagenomic analysis workflow to identify the species present in each one. They also measured environmental information such as elevation, soil moisture and N<sub>2</sub>O fluxes.</p>
+<p>We will be focusing on data from a single heathland site which has two sets of sequencing data available: one long-read (nanopore) and one short-read (illumina). We’ve already taken a look at these data as part of the previous two lessons - they are saved on our cloud instance under <code>nano_fastq</code> and <code>illumina_fastq</code> respectively.</p>
+<p>Towards the end of the course we’ll compare some of the data from our site with another site to see how they differ in terms of species composition and diversity.</p>
+</section>
+<section id="bioinformatic-workflows" class="level2">
+<h2 class="anchored" data-anchor-id="bioinformatic-workflows">Bioinformatic workflows</h2>
+<!-- ORIGINAL <img align="right" width="325" height="506" src="{{ page.root }}/fig/metagenomics_flowchart_short.png" alt="Flow diagram that shows the steps: Sequence reads, Quality control, Assembly, Binning and Taxonomy"/> -->
+<!-- <img align="right" width="325" height="506" src="/images/metagenomics_flowchart_short.png" alt="Flow diagram that shows the steps: Sequence reads, Quality control, Assembly, Binning and Taxonomy"/> THIS WORKED ALONG THE HTML CODE COMMENTED BELOW -->
+<!-- ::: {layout-ncol=2} -->
+<p>When working with high-throughput sequencing data, the raw reads you get off of the sequencer need to pass through a number of different tools in order to generate your final desired output.</p>
+<p>The use of this set of tools in a specified order is commonly referred to as a <em>workflow</em> or a <em>pipeline</em>.</p>
+<p>Here is an example of the workflow we will be using for our analysis with a brief description of each step.</p>
+<ol type="1">
+<li>Sequence reads - obtaining raw reads from a sample via sequencing</li>
+<li>Quality control - assessing quality of the reads and trimming and filtering if necessary.</li>
+<li>Metagenome assembly - piecing together genomes from reads into multiple long “contigs” (overlapping DNA segments)</li>
+<li>Binning - separating out genomes into ‘bins’ containing related contigs</li>
+<li>Taxonomic assignment - assigning taxonomy and functional analysis to sequences/contigs</li>
+</ol>
+<p>Workflows in bioinformatics often adopt a plug-and-play approach so the output of one tool can be easily used as input to another tool. The use of standard data formats in bioinformatics (such as FASTA or FASTQ, which we will be using here) makes this possible. The tools that are used to analyze data at different stages of the workflow are therefore built under the assumption that the data will be provided in a specific format.</p>
+<p>You can find a <a href="../../docs/miscellanea/extras/workflow.html">more detailed version of the workflow</a> we will be following by going to <code>Extras</code> and selecting <code>Workflow Reference</code>. This diagram contains all of the steps followed over the course alongside program names.</p>
+<!-- <br clear="right"/> -->
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next steps</h2>
+<p>Hopefully you now feel ready to start following our workflow to analyse our data. We’ll be guiding you through the steps and giving more context for each one as we go along. Let’s go!</p>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/Cloud-SPAN\.github\.io\/metatranscriptomics\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../../docs/lesson03-qc-assembly/index.html" class="pagination-link" aria-label="QC &amp; Assembly">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">QC &amp; Assembly</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../docs/lesson03-qc-assembly/02-QC-quality-raw-reads.html" class="pagination-link" aria-label="Assessing Read Quality, Trimming and Filtering">
+        <span class="nav-page-text">Assessing Read Quality, Trimming and Filtering</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> 2021–24 by <a href="https://cloud-span.york.ac.uk/">Cloud-SPAN</a></p>
+</div>   
+    <div class="nav-footer-center">
+
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Cloud-SPAN/nerc-metagenomics-v2q/edit/main/docs/lesson03-qc-assembly/01-introduction-meta.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Cloud-SPAN/nerc-metagenomics-v2q/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/SpanCloud">
+      <i class="bi bi-twitter" role="img" aria-label="Quarto Twitter">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Cloud-SPAN/nerc-metagenomics-v2q">
+      <i class="bi bi-github" role="img" aria-label="Quarto GitHub">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
