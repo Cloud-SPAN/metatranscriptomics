@@ -6,14 +6,14 @@ project:
 #date-format: "YYYY"
 
 website:
-  google-analytics: "G-9HW51GYWMM"
+  #google-analytics: ""
   cookie-consent: true
-  title: "Cloud-SPAN Metagenomics"
+  title: "Cloud-SPAN Transcriptomics"
   favicon: images/cloud-span-icon.png
   page-navigation: true         # prev and next options at the bottom of each page
   back-to-top-navigation: true
   reader-mode: true  
-  repo-url: https://github.com/Cloud-SPAN/nerc-metagenomics-v2q
+  repo-url: https://github.com/Cloud-SPAN/metatranscriptomics
   repo-actions: [edit, issue]
   page-footer:
     left: |
@@ -35,7 +35,7 @@ website:
         href: https://twitter.com/SpanCloud
         aria-label: Quarto Twitter
       - icon: github
-        href: https://github.com/Cloud-SPAN/nerc-metagenomics-v2q
+        href: https://github.com/Cloud-SPAN/metatranscriptomics
         aria-label: Quarto GitHub
       # - icon: rss
       #   href: https://quarto.org/docs/blog/index.xml
@@ -140,7 +140,7 @@ format:
       margin-width: 230px     # 300px
       gutter-width: 1.5rem    # 1.5rem
     lang: en
-    keywords: metagenomics, cloud computing, AWS, command line tools, data analysis, environmental science, learning resource
+    keywords: transcriptomics, cloud computing, AWS, command line tools, data analysis, environmental science, learning resource
     license: CC BY
     appendix-style: none
     title-block-style: none

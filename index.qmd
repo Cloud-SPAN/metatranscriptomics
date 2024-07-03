@@ -1,6 +1,5 @@
 ---
-title: "Metagenomics"
-subtitle: "Environmental Applications"
+title: "Transcriptomics"
 # title-block-banner: true
 ---
 
@@ -48,7 +47,7 @@ The course will take place over three weeks and will combine live coding and tea
 ## Course Overview
 
 | Lesson                                                                                   | Overview                                                                                                                               |
-|------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+|-----------------------------|-------------------------------------------|
 | [Files and Directories](docs/lesson01-files-and-directories/index.qmd)                   | Learn about files and directories, log onto a cloud instance and get a basic introduction to the shell.                                |
 | [Using the Command Line](docs/lesson02-using-the-command-line/index.qmd)                 | Learn more about using the shell to navigate directories, manipulate and search files, and combine existing commands to do new things. |
 | [QC & Assembly](docs/lesson03-qc-assembly/index.qmd)                                     | How to quality control and assemble a genome.                                                                                          |
