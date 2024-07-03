@@ -1,5 +1,5 @@
 ---
-title: "Metaranscriptomics"
+title: "Metatranscriptomics"
 # title-block-banner: true
 ---
 
