@@ -683,35 +683,35 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Metagenomics",
+    "title": "Transcriptomics",
     "section": "",
     "text": "This hands-on, online course teaches data analysis for metagenomics projects. It is aimed at those with little or no experience of using high performance computing (HPC) for data analysis. In the course we will cover:\nThe course is taught as a mixture of live coding, online lectures, self-study and drop-in sessions."
   },
   {
     "objectID": "index.html#prerequisites",
     "href": "index.html#prerequisites",
-    "title": "Metagenomics",
+    "title": "Transcriptomics",
     "section": "Prerequisites",
     "text": "Prerequisites\n\n\n\n\n\n\nBiological concepts and software setup\n\n\n\nThis course assumes no prior experience with the tools covered in the workshop but learners are expected to have some familiarity with biological concepts, including the concept of genomes and microbiomes. Participants should bring their own laptops and plan to participate actively.\nTo get started, follow the directions in the “Precourse Instructions” tab to get access to the required software and data for this workshop. Windows users need to install Git Bash in their laptop. Mac users may need to configure the terminal program in their laptop to use the Bash shell."
   },
   {
     "objectID": "index.html#data",
     "href": "index.html#data",
-    "title": "Metagenomics",
+    "title": "Transcriptomics",
     "section": "Data",
     "text": "Data\n\n\n\n\n\n\nAbout the data used in the course\n\n\n\nThis course uses data from a 2022 paper published in BMC Environmental Microbiome titled In-depth characterization of denitrifier communities across different soil ecosystems in the tundra. In this course we will compare data from two of the sites studied.\nYou can read more about the data used in the course here."
   },
   {
     "objectID": "index.html#course-format",
     "href": "index.html#course-format",
-    "title": "Metagenomics",
+    "title": "Transcriptomics",
     "section": "Course format",
     "text": "Course format\nThis workshop is designed to be run on pre-imaged Amazon Web Services (AWS) instances. All the software and data used in the workshop are hosted on an Amazon Machine Image (AMI). We will give you details as to how to access these instances after registration.\nThe course will take place over three weeks and will combine live coding and teaching with offline work. We will guide you through the analysis each session but some steps may need to completed offline due to the amount of time they take to complete. There will also be drop-in sessions to offer support and troubleshooting help, and a Slack workspace for questions."
   },
   {
     "objectID": "index.html#course-overview",
     "href": "index.html#course-overview",
-    "title": "Metagenomics",
+    "title": "Transcriptomics",
     "section": "Course Overview",
     "text": "Course Overview\n\n\n\nLesson\nOverview\n\n\n\n\nFiles and Directories\nLearn about files and directories, log onto a cloud instance and get a basic introduction to the shell.\n\n\nUsing the Command Line\nLearn more about using the shell to navigate directories, manipulate and search files, and combine existing commands to do new things.\n\n\nQC & Assembly\nHow to quality control and assemble a genome.\n\n\nPolishing\nHow to use short reads to polish your metagenome assembly\n\n\nBinning & Functional Annotation\nHow to separate an assembly into MAGs and add functional annotation to these MAGs.\n\n\nTaxonomic Annotations\nHow to add taxonomic annotations onto contigs in an assembly."
   },
