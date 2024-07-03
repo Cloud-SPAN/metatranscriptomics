@@ -1,0 +1,214 @@
+---
+layout: page
+---
+# Glossary
+
+###### **absolute path**
+   A [path](#path) that refers to a particular location in a file system.
+    Absolute paths are usually written with respect to the file system's
+    [root directory](#root-directory),
+    and begin with either "/" (on Unix) or "\\" (on Microsoft Windows).
+    See also: [relative path](#relative-path).
+
+###### **accession**
+   a unique identifier assigned to each sequence or set of sequences
+
+###### **argument**
+   A value given to a function or program when it runs.
+    The term is often used interchangeably (and inconsistently) with [parameter](#parameter).
+
+###### **categorical variable**
+   Variables can be classified as categorical (aka, qualitative) or quantitative (aka, numerical). Categorical variables take on a fixed number of values that are names or labels. 
+
+###### **cleaned data**
+   data that has been manipulated post-collection to remove errors or inaccuracies, introduce desired formatting changes, or otherwise prepare the data for analysis
+
+###### **command shell**
+   See [shell](#shell)
+
+###### **command-line interface**
+   A user interface based on typing commands,
+    usually at a [REPL](#read-evaluate-print-loop).
+    See also: [graphical user interface](#graphical-user-interface).
+
+###### **conditional formatting**
+   formatting that is applied to a specific cell or range of cells depending on a set of criteria  
+
+###### **CSV** (comma separated values) **format**
+   a plain text file format in which values are separated by commas
+
+###### **current working directory**
+   The directory that [relative paths](#relative-path) are calculated from;
+    equivalently,
+    the place where files referenced by name only are searched for.
+    Every [process](#process) has a current working directory.
+    The current working directory is usually referred to using the shorthand notation `.` (pronounced "dot").
+
+###### **factor**
+   a variable that takes on a limited number of possible values (i.e. categorical data)
+
+###### **file system**
+   A set of files, directories, and I/O devices (such as keyboards and screens).
+    A file system may be spread across many physical devices,
+    or many file systems may be stored on a single physical device;
+    the [operating system](#operating-system) manages access.
+
+###### **filename extension**
+   The portion of a file's name that comes after the final "." character.
+    By convention this identifies the file's type:
+    `.txt` means "text file", `.png` means "Portable Network Graphics file",
+    and so on. These conventions are not enforced by most operating systems:
+    it is perfectly possible (but confusing!) to name an MP3 sound file `homepage.html`.
+    Since many applications use filename extensions to identify the [MIME type](#mime-type) of the file,
+    misnaming files may cause those applications to fail.
+
+###### **flag**
+   A terse way to specify an option or setting to a command-line program.
+    By convention Unix applications use a dash followed by a single letter,
+    such as `-v`, or two dashes followed by a word, such as `--verbose`,
+    while DOS applications use a slash, such as `/V`.
+    Depending on the application, a flag may be followed by a single argument, as in `-o /tmp/output.txt`.
+
+###### **GB**
+   gigabyte of file storage or file size
+
+###### **Gbase**
+   a gigabase represents one billion nucleic acid bases (Gbp may indicate one billion base pairs of nucleic acid)
+
+###### **graphical user interface**
+   A user interface based on selecting items and actions from a graphical display,
+    usually controlled by using a mouse.
+    See also: [command-line interface](#command-line-interface).
+    
+###### **headers**
+   names at tops of columns that are descriptive about the column contents (sometimes optional)
+
+###### **home directory**
+   The default directory associated with an account on a computer system.
+    By convention, all of a user's files are stored in or below their home directory.
+
+###### **metadata**
+   data which describes other data  
+
+###### **NGS**
+   common acronym for "Next Generation Sequencing" currently being replaced by "High Throughput Sequencing"
+
+###### **null value**
+   a value used to record observations missing from a dataset
+
+###### **observation**
+   a single measurement or record of the object being recorded (e.g. the weight of a particular mouse)
+
+###### **operating system**
+   Software that manages interactions between users, hardware, and software [processes](#process). Common
+    examples are Linux, OS X, and Windows.
+
+###### **parent directory**
+   The directory that "contains" the one in question.
+    Every directory in a file system except the [root directory](#root-directory) has a parent.
+    A directory's parent is usually referred to using the shorthand notation `..` (pronounced "dot dot").
+
+<!-- ## path 1 -->
+<!-- ### path 2 only ### are included in the contents on the top right -->
+<!-- #### path 3 -->
+###### **path**
+A description that specifies the location of a file or directory within a [file system](#file-system).
+    See also: [absolute path](#absolute-path), [relative path](#relative-path).
+
+###### **pipe**
+   A connection from the output of one program to the input of another.
+    When two or more programs are connected in this way, they are called a "pipeline".
+
+###### **plain text**
+   unformatted text
+
+###### **process**
+   A running instance of a program, containing code, variable values,
+    open files and network connections, and so on.
+    Processes are the "actors" that the [operating system](#operating-system) manages;
+    it typically runs each process for a few milliseconds at a time
+    to give the impression that they are executing simultaneously.
+
+###### **prompt**
+   A character or characters displayed by a [REPL](#read-evaluate-print-loop) to show that
+    it is waiting for its next command.
+
+###### **quality assurance**
+   any process which checks data for validity during entry  
+
+###### **quality control**
+   any process which removes problematic data from a dataset
+
+###### **raw data**
+   data that has not been manipulated and represents actual recorded values
+
+###### **read-evaluate-print loop**
+   (REPL): A [command-line interface](#command-line-interface) that reads a command from the user,
+    executes it, prints the result, and waits for another command.
+
+###### **redirect**
+   To send a command's output to a file, or another command, rather than to the screen,
+    or equivalently to read a command's input from a file.
+
+###### **regular expression**
+   A pattern that specifies a set of character strings.
+    REs are most often used to find sequences of characters in strings.
+
+###### **relative path**
+   A [path](#path) that specifies the location of a file or directory
+    with respect to the [current working directory](#current-working-directory).
+    Any path that does not begin with a separator character ("/" or "\\") is a relative path.
+    See also: [absolute path](#absolute-path).
+
+###### **rich text**  
+  formatted text (e.g. text that appears bolded, colored or italicized)
+
+###### **root directory**
+   The top-most directory in a [file system](#file-system).
+    Its name is "/" on Unix (including Linux and Mac OS X) and "\\" on Microsoft Windows.
+
+###### **shell**
+   A [command-line interface](#command-line-interface) such as Bash (the Bourne-Again Shell)
+    or the Microsoft Windows DOS shell
+    that allows a user to interact with the [operating system](#operating-system).
+
+###### **shell script**
+   A set of [shell](#shell) commands stored in a file for re-use.
+    A shell script is a program executed by the shell;
+    the name "script" is used for historical reasons.
+
+###### **standard input**
+   A process's default input stream.
+    In interactive command-line applications,
+    it is typically connected to the keyboard;
+    in a [pipe](#pipe),
+    it receives data from the [standard output](#standard-output) of the preceding process.
+
+###### **standard output**
+   A process's default output stream.
+    In interactive command-line applications,
+    data sent to standard output is displayed on the screen;
+    in a [pipe](#pipe),
+    it is passed to the [standard input](#standard-input) of the next process.
+
+###### **string**
+   a collection of characters (e.g. "thisisastring")
+
+###### **sub-directory**
+   A directory contained within another directory.
+
+###### **tab completion**
+   A feature provided by many interactive systems in which
+    pressing the Tab key triggers automatic completion of the current word or command.
+
+###### **TSV** (tab separated values) **format**
+   a plain text file format in which values are separated by tabs
+
+###### **variable**
+   A name in a program that is associated with a value or a collection of values. **Also**: a category of data being collected on the object being recorded (e.g. a mouse's weight)
+
+###### **wildcard**
+   A character used in pattern matching.
+    In the Unix shell,
+    the wildcard `*` matches zero or more characters,
+    so that `*.txt` matches all files whose names end in `.txt`.

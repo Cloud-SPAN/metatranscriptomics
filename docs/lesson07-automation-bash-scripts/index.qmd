@@ -1,0 +1,26 @@
+---
+title: "Automating Analyses with Bash Scripts"
+subtitle: "[Metagenomics Environmental Application](/index.qmd)"
+# title-block-banner: true
+---
+## Introduction
+
+This lesson is an introduction to computer task automation using Bash scripts. Using the data management and data analysis tasks that you manually ran in the previous lessons as a running example, this lesson shows how to create Bash scripts that will run those tasks automatically one after the other. Thus, you will only need to run a single script to get done the tasks your analysis require.
+
+A script is a file that contains all the tasks that you want to be performed, that is: all the shell **commands** (e.g.: `ls`, `mkdir`, `rm`, etc.) and **programs** (e.g., `fastqc`, `flye`, `pilon`, etc.) that need to be run to get your analysis done.  
+
+When you run a script, the shell will open the script file and run each of the **commands** and **programs** in the script one after the other, either in the foreground or in the background if you specify the backgroud operator `&` after the script name.
+
+Scripts consisting of various tasks are also referred to as **workflows**. Bash workflow scripting is widely used to automate software installs, software updates, data backups, among many others tasks.
+
+## Overview
+The lesson consists of four episodes:
+
+- **Scripting Basics** --- covers how to create a script, a few simple script examples, how to run scripts, and how and when to make a script runnable from any location within the file system hierarchy.
+
+- **Base Environmental Metagenomics Script** --- shows a workflow script that runs all of the tasks that you ran in the previous lessons **except** the `R` tasks in the last lesson and the tasks (commands) that you ran in your local machine, for example the `scp` commands you ran in your local machine to copy files from your AWS instance to your local machine. This workflow script is called `cswf01_baseEnvmntlMetaGenomics.sh`. 
+
+- **Adding Logging and Control to the Base Script** --- shows how to add both logging information on the progress of a workflow script and execution control on the outcome of the script tasks. Taking the base workflow script (`cswf01_base..sh`) as a starting point, this episode shows how to add shell commands to both write onto a log file the time at which each task starts and finishes and to check whether each task runs successfully, aborting the script if a task is unsuccessful. It is **best practise** to abort a workflow script as soon as a task is unsuccessful as subsequent tasks will have either no data or wrong data and there is no point in waiting for bad results. The resulting workflow script is called `cswf2_logAndCtrlEnvmntlMetaGenomics.sh`. 
+
+- **Creating a Module-based Script** --- covers how to create a modular version of the previous script (`cswf02_log..sh`). A modular version is split into various scripts, each script being responsible for performing a specific task. The advantages of modular scripting (and software development at large) include: module reuse and hence faster development of new scripts, and cleaner and simpler coding. The episode shows how to create (1) a script out of each of the program-based tasks in the previous script, and (2) a script that runs the program-based task scripts to accomplish the full functionality of the previous script. Program-based tasks correspond to those that run analysis tools, `fastqc`, `flye`, `pilon`, etc. The (program-based) module scripts will enable you to create new workflow scripts by simply invoking the module scripts that your workflow needs. 
+

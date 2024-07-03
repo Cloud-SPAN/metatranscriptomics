@@ -1,0 +1,33 @@
+---
+layout: page
+title: About
+sidebar: false
+---
+
+Cloud-SPAN is a collaboration between the [University of York](https://www.york.ac.uk/) and [The Software Sustainability Institute](https://www.software.ac.uk/) funded by the [UKRI Innovation Scholars award](https://www.ukri.org/news/initiatives-boost-health-and-bioscience-skills-and-industry/). Project Reference: [MR/V038680/1](https://gtr.ukri.org/projects?ref=MR%2FV038680%2F1).
+
+Cloud-SPAN trains researchers, and the research software engineers that support them, to run specialised analyses on cloud-based high-performance computing infrastructure. We are developing highly accessible resources which integrate with existing Carpentries courses.
+
+This set of lessons is based on the [Data Carpentries Genomics Workshop](https://datacarpentry.org/genomics-workshop/).
+
+## Our Handbook
+
+The Cloud-SPAN team are dedicated to providing a welcoming and supportive environment for all people, regardless of background or identity. We hope to develop a community of practice around our materials. We have a [Handbook](https://cloud-span.github.io/CloudSPAN-handbook/) that gives:
+
+⭐ An introduction to the Cloud-SPAN project
+
+🤝 Our Code of Conduct
+
+🎓 More information on our Courses
+
+👪 An open invitation to the Cloud-SPAN Community
+
+📌 Information about the FAIR Principles
+
+## Licences
+
+This instructional material is made available for reuse and remixing under the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/).
+
+The Cloud-SPAN Genomics course consists of materials derived from Data Carpentry's [Genomics Workshop](https://datacarpentry.org/genomics-workshop/). This material is not endorsed by [Data Carpentry](https://datacarpentry.org) or [the Carpentries](https://carpentries.org/) in general.
+
+Cloud-SPAN is a collaboration between the [University of York](https://www.york.ac.uk/) and [The Software Sustainability Institute](https://www.software.ac.uk/) funded by the [UKRI Innovation Scholars award](https://www.ukri.org/news/initiatives-boost-health-and-bioscience-skills-and-industry/). Project Reference: [MR/V038680/1](https://gtr.ukri.org/projects?ref=MR%2FV038680%2F1).
