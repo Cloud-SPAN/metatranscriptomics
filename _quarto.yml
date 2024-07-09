@@ -86,36 +86,28 @@ website:
           - docs/lesson02-using-the-command-line/01-navigating-file-directories.qmd
           - docs/lesson02-using-the-command-line/02-working-with-file.qmd
           - docs/lesson02-using-the-command-line/03-redirection.qmd
-      - section: "QC & Assembly"
-        href: docs/lesson03-qc-assembly/index.qmd
+      - section: "QC & RNA pre-processing"
+        href: docs/lesson03-qc-pre-processing/index.qmd
         contents: 
-          - docs/lesson03-qc-assembly/01-introduction-meta.qmd
-          - docs/lesson03-qc-assembly/02-QC-quality-raw-reads.qmd
-          - docs/lesson03-qc-assembly/03-assembly.qmd
-      - section: "Polishing"
-        href: docs/lesson04-polishing/index.qmd
+          - docs/lesson03-qc-pre-processing/01-introduction-meta.qmd
+          - docs/lesson03-qc-pre-processing/02-QC-raw-reads.qmd
+          - docs/lesson03-qc-pre-processing/03-rrna-filtering.qmd
+      - section: "Taxonomic Annotation"
+        href: docs/lesson04-taxonomic-annotation/index.qmd
         contents: 
-          - docs/lesson04-polishing/01-polishing-assembly.qmd
-          - docs/lesson04-polishing/02-QC-polished-assembly.qmd
-      - section:  "Binning & Functional Annotation"
-        href: docs/lesson05-binning-functional-annotation/index.qmd
+          - docs/lesson04-taxonomic-annotation/01-community-structure.qmd
+          - docs/lesson04-taxonomic-annotation/02-visualising-structure.qmd
+      - section:  "Functional Annotation"
+        href: docs/lesson05-functional-annotation/index.qmd
         contents: 
-          - docs/lesson05-binning-functional-annotation/01-binning.qmd
-          - docs/lesson05-binning-functional-annotation/02-binning_quality.qmd
-          - docs/lesson05-binning-functional-annotation/03-Functional-annotation.qmd
-      - section: "Taxonomic Annotations"
-        href: docs/lesson06-taxonomic-annotations/index.qmd
+          - docs/lesson05-functional-annotation/01-functional-info.qmd
+          - docs/lesson05-functional-annotation/02-normalising-and-identifying.qmd
+      - section: "Combining Annotations"
+        href: docs/lesson06-combining-annotations/index.qmd
         contents: 
-          - docs/lesson06-taxonomic-annotations/01-taxonomic.qmd
-          - docs/lesson06-taxonomic-annotations/02-Diversity-tackled-with-R.qmd
-          - docs/lesson06-taxonomic-annotations/03-hands_on-diversity.qmd
-      # - section: "Automating Analyses with Bash Scripts"
-      #   href: docs/lesson07-automation-bash-scripts/index.qmd
-      #   contents: 
-      #     - docs/lesson07-automation-bash-scripts/01-scripting-intro.qmd
-      #     - docs/lesson07-automation-bash-scripts/02-base-automation-script.qmd
-      #     - docs/lesson07-automation-bash-scripts/03-adding-logging-and-control.qmd
-      #     - docs/lesson07-automation-bash-scripts/04-creating-module-based-version.qmd
+          - docs/lesson06-combining-annotations/01-combining-annotations.qmd
+          - docs/lesson06-combining-annotations/02-Diversity-tackled-with-R.qmd
+          - docs/lesson06-combining-annotations/03-hands_on-diversity.qmd
       - section: "Extras"
         contents: 
           - docs/miscellanea/extras/data.qmd

@@ -1,7 +1,0 @@
----
-title: "Base Environmental Metagenomics Script"
-page-navigation: false
----
-# Overview
-
-in construction
