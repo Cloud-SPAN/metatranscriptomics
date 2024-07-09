@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.53">
+<meta name="generator" content="quarto-1.5.54">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="keywords" content="transcriptomics, cloud computing, AWS, command line tools, data analysis, environmental science, learning resource">
 
-<title>QC &amp; Assembly – Cloud-SPAN Metatranscriptomics</title>
+<title>Taxonomic Annotations – Cloud-SPAN Metatranscriptomics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../docs/lesson03-qc-assembly/01-introduction-meta.html" rel="next">
-<link href="../../docs/lesson02-using-the-command-line/03-redirection.html" rel="prev">
+<link href="../../docs/lesson06-combining-annotations/01-combining-annotations.html" rel="next">
+<link href="../../docs/lesson05-functional-annotation/02-normalising-and-identifying.html" rel="prev">
 <link href="../../images/cloud-span-icon.png" rel="icon" type="image/png">
 <script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
 <link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
@@ -139,7 +139,7 @@ cookieconsent.run({
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/lesson03-qc-assembly/index.html">QC &amp; Assembly</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/lesson06-combining-annotations/index.html">Combining Annotations</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -211,28 +211,28 @@ cookieconsent.run({
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../docs/lesson03-qc-assembly/index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">QC &amp; Assembly</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <a href="../../docs/lesson03-qc-pre-processing/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">QC &amp; RNA pre-processing</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson03-qc-assembly/01-introduction-meta.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/lesson03-qc-pre-processing/01-introduction-meta.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction to Metagenomics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson03-qc-assembly/02-QC-quality-raw-reads.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/lesson03-qc-pre-processing/02-QC-raw-reads.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Assessing Read Quality, Trimming and Filtering</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson03-qc-assembly/03-assembly.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/lesson03-qc-pre-processing/03-rrna-filtering.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Metagenome Assembly</span></a>
   </div>
 </li>
@@ -240,8 +240,8 @@ cookieconsent.run({
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../docs/lesson04-polishing/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Polishing</span></a>
+            <a href="../../docs/lesson04-taxonomic-annotation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Taxonomic Annotation</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -249,13 +249,13 @@ cookieconsent.run({
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson04-polishing/01-polishing-assembly.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/lesson04-taxonomic-annotation/01-community-structure.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Polishing an assembly</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson04-polishing/02-QC-polished-assembly.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/lesson04-taxonomic-annotation/02-visualising-structure.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">QC polished assembly</span></a>
   </div>
 </li>
@@ -263,8 +263,8 @@ cookieconsent.run({
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../docs/lesson05-binning-functional-annotation/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Binning &amp; Functional Annotation</span></a>
+            <a href="../../docs/lesson05-functional-annotation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Functional Annotation</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -272,48 +272,42 @@ cookieconsent.run({
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson05-binning-functional-annotation/01-binning.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/lesson05-functional-annotation/01-functional-info.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Metagenome Binning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson05-binning-functional-annotation/02-binning_quality.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/lesson05-functional-annotation/02-normalising-and-identifying.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">QC of metagenome bins</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson05-binning-functional-annotation/03-Functional-annotation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Functional annotation</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../docs/lesson06-taxonomic-annotations/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Taxonomic Annotations</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <a href="../../docs/lesson06-combining-annotations/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Combining Annotations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson06-taxonomic-annotations/01-taxonomic.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/lesson06-combining-annotations/01-combining-annotations.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Taxonomic Assignment</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson06-taxonomic-annotations/02-Diversity-tackled-with-R.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/lesson06-combining-annotations/02-Diversity-tackled-with-R.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Diversity Tackled With R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson06-taxonomic-annotations/03-hands_on-diversity.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/lesson06-combining-annotations/03-hands_on-diversity.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Taxonomic Analysis with R</span></a>
   </div>
 </li>
@@ -360,45 +354,28 @@ cookieconsent.run({
 <main class="content column-page-right" id="quarto-document-content">
 
 <header id="title-block-header">
-<h1 class="title display-7">QC &amp; Assembly</h1>
+<h1 class="title display-7">Taxonomic Annotations</h1>
 
 </header>
 
 
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../../images/metagenomics_flowchart_short.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Flow diagram that shows the steps: Sequence reads, Quality control, Assembly, Binning and Taxonomy" width="300"></p>
-</figure>
-</div>
-<p>A metagenome is a collection of genomic sequences from various (micro) organisms coexisting in a sample. They are snapshots that tell us about the taxonomic, metabolic or functional composition of the communities that we study.</p>
-<p>In this lesson we will discuss how to define metagenomics and consider the challenges that this type of analysis can present. We will also discuss a workflow for metagenomics analysis.</p>
-<p>We will then log into our cloud instance and take a look at some data. Then, we’ll go through the first two steps in our workflow: quality control and metagenome assembly.</p>
-<section id="by-the-end-of-this-lesson-you-will-be-able-to" class="level4">
-<h4 class="anchored" data-anchor-id="by-the-end-of-this-lesson-you-will-be-able-to">By the end of this lesson you will be able to:</h4>
+<!-- ---
+layout: lesson
+root: .
+--- -->
+<p>Now we’ve assembled and polished our metagenome, it’s time to start using it! In this lesson we will find out which species are present in our sample using taxonomic assignment. This is possible due to the vast amount of sequence data that already exists. We can compare our reads to a database of these sequences and see where the best matches are.</p>
+<p>There are a few ways of doing this but we will be using a strategy called k-mers for high accuracy and rapid classification. We’ll then go on to visualise our classification results using an interactive browser application.</p>
+<p>After looking at our taxonomy we will use our results to explore and visualise the diversity of our sample.</p>
+<p>By the end of this lesson you will be able to:</p>
 <ul>
-<li>explain what metagenomics is, and the challenges it presents</li>
-<li>interpret a FastQC plot summarizing per-base quality across all reads.</li>
-<li>interpret the NanoPlot output summarizing a Nanopore sequencing run</li>
-<li>filter Nanopore reads based on quality using the command line tool SeqKit</li>
-<li>run a metagenomic assembly workflow</li>
-<li>assess the quality of an assembly using SeqKit</li>
+<li>apply Kraken2 to perform taxonomic assignment using exact k-mer matches</li>
+<li>use Pavian to visualise and compare samples dynamically</li>
+<li>understand <strong>α</strong> and <strong>β</strong> diversity</li>
+<li>calculate a biological observation matrix (BIOM) from Kraken output using KrakenBiom</li>
+<li>plot metagenome diversity using the phyloseq library</li>
 </ul>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-IMPORTANT
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>You should be aware that some of the analyses in this lesson can take several hours to run - these will be completed outside of the taught lesson. You will receive guidance about this from your course instructors.</p>
-</div>
-</div>
 
 
-</section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -823,13 +800,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation column-page-right">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/lesson02-using-the-command-line/03-redirection.html" class="pagination-link" aria-label="Redirection">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Redirection</span>
+      <a href="../../docs/lesson05-functional-annotation/02-normalising-and-identifying.html" class="pagination-link" aria-label="QC of metagenome bins">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">QC of metagenome bins</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../docs/lesson03-qc-assembly/01-introduction-meta.html" class="pagination-link" aria-label="Introduction to Metagenomics">
-        <span class="nav-page-text">Introduction to Metagenomics</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../docs/lesson06-combining-annotations/01-combining-annotations.html" class="pagination-link" aria-label="Taxonomic Assignment">
+        <span class="nav-page-text">Taxonomic Assignment</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -841,7 +818,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
 
-<div class="toc-actions"><ul><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/edit/main/docs/lesson03-qc-assembly/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+<div class="toc-actions"><ul><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/edit/main/docs/lesson06-combining-annotations/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

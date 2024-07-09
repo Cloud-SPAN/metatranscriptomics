@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.53">
+<meta name="generator" content="quarto-1.5.54">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="keywords" content="transcriptomics, cloud computing, AWS, command line tools, data analysis, environmental science, learning resource">
 
-<title>Automating Analyses with Bash Scripts – Cloud-SPAN Metatranscriptomics</title>
+<title>Binning and Functional Annotation – Cloud-SPAN Metatranscriptomics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,6 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../docs/lesson05-functional-annotation/01-functional-info.html" rel="next">
+<link href="../../docs/lesson04-taxonomic-annotation/02-visualising-structure.html" rel="prev">
 <link href="../../images/cloud-span-icon.png" rel="icon" type="image/png">
 <script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
 <link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
@@ -137,7 +139,7 @@ cookieconsent.run({
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Automating Analyses with Bash Scripts</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/lesson05-functional-annotation/index.html">Functional Annotation</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -209,8 +211,8 @@ cookieconsent.run({
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../docs/lesson03-qc-assembly/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">QC &amp; Assembly</span></a>
+            <a href="../../docs/lesson03-qc-pre-processing/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">QC &amp; RNA pre-processing</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -218,19 +220,19 @@ cookieconsent.run({
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson03-qc-assembly/01-introduction-meta.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/lesson03-qc-pre-processing/01-introduction-meta.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction to Metagenomics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson03-qc-assembly/02-QC-quality-raw-reads.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/lesson03-qc-pre-processing/02-QC-raw-reads.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Assessing Read Quality, Trimming and Filtering</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson03-qc-assembly/03-assembly.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/lesson03-qc-pre-processing/03-rrna-filtering.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Metagenome Assembly</span></a>
   </div>
 </li>
@@ -238,8 +240,8 @@ cookieconsent.run({
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../docs/lesson04-polishing/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Polishing</span></a>
+            <a href="../../docs/lesson04-taxonomic-annotation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Taxonomic Annotation</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -247,13 +249,13 @@ cookieconsent.run({
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson04-polishing/01-polishing-assembly.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/lesson04-taxonomic-annotation/01-community-structure.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Polishing an assembly</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson04-polishing/02-QC-polished-assembly.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/lesson04-taxonomic-annotation/02-visualising-structure.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">QC polished assembly</span></a>
   </div>
 </li>
@@ -261,37 +263,31 @@ cookieconsent.run({
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../docs/lesson05-binning-functional-annotation/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Binning &amp; Functional Annotation</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <a href="../../docs/lesson05-functional-annotation/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Functional Annotation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson05-binning-functional-annotation/01-binning.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/lesson05-functional-annotation/01-functional-info.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Metagenome Binning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson05-binning-functional-annotation/02-binning_quality.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/lesson05-functional-annotation/02-normalising-and-identifying.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">QC of metagenome bins</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson05-binning-functional-annotation/03-Functional-annotation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Functional annotation</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../docs/lesson06-taxonomic-annotations/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Taxonomic Annotations</span></a>
+            <a href="../../docs/lesson06-combining-annotations/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combining Annotations</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -299,19 +295,19 @@ cookieconsent.run({
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson06-taxonomic-annotations/01-taxonomic.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/lesson06-combining-annotations/01-combining-annotations.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Taxonomic Assignment</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson06-taxonomic-annotations/02-Diversity-tackled-with-R.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/lesson06-combining-annotations/02-Diversity-tackled-with-R.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Diversity Tackled With R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/lesson06-taxonomic-annotations/03-hands_on-diversity.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/lesson06-combining-annotations/03-hands_on-diversity.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Taxonomic Analysis with R</span></a>
   </div>
 </li>
@@ -351,45 +347,40 @@ cookieconsent.run({
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
-  </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/edit/main/docs/lesson07-automation-bash-scripts/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
-<main class="content column-body" id="quarto-document-content">
+<main class="content column-page-right" id="quarto-document-content">
 
 <header id="title-block-header">
-<h1 class="title display-7">Automating Analyses with Bash Scripts</h1>
-<p class="subtitle lead"><a href="../../index.html">Metagenomics Environmental Application</a></p>
+<h1 class="title display-7">Binning and Functional Annotation</h1>
 
 </header>
 
 
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>This lesson is an introduction to computer task automation using Bash scripts. Using the data management and data analysis tasks that you manually ran in the previous lessons as a running example, this lesson shows how to create Bash scripts that will run those tasks automatically one after the other. Thus, you will only need to run a single script to get done the tasks your analysis require.</p>
-<p>A script is a file that contains all the tasks that you want to be performed, that is: all the shell <strong>commands</strong> (e.g.: <code>ls</code>, <code>mkdir</code>, <code>rm</code>, etc.) and <strong>programs</strong> (e.g., <code>fastqc</code>, <code>flye</code>, <code>pilon</code>, etc.) that need to be run to get your analysis done.</p>
-<p>When you run a script, the shell will open the script file and run each of the <strong>commands</strong> and <strong>programs</strong> in the script one after the other, either in the foreground or in the background if you specify the backgroud operator <code>&amp;</code> after the script name.</p>
-<p>Scripts consisting of various tasks are also referred to as <strong>workflows</strong>. Bash workflow scripting is widely used to automate software installs, software updates, data backups, among many others tasks.</p>
-</section>
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>The lesson consists of four episodes:</p>
+<!-- ---
+layout: lesson
+root: .
+--- -->
+<p>In this lesson we will finish off our analysis by separating out the individual genomes into metagenome-assembled genomes (MAGs) using a process called binning. Binning can be done in lots of different ways but the general idea is to put all the “similar” contigs together into one bin. By the end we should have several bins each containing the genome of one organism - this is what we call a MAG.</p>
+<!-- <img src="{{ page.root }}/fig/binning_jigsaw_diagram.png" alt="Diagram depicting the DNA fragments as jigsaw pieces, then assembled into small groups as part of assembling/polishing, then binned into separate bins as part of binning"/> -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../images/binning_jigsaw_diagram.png" class="img-fluid figure-img" alt="Diagram depicting the DNA fragments as jigsaw pieces, then assembled into small groups as part of assembling/polishing, then binned into separate bins as part of binning"></p>
+<figcaption>.</figcaption>
+</figure>
+</div>
+<p>Once we have our MAGs we can annotate them to predict where genes are and what function they have. This is useful for predicting the metabolic capacity of each organism. We can also look up these predicted gene sequences in a database and build taxonomic trees to make an educated guess about what species we are looking at.</p>
+<p>By the end of this lesson you will be able to:</p>
 <ul>
-<li><p><strong>Scripting Basics</strong> — covers how to create a script, a few simple script examples, how to run scripts, and how and when to make a script runnable from any location within the file system hierarchy.</p></li>
-<li><p><strong>Base Environmental Metagenomics Script</strong> — shows a workflow script that runs all of the tasks that you ran in the previous lessons <strong>except</strong> the <code>R</code> tasks in the last lesson and the tasks (commands) that you ran in your local machine, for example the <code>scp</code> commands you ran in your local machine to copy files from your AWS instance to your local machine. This workflow script is called <code>cswf01_baseEnvmntlMetaGenomics.sh</code>.</p></li>
-<li><p><strong>Adding Logging and Control to the Base Script</strong> — shows how to add both logging information on the progress of a workflow script and execution control on the outcome of the script tasks. Taking the base workflow script (<code>cswf01_base..sh</code>) as a starting point, this episode shows how to add shell commands to both write onto a log file the time at which each task starts and finishes and to check whether each task runs successfully, aborting the script if a task is unsuccessful. It is <strong>best practise</strong> to abort a workflow script as soon as a task is unsuccessful as subsequent tasks will have either no data or wrong data and there is no point in waiting for bad results. The resulting workflow script is called <code>cswf2_logAndCtrlEnvmntlMetaGenomics.sh</code>.</p></li>
-<li><p><strong>Creating a Module-based Script</strong> — covers how to create a modular version of the previous script (<code>cswf02_log..sh</code>). A modular version is split into various scripts, each script being responsible for performing a specific task. The advantages of modular scripting (and software development at large) include: module reuse and hence faster development of new scripts, and cleaner and simpler coding. The episode shows how to create (1) a script out of each of the program-based tasks in the previous script, and (2) a script that runs the program-based task scripts to accomplish the full functionality of the previous script. Program-based tasks correspond to those that run analysis tools, <code>fastqc</code>, <code>flye</code>, <code>pilon</code>, etc. The (program-based) module scripts will enable you to create new workflow scripts by simply invoking the module scripts that your workflow needs.</p></li>
+<li>prepare your polished assembly for binning using BWA and Samtools</li>
+<li>generate bins using MetaBAT2</li>
+<li>evaluate the quality of your generated bins/MAGs using CheckM</li>
+<li>use Prokka for functional annotation of your MAGs</li>
 </ul>
 
 
-</section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -812,6 +803,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation column-page-right">
+  <div class="nav-page nav-page-previous">
+      <a href="../../docs/lesson04-taxonomic-annotation/02-visualising-structure.html" class="pagination-link" aria-label="QC polished assembly">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">QC polished assembly</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../docs/lesson05-functional-annotation/01-functional-info.html" class="pagination-link" aria-label="Metagenome Binning">
+        <span class="nav-page-text">Metagenome Binning</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -820,7 +823,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
 
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/edit/main/docs/lesson07-automation-bash-scripts/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+<div class="toc-actions"><ul><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/edit/main/docs/lesson05-functional-annotation/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">
