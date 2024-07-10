@@ -8,7 +8,7 @@
 
 <meta name="keywords" content="transcriptomics, cloud computing, AWS, command line tools, data analysis, environmental science, learning resource">
 
-<title>Introduction to Metagenomics – Cloud-SPAN Metatranscriptomics</title>
+<title>Introduction to Metatranscriptomics – Cloud-SPAN Metatranscriptomics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -139,7 +139,7 @@ cookieconsent.run({
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/lesson03-qc-pre-processing/index.html">QC &amp; RNA pre-processing</a></li><li class="breadcrumb-item"><a href="../../docs/lesson03-qc-pre-processing/01-introduction-meta.html">Introduction to Metagenomics</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/lesson03-qc-pre-processing/index.html">QC &amp; RNA pre-processing</a></li><li class="breadcrumb-item"><a href="../../docs/lesson03-qc-pre-processing/01-introduction-meta.html">Introduction to Metatranscriptomics</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -221,19 +221,19 @@ cookieconsent.run({
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../docs/lesson03-qc-pre-processing/01-introduction-meta.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Introduction to Metagenomics</span></a>
+ <span class="menu-text">Introduction to Metatranscriptomics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../docs/lesson03-qc-pre-processing/02-QC-raw-reads.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Assessing Read Quality, Trimming and Filtering</span></a>
+ <span class="menu-text">Quality Control of Raw Reads</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../docs/lesson03-qc-pre-processing/03-rrna-filtering.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Metagenome Assembly</span></a>
+ <span class="menu-text">Ribosomal RNA Filtering</span></a>
   </div>
 </li>
       </ul>
@@ -250,13 +250,13 @@ cookieconsent.run({
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../docs/lesson04-taxonomic-annotation/01-community-structure.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Polishing an assembly</span></a>
+ <span class="menu-text">Extracting a Community Profile</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../docs/lesson04-taxonomic-annotation/02-visualising-structure.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">QC polished assembly</span></a>
+ <span class="menu-text">Visualising Community Structure</span></a>
   </div>
 </li>
       </ul>
@@ -273,13 +273,13 @@ cookieconsent.run({
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../docs/lesson05-functional-annotation/01-functional-info.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Metagenome Binning</span></a>
+ <span class="menu-text">Extracting Functional Information</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../docs/lesson05-functional-annotation/02-normalising-and-identifying.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">QC of metagenome bins</span></a>
+ <span class="menu-text">Normalising Abundances and Identifying Gene Families</span></a>
   </div>
 </li>
       </ul>
@@ -296,7 +296,7 @@ cookieconsent.run({
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../docs/lesson06-combining-annotations/01-combining-annotations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Taxonomic Assignment</span></a>
+ <span class="menu-text">Combining Taxonomic and Functional Annotations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -370,7 +370,7 @@ cookieconsent.run({
 <main class="content column-body" id="quarto-document-content">
 
 <header id="title-block-header">
-<h1 class="title display-7">Introduction to Metagenomics</h1>
+<h1 class="title display-7">Introduction to Metatranscriptomics</h1>
 
 </header>
 
@@ -412,9 +412,9 @@ cookieconsent.run({
 <p>Despite this, there are workflows such as <a href="https://qiime2.org/">QIIME2</a>, which are free and community led, which use database annotations of the reference versions of the organisms identified from the amplicon, to suggest what metabolic functions maybe present. The amplicon sequence is also limited because species may have genomic differences, but may be indistinguishable from the amplicon sequence alone. This means that amplicon sequencing can rarely resolve to less than a genus level.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 28%">
+<col style="width: 29%">
 <col style="width: 30%">
-<col style="width: 41%">
+<col style="width: 40%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -976,8 +976,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../docs/lesson03-qc-pre-processing/02-QC-raw-reads.html" class="pagination-link" aria-label="Assessing Read Quality, Trimming and Filtering">
-        <span class="nav-page-text">Assessing Read Quality, Trimming and Filtering</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../docs/lesson03-qc-pre-processing/02-QC-raw-reads.html" class="pagination-link" aria-label="Quality Control of Raw Reads">
+        <span class="nav-page-text">Quality Control of Raw Reads</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
