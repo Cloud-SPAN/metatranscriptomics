@@ -1,23 +1,5 @@
 ---
-title: "QC polished assembly"
-teaching: 30
-exercises: 40
-questions:
-- "Why would we quality control (QC) an assembly?"
-- "How can we perform QC on an assembly?"
-- "What metrics can we compare between assemblies to understand the quality of an assembly?"
-objectives:
-- "Understand the terms N50, misassembly and largest contig."
-- "Understand what factors might affect the quality of an assembly."
-- "Use the help documentation to work out an appropriate flag for seqkit"
-- "Apply seqkit to assess multiple assemblies"
-- "Use MetaQUAST to identify the quality of an assembly."
-keypoints:
-- "The N50 is the contig length of the 50th percentile, meaning that 50% of the contigs are at least this length in the assembly"
-- "A misassembly is when a portion of the assembly is incorrectly put back together"
-- "The largest contig is the longest contiguous piece in the assembly"
-- "Seqkit can generate summary statistics that will tell us the N50, largest contig and the number of gaps"
-- "MetaQUAST can generate additional information in a report which can be used to identify misassemblies"
+title: "Visualising Community Structure"
 ---
 
 ## Why QC a metagenome assembly?
@@ -161,7 +143,7 @@ a)
 file            format  type  num_seqs     sum_len  min_len   avg_len  max_len     Q1      Q2      Q3  sum_gap     N50  Q20(%)  Q30(%)  GC(%)
 assembly.fasta  FASTA   DNA      1,161  18,872,828      528  16,255.7  118,427  7,513  11,854  19,634        0  20,921       0       0  66.26
 ```
-    
+
 (Your numbers will probably be slightly different to the solution given, as the assembly algorithm runs differently each time. As long as they are in the same ballpark there's no need to worry!)
 
 b)  The N50 length for this assembly is 20,921 bp. This tells us that 50% of the assembly is in fragments that are nearly 21,000 bases long or longer!
@@ -306,9 +288,9 @@ If you are using a Mac, you might be more familiar with the `Command` key, which
 ::: callout-note
 ## Copying and pasting in Git bash
 
-Most people will want to use <kbd>Ctrl</kbd>+<kbd>C</kbd> and <kbd>Ctrl</kbd>+<kbd>V</kbd> to copy and paste. However in GitBash these shortcuts have other functions. <kbd>Ctrl</kbd>+<kbd>C</kbd> interrupts the currently running command and <kbd>Ctrl</kbd>+<kbd>V</kbd> tells the terminal to treat every keystroke as a literal character, so will add shortcuts like <kbd>Ctrl</kbd>+<kbd>C</kbd> as characters. Instead you can copy and paste using the mouse: 
+Most people will want to use <kbd>Ctrl</kbd>+<kbd>C</kbd> and <kbd>Ctrl</kbd>+<kbd>V</kbd> to copy and paste. However in GitBash these shortcuts have other functions. <kbd>Ctrl</kbd>+<kbd>C</kbd> interrupts the currently running command and <kbd>Ctrl</kbd>+<kbd>V</kbd> tells the terminal to treat every keystroke as a literal character, so will add shortcuts like <kbd>Ctrl</kbd>+<kbd>C</kbd> as characters. Instead you can copy and paste using the mouse:
 
-- Left click and drag to highlight text, then right click to copy. Move the cursor to where you want to paste and right click to paste.
+-   Left click and drag to highlight text, then right click to copy. Move the cursor to where you want to paste and right click to paste.
 :::
 
 You should then be able to see this file when you `ls` and view it using `less`.

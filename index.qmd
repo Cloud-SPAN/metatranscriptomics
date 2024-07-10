@@ -50,9 +50,9 @@ The course will take place over three weeks and will combine live coding and tea
 |-----------------------------|-------------------------------------------|
 | [Files and Directories](docs/lesson01-files-and-directories/index.qmd)                   | Learn about files and directories, log onto a cloud instance and get a basic introduction to the shell.                                |
 | [Using the Command Line](docs/lesson02-using-the-command-line/index.qmd)                 | Learn more about using the shell to navigate directories, manipulate and search files, and combine existing commands to do new things. |
-| [QC & Assembly](docs/lesson03-qc-assembly/index.qmd)                                     | How to quality control and assemble a genome.                                                                                          |
-| [Polishing](docs/lesson04-polishing/index.qmd)                                           | How to use short reads to polish your metagenome assembly                                                                              |
-| [Binning & Functional Annotation](docs/lesson05-binning-functional-annotation/index.qmd) | How to separate an assembly into MAGs and add functional annotation to these MAGs.                                                     |
-| [Taxonomic Annotations](docs/lesson06-taxonomic-annotations/index.qmd)                   | How to add taxonomic annotations onto contigs in an assembly.                                                                          |
+| [QC & Pre-Processing](docs/lesson03-qc-pre-processing/index.qmd)                                     | How to quality control raw RNA reads and prepare them for further analysis.                                                                                          |
+| [Taxonomic Annotation](docs/lesson04-taxonomic-annotation/index.qmd)                                           | How to extract the community profile from RNA reads.                                                                              |
+| [Functional Annotation](docs/lesson05-functional-annotation/index.qmd) | How to find out which genes and pathways are present in our community.                                                     |
+| [Combining Annotations](docs/lesson06-combining-annotations/index.qmd)                   | How to combine taxonomic and functional annotations for deeper understanding.                                                                          |
 
 <!-- | [Automating Analyses with Bash Scripts](docs/lesson07-automation-bash-scripts/index.qmd) | How to automate the analyses tasks in the previous lessons using Bash scripts. | -->

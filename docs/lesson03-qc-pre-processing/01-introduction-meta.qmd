@@ -1,21 +1,5 @@
 ---
-title: "Introduction to Metagenomics"
-teaching: 30
-exercises: 5
-questions:
-- What is metagenomics?
-- When should we use metagenomics?
-- What does a metagenomics project look like?
-objectives:
-- Explain the difference between genomics, metagenomics and amplicon sequencing.
-- Familiarise yourself with the metagenomics dataset used in this course.
-keypoints:
-- Genomics looks at the whole genome content of an organism
-- Metagenomes contain multiple organisms within one sample unlike genomic samples.
-- In metagenomes the organisms present are not usually present in the same abundance - except for mock communities.
-- We can identify the organisms present in a sample using either amplicon sequencing or whole metagenome sequencing. Amplicon sequencing is cheaper and quicker, but it also limits the amount of downstream analysis that can be done with the data.
-- Metagenomes can differ in their levels of complexity and this is determined by how many organisms are in the metagenome.
-- Difference platforms allow us to perform different analyses. The suitability depends on the question you are asking.
+title: "Introduction to Metatranscriptomics"
 ---
 
 ## What is the difference between Genomics and Metagenomics?
@@ -63,7 +47,7 @@ For organisms that are well characterised, establishing identity can give you in
 Despite this, there are workflows such as [QIIME2](https://qiime2.org/), which are free and community led, which use database annotations of the reference versions of the organisms identified from the amplicon, to suggest what metabolic functions maybe present. The amplicon sequence is also limited because species may have genomic differences, but may be indistinguishable from the amplicon sequence alone. This means that amplicon sequencing can rarely resolve to less than a genus level.
 
 | Attribute            | Amplicon                   | Whole genome metagenomics                            |
-|---------------------|----------------------|------------------------------|
+|---------------------|----------------------|-----------------------------|
 | Cost                 | Cheap                      | Expensive                                            |
 | Coverage depth       | High                       | Lower - medium                                       |
 | Taxonomy detection   | Specific to amplicons used | All in sample                                        |
@@ -127,7 +111,6 @@ Here is an example of the workflow we will be using for our analysis with a brie
 3.  Metagenome assembly - piecing together genomes from reads into multiple long "contigs" (overlapping DNA segments)
 4.  Binning - separating out genomes into 'bins' containing related contigs
 5.  Taxonomic assignment - assigning taxonomy and functional analysis to sequences/contigs
-
 
 Workflows in bioinformatics often adopt a plug-and-play approach so the output of one tool can be easily used as input to another tool. The use of standard data formats in bioinformatics (such as FASTA or FASTQ, which we will be using here) makes this possible. The tools that are used to analyze data at different stages of the workflow are therefore built under the assumption that the data will be provided in a specific format.
 

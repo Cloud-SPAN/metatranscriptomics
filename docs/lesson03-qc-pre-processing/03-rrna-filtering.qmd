@@ -1,18 +1,5 @@
 ---
-title: "Metagenome Assembly"
-teaching: 40
-exercises: 40
-questions:
-- "Why do raw reads need to be assembled?"
-- "How does metagenomic assembly differ from genomic assembly?"
-- "How can we assemble a metagenome?"
-objectives:
-- "Run a metagenomic assembly workflow."
-- "Assess the quality of an assembly using SeqKit"
-keypoints:
-- "Assembly merges raw reads into contigs."
-- "Flye can be used as a metagenomic assembler."
-- "Certain statistics can be used to describe the quality of an assembly."
+title: "Ribosomal RNA Filtering"
 ---
 
 ::: callout-important

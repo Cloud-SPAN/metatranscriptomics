@@ -1,17 +1,5 @@
 ---
-title: "QC of metagenome bins"
-teaching: 50
-exercises: 10
-questions:
-- "How can we assess the quality of the metagenome bins?"
-objectives:
-- "Check the quality of the Metagenome-Assembled Genomes (MAGs)."
-- "Understanding MIMAG quality standards."  
-keypoints:
-- "CheckM can be used to evaluate the quality of each Metagenomics-Assembled Genome."
-- "We can use the percentage contamination and completion to identify the quality of these bins."
-- "There are MIMAG standards which can be used to categorise the quality of a MAG."
-- "Many MAGs will be incomplete, but that does not mean that this data is not still useful for downstream analysis."
+title: "Normalising Abundances and Identifying Gene Families"
 ---
 
 ## Quality check
@@ -176,7 +164,7 @@ As part of the standard, a framework to determine MAG quality from statistics is
 See the table below for an overview of each category.
 
 | Quality Category | Completeness | Contamination | rRNA/tRNA encoded            |
-|-----------------|-----------------|-----------------|-----------------------|
+|-----------------|-----------------|-----------------|---------------------|
 | High             | \> 90%       | ≤ 5%          | Yes (≥ 18 tRNA and all rRNA) |
 | Medium           | ≥ 50%        | ≤ 10%         | No                           |
 | Low              | \< 50%       | ≤ 10%         | No                           |

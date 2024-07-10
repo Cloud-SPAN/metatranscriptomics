@@ -1,20 +1,5 @@
 ---
-title: "Assessing Read Quality, Trimming and Filtering"
-teaching: 45
-exercises: 45
-questions:
-- "How can I describe the quality of my data?"
-- "How can we get rid of sequence data that doesn't meet our quality standards?"
-- "How do these methods differ when looking at Nanopore data?"
-objectives:
-- "Interpret a FastQC plot summarizing per-base quality across all reads."
-- "Interpret the NanoPlot output summarizing a Nanopore sequencing run"
-- "Filter Nanopore reads based on quality using the command line tool SeqKit"
-keypoints:
-- "Quality encodings vary across sequencing platforms."
-- "It is important to know the quality of our data to be able to make decisions in the subsequent steps."
-- "Data cleaning is essential at the beginning of metagenomics workflows."
-- "Due to differences in the sequencing technology Nanopore data must be handled differently."
+title: "Quality Control of Raw Reads"
 ---
 
 ## Getting started
@@ -282,7 +267,7 @@ cd ~/cs_course
 
 Now you can enter the command, using `-o` to tell FastQC to put its output files into our newly-made `illumina_qc/` directory.
 
-::: {.callout-tip}
+::: callout-tip
 ### Why here?
 
 You might be wondering why we're running our command from the `cs_course` directory and not the place where the data is stored (`~/cs_course/data/illumina_fastq`), or where we want our outputs to end up (`~/cs_course/results/qc/illumina_qc`). The reason is that it's *best practice* not to run commands from the same folder as your data in case you accidentally do something which would overwrite your data files. From `cs_course` we can easily "see" both our `data` and `results` directories to refer to them with local paths.
@@ -605,7 +590,6 @@ ls
 
 <!-- :::{.column-screen} THE WHOLE SCREEN WIDTH -->
 
-
 ``` {.default filename="Output"}
 LengthvsQualityScatterPlot_dot.html               NanoStats.txt         
 LengthvsQualityScatterPlot_dot.png                Non_weightedHistogramReadlength.html                          
@@ -618,7 +602,6 @@ LengthvsQualityScatterPlot_loglength_kde.png      Yield_By_Length.html
 NanoPlot_202303307_1630.log                       Yield_By_Length.png
 NanoPlot-report.html
 ```
-
 
 We can see that NanoPlot has generated a lot of different files.
 

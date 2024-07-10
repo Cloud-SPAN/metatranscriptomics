@@ -1,19 +1,5 @@
 ---
-title: "Taxonomic Assignment"
-teaching: 30
-exercises: 15
-questions:
-- "How can I assign a taxonomy to my raw reads?"
-- "How can I visualise these assignments?"
-objectives:
-- "Understand how taxonomic assignment works."
-- "Use kraken2 to assign taxonomies to raw reads."
-- "Visualize taxonomic annotations in a dataset."
-
-keypoints:
-- "Taxonomy can be assigned by comparing against a database with genome annotations. These are not exhaustive and so many things will remain unannotated depending on the samples you are analysing."
-- "Taxonomic assignment can be done using Kraken2."
-- "Pavian is a web based tool that can be used to visualize the assigned taxa."
+title: "Combining Taxonomic and Functional Annotations"
 ---
 
 ## What is taxonomic assignment?

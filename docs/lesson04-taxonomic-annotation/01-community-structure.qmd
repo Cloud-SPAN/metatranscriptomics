@@ -1,20 +1,5 @@
 ---
-title: "Polishing an assembly"
-teaching: 30
-exercises: 10
-questions:
-- "Why do assemblies need to be polished?"
-- "What are the different purposes of polishing with short and long reads?"
-- "What software can we use to do long and short read polishing?"
-
-objectives:
-- "Understand why polishing metagenomes is important."  
-- "Understand the different programs used to do short and long read polishing."
-keypoints:
-- "Short reads have a higher base accuracy than long reads and can be used to remove errors in assemblies generated with long reads."
-- "Long reads have a lower accuracy but help generate a more contiguous (less fragmented) assembly, so are used to get the structure of the metagenome, but may have small misassemblies or single nucleotide polymorphisms (SNPs)"
-- "Medaka is used to polish an assembly with long reads."
-- "Pilon is used to polish an assembly with short reads."
+title: "Extracting a Community Profile"
 ---
 
 In the [previous episode](/docs/lesson03-qc-assembly/03-assembly.qmd) we generated a draft assembly using Flye from our long read Nanopore data.
@@ -91,7 +76,7 @@ To use Medaka we need to specify certain parameters in the command, like we did 
 Let's have a look at the flags and options we're going to use:
 
 | Flag/option | Meaning                                                                                                       | Our input                                      |
-|-------------------|-----------------------------------|-------------------|
+|-------------------|----------------------------------|-------------------|
 | `-i`        | Input basecalls (i.e. what we are polishing with)                                                             | `-i data/nano_fastq/ERR5000342_sub12_filtered` |
 | `-d`        | Input assembly (i.e. what is being polished)                                                                  | `-d results/assembly/assembly.fasta`           |
 | `-m`        | Neural network model to use (described in [the documentation](https://github.com/nanoporetech/medaka#models)) | `-m r941_min_hac_g507`                         |
@@ -327,7 +312,7 @@ Here are the various flags/options used in these commands and what they mean:
 <!-- NB: below, the number of hyphens (---..) in the line below "|---|---...|" does help determine the length of each column. It's a matter of trying how many hyphens to use for each column -->
 
 | Command                                                    | Flag/option     | Meaning                                         |
-|------------------------------|-------------------|------------------------|
+|-----------------------------|-------------------|------------------------|
 | `bwa mem -t 8 [input assembly] [input short read file(s)]` | -t 8            | Number of threads (8)                           |
 | `samtools view - -Sb`                                      | \-              | Take piped output from `bwa mem` as input       |
 |                                                            | -Sb             | Convert from SAM to BAM format                  |

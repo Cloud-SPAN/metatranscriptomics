@@ -1,16 +1,5 @@
 ---
-title: "Metagenome Binning"
-teaching: 50
-exercises: 50
-questions:
-- "How can we obtain the original genomes from a metagenome?"
-objectives:
-- "Obtain Metagenome-Assembled Genomes (MAGs) from the metagenomic assembly."
-- "Understand that there are multiple methods that can be used to perform binning"  
-keypoints:
-- "Metagenome-Assembled Genomes (MAGs) sometimes are obtained from curated contigs grouped into bins."
-- "Use MetaBAT2 to assign the contigs to bins of different taxa."
-- "Other programmes are available that are generating other bins, and these can be rationalised using tools such as DAStools"
+title: "Extracting Functional Information"
 ---
 
 Now we are ready to start doing analysis of our metagenomic assembly!
@@ -82,7 +71,7 @@ One way to separate contigs that belong to different species is by their taxonom
 Most binning tools use short reads for the binning; only a few use Hi-C sequencing. Hi-C is a method of sequencing that gives spatial proximity information, as described [here](https://en.wikipedia.org/wiki/Hi-C_(genomic_analysis_technique)). Different tools use different algorithms for performing the binning. A few popular tools are summarised below. For more information see Section 2.4 (Tools for metagenome binning) of [this review](https://www.sciencedirect.com/science/article/pii/S2001037021004931#s0045).
 
 | Tool     | Core algorithm           | Website                                   | Publication                                                                        |
-|---------------|---------------|---------------|---------------------------|
+|----------------|----------------|----------------|------------------------|
 | MaxBin2  | Expectation-maximization | http://sourceforge.net/projects/maxbin/   | [Wu et al, 2016](https://academic.oup.com/bioinformatics/article/32/4/605/1744462) |
 | CONCOCT  | GaussiAN Mixture Models  | https://github.com/BinPro/CONCOCT         | [Alneberg et al, 2014](https://www.nature.com/articles/nmeth.3103)                 |
 | MetaBAT2 | Label propagation        | https://bitbucket.org/berkeleylab/metabat | [Kang et al, 2019](https://peerj.com/articles/7359/)                               |
@@ -222,7 +211,7 @@ The penultimate line tells us that MetaBAT has produced 90 bins containing 21216
 
 Using `ls` will show that MetaBAT2 has generated a depth file (`assembly_ERR5000342.fasta.depth.txt`) and a directory (`assembly_ERR5000342.fasta.metabat-bins1500-YYYYMMDD_HHMMSS/`). Annoyingly, the "easy" way of running MetaBat2 (which we just used) doesn't allow us to specify an output directory, so we'll need to move our outputs into `results/binning` manually using `mv`.
 
-``` {.bash}
+``` bash
 mv assembly* results/binning
 ```
 
