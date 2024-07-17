@@ -46,24 +46,15 @@ Keep this in mind as we continue to navigate the file system, and don't hesitate
 
 ## Quality control
 
-::: {layout="[ 50, 50 ]"}
-::: {#first-column}
-<!-- <img align="left" width="325" height="226" src="{{ page.root }}/fig/short_analysis_flowchart_crop1.png" alt="Analysis flow diagram that shows the steps: Sequence reads and Quality control." /> -->
+<!-- ![Analysis flow diagram that shows the steps: Sequence reads and Quality control.](/images/short_analysis_flowchart_crop1.png){fig-align="left" width="325" height="226" fig-alt="Analysis flow diagram that shows the steps: Sequence reads and Quality control."} -->
 
-![Analysis flow diagram that shows the steps: Sequence reads and Quality control.](/images/short_analysis_flowchart_crop1.png){fig-align="left" width="325" height="226" fig-alt="Analysis flow diagram that shows the steps: Sequence reads and Quality control."}
-:::
+Before we can start working properly with our data we need to do some quality control to make sure our data is as high quality as possible. There are lots of ways errors could be introduced during the sampling and sequencing process, such as RNA becoming degraded or bases being called incorrectly.
 
-::: {#second-column}
-Before assembling our metagenome from the the short-read Illumina sequences and the long-read Nanopore sequences, we need to apply quality control to both. The two types of sequence data require different QC methods. We will use:
+Quality control (QC) has two main steps:
+- [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) to examine the quality of the reads
+- [CutAdapt](https://cutadapt.readthedocs.io/en/stable/index.html) to trim off low quality bases and remove adapter sequences
 
--   [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) to examine the quality of the short-read Illumina data
--   [NanoPlot](https://github.com/wdecoster/NanoPlot) to examine the quality of the long-read Nanopore data and [Seqkit](https://bioinf.shenwei.me/seqkit/) to trim and filter them.
-:::
-:::
-
-<!-- <br clear="left"/> -->
-
-## Illumina Quality control using FastQC
+## Quality control using FastQC
 
 In previous lessons we had a look at our data files and found they were in FASTQ format, a common format for sequencing data. We used `grep` to look for 'bad reads' containing more than three consecutive Ns and put these reads into their own text file.
 
@@ -114,15 +105,15 @@ mkdir -p cs_course/results
 
 You might want to use `ls` to check those nested directories have been made.
 
-We are going to have lots of outputs so it makes sense to organise them with some more subdirectories. Let's make one called `qc` (for **q**uality **c**ontrol) and another one inside that called `illumina_qc`.
+We are going to have lots of outputs so it makes sense to organise them with some more subdirectories. Let's make one called `qc` (for **q**uality **c**ontrol).
 
 ``` {.bash filename="Code"}
-mkdir -p cs_course/results/qc/illumina_qc
+mkdir -p cs_course/results/qc
 ```
 
-Now we have created the directories we are ready to start the quality control of the Illumina data.
+Now we have created the directories we are ready to start with quality control.
 
-FastQC has been installed on your instance and we can run it with the `-h` flag to display the help documentation and remind ourselves how to use it and all the parameters available:
+FastQC has been installed on your instance. We can run it with the `-h` flag to display the help documentation and find out what parameters are available:
 
 ``` {.bash filename="Code"}
 fastqc -h
@@ -265,54 +256,54 @@ First, navigate to your `cs_course/` directory.
 cd ~/cs_course
 ```
 
-Now you can enter the command, using `-o` to tell FastQC to put its output files into our newly-made `illumina_qc/` directory.
+Now you can enter the command, using `-o` to tell FastQC to put its output files into our newly-made `qc/` directory. We'll also use the `-t` flag to speed up the process by telling FastQC to run on 8 threads (processing cores).
 
 ::: callout-tip
 ### Why here?
 
-You might be wondering why we're running our command from the `cs_course` directory and not the place where the data is stored (`~/cs_course/data/illumina_fastq`), or where we want our outputs to end up (`~/cs_course/results/qc/illumina_qc`). The reason is that it's *best practice* not to run commands from the same folder as your data in case you accidentally do something which would overwrite your data files. From `cs_course` we can easily "see" both our `data` and `results` directories to refer to them with local paths.
+You might be wondering why we're running our command from the `cs_course` directory and not the place where the data is stored (`~/cs_course/data/raw_reads/`), or where we want our outputs to end up (`~/cs_course/results/qc/`). The reason is that it's *best practice* not to run commands from the same folder as your data in case you accidentally do something which would overwrite your data files. From `cs_course` we can easily "see" both our `data` and `results` directories to refer to them with local paths.
 
 Over the rest of the course we will be moving all over the file tree to look at files but will always return to `~/cs_course` to run commands. We encourage you to do the same in your own work!
 :::
 
 ``` {.bash filename="Code"}
-fastqc data/illumina_fastq/*.fastq -o results/qc/illumina_qc/
+fastqc data/raw_reads/*.fastq -o results/qc/ -t 8
 ```
 
 Press enter and you will see an automatically updating output message telling you the progress of the analysis. It should start like this:
 
 ``` {.default filename="Output"}
-Started analysis of ERR4998593_1.fastq
-Approx 5% complete for ERR4998593_1.fastq
-Approx 10% complete for ERR4998593_1.fastq
-Approx 15% complete for ERR4998593_1.fastq
-Approx 20% complete for ERR4998593_1.fastq
-Approx 25% complete for ERR4998593_1.fastq
-Approx 30% complete for ERR4998593_1.fastq
+Started analysis of SRR6820491_1.fastq
+Approx 5% complete for SRR6820491_1.fastq
+Approx 10% complete for SRR6820491_1.fastq
+Approx 15% complete for SRR6820491_1.fastq
+Approx 20% complete for SRR6820491_1.fastq
+Approx 25% complete for SRR6820491_1.fastq
+Approx 30% complete for SRR6820491_1.fastq
 ```
 
 In total, it should take around ten minutes for FastQC to run on our fastq files (however, this will depend on the size and number of files you give it). When the analysis completes, your prompt will return. So your screen will look something like this:
 
 ``` {.default filename="Output"}
-Approx 75% complete for ERR4998593_2.fastq
-Approx 80% complete for ERR4998593_2.fastq
-Approx 85% complete for ERR4998593_2.fastq
-Approx 90% complete for ERR4998593_2.fastq
-Approx 95% complete for ERR4998593_2.fastq
-Analysis complete for ERR4998593_2.fastq
+Approx 75% complete for SRR6820491_2.fastq
+Approx 80% complete for SRR6820491_2.fastq
+Approx 85% complete for SRR6820491_2.fastq
+Approx 90% complete for SRR6820491_2.fastq
+Approx 95% complete for SRR6820491_2.fastq
+Analysis complete for SRR6820491_2.fastq
 $
 ```
 
 ### Looking at FastQC outputs
 
-The FastQC program has created four new files (two for each .fastq file) within our `results/qc/illumina_qc/` directory. We can see them by listing the contents of the `illumina_qc` folder
+The FastQC program has created four new files (two for each .fastq file) within our `results/qc/` directory. We can see them by listing the contents of the `qc` folder
 
 ``` {.bash filename="Code"}
-ls results/qc/illumina_qc/
+ls results/qc/
 ```
 
 ``` {.default filename="Output"}
-ERR4998593_1_fastqc.html  ERR4998593_1_fastqc.zip  ERR4998593_2_fastqc.html  ERR4998593_2_fastqc.zip   
+SRR6820491_1_fastqc.html  SRR6820491_1_fastqc.zip  SRR6820491_2_fastqc.html  SRR6820491_2_fastqc.zip   
 ```
 
 For each input FASTQ file, FastQC has created a `.zip` file and a `.html` file. The `.zip` file extension indicates that this is actually a compressed set of multiple output files. A summary report for our data is in the the `.html` file.
@@ -348,7 +339,7 @@ Now use `scp` to download the file. We need to add in our .pem file, like when w
 The command will look something like:
 
 ``` {.bash filename="Code"}
-scp -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk:~/cs_course/results/qc/illumina_qc/*_fastqc.html .
+scp -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk:~/cs_course/results/qc/*_fastqc.html .
 ```
 
 Remember to replace NNN with your instance number.
@@ -356,8 +347,8 @@ Remember to replace NNN with your instance number.
 As the file is downloading you will see an output like:
 
 ``` {.default filename="Output"}
-ERR4998593_1_fastqc.html         100%  543KB   1.8MB/s   00:00  
-ERR4998593_2_fastqc.html         47%  539KB   1.8MB/s   00:00 
+SRR6820491_1_fastqc.html         100%  543KB   1.8MB/s   00:00  
+SRR6820491_2_fastqc.html         47%  539KB   1.8MB/s   00:00 
 ```
 
 Once the files have downloaded, use File Explorer (Windows) or Finder (Mac) to find the files and open them - they should open up in your browser.
@@ -365,438 +356,30 @@ Once the files have downloaded, use File Explorer (Windows) or Finder (Mac) to f
 ::: callout-tip
 ## Help!
 
-If you had trouble downloading and viewing the files you can view them here: [ERR4998593_1_fastqc.html](/docs/miscellanea/files/ERR4998593_1_fastqc.html) and [ERR4998593_2_fastqc.html](/docs/miscellanea/files/ERR4998593_2_fastqc.html)
+If you had trouble downloading and viewing the files you can view them here: [SRR6820491_1_fastqc.html](/docs/miscellanea/files/SRR6820491_1_fastqc.html) and [SRR6820491_2_fastqc.html](/docs/miscellanea/files/SRR6820491_2_fastqc.html)
 :::
 
-First we will look at the "Per base sequence quality" graphs for `ERR4998593_1.fastq` and `ERR4998593_2.fastq`.
+First we will look at the "Per base sequence quality" graphs for `SRR6820491_1.fastq` and `SRR6820491_2.fastq`.
 
-|              **ERR4998593_1.fastq**              |              **ERR4998593_2.fastq**              |
+|              **SRR6820491_1.fastq**              |              **SRR6820491_2.fastq**              |
 |:----------------------------------:|:----------------------------------:|
-| ![.](/images/ERR4998593_1_pbsq.png){width="700"} | ![.](/images/ERR4998593_2_pbsq.png){width="700"} |
-
-<!-- | <img src="{{ page.root }}/fig/ERR4998593_1_pbsq.png" width="600"/> | <img src="{{ page.root }}/fig/ERR4998593_2_pbsq.png" width="600" /> | -->
+| ![.](/images/SRR6820491_1_pbsq.png){width="700"} | ![.](/images/SRR6820491_2_pbsq.png){width="700"} |
 
 The x-axis displays the base position in the read, and the y-axis shows quality scores. The blue line represents the mean quality across samples.
 
-In both samples, the mean quality values do not drop much lower than 34 at any position. This is a high quality score meaning the sequences are high quality. That means that we do not need to do any filtering. Lucky us!
+In SRR6820491_1 (the forward reads) the overall quality is fairly high, although it seems to be lower at the start and end of some reads. At the end of the read in particular there appears to be quite a bit of variation.
 
-We should also have a look at the "Adapter Content" graph which will show us where adapter sequences occur in the reads. Adapter sequences are short sequences that are added to the sample to aid during the preparation of the DNA library. They therefore don't tell us anything biologically important and should be removed if they are present in high numbers. They might also be removed in the case of certain applications, such as when the base sequence needs to be particularly accurate.
+In SRR6820491_2 (reverse reads) the quality is much more variable though the mean quality remains high. Some reads are dipping into the medium and low quality sections towards the end.
 
-|               **ERR4998593_1.fastq**                |               **ERR4998593_2.fastq**                |
+We definitely want to do some trimming to make sure the lower quality bases are removed from our reads. First though, we should also have a look at the "Adapter Content" graph which will show us where adapter sequences occur in the reads. 
+
+Adapter sequences are short sequences that are added to the sample to aid during the preparation of the DNA library. They therefore don't tell us anything biologically important and should be removed if they are present in high numbers. They might also be removed in the case of certain applications, such as when the base sequence needs to be particularly accurate.
+
+|               **SRR6820491_1.fastq**                |               **SRR6820491_2.fastq**                |
 |:----------------------------------:|:----------------------------------:|
-| ![.](/images/ERR4998593_1_adapter.png){width="700"} | ![.](/images/ERR4998593_2_adapter.png){width="700"} |
+| ![.](/images/SRR6820491_1_adapter.png){width="700"} | ![.](/images/SRR6820491_2_adapter.png){width="700"} |
 
-<!-- | <img src="{{ page.root }}/fig/ERR4998593_1_adapter.png" width="600"/> | <img src="{{ page.root }}/fig/ERR4998593_2_adapter.png" width="600" /> | -->
 
-This graph shows us that these sequencing file have a low percentage (\~1-2%) of adapter sequences in the reads, which means we do not need to trim any adapter sequences either.
+These graphs show us that a high proportion of our reads contain adapters, so we'll need to trim these out too. Helpfully, FastQC has identified that the adapters present are Illumina Universal adapters, so we can easily find out what the sequence to trim out will be.
 
-::: callout-tip
-## When sequencing is poor(er) Quality
-
-While the sequencing in this example is high quality this will not always be the case.
-
-The programe [cutadapt](https://github.com/marcelm/cutadapt) can be used to filter poor quality reads and trim poor quality bases. See [Genomics - Trimming and Filtering](https://cloud-span.github.io/03genomics/02-trimming/index.html) to learn more about trimming and filtering poor quality reads.
-:::
-
-## Nanopore quality control
-
-Next we will assess the quality of the Nanopore raw reads. These are found in the file located at `~/cs_course/data/nano_fastq/ERR5000342_sub12.fastq`.
-
-This file contains a subset of 12% of the Nanopore reads from our site of interest (hence `sub12`). The reason we aren't using all of the reads is because there are so many that our remote computer would be overwhelmed! We will be using the `sub12` data for the time being, but later in the course you will be given an assembly for analysis which was assembled using the full set of reads.
-
-We haven't looked at our Nanopore data yet, so let's view the first complete read by using `head` to look at the first four lines.
-
-Move to the folder containing the Nanopore data:
-
-``` {.bash filename="Code"}
-cd ~/cs_course/data/nano_fastq/
-```
-
-Use `head` to look at the first four lines of the fastq file:
-
-``` {.bash filename="Code"}
-head -n 4 ERR5000342_sub12.fastq
-```
-
-``` {.default filename="Output"}
-@ERR5000342.1 1 length=407
-GGTATGCTTCGTTCAGTTACGTATTGCTGTTTCGTGGCTGACCAGCAACCCGGCACCGGCGCCGAAACCGGCTCGGCGGGAATCGAGGCCCACAGCGGCACCTGCGGCGCCACCGGCAGGAACGCCACCGCGACAGCGGCCAGCGCAACGGCCACCAAAGTCGTGCCATGCGGCCCGCCGCGCACCGCTAGCAACACCGACACCGCAATCGCGAGCGCACCCCCGCCGCCACTGACGCGGCGACTGCATTCGTCAGCCGATCGCGACCGTCGCGCCTAGCCAGTTGGATAACAAACGCGAGGATCCACCAGAGTGGCGAGCACTCCGGCCAGCCCGCGCACGTTGGCCCGGTCGTGCGTGCGCAGCAAGACGATGTCGGCTGCAACGAGCAATACGTAACTTCACCA
-+
-*-/00*CD;>AEJ4/?FF7:73../A@@?DFBA0((+&%'&'&-)-().:B:?>=FD.3HJ@A50%$$(%'$$//24%(*06A59<:BGHM:FD@@8<G@HHG/73*#-%'%)/')'&%$$8>;>=:G;BDCD*'7B)-<<:CC6355=48BC76C=;.6B9751+,((('')89?;A@@B943BA540.+5<>>DEA87AEEA4?CDIA792*.G<B<LGDD@ALL@8:;><98:?=&*;77864C2@A>*'<;;GDCAMH;811@A@IF>A/+,'&2285>C9+(EBBC@LKDH9<;;A75H?=44-/$)12145&&('&6<=@7:@<9B6A<;A.*)213847;@B&,@C@GB?7D:B3,)18%(*-(::=?9=47A@EADHF77DHACKGA774%"%)%##$$
-```
-
-This read is 408 bp, longer than the Illumina reads we looked at earlier. The length of a raw read from Nanopore sequencing varies depends on the length of the length of the DNA strand being sequenced.
-
-Line 4 shows us the quality score of this read.
-
-``` {.default filename="Output"}
-*-/00*CD;>AEJ4/?FF7:73../A@@?DFBA0((+&%'&'&-)-().:B:?>=FD.3HJ@A50%$$(%'$$//24%(*06A59<:BGHM:FD@@8<G@HHG/73*#-%'%)/')'&%$$8>;>=:G;BDCD*'7B)-<<:CC6355=48BC76C=;.6B9751+,((('')89?;A@@B943BA540.+5<>>DEA87AEEA4?CDIA792*.G<B<LGDD@ALL@8:;><98:?=&*;77864C2@A>*'<;;GDCAMH;811@A@IF>A/+,'&2285>C9+(EBBC@LKDH9<;;A75H?=44-/$)12145&&('&6<=@7:@<9B6A<;A.*)213847;@B&,@C@GB?7D:B3,)18%(*-(::=?9=47A@EADHF77DHACKGA774%"%)%##$$
-```
-
-Based on the PHRED quality scores (see above for a reminder) we can see that the quality scores of the bases in this read range widely. Overall they are lower than the scores for Illumina reads we looked at previously.
-
-Instead of using FastQC we will use a program called [NanoPlot](https://github.com/wdecoster/NanoPlot), which is installed on the instance, to create some plots for the whole sequencing file. NanoPlot is specially built for Nanopore sequences.
-
-::: callout-tip
-## Other programs for Nanopore QC
-
-Another popular program for QC of Nanopore reads is [PycoQC](https://github.com/a-slide/pycoQC).
-
-It produces similar plots to NanoPlot but will also give you information about the overall Nanopore sequencing run. In order to generate these, PycoQC uses a `sequencing summary` file generated by the Nanopore sequencer (e.g. MiniION or PromethION).
-
-We are using NanoPlot because the `sequencing summary` that PycoQC needs is not avaiable for this dataset. You can see example output files from PycoQC here: [Guppy-2.1.3_basecall-1D_DNA_barcode.html](https://a-slide.github.io/pycoQC/pycoQC/results/Guppy-2.1.3_basecall-1D_DNA_barcode.html).
-:::
-
-We first need to navigate to the `cs_course` directory.
-
-``` {.bash filename="Code"}
-cd ~/cs_course
-```
-
-We are now going to run `NanoPlot` with the raw Nanopore sequencing file. First we can look at the help documenation for NanoPlot to see what options are available.
-
-``` {.bash filename="Code"}
-NanoPlot --help
-```
-
-::: {.callout-note collapse="true"}
-## Output --- NanoPlot Help Documentation
-
-``` {.default filename="Output"}
-usage: NanoPlot [-h] [-v] [-t THREADS] [--verbose] [--store] [--raw] [--huge]m --downsample 10000
-                 [-o OUTDIR] [-p PREFIX] [--tsv_stats] [--maxlength N]
-                 [--minlength N] [--drop_outliers] [--downsample N]
-                 [--loglength] [--percentqual] [--alength] [--minqual N]
-                 [--runtime_until N] [--readtype {1D,2D,1D2}] [--barcoded]
-                 [--no_supplementary] [-c COLOR] [-cm COLORMAP]
-                 [-f {eps,jpeg,jpg,pdf,pgf,png,ps,raw,rgba,svg,svgz,tif,tiff}]
-                 [--plots [{kde,hex,dot,pauvre} [{kde,hex,dot,pauvre} ...]]]
-                 [--listcolors] [--listcolormaps] [--no-N50] [--N50]
-                 [--title TITLE] [--font_scale FONT_SCALE] [--dpi DPI]
-                 [--hide_stats]
-                 (--fastq file [file ...] | --fasta file [file ...] | --fastq_rich file 
-                 [file ...] | --fastq_minimal file [file ...] | --summary file [file ...] | 
-                 --bam file [file ...] | --ubam file [file ...] | --cram file [file ...] | 
-                 --pickle pickle | --feather file [file ...])
-
-CREATES VARIOUS PLOTS FOR LONG READ SEQUENCING DATA.
-
-General options:
-   -h, --help            show the help and exit
-   -v, --version         Print version and exit.
-   -t, --threads THREADS
-                         Set the allowed number of threads to be used by the script
-   --verbose             Write log messages also to terminal.
-   --store               Store the extracted data in a pickle file for future plotting.
-   --raw                 Store the extracted data in tab separated file.
-   --huge                Input data is one very large file.
-   -o, --outdir OUTDIR   Specify directory in which output has to be created.
-   -p, --prefix PREFIX   Specify an optional prefix to be used for the output files.
-   --tsv_stats           Output the stats file as a properly formatted TSV.
-
-Options for filtering or transforming input prior to plotting:
-   --maxlength N         Hide reads longer than length specified.
-   --minlength N         Hide reads shorter than length specified.
-   --drop_outliers       Drop outlier reads with extreme long length.
-   --downsample N        Reduce dataset to N reads by random sampling.
-   --loglength           Additionally show logarithmic scaling of lengths in plots.
-   --percentqual         Use qualities as theoretical percent identities.
-   --alength             Use aligned read lengths rather than sequenced length (bam mode)
-   --minqual N           Drop reads with an average quality lower than specified.
-   --runtime_until N     Only take the N first hours of a run
-   --readtype {1D,2D,1D2}
-                         Which read type to extract information about from summary. Options are 1D, 
-                         2D, 1D2
-   --barcoded            Use if you want to split the summary file by barcode
-   --no_supplementary    Use if you want to remove supplementary alignments
-
-Options for customizing the plots created:
-   -c, --color COLOR     Specify a valid matplotlib color for the plots
-   -cm, --colormap COLORMAP
-                         Specify a valid matplotlib colormap for the heatmap
-   -f, --format {eps,jpeg,jpg,pdf,pgf,png,ps,raw,rgba,svg,svgz,tif,tiff}
-                         Specify the output format of the plots.
-   --plots [{kde,hex,dot,pauvre} [{kde,hex,dot,pauvre} ...]]
-                         Specify which bivariate plots have to be made.
-   --listcolors          List the colors which are available for plotting and exit.
-   --listcolormaps       List the colors which are available for plotting and exit.
-   --no-N50              Hide the N50 mark in the read length histogram
-   --N50                 Show the N50 mark in the read length histogram
-   --title TITLE         Add a title to all plots, requires quoting if using spaces
-   --font_scale FONT_SCALE
-                         Scale the font of the plots by a factor
-   --dpi DPI             Set the dpi for saving images
-   --hide_stats          Not adding Pearson R stats in some bivariate plots
-
-Input data sources, one of these is required.:
-   --fastq file [file ...]
-                         Data is in one or more default fastq file(s).
-   --fasta file [file ...]
-                         Data is in one or more fasta file(s).
-   --fastq_rich file [file ...]
-                         Data is in one or more fastq file(s) generated by albacore, MinKNOW or guppy
-                         with additional information concerning channel and time.
-   --fastq_minimal file [file ...]
-                         Data is in one or more fastq file(s) generated by albacore, MinKNOW or guppy
-                         with additional information concerning channel and time. Is extracted swiftly
-                         without elaborate checks.
-   --summary file [file ...]
-                         Data is in one or more summary file(s) generated by albacore or guppy.
-   --bam file [file ...]
-                         Data is in one or more sorted bam file(s).
-   --ubam file [file ...]
-                         Data is in one or more unmapped bam file(s).
-   --cram file [file ...]
-                         Data is in one or more sorted cram file(s).
-   --pickle pickle       Data is a pickle file stored earlier.
-   --feather file [file ...]
-                         Data is in one or more feather file(s).
-
-EXAMPLES:
-     NanoPlot --summary sequencing_summary.txt --loglength -o summary-plots-log-transformed
-     NanoPlot -t 2 --fastq reads1.fastq.gz reads2.fastq.gz --maxlength 40000 --plots hex dot
-     NanoPlot --color yellow --bam alignment1.bam alignment2.bam alignment3.bam --downsample 10000
-```
-:::
-
-We will use four flags when we run the NanoPlot command:
-
--   `--fastq` to specify the filetype and file to analyse. The raw Nanopore data is in the location `/cs_course/p/data/nano_fastq/ERR5000342_sub12.fastq` and we will use this full absolute path in the NanoPlot command.
-
--   `--outdir` to specify the where the output files should be written. We are going to put our results in a directory called `nano_qc`, inside of `results/qc`. **Note**: with NanoPlot you **don't need to create this directory** before running the command.
-
--   `--threads` specifies how many threads to run the program on (more threads = more compute power = faster). We will specify 8 to indicate that eight threads should be used, since our instance has eight cores.
-
--   `--loglength` specifies that we want plots with a log scale.
-
-``` {.bash filename="Code"}
-NanoPlot --fastq data/nano_fastq/ERR5000342_sub12.fastq --outdir results/qc/nano_qc --threads 8 --loglength
-```
-
-Now we have the command set up we can press enter and wait for NanoPlot to finish.
-
-This will take a couple of minutes. You will know it is finished once your terminal **prompt** has returned (i.e. you can type in the terminal again).
-
-Once NanoPlot has finished we can have a look at the output. First we need to navigate into the `nano_qc` directory NanoPlot created, then list the files.
-
-``` {.bash filename="Code"}
-cd results/qc/nano_qc
-ls
-```
-
-<!-- :::{.column-body-outset} JUST LITTLE OUT BODY-->
-
-<!-- :::{.column-page} THE WHOLE PAGE WIDTH-->
-
-<!-- :::{.column-screen} THE WHOLE SCREEN WIDTH -->
-
-``` {.default filename="Output"}
-LengthvsQualityScatterPlot_dot.html               NanoStats.txt         
-LengthvsQualityScatterPlot_dot.png                Non_weightedHistogramReadlength.html                          
-LengthvsQualityScatterPlot_kde.html               Non_weightedHistogramReadlength.png                                 
-LengthvsQualityScatterPlot_kde.png                Non_weightedLogTransformed_HistogramReadlength.html                                        WeightedLogTransformed_HistogramReadlength.html   Non_weightedLogTransformed_HistogramReadlength.png
-LengthvsQualityScatterPlot_loglength_dot.html     WeightedLogTransformed_HistogramReadlength.png
-LengthvsQualityScatterPlot_loglength_dot.png      WeightedHistogramReadlength.html               
-LengthvsQualityScatterPlot_loglength_kde.html     WeightedHistogramReadlength.png
-LengthvsQualityScatterPlot_loglength_kde.png      Yield_By_Length.html
-NanoPlot_202303307_1630.log                       Yield_By_Length.png
-NanoPlot-report.html
-```
-
-We can see that NanoPlot has generated a lot of different files.
-
-Like before, we can't view most of these files in our terminal as we can't open images or HTML files. Instead we'll download the core information to our own computer. Luckily, the `NanoPlot-report.html` file contains all of the plots and information held in the other files so we only need to download that one onto our local computer using `scp`.
-
-Use a terminal that is ***not*** logged into the cloud instance and ensure you are in your `cloudspan` directory. You may have one from earlier. If you do not, unveil the instructions below to start one.
-
-::: {.callout-tip collapse="true"}
-## Starting a new terminal
-
-1.  Open your file manager and navigate to the `cloudspan` folder which should contain the login key file
-
-2.  Open your machine's command line interface: **Windows users**: Right click anywhere inside the blank space of the file manager, then select *Git Bash Here*. **Mac users**: Open *Terminal* and type `cd` followed by the absolute path that leads to your `cloudspan` folder. Press enter.\
-
-3.  Check that you are in the right folder using `pwd`.
-:::
-
-Use `scp` to copy the file - the command will look something like:
-
-``` {.bash filename="Code"}
-scp -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk:~/cs_course/results/qc/nano_qc/NanoPlot-report.html .
-```
-
-Remember to replace NNN with the instance number specific to you. As the file is downloading you will see an output like:
-
-``` {.default filename="Output"}
-scp -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk:~/cs_course/results/qc/nano_qc/NanoPlot-report.html .
-NanoPlot-report.html                                  100% 3281KB   2.3MB/s   00:01
-```
-
-Once the file has downloaded, use the File Explorer (Windows) or Finder (Mac) to find the file and open it - it should open up in your browser.
-
-::: callout-note
-## Help!
-
-<!-- If you had trouble downloading and viewing the file you can view it here: [NanoPlot-report.html]({{ page.root }}/files/ERR5000342_sub12_nanoplot.html) -->
-
-If you had trouble downloading and viewing the file you can view it here: [NanoPlot-report.html](/docs/miscellanea/files/ERR5000342_sub15_nanoplot.html)
-:::
-
-In the report we can view summary statistics followed by plots showing the distribution of read lengths and the read length vs average read quality.
-
-Looking at the summary statistics table answer the following questions:
-
-::: callout-note
-## Exercise 1:
-
-1.  How many sequences are in this file?
-2.  How many bases are there in this entire file?
-3.  What is the length of the longest read in the file and its associated mean quality score?
-
-::: {.callout-note collapse="true"}
-## Solution
-
-1.  There are 316,251 sequences (also known as reads) in this file
-2.  There are 1,324,863,094 bases (bp) in total in this FASTQ file
-3.  The longest read in this file is 49893 bp and it has a mean quality score of 9.3
-:::
-:::
-
-::: callout-note
-## Quality Encodings Vary
-
-Note that not all sequencing machines use the same encoding for quality. So `#` might not always mean 3, a poor quality score.
-
-This means it's essential that you know which sequencing platform was used to generate your data, so that you can tell your quality control program which encoding to use. If you choose the wrong encoding, you run the risk of throwing away good reads or (even worse) not throwing away bad reads! Nanopore quality encodings are no exception. You can read more about the differences with Nanopore sequencing here: [EPI2ME - Quality Scores](https://labs.epi2me.io/quality-scores/).
-:::
-
-::: callout-note
-## N50
-
-The N50 length is a useful statistic when looking at sequences of varying length as it indicates that 50% of the total sequence is in reads (i.e. chunks) that are that size or larger.
-
-For this FASTQ file 50% of the total bases are in reads that have a length of 5,974 bp or longer.
-
-See the webpage [What's N50?](https://www.molecularecologist.com/2017/03/29/whats-n50/) for a good explanation. We will be coming back to this statistic in more detail when we get to the assembly step.
-:::
-
-We can also look at some of the plots produced by NanoPlot.
-
-One useful plot is the plot titled "Read lengths vs Average read quality plot using dots after log transformation of read lengths".
-
-<!-- <img align="centre" width="816" src="{{ page.root }}/fig/LengthvsQualityScatterPlot_loglength_dot.png" alt="NanoPlot KDE plot with the title Read lengths vs Average read quality plot using dots after log transformation of read lengths"> -->
-
-![NanoPlot KDE plot with the title Read lengths vs Average read quality plot using dots after log transformation of read lengths."](/images/LengthvsQualityScatterPlot_loglength_dot.png){width="816" fig-align="center" fig-alt="NanoPlot KDE plot with the title Read lengths vs Average read quality plot using dots after log transformation of read lengths."}
-
-This plot shows the average quality of the sequence against the read lengths. We can see that the majority of the sequences have a quality score at least 7. We don't necessarily need to trim these reads, as this is a good score, but we will do it anyway to show you how.
-
-<!-- <br clear="left"/> -->
-
-## Filtering Nanopore sequences by quality score
-
-We can use the program [Seqkit](https://bioinf.shenwei.me/seqkit/) (which contains many tools for FASTQ/A file manipulation) to filter our reads. We will be using the command `seqkit seq` to create a new file containing only the sequences with an average quality above a certain value.
-
-After returning to our `cs_course` directory, we can view the `seqkit seq` help documentation with the following command:
-
-``` {.bash filename="Code"}
-cd ~/cs_course
-seqkit seq -h
-```
-
-::: {.callout-note collapse="true"}
-## Output --- Seqkit seq help documentation
-
-``` default
-transform sequences (extract ID, filter by length, remove gaps...)
-
-Usage:
-   seqkit seq [flags]
-
-Flags:
-   -k, --color                     colorize sequences - to be piped into "less -R"
-   -p, --complement                complement sequence, flag '-v' is recommended to switch on
-       --dna2rna                   DNA to RNA
-   -G, --gap-letters string        gap letters (default "- \t.")
-   -h, --help                      help for seq
-   -l, --lower-case                print sequences in lower case
-   -M, --max-len int               only print sequences shorter than the maximum length (-1 for no limit) (default -1)
-   -R, --max-qual float            only print sequences with average quality less than this limit (-1 for no limit) (default -1)
-   -m, --min-len int               only print sequences longer than the minimum length (-1 for no limit) (default -1)
-   -Q, --min-qual float            only print sequences with average quality qreater or equal than this limit (-1 for no limit) (default -1)
-   -n, --name                      only print names
-   -i, --only-id                   print ID instead of full head
-   -q, --qual                      only print qualities
-   -b, --qual-ascii-base int       ASCII BASE, 33 for Phred+33 (default 33)
-   -g, --remove-gaps               remove gaps
-   -r, --reverse                   reverse sequence
-       --rna2dna                   RNA to DNA
-   -s, --seq                       only print sequences
-   -u, --upper-case                print sequences in upper case
-   -v, --validate-seq              validate bases according to the alphabet
-   -V, --validate-seq-length int   length of sequence to validate (0 for whole seq) (default 10000)
-
-Global Flags:
-       --alphabet-guess-seq-length int   length of sequence prefix of the first FASTA record based on which seqkit guesses the sequence type (0 for whole seq) (default 10000)
-       --id-ncbi                         FASTA head is NCBI-style, e.g. >gi|110645304|ref|NC_002516.2| Pseud...
-       --id-regexp string                regular expression for parsing ID (default "^(\\S+)\\s?")
-       --infile-list string              file of input files list (one file per line), if given, they are appended to files from cli arguments
-   -w, --line-width int                  line width when outputting FASTA format (0 for no wrap) (default 60)
-   -o, --out-file string                 out file ("-" for stdout, suffix .gz for gzipped out) (default "-")
-       --quiet                           be quiet and do not show extra information
-   -t, --seq-type string                 sequence type (dna|rna|protein|unlimit|auto) (for auto, it automatically detect by the first sequence) (default "auto")
-   -j, --threads int                     number of CPUs. can also set with environment variable SEQKIT_THREADS) (default 4)
-```
-:::
-
-From this we can see that the flag `-Q` will "only print sequences with average quality qreater or equal than this limit (-1 for no limit) (default -1)".
-
-From the plot above we identified that most of the reads had a quality score of at least 7. To make sure some filtering happens, we'll use a minimum limit of 8.
-
-``` {.bash filename="Code"}
-seqkit seq -Q 8 data/nano_fastq/ERR5000342_sub12.fastq > data/nano_fastq/ERR5000342_sub12_filtered.fastq
-```
-
-In the command above we use redirection (`>`) to generate a new file `ERR5000342_sub12_filtered.fastq`, containing only the reads with an average quality of 8 or above.
-
-We can now re-run NanoPlot on the filtered file to see how it has changed.
-
-``` {.bash filename="Code"}
-cd ~/cs_course
-
-NanoPlot --fastq data/nano_fastq/ERR5000342_sub12_filtered.fastq --outdir results/qc/nano_qc_filt --threads 8 --loglength
-```
-
-Once again, wait for the command to finish and then use `scp`to copy the report to your local computer. First, though, make sure you rename the file so you know which is the filtered report and which isn't.
-
-``` {.bash filename="Code"}
-cd results/qc/nano_qc_filt
-mv NanoPlot-report.html NanoPlot-report-filtered.html
-```
-
-::: callout-note
-## Help!
-
-<!-- If you had trouble downloading the file you can view it here: [NanoPlot-filtered-report.html]({{ page.root }}/files/ERR5000342_sub12_filt_nanoplot.html) -->
-
-If you had trouble downloading the file you can view it here: [NanoPlot-filtered-report.html](/docs/miscellanea/files/ERR5000342_sub15_filt_nanoplot.html)
-:::
-
-<!-- **Compare the NanoPlot statistics of the Nanopore raw reads [before filtering]({{ page.root }}/files/ERR5000342_sub12_nanoplot.html) and [after filtering]({{ page.root }}/files/ERR5000342_sub12_filt_nanoplot.html)  and answer the questions below.** -->
-
-**Compare the NanoPlot statistics of the Nanopore raw reads [before filtering](/docs/miscellanea/files/ERR5000342_sub15_nanoplot.html) and [after filtering](/docs/miscellanea/files/ERR5000342_sub15_filt_nanoplot.html) and answer the questions below.**
-
-::: callout-note
-## Exercise 2:
-
-1.  How many reads have been removed by filtering?
-2.  How many bases have been removed by filtering?
-3.  What is the length of the new longest read and its associated average quality score?
-
-::: {.callout-note collapse="true"}
-## Solution
-
-1.  Initially there were 316,251 reads; in the filtered file there are 311,172 reads; so 5079 reads have been removed by the quality filtering
-2.  Initially there were 1,324,863,094 bases and after filtering there are 1,303,931,978 base which means filtering has removed 20,931,116 bases
-3.  The longest read in the filtered file is the same as before: 49893bp and it has a mean quality score of 9.3.
-:::
-:::
+## Trimming reads
