@@ -389,14 +389,13 @@ cookieconsent.run({
   <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started">Getting started</a></li>
   <li><a href="#reminder-our-file-structure" id="toc-reminder-our-file-structure" class="nav-link" data-scroll-target="#reminder-our-file-structure">Reminder: our file structure</a></li>
   <li><a href="#quality-control" id="toc-quality-control" class="nav-link" data-scroll-target="#quality-control">Quality control</a></li>
-  <li><a href="#illumina-quality-control-using-fastqc" id="toc-illumina-quality-control-using-fastqc" class="nav-link" data-scroll-target="#illumina-quality-control-using-fastqc">Illumina Quality control using FastQC</a>
+  <li><a href="#quality-control-using-fastqc" id="toc-quality-control-using-fastqc" class="nav-link" data-scroll-target="#quality-control-using-fastqc">Quality control using FastQC</a>
   <ul class="collapse">
   <li><a href="#about-fastqc" id="toc-about-fastqc" class="nav-link" data-scroll-target="#about-fastqc">About FastQC</a></li>
   <li><a href="#getting-started-with-fastqc" id="toc-getting-started-with-fastqc" class="nav-link" data-scroll-target="#getting-started-with-fastqc">Getting started with FastQC</a></li>
   <li><a href="#looking-at-fastqc-outputs" id="toc-looking-at-fastqc-outputs" class="nav-link" data-scroll-target="#looking-at-fastqc-outputs">Looking at FastQC outputs</a></li>
   </ul></li>
-  <li><a href="#nanopore-quality-control" id="toc-nanopore-quality-control" class="nav-link" data-scroll-target="#nanopore-quality-control">Nanopore quality control</a></li>
-  <li><a href="#filtering-nanopore-sequences-by-quality-score" id="toc-filtering-nanopore-sequences-by-quality-score" class="nav-link" data-scroll-target="#filtering-nanopore-sequences-by-quality-score">Filtering Nanopore sequences by quality score</a></li>
+  <li><a href="#trimming-reads" id="toc-trimming-reads" class="nav-link" data-scroll-target="#trimming-reads">Trimming reads</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/edit/main/docs/lesson03-qc-pre-processing/02-QC-raw-reads.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -457,33 +456,12 @@ cookieconsent.run({
 </section>
 <section id="quality-control" class="level2">
 <h2 class="anchored" data-anchor-id="quality-control">Quality control</h2>
-<div>
-
-</div>
-<div class="quarto-layout-panel" data-layout="[ 50, 50 ]">
-<div class="quarto-layout-row">
-<div id="first-column" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<!-- <img align="left" width="325" height="226" src="{{ page.root }}/fig/short_analysis_flowchart_crop1.png" alt="Analysis flow diagram that shows the steps: Sequence reads and Quality control." /> -->
-<div class="quarto-figure quarto-figure-left">
-<figure class="figure">
-<p><img src="../../images/short_analysis_flowchart_crop1.png" alt="Analysis flow diagram that shows the steps: Sequence reads and Quality control." width="325" height="226" class="figure-img"></p>
-<figcaption>Analysis flow diagram that shows the steps: Sequence reads and Quality control.</figcaption>
-</figure>
-</div>
-</div>
-<div id="second-column" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<p>Before assembling our metagenome from the the short-read Illumina sequences and the long-read Nanopore sequences, we need to apply quality control to both. The two types of sequence data require different QC methods. We will use:</p>
-<ul>
-<li><a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">FastQC</a> to examine the quality of the short-read Illumina data</li>
-<li><a href="https://github.com/wdecoster/NanoPlot">NanoPlot</a> to examine the quality of the long-read Nanopore data and <a href="https://bioinf.shenwei.me/seqkit/">Seqkit</a> to trim and filter them.</li>
-</ul>
-</div>
-</div>
-</div>
-<!-- <br clear="left"/> -->
+<!-- ![Analysis flow diagram that shows the steps: Sequence reads and Quality control.](/images/short_analysis_flowchart_crop1.png){fig-align="left" width="325" height="226" fig-alt="Analysis flow diagram that shows the steps: Sequence reads and Quality control."} -->
+<p>Before we can start working properly with our data we need to do some quality control to make sure our data is as high quality as possible. There are lots of ways errors could be introduced during the sampling and sequencing process, such as RNA becoming degraded or bases being called incorrectly.</p>
+<p>Quality control (QC) has two main steps: - <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">FastQC</a> to examine the quality of the reads - <a href="https://cutadapt.readthedocs.io/en/stable/index.html">CutAdapt</a> to trim off low quality bases and remove adapter sequences</p>
 </section>
-<section id="illumina-quality-control-using-fastqc" class="level2">
-<h2 class="anchored" data-anchor-id="illumina-quality-control-using-fastqc">Illumina Quality control using FastQC</h2>
+<section id="quality-control-using-fastqc" class="level2">
+<h2 class="anchored" data-anchor-id="quality-control-using-fastqc">Quality control using FastQC</h2>
 <p>In previous lessons we had a look at our data files and found they were in FASTQ format, a common format for sequencing data. We used <code>grep</code> to look for ‘bad reads’ containing more than three consecutive Ns and put these reads into their own text file.</p>
 <p>This could be rather time consuming and is very nuanced. Luckily, there’s a better way! Rather than assessing every read in the raw data by hand we can use <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">FastQC</a> to visualise the quality of the whole sequencing file.</p>
 <section id="about-fastqc" class="level3">
@@ -533,15 +511,15 @@ cookieconsent.run({
 <div class="sourceCode" id="cb3" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> cs_course/results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You might want to use <code>ls</code> to check those nested directories have been made.</p>
-<p>We are going to have lots of outputs so it makes sense to organise them with some more subdirectories. Let’s make one called <code>qc</code> (for <strong>q</strong>uality <strong>c</strong>ontrol) and another one inside that called <code>illumina_qc</code>.</p>
+<p>We are going to have lots of outputs so it makes sense to organise them with some more subdirectories. Let’s make one called <code>qc</code> (for <strong>q</strong>uality <strong>c</strong>ontrol).</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="sourceCode" id="cb4" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> cs_course/results/qc/illumina_qc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> cs_course/results/qc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now we have created the directories we are ready to start the quality control of the Illumina data.</p>
-<p>FastQC has been installed on your instance and we can run it with the <code>-h</code> flag to display the help documentation and remind ourselves how to use it and all the parameters available:</p>
+<p>Now we have created the directories we are ready to start with quality control.</p>
+<p>FastQC has been installed on your instance. We can run it with the <code>-h</code> flag to display the help documentation and find out what parameters are available:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
@@ -697,7 +675,7 @@ Output — FastQC seq help documentation
 </div>
 <div class="sourceCode" id="cb7" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/cs_course</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now you can enter the command, using <code>-o</code> to tell FastQC to put its output files into our newly-made <code>illumina_qc/</code> directory.</p>
+<p>Now you can enter the command, using <code>-o</code> to tell FastQC to put its output files into our newly-made <code>qc/</code> directory. We’ll also use the <code>-t</code> flag to speed up the process by telling FastQC to run on 8 threads (processing cores).</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -708,7 +686,7 @@ Why here?
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>You might be wondering why we’re running our command from the <code>cs_course</code> directory and not the place where the data is stored (<code>~/cs_course/data/illumina_fastq</code>), or where we want our outputs to end up (<code>~/cs_course/results/qc/illumina_qc</code>). The reason is that it’s <em>best practice</em> not to run commands from the same folder as your data in case you accidentally do something which would overwrite your data files. From <code>cs_course</code> we can easily “see” both our <code>data</code> and <code>results</code> directories to refer to them with local paths.</p>
+<p>You might be wondering why we’re running our command from the <code>cs_course</code> directory and not the place where the data is stored (<code>~/cs_course/data/raw_reads/</code>), or where we want our outputs to end up (<code>~/cs_course/results/qc/</code>). The reason is that it’s <em>best practice</em> not to run commands from the same folder as your data in case you accidentally do something which would overwrite your data files. From <code>cs_course</code> we can easily “see” both our <code>data</code> and <code>results</code> directories to refer to them with local paths.</p>
 <p>Over the rest of the course we will be moving all over the file tree to look at files but will always return to <code>~/cs_course</code> to run commands. We encourage you to do the same in your own work!</p>
 </div>
 </div>
@@ -716,49 +694,49 @@ Why here?
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="sourceCode" id="cb8" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> data/illumina_fastq/<span class="pp">*</span>.fastq <span class="at">-o</span> results/qc/illumina_qc/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> data/raw_reads/<span class="pp">*</span>.fastq <span class="at">-o</span> results/qc/ <span class="at">-t</span> 8</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Press enter and you will see an automatically updating output message telling you the progress of the analysis. It should start like this:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="sourceCode" id="cb9" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Started analysis of ERR4998593_1.fastq</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Approx 5% complete for ERR4998593_1.fastq</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>Approx 10% complete for ERR4998593_1.fastq</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>Approx 15% complete for ERR4998593_1.fastq</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>Approx 20% complete for ERR4998593_1.fastq</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>Approx 25% complete for ERR4998593_1.fastq</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>Approx 30% complete for ERR4998593_1.fastq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Started analysis of SRR6820491_1.fastq</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Approx 5% complete for SRR6820491_1.fastq</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>Approx 10% complete for SRR6820491_1.fastq</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>Approx 15% complete for SRR6820491_1.fastq</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>Approx 20% complete for SRR6820491_1.fastq</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>Approx 25% complete for SRR6820491_1.fastq</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>Approx 30% complete for SRR6820491_1.fastq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In total, it should take around ten minutes for FastQC to run on our fastq files (however, this will depend on the size and number of files you give it). When the analysis completes, your prompt will return. So your screen will look something like this:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="sourceCode" id="cb10" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Approx 75% complete for ERR4998593_2.fastq</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>Approx 80% complete for ERR4998593_2.fastq</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>Approx 85% complete for ERR4998593_2.fastq</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>Approx 90% complete for ERR4998593_2.fastq</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>Approx 95% complete for ERR4998593_2.fastq</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>Analysis complete for ERR4998593_2.fastq</span>
+<div class="sourceCode" id="cb10" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Approx 75% complete for SRR6820491_2.fastq</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>Approx 80% complete for SRR6820491_2.fastq</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>Approx 85% complete for SRR6820491_2.fastq</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>Approx 90% complete for SRR6820491_2.fastq</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>Approx 95% complete for SRR6820491_2.fastq</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>Analysis complete for SRR6820491_2.fastq</span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>$</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="looking-at-fastqc-outputs" class="level3">
 <h3 class="anchored" data-anchor-id="looking-at-fastqc-outputs">Looking at FastQC outputs</h3>
-<p>The FastQC program has created four new files (two for each .fastq file) within our <code>results/qc/illumina_qc/</code> directory. We can see them by listing the contents of the <code>illumina_qc</code> folder</p>
+<p>The FastQC program has created four new files (two for each .fastq file) within our <code>results/qc/</code> directory. We can see them by listing the contents of the <code>qc</code> folder</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="sourceCode" id="cb11" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> results/qc/illumina_qc/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> results/qc/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="sourceCode" id="cb12" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ERR4998593_1_fastqc.html  ERR4998593_1_fastqc.zip  ERR4998593_2_fastqc.html  ERR4998593_2_fastqc.zip   </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>SRR6820491_1_fastqc.html  SRR6820491_1_fastqc.zip  SRR6820491_2_fastqc.html  SRR6820491_2_fastqc.zip   </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>For each input FASTQ file, FastQC has created a <code>.zip</code> file and a <code>.html</code> file. The <code>.zip</code> file extension indicates that this is actually a compressed set of multiple output files. A summary report for our data is in the the <code>.html</code> file.</p>
 <p>If we were working on our local computers, we’d be able to look at each of these HTML files by opening them in a web browser.</p>
@@ -801,7 +779,7 @@ Starting a new terminal
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="sourceCode" id="cb14" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> <span class="at">-i</span> login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk:~/cs_course/results/qc/illumina_qc/<span class="pp">*</span>_fastqc.html .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> <span class="at">-i</span> login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk:~/cs_course/results/qc/<span class="pp">*</span>_fastqc.html .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Remember to replace NNN with your instance number.</p>
 <p>As the file is downloading you will see an output like:</p>
@@ -809,8 +787,8 @@ Starting a new terminal
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="sourceCode" id="cb15" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ERR4998593_1_fastqc.html         100%  543KB   1.8MB/s   00:00  </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>ERR4998593_2_fastqc.html         47%  539KB   1.8MB/s   00:00 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>SRR6820491_1_fastqc.html         100%  543KB   1.8MB/s   00:00  </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>SRR6820491_2_fastqc.html         47%  539KB   1.8MB/s   00:00 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Once the files have downloaded, use File Explorer (Windows) or Finder (Mac) to find the files and open them - they should open up in your browser.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -823,10 +801,10 @@ Help!
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If you had trouble downloading and viewing the files you can view them here: <a href="../../docs/miscellanea/files/ERR4998593_1_fastqc.html">ERR4998593_1_fastqc.html</a> and <a href="../../docs/miscellanea/files/ERR4998593_2_fastqc.html">ERR4998593_2_fastqc.html</a></p>
+<p>If you had trouble downloading and viewing the files you can view them here: <a href="../../docs/miscellanea/files/SRR6820491_1_fastqc.html">SRR6820491_1_fastqc.html</a> and <a href="../../docs/miscellanea/files/SRR6820491_2_fastqc.html">SRR6820491_2_fastqc.html</a></p>
 </div>
 </div>
-<p>First we will look at the “Per base sequence quality” graphs for <code>ERR4998593_1.fastq</code> and <code>ERR4998593_2.fastq</code>.</p>
+<p>First we will look at the “Per base sequence quality” graphs for <code>SRR6820491_1.fastq</code> and <code>SRR6820491_2.fastq</code>.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -834,21 +812,22 @@ Help!
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: center;"><strong>ERR4998593_1.fastq</strong></th>
-<th style="text-align: center;"><strong>ERR4998593_2.fastq</strong></th>
+<th style="text-align: center;"><strong>SRR6820491_1.fastq</strong></th>
+<th style="text-align: center;"><strong>SRR6820491_2.fastq</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;"><img src="../../images/ERR4998593_1_pbsq.png" class="img-fluid" width="700" alt="."></td>
-<td style="text-align: center;"><img src="../../images/ERR4998593_2_pbsq.png" class="img-fluid" width="700" alt="."></td>
+<td style="text-align: center;"><img src="../../images/SRR6820491_1_pbsq.png" class="img-fluid" width="700" alt="."></td>
+<td style="text-align: center;"><img src="../../images/SRR6820491_2_pbsq.png" class="img-fluid" width="700" alt="."></td>
 </tr>
 </tbody>
 </table>
-<!-- | <img src="{{ page.root }}/fig/ERR4998593_1_pbsq.png" width="600"/> | <img src="{{ page.root }}/fig/ERR4998593_2_pbsq.png" width="600" /> | -->
 <p>The x-axis displays the base position in the read, and the y-axis shows quality scores. The blue line represents the mean quality across samples.</p>
-<p>In both samples, the mean quality values do not drop much lower than 34 at any position. This is a high quality score meaning the sequences are high quality. That means that we do not need to do any filtering. Lucky us!</p>
-<p>We should also have a look at the “Adapter Content” graph which will show us where adapter sequences occur in the reads. Adapter sequences are short sequences that are added to the sample to aid during the preparation of the DNA library. They therefore don’t tell us anything biologically important and should be removed if they are present in high numbers. They might also be removed in the case of certain applications, such as when the base sequence needs to be particularly accurate.</p>
+<p>In SRR6820491_1 (the forward reads) the overall quality is fairly high, although it seems to be lower at the start and end of some reads. At the end of the read in particular there appears to be quite a bit of variation.</p>
+<p>In SRR6820491_2 (reverse reads) the quality is much more variable though the mean quality remains high. Some reads are dipping into the medium and low quality sections towards the end.</p>
+<p>We definitely want to do some trimming to make sure the lower quality bases are removed from our reads. First though, we should also have a look at the “Adapter Content” graph which will show us where adapter sequences occur in the reads.</p>
+<p>Adapter sequences are short sequences that are added to the sample to aid during the preparation of the DNA library. They therefore don’t tell us anything biologically important and should be removed if they are present in high numbers. They might also be removed in the case of certain applications, such as when the base sequence needs to be particularly accurate.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -856,533 +835,22 @@ Help!
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: center;"><strong>ERR4998593_1.fastq</strong></th>
-<th style="text-align: center;"><strong>ERR4998593_2.fastq</strong></th>
+<th style="text-align: center;"><strong>SRR6820491_1.fastq</strong></th>
+<th style="text-align: center;"><strong>SRR6820491_2.fastq</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;"><img src="../../images/ERR4998593_1_adapter.png" class="img-fluid" width="700" alt="."></td>
-<td style="text-align: center;"><img src="../../images/ERR4998593_2_adapter.png" class="img-fluid" width="700" alt="."></td>
+<td style="text-align: center;"><img src="../../images/SRR6820491_1_adapter.png" class="img-fluid" width="700" alt="."></td>
+<td style="text-align: center;"><img src="../../images/SRR6820491_2_adapter.png" class="img-fluid" width="700" alt="."></td>
 </tr>
 </tbody>
 </table>
-<!-- | <img src="{{ page.root }}/fig/ERR4998593_1_adapter.png" width="600"/> | <img src="{{ page.root }}/fig/ERR4998593_2_adapter.png" width="600" /> | -->
-<p>This graph shows us that these sequencing file have a low percentage (~1-2%) of adapter sequences in the reads, which means we do not need to trim any adapter sequences either.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-When sequencing is poor(er) Quality
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>While the sequencing in this example is high quality this will not always be the case.</p>
-<p>The programe <a href="https://github.com/marcelm/cutadapt">cutadapt</a> can be used to filter poor quality reads and trim poor quality bases. See <a href="https://cloud-span.github.io/03genomics/02-trimming/index.html">Genomics - Trimming and Filtering</a> to learn more about trimming and filtering poor quality reads.</p>
-</div>
-</div>
+<p>These graphs show us that a high proportion of our reads contain adapters, so we’ll need to trim these out too. Helpfully, FastQC has identified that the adapters present are Illumina Universal adapters, so we can easily find out what the sequence to trim out will be.</p>
 </section>
 </section>
-<section id="nanopore-quality-control" class="level2">
-<h2 class="anchored" data-anchor-id="nanopore-quality-control">Nanopore quality control</h2>
-<p>Next we will assess the quality of the Nanopore raw reads. These are found in the file located at <code>~/cs_course/data/nano_fastq/ERR5000342_sub12.fastq</code>.</p>
-<p>This file contains a subset of 12% of the Nanopore reads from our site of interest (hence <code>sub12</code>). The reason we aren’t using all of the reads is because there are so many that our remote computer would be overwhelmed! We will be using the <code>sub12</code> data for the time being, but later in the course you will be given an assembly for analysis which was assembled using the full set of reads.</p>
-<p>We haven’t looked at our Nanopore data yet, so let’s view the first complete read by using <code>head</code> to look at the first four lines.</p>
-<p>Move to the folder containing the Nanopore data:</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Code</strong></pre>
-</div>
-<div class="sourceCode" id="cb16" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/cs_course/data/nano_fastq/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Use <code>head</code> to look at the first four lines of the fastq file:</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Code</strong></pre>
-</div>
-<div class="sourceCode" id="cb17" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 4 ERR5000342_sub12.fastq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Output</strong></pre>
-</div>
-<div class="sourceCode" id="cb18" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>@ERR5000342.1 1 length=407</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>GGTATGCTTCGTTCAGTTACGTATTGCTGTTTCGTGGCTGACCAGCAACCCGGCACCGGCGCCGAAACCGGCTCGGCGGGAATCGAGGCCCACAGCGGCACCTGCGGCGCCACCGGCAGGAACGCCACCGCGACAGCGGCCAGCGCAACGGCCACCAAAGTCGTGCCATGCGGCCCGCCGCGCACCGCTAGCAACACCGACACCGCAATCGCGAGCGCACCCCCGCCGCCACTGACGCGGCGACTGCATTCGTCAGCCGATCGCGACCGTCGCGCCTAGCCAGTTGGATAACAAACGCGAGGATCCACCAGAGTGGCGAGCACTCCGGCCAGCCCGCGCACGTTGGCCCGGTCGTGCGTGCGCAGCAAGACGATGTCGGCTGCAACGAGCAATACGTAACTTCACCA</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>+</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>*-/00*CD;&gt;AEJ4/?FF7:73../A@@?DFBA0((+&amp;%'&amp;'&amp;-)-().:B:?&gt;=FD.3HJ@A50%$$(%'$$//24%(*06A59&lt;:BGHM:FD@@8&lt;G@HHG/73*#-%'%)/')'&amp;%$$8&gt;;&gt;=:G;BDCD*'7B)-&lt;&lt;:CC6355=48BC76C=;.6B9751+,((('')89?;A@@B943BA540.+5&lt;&gt;&gt;DEA87AEEA4?CDIA792*.G&lt;B&lt;LGDD@ALL@8:;&gt;&lt;98:?=&amp;*;77864C2@A&gt;*'&lt;;;GDCAMH;811@A@IF&gt;A/+,'&amp;2285&gt;C9+(EBBC@LKDH9&lt;;;A75H?=44-/$)12145&amp;&amp;('&amp;6&lt;=@7:@&lt;9B6A&lt;;A.*)213847;@B&amp;,@C@GB?7D:B3,)18%(*-(::=?9=47A@EADHF77DHACKGA774%"%)%##$$</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>This read is 408 bp, longer than the Illumina reads we looked at earlier. The length of a raw read from Nanopore sequencing varies depends on the length of the length of the DNA strand being sequenced.</p>
-<p>Line 4 shows us the quality score of this read.</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Output</strong></pre>
-</div>
-<div class="sourceCode" id="cb19" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>*-/00*CD;&gt;AEJ4/?FF7:73../A@@?DFBA0((+&amp;%'&amp;'&amp;-)-().:B:?&gt;=FD.3HJ@A50%$$(%'$$//24%(*06A59&lt;:BGHM:FD@@8&lt;G@HHG/73*#-%'%)/')'&amp;%$$8&gt;;&gt;=:G;BDCD*'7B)-&lt;&lt;:CC6355=48BC76C=;.6B9751+,((('')89?;A@@B943BA540.+5&lt;&gt;&gt;DEA87AEEA4?CDIA792*.G&lt;B&lt;LGDD@ALL@8:;&gt;&lt;98:?=&amp;*;77864C2@A&gt;*'&lt;;;GDCAMH;811@A@IF&gt;A/+,'&amp;2285&gt;C9+(EBBC@LKDH9&lt;;;A75H?=44-/$)12145&amp;&amp;('&amp;6&lt;=@7:@&lt;9B6A&lt;;A.*)213847;@B&amp;,@C@GB?7D:B3,)18%(*-(::=?9=47A@EADHF77DHACKGA774%"%)%##$$</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Based on the PHRED quality scores (see above for a reminder) we can see that the quality scores of the bases in this read range widely. Overall they are lower than the scores for Illumina reads we looked at previously.</p>
-<p>Instead of using FastQC we will use a program called <a href="https://github.com/wdecoster/NanoPlot">NanoPlot</a>, which is installed on the instance, to create some plots for the whole sequencing file. NanoPlot is specially built for Nanopore sequences.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Other programs for Nanopore QC
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Another popular program for QC of Nanopore reads is <a href="https://github.com/a-slide/pycoQC">PycoQC</a>.</p>
-<p>It produces similar plots to NanoPlot but will also give you information about the overall Nanopore sequencing run. In order to generate these, PycoQC uses a <code>sequencing summary</code> file generated by the Nanopore sequencer (e.g.&nbsp;MiniION or PromethION).</p>
-<p>We are using NanoPlot because the <code>sequencing summary</code> that PycoQC needs is not avaiable for this dataset. You can see example output files from PycoQC here: <a href="https://a-slide.github.io/pycoQC/pycoQC/results/Guppy-2.1.3_basecall-1D_DNA_barcode.html">Guppy-2.1.3_basecall-1D_DNA_barcode.html</a>.</p>
-</div>
-</div>
-<p>We first need to navigate to the <code>cs_course</code> directory.</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Code</strong></pre>
-</div>
-<div class="sourceCode" id="cb20" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/cs_course</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>We are now going to run <code>NanoPlot</code> with the raw Nanopore sequencing file. First we can look at the help documenation for NanoPlot to see what options are available.</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Code</strong></pre>
-</div>
-<div class="sourceCode" id="cb21" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">NanoPlot</span> <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Output — NanoPlot Help Documentation
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Output</strong></pre>
-</div>
-<div class="sourceCode" id="cb22" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>usage: NanoPlot [-h] [-v] [-t THREADS] [--verbose] [--store] [--raw] [--huge]m --downsample 10000</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                 [-o OUTDIR] [-p PREFIX] [--tsv_stats] [--maxlength N]</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                 [--minlength N] [--drop_outliers] [--downsample N]</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>                 [--loglength] [--percentqual] [--alength] [--minqual N]</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>                 [--runtime_until N] [--readtype {1D,2D,1D2}] [--barcoded]</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>                 [--no_supplementary] [-c COLOR] [-cm COLORMAP]</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>                 [-f {eps,jpeg,jpg,pdf,pgf,png,ps,raw,rgba,svg,svgz,tif,tiff}]</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>                 [--plots [{kde,hex,dot,pauvre} [{kde,hex,dot,pauvre} ...]]]</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>                 [--listcolors] [--listcolormaps] [--no-N50] [--N50]</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>                 [--title TITLE] [--font_scale FONT_SCALE] [--dpi DPI]</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>                 [--hide_stats]</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>                 (--fastq file [file ...] | --fasta file [file ...] | --fastq_rich file </span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>                 [file ...] | --fastq_minimal file [file ...] | --summary file [file ...] | </span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>                 --bam file [file ...] | --ubam file [file ...] | --cram file [file ...] | </span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>                 --pickle pickle | --feather file [file ...])</span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>CREATES VARIOUS PLOTS FOR LONG READ SEQUENCING DATA.</span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>General options:</span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>   -h, --help            show the help and exit</span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>   -v, --version         Print version and exit.</span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>   -t, --threads THREADS</span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>                         Set the allowed number of threads to be used by the script</span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>   --verbose             Write log messages also to terminal.</span>
-<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>   --store               Store the extracted data in a pickle file for future plotting.</span>
-<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>   --raw                 Store the extracted data in tab separated file.</span>
-<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>   --huge                Input data is one very large file.</span>
-<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>   -o, --outdir OUTDIR   Specify directory in which output has to be created.</span>
-<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>   -p, --prefix PREFIX   Specify an optional prefix to be used for the output files.</span>
-<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>   --tsv_stats           Output the stats file as a properly formatted TSV.</span>
-<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>Options for filtering or transforming input prior to plotting:</span>
-<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>   --maxlength N         Hide reads longer than length specified.</span>
-<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>   --minlength N         Hide reads shorter than length specified.</span>
-<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>   --drop_outliers       Drop outlier reads with extreme long length.</span>
-<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>   --downsample N        Reduce dataset to N reads by random sampling.</span>
-<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>   --loglength           Additionally show logarithmic scaling of lengths in plots.</span>
-<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>   --percentqual         Use qualities as theoretical percent identities.</span>
-<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>   --alength             Use aligned read lengths rather than sequenced length (bam mode)</span>
-<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>   --minqual N           Drop reads with an average quality lower than specified.</span>
-<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>   --runtime_until N     Only take the N first hours of a run</span>
-<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>   --readtype {1D,2D,1D2}</span>
-<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>                         Which read type to extract information about from summary. Options are 1D, </span>
-<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a>                         2D, 1D2</span>
-<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a>   --barcoded            Use if you want to split the summary file by barcode</span>
-<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a>   --no_supplementary    Use if you want to remove supplementary alignments</span>
-<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-48"><a href="#cb22-48" aria-hidden="true" tabindex="-1"></a>Options for customizing the plots created:</span>
-<span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a>   -c, --color COLOR     Specify a valid matplotlib color for the plots</span>
-<span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a>   -cm, --colormap COLORMAP</span>
-<span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a>                         Specify a valid matplotlib colormap for the heatmap</span>
-<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a>   -f, --format {eps,jpeg,jpg,pdf,pgf,png,ps,raw,rgba,svg,svgz,tif,tiff}</span>
-<span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a>                         Specify the output format of the plots.</span>
-<span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a>   --plots [{kde,hex,dot,pauvre} [{kde,hex,dot,pauvre} ...]]</span>
-<span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a>                         Specify which bivariate plots have to be made.</span>
-<span id="cb22-56"><a href="#cb22-56" aria-hidden="true" tabindex="-1"></a>   --listcolors          List the colors which are available for plotting and exit.</span>
-<span id="cb22-57"><a href="#cb22-57" aria-hidden="true" tabindex="-1"></a>   --listcolormaps       List the colors which are available for plotting and exit.</span>
-<span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a>   --no-N50              Hide the N50 mark in the read length histogram</span>
-<span id="cb22-59"><a href="#cb22-59" aria-hidden="true" tabindex="-1"></a>   --N50                 Show the N50 mark in the read length histogram</span>
-<span id="cb22-60"><a href="#cb22-60" aria-hidden="true" tabindex="-1"></a>   --title TITLE         Add a title to all plots, requires quoting if using spaces</span>
-<span id="cb22-61"><a href="#cb22-61" aria-hidden="true" tabindex="-1"></a>   --font_scale FONT_SCALE</span>
-<span id="cb22-62"><a href="#cb22-62" aria-hidden="true" tabindex="-1"></a>                         Scale the font of the plots by a factor</span>
-<span id="cb22-63"><a href="#cb22-63" aria-hidden="true" tabindex="-1"></a>   --dpi DPI             Set the dpi for saving images</span>
-<span id="cb22-64"><a href="#cb22-64" aria-hidden="true" tabindex="-1"></a>   --hide_stats          Not adding Pearson R stats in some bivariate plots</span>
-<span id="cb22-65"><a href="#cb22-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-66"><a href="#cb22-66" aria-hidden="true" tabindex="-1"></a>Input data sources, one of these is required.:</span>
-<span id="cb22-67"><a href="#cb22-67" aria-hidden="true" tabindex="-1"></a>   --fastq file [file ...]</span>
-<span id="cb22-68"><a href="#cb22-68" aria-hidden="true" tabindex="-1"></a>                         Data is in one or more default fastq file(s).</span>
-<span id="cb22-69"><a href="#cb22-69" aria-hidden="true" tabindex="-1"></a>   --fasta file [file ...]</span>
-<span id="cb22-70"><a href="#cb22-70" aria-hidden="true" tabindex="-1"></a>                         Data is in one or more fasta file(s).</span>
-<span id="cb22-71"><a href="#cb22-71" aria-hidden="true" tabindex="-1"></a>   --fastq_rich file [file ...]</span>
-<span id="cb22-72"><a href="#cb22-72" aria-hidden="true" tabindex="-1"></a>                         Data is in one or more fastq file(s) generated by albacore, MinKNOW or guppy</span>
-<span id="cb22-73"><a href="#cb22-73" aria-hidden="true" tabindex="-1"></a>                         with additional information concerning channel and time.</span>
-<span id="cb22-74"><a href="#cb22-74" aria-hidden="true" tabindex="-1"></a>   --fastq_minimal file [file ...]</span>
-<span id="cb22-75"><a href="#cb22-75" aria-hidden="true" tabindex="-1"></a>                         Data is in one or more fastq file(s) generated by albacore, MinKNOW or guppy</span>
-<span id="cb22-76"><a href="#cb22-76" aria-hidden="true" tabindex="-1"></a>                         with additional information concerning channel and time. Is extracted swiftly</span>
-<span id="cb22-77"><a href="#cb22-77" aria-hidden="true" tabindex="-1"></a>                         without elaborate checks.</span>
-<span id="cb22-78"><a href="#cb22-78" aria-hidden="true" tabindex="-1"></a>   --summary file [file ...]</span>
-<span id="cb22-79"><a href="#cb22-79" aria-hidden="true" tabindex="-1"></a>                         Data is in one or more summary file(s) generated by albacore or guppy.</span>
-<span id="cb22-80"><a href="#cb22-80" aria-hidden="true" tabindex="-1"></a>   --bam file [file ...]</span>
-<span id="cb22-81"><a href="#cb22-81" aria-hidden="true" tabindex="-1"></a>                         Data is in one or more sorted bam file(s).</span>
-<span id="cb22-82"><a href="#cb22-82" aria-hidden="true" tabindex="-1"></a>   --ubam file [file ...]</span>
-<span id="cb22-83"><a href="#cb22-83" aria-hidden="true" tabindex="-1"></a>                         Data is in one or more unmapped bam file(s).</span>
-<span id="cb22-84"><a href="#cb22-84" aria-hidden="true" tabindex="-1"></a>   --cram file [file ...]</span>
-<span id="cb22-85"><a href="#cb22-85" aria-hidden="true" tabindex="-1"></a>                         Data is in one or more sorted cram file(s).</span>
-<span id="cb22-86"><a href="#cb22-86" aria-hidden="true" tabindex="-1"></a>   --pickle pickle       Data is a pickle file stored earlier.</span>
-<span id="cb22-87"><a href="#cb22-87" aria-hidden="true" tabindex="-1"></a>   --feather file [file ...]</span>
-<span id="cb22-88"><a href="#cb22-88" aria-hidden="true" tabindex="-1"></a>                         Data is in one or more feather file(s).</span>
-<span id="cb22-89"><a href="#cb22-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-90"><a href="#cb22-90" aria-hidden="true" tabindex="-1"></a>EXAMPLES:</span>
-<span id="cb22-91"><a href="#cb22-91" aria-hidden="true" tabindex="-1"></a>     NanoPlot --summary sequencing_summary.txt --loglength -o summary-plots-log-transformed</span>
-<span id="cb22-92"><a href="#cb22-92" aria-hidden="true" tabindex="-1"></a>     NanoPlot -t 2 --fastq reads1.fastq.gz reads2.fastq.gz --maxlength 40000 --plots hex dot</span>
-<span id="cb22-93"><a href="#cb22-93" aria-hidden="true" tabindex="-1"></a>     NanoPlot --color yellow --bam alignment1.bam alignment2.bam alignment3.bam --downsample 10000</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
-<p>We will use four flags when we run the NanoPlot command:</p>
-<ul>
-<li><p><code>--fastq</code> to specify the filetype and file to analyse. The raw Nanopore data is in the location <code>/cs_course/p/data/nano_fastq/ERR5000342_sub12.fastq</code> and we will use this full absolute path in the NanoPlot command.</p></li>
-<li><p><code>--outdir</code> to specify the where the output files should be written. We are going to put our results in a directory called <code>nano_qc</code>, inside of <code>results/qc</code>. <strong>Note</strong>: with NanoPlot you <strong>don’t need to create this directory</strong> before running the command.</p></li>
-<li><p><code>--threads</code> specifies how many threads to run the program on (more threads = more compute power = faster). We will specify 8 to indicate that eight threads should be used, since our instance has eight cores.</p></li>
-<li><p><code>--loglength</code> specifies that we want plots with a log scale.</p></li>
-</ul>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Code</strong></pre>
-</div>
-<div class="sourceCode" id="cb23" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">NanoPlot</span> <span class="at">--fastq</span> data/nano_fastq/ERR5000342_sub12.fastq <span class="at">--outdir</span> results/qc/nano_qc <span class="at">--threads</span> 8 <span class="at">--loglength</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Now we have the command set up we can press enter and wait for NanoPlot to finish.</p>
-<p>This will take a couple of minutes. You will know it is finished once your terminal <strong>prompt</strong> has returned (i.e.&nbsp;you can type in the terminal again).</p>
-<p>Once NanoPlot has finished we can have a look at the output. First we need to navigate into the <code>nano_qc</code> directory NanoPlot created, then list the files.</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Code</strong></pre>
-</div>
-<div class="sourceCode" id="cb24" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> results/qc/nano_qc</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<!-- :::{.column-body-outset} JUST LITTLE OUT BODY-->
-<!-- :::{.column-page} THE WHOLE PAGE WIDTH-->
-<!-- :::{.column-screen} THE WHOLE SCREEN WIDTH -->
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Output</strong></pre>
-</div>
-<div class="sourceCode" id="cb25" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>LengthvsQualityScatterPlot_dot.html               NanoStats.txt         </span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>LengthvsQualityScatterPlot_dot.png                Non_weightedHistogramReadlength.html                          </span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>LengthvsQualityScatterPlot_kde.html               Non_weightedHistogramReadlength.png                                 </span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>LengthvsQualityScatterPlot_kde.png                Non_weightedLogTransformed_HistogramReadlength.html                                        WeightedLogTransformed_HistogramReadlength.html   Non_weightedLogTransformed_HistogramReadlength.png</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>LengthvsQualityScatterPlot_loglength_dot.html     WeightedLogTransformed_HistogramReadlength.png</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>LengthvsQualityScatterPlot_loglength_dot.png      WeightedHistogramReadlength.html               </span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>LengthvsQualityScatterPlot_loglength_kde.html     WeightedHistogramReadlength.png</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>LengthvsQualityScatterPlot_loglength_kde.png      Yield_By_Length.html</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>NanoPlot_202303307_1630.log                       Yield_By_Length.png</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>NanoPlot-report.html</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>We can see that NanoPlot has generated a lot of different files.</p>
-<p>Like before, we can’t view most of these files in our terminal as we can’t open images or HTML files. Instead we’ll download the core information to our own computer. Luckily, the <code>NanoPlot-report.html</code> file contains all of the plots and information held in the other files so we only need to download that one onto our local computer using <code>scp</code>.</p>
-<p>Use a terminal that is <strong><em>not</em></strong> logged into the cloud instance and ensure you are in your <code>cloudspan</code> directory. You may have one from earlier. If you do not, unveil the instructions below to start one.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Starting a new terminal
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li><p>Open your file manager and navigate to the <code>cloudspan</code> folder which should contain the login key file</p></li>
-<li><p>Open your machine’s command line interface: <strong>Windows users</strong>: Right click anywhere inside the blank space of the file manager, then select <em>Git Bash Here</em>. <strong>Mac users</strong>: Open <em>Terminal</em> and type <code>cd</code> followed by the absolute path that leads to your <code>cloudspan</code> folder. Press enter.<br>
-</p></li>
-<li><p>Check that you are in the right folder using <code>pwd</code>.</p></li>
-</ol>
-</div>
-</div>
-</div>
-<p>Use <code>scp</code> to copy the file - the command will look something like:</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Code</strong></pre>
-</div>
-<div class="sourceCode" id="cb26" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> <span class="at">-i</span> login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk:~/cs_course/results/qc/nano_qc/NanoPlot-report.html .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Remember to replace NNN with the instance number specific to you. As the file is downloading you will see an output like:</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Output</strong></pre>
-</div>
-<div class="sourceCode" id="cb27" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>scp -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk:~/cs_course/results/qc/nano_qc/NanoPlot-report.html .</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>NanoPlot-report.html                                  100% 3281KB   2.3MB/s   00:01</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Once the file has downloaded, use the File Explorer (Windows) or Finder (Mac) to find the file and open it - it should open up in your browser.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Help!
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<!-- If you had trouble downloading and viewing the file you can view it here: [NanoPlot-report.html]({{ page.root }}/files/ERR5000342_sub12_nanoplot.html) -->
-<p>If you had trouble downloading and viewing the file you can view it here: <a href="../../docs/miscellanea/files/ERR5000342_sub15_nanoplot.html">NanoPlot-report.html</a></p>
-</div>
-</div>
-<p>In the report we can view summary statistics followed by plots showing the distribution of read lengths and the read length vs average read quality.</p>
-<p>Looking at the summary statistics table answer the following questions:</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise 1:
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li>How many sequences are in this file?</li>
-<li>How many bases are there in this entire file?</li>
-<li>What is the length of the longest read in the file and its associated mean quality score?</li>
-</ol>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li>There are 316,251 sequences (also known as reads) in this file</li>
-<li>There are 1,324,863,094 bases (bp) in total in this FASTQ file</li>
-<li>The longest read in this file is 49893 bp and it has a mean quality score of 9.3</li>
-</ol>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Quality Encodings Vary
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Note that not all sequencing machines use the same encoding for quality. So <code>#</code> might not always mean 3, a poor quality score.</p>
-<p>This means it’s essential that you know which sequencing platform was used to generate your data, so that you can tell your quality control program which encoding to use. If you choose the wrong encoding, you run the risk of throwing away good reads or (even worse) not throwing away bad reads! Nanopore quality encodings are no exception. You can read more about the differences with Nanopore sequencing here: <a href="https://labs.epi2me.io/quality-scores/">EPI2ME - Quality Scores</a>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-N50
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The N50 length is a useful statistic when looking at sequences of varying length as it indicates that 50% of the total sequence is in reads (i.e.&nbsp;chunks) that are that size or larger.</p>
-<p>For this FASTQ file 50% of the total bases are in reads that have a length of 5,974 bp or longer.</p>
-<p>See the webpage <a href="https://www.molecularecologist.com/2017/03/29/whats-n50/">What’s N50?</a> for a good explanation. We will be coming back to this statistic in more detail when we get to the assembly step.</p>
-</div>
-</div>
-<p>We can also look at some of the plots produced by NanoPlot.</p>
-<p>One useful plot is the plot titled “Read lengths vs Average read quality plot using dots after log transformation of read lengths”.</p>
-<!-- <img align="centre" width="816" src="{{ page.root }}/fig/LengthvsQualityScatterPlot_loglength_dot.png" alt="NanoPlot KDE plot with the title Read lengths vs Average read quality plot using dots after log transformation of read lengths"> -->
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../../images/LengthvsQualityScatterPlot_loglength_dot.png" class="img-fluid figure-img" alt="NanoPlot KDE plot with the title Read lengths vs Average read quality plot using dots after log transformation of read lengths." width="816"></p>
-<figcaption>NanoPlot KDE plot with the title Read lengths vs Average read quality plot using dots after log transformation of read lengths.”</figcaption>
-</figure>
-</div>
-<p>This plot shows the average quality of the sequence against the read lengths. We can see that the majority of the sequences have a quality score at least 7. We don’t necessarily need to trim these reads, as this is a good score, but we will do it anyway to show you how.</p>
-<!-- <br clear="left"/> -->
-</section>
-<section id="filtering-nanopore-sequences-by-quality-score" class="level2">
-<h2 class="anchored" data-anchor-id="filtering-nanopore-sequences-by-quality-score">Filtering Nanopore sequences by quality score</h2>
-<p>We can use the program <a href="https://bioinf.shenwei.me/seqkit/">Seqkit</a> (which contains many tools for FASTQ/A file manipulation) to filter our reads. We will be using the command <code>seqkit seq</code> to create a new file containing only the sequences with an average quality above a certain value.</p>
-<p>After returning to our <code>cs_course</code> directory, we can view the <code>seqkit seq</code> help documentation with the following command:</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Code</strong></pre>
-</div>
-<div class="sourceCode" id="cb28" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/cs_course</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="ex">seqkit</span> seq <span class="at">-h</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Output — Seqkit seq help documentation
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-14" class="callout-14-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb29"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>transform sequences (extract ID, filter by length, remove gaps...)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>Usage:</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>   seqkit seq [flags]</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>Flags:</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>   -k, --color                     colorize sequences - to be piped into "less -R"</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>   -p, --complement                complement sequence, flag '-v' is recommended to switch on</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>       --dna2rna                   DNA to RNA</span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>   -G, --gap-letters string        gap letters (default "- \t.")</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>   -h, --help                      help for seq</span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>   -l, --lower-case                print sequences in lower case</span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>   -M, --max-len int               only print sequences shorter than the maximum length (-1 for no limit) (default -1)</span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>   -R, --max-qual float            only print sequences with average quality less than this limit (-1 for no limit) (default -1)</span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>   -m, --min-len int               only print sequences longer than the minimum length (-1 for no limit) (default -1)</span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>   -Q, --min-qual float            only print sequences with average quality qreater or equal than this limit (-1 for no limit) (default -1)</span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>   -n, --name                      only print names</span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>   -i, --only-id                   print ID instead of full head</span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>   -q, --qual                      only print qualities</span>
-<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>   -b, --qual-ascii-base int       ASCII BASE, 33 for Phred+33 (default 33)</span>
-<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>   -g, --remove-gaps               remove gaps</span>
-<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>   -r, --reverse                   reverse sequence</span>
-<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>       --rna2dna                   RNA to DNA</span>
-<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>   -s, --seq                       only print sequences</span>
-<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>   -u, --upper-case                print sequences in upper case</span>
-<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>   -v, --validate-seq              validate bases according to the alphabet</span>
-<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>   -V, --validate-seq-length int   length of sequence to validate (0 for whole seq) (default 10000)</span>
-<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>Global Flags:</span>
-<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>       --alphabet-guess-seq-length int   length of sequence prefix of the first FASTA record based on which seqkit guesses the sequence type (0 for whole seq) (default 10000)</span>
-<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a>       --id-ncbi                         FASTA head is NCBI-style, e.g. &gt;gi|110645304|ref|NC_002516.2| Pseud...</span>
-<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a>       --id-regexp string                regular expression for parsing ID (default "^(\\S+)\\s?")</span>
-<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a>       --infile-list string              file of input files list (one file per line), if given, they are appended to files from cli arguments</span>
-<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a>   -w, --line-width int                  line width when outputting FASTA format (0 for no wrap) (default 60)</span>
-<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a>   -o, --out-file string                 out file ("-" for stdout, suffix .gz for gzipped out) (default "-")</span>
-<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a>       --quiet                           be quiet and do not show extra information</span>
-<span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a>   -t, --seq-type string                 sequence type (dna|rna|protein|unlimit|auto) (for auto, it automatically detect by the first sequence) (default "auto")</span>
-<span id="cb29-38"><a href="#cb29-38" aria-hidden="true" tabindex="-1"></a>   -j, --threads int                     number of CPUs. can also set with environment variable SEQKIT_THREADS) (default 4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-<p>From this we can see that the flag <code>-Q</code> will “only print sequences with average quality qreater or equal than this limit (-1 for no limit) (default -1)”.</p>
-<p>From the plot above we identified that most of the reads had a quality score of at least 7. To make sure some filtering happens, we’ll use a minimum limit of 8.</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Code</strong></pre>
-</div>
-<div class="sourceCode" id="cb30" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">seqkit</span> seq <span class="at">-Q</span> 8 data/nano_fastq/ERR5000342_sub12.fastq <span class="op">&gt;</span> data/nano_fastq/ERR5000342_sub12_filtered.fastq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>In the command above we use redirection (<code>&gt;</code>) to generate a new file <code>ERR5000342_sub12_filtered.fastq</code>, containing only the reads with an average quality of 8 or above.</p>
-<p>We can now re-run NanoPlot on the filtered file to see how it has changed.</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Code</strong></pre>
-</div>
-<div class="sourceCode" id="cb31" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/cs_course</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="ex">NanoPlot</span> <span class="at">--fastq</span> data/nano_fastq/ERR5000342_sub12_filtered.fastq <span class="at">--outdir</span> results/qc/nano_qc_filt <span class="at">--threads</span> 8 <span class="at">--loglength</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Once again, wait for the command to finish and then use <code>scp</code>to copy the report to your local computer. First, though, make sure you rename the file so you know which is the filtered report and which isn’t.</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Code</strong></pre>
-</div>
-<div class="sourceCode" id="cb32" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> results/qc/nano_qc_filt</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> NanoPlot-report.html NanoPlot-report-filtered.html</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Help!
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<!-- If you had trouble downloading the file you can view it here: [NanoPlot-filtered-report.html]({{ page.root }}/files/ERR5000342_sub12_filt_nanoplot.html) -->
-<p>If you had trouble downloading the file you can view it here: <a href="../../docs/miscellanea/files/ERR5000342_sub15_filt_nanoplot.html">NanoPlot-filtered-report.html</a></p>
-</div>
-</div>
-<!-- **Compare the NanoPlot statistics of the Nanopore raw reads [before filtering]({{ page.root }}/files/ERR5000342_sub12_nanoplot.html) and [after filtering]({{ page.root }}/files/ERR5000342_sub12_filt_nanoplot.html)  and answer the questions below.** -->
-<p><strong>Compare the NanoPlot statistics of the Nanopore raw reads <a href="../../docs/miscellanea/files/ERR5000342_sub15_nanoplot.html">before filtering</a> and <a href="../../docs/miscellanea/files/ERR5000342_sub15_filt_nanoplot.html">after filtering</a> and answer the questions below.</strong></p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise 2:
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li>How many reads have been removed by filtering?</li>
-<li>How many bases have been removed by filtering?</li>
-<li>What is the length of the new longest read and its associated average quality score?</li>
-</ol>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-16" class="callout-16-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li>Initially there were 316,251 reads; in the filtered file there are 311,172 reads; so 5079 reads have been removed by the quality filtering</li>
-<li>Initially there were 1,324,863,094 bases and after filtering there are 1,303,931,978 base which means filtering has removed 20,931,116 bases</li>
-<li>The longest read in the filtered file is the same as before: 49893bp and it has a mean quality score of 9.3.</li>
-</ol>
-</div>
-</div>
-</div>
-</div>
-</div>
+<section id="trimming-reads" class="level2">
+<h2 class="anchored" data-anchor-id="trimming-reads">Trimming reads</h2>
 
 
 </section>
