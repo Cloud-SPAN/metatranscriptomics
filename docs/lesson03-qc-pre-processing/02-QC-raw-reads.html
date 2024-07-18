@@ -386,16 +386,21 @@ cookieconsent.run({
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started">Getting started</a></li>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started">Getting started</a>
+  <ul class="collapse">
   <li><a href="#reminder-our-file-structure" id="toc-reminder-our-file-structure" class="nav-link" data-scroll-target="#reminder-our-file-structure">Reminder: our file structure</a></li>
-  <li><a href="#quality-control" id="toc-quality-control" class="nav-link" data-scroll-target="#quality-control">Quality control</a></li>
+  </ul></li>
   <li><a href="#quality-control-using-fastqc" id="toc-quality-control-using-fastqc" class="nav-link" data-scroll-target="#quality-control-using-fastqc">Quality control using FastQC</a>
   <ul class="collapse">
   <li><a href="#about-fastqc" id="toc-about-fastqc" class="nav-link" data-scroll-target="#about-fastqc">About FastQC</a></li>
   <li><a href="#getting-started-with-fastqc" id="toc-getting-started-with-fastqc" class="nav-link" data-scroll-target="#getting-started-with-fastqc">Getting started with FastQC</a></li>
   <li><a href="#looking-at-fastqc-outputs" id="toc-looking-at-fastqc-outputs" class="nav-link" data-scroll-target="#looking-at-fastqc-outputs">Looking at FastQC outputs</a></li>
   </ul></li>
-  <li><a href="#trimming-reads" id="toc-trimming-reads" class="nav-link" data-scroll-target="#trimming-reads">Trimming reads</a></li>
+  <li><a href="#trimming-reads" id="toc-trimming-reads" class="nav-link" data-scroll-target="#trimming-reads">Trimming reads</a>
+  <ul class="collapse">
+  <li><a href="#cutadapt-options" id="toc-cutadapt-options" class="nav-link" data-scroll-target="#cutadapt-options">Cutadapt Options</a></li>
+  <li><a href="#running-cutadapt" id="toc-running-cutadapt" class="nav-link" data-scroll-target="#running-cutadapt">Running Cutadapt</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/edit/main/docs/lesson03-qc-pre-processing/02-QC-raw-reads.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -441,11 +446,9 @@ cookieconsent.run({
 </div>
 <p><em>Be sure to replace NNN with your own number, twice.</em></p>
 </section>
-</section>
-<section id="reminder-our-file-structure" class="level2">
-<h2 class="anchored" data-anchor-id="reminder-our-file-structure">Reminder: our file structure</h2>
+<section id="reminder-our-file-structure" class="level3">
+<h3 class="anchored" data-anchor-id="reminder-our-file-structure">Reminder: our file structure</h3>
 <p>Before we start, here’s a reminder of what our file structure looks like as a hierarchy tree:</p>
-<!-- ![A file hierarchy tree](../fig/blank_instance_file_tree_with_hidden.png){:width="400px"}  -->
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../../images/blank_instance_file_tree_with_hidden.png" class="img-fluid figure-img" alt="A file hierarchy tree." width="400"></p>
@@ -453,12 +456,9 @@ cookieconsent.run({
 </figure>
 </div>
 <p>Keep this in mind as we continue to navigate the file system, and don’t hesitate to refer back to it if needed.</p>
-</section>
-<section id="quality-control" class="level2">
-<h2 class="anchored" data-anchor-id="quality-control">Quality control</h2>
-<!-- ![Analysis flow diagram that shows the steps: Sequence reads and Quality control.](/images/short_analysis_flowchart_crop1.png){fig-align="left" width="325" height="226" fig-alt="Analysis flow diagram that shows the steps: Sequence reads and Quality control."} -->
 <p>Before we can start working properly with our data we need to do some quality control to make sure our data is as high quality as possible. There are lots of ways errors could be introduced during the sampling and sequencing process, such as RNA becoming degraded or bases being called incorrectly.</p>
-<p>Quality control (QC) has two main steps: - <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">FastQC</a> to examine the quality of the reads - <a href="https://cutadapt.readthedocs.io/en/stable/index.html">CutAdapt</a> to trim off low quality bases and remove adapter sequences</p>
+<p>Quality control (QC) has two main steps: - <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">FastQC</a> to examine the quality of the reads - <a href="https://cutadapt.readthedocs.io/en/stable/index.html">Cutadapt</a> to trim off low quality bases and remove adapter sequences</p>
+</section>
 </section>
 <section id="quality-control-using-fastqc" class="level2">
 <h2 class="anchored" data-anchor-id="quality-control-using-fastqc">Quality control using FastQC</h2>
@@ -467,7 +467,7 @@ cookieconsent.run({
 <section id="about-fastqc" class="level3">
 <h3 class="anchored" data-anchor-id="about-fastqc">About FastQC</h3>
 <p>Rather than looking at quality scores for each individual read, FastQC looks at quality collectively across all reads within a sample. The image below shows one FastQC-generated plot that indicates a very high quality sample:</p>
-<!-- <img align="center" width="800" height="600" src="{{ page.root }}/fig/good_quality1.8.png" alt="Example of high quality sample - all bars are in green section"> -->
+<!-- <img align="center" width="800" height="600" src="{{ page.root }}/fig/good_quality1.8.png" alt="Example of high quality sample - all bars are in green section"-->
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../../images/good_quality1.8.png" alt="Example of high quality sample - all bars are in green section" width="600" height="450" class="figure-img"></p>
@@ -483,7 +483,7 @@ cookieconsent.run({
 <li>The plot background is also color-coded to identify good (green), acceptable (yellow), and bad (red) quality scores.</li>
 </ul>
 <p>Now let’s take a look at a quality plot on the other end of the spectrum.</p>
-<!-- <img align="center" width="800" height="600" src="{{ page.root }}/fig/bad_quality1.8.png" alt="Example of low quality sample - all bars are in green section"> -->
+<!-- <img align="center" width="800" height="600" src="{{ page.root }}/fig/bad_quality1.8.png" alt="Example of low quality sample - all bars are in green section"-->
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../../images/bad_quality1.8.png" alt="Example of low quality sample - more bars are not in green section" width="600" height="450" class="figure-img"></p>
@@ -748,7 +748,7 @@ Why here?
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="sourceCode" id="cb13" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> <span class="op">&lt;</span>file I want to copy<span class="op">&gt;</span> <span class="op">&lt;</span>where I want the copy to be placed<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> <span class="op">&lt;</span>file I want to copy<span class="op">&lt;</span>where I want the copy to be placed<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You need to start a second terminal window that is <strong><em>not</em></strong> logged into the cloud instance and ensure you are in your <code>cloudspan</code> directory. This is important because it contains your .pem file, which will allow the <code>scp</code> command access to your AWS instance to copy the file.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -851,8 +851,282 @@ Help!
 </section>
 <section id="trimming-reads" class="level2">
 <h2 class="anchored" data-anchor-id="trimming-reads">Trimming reads</h2>
+<p>So, we’ve looked at our read files and discovered that some of the bases are low quality and a high proportion of them still contain adapters. Now we’ll learn how to use a program called <a href="https://cutadapt.readthedocs.io/en/stable/index.html">Cutadapt</a> to filter poor quality reads and trim poor quality bases.</p>
+<section id="cutadapt-options" class="level3">
+<h3 class="anchored" data-anchor-id="cutadapt-options">Cutadapt Options</h3>
+<p>Cutadapt has a variety of options to trim your reads. If we run the following command, we can see some of our options.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb16" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">cutadapt</span> <span class="at">-h</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>There are many parameters here so we will just show the top of the output which explains the usage, but you should look through and familiarise yourself with the options available. Importantly it shows you what are the required parameters and also the version of the software you have used which is important to keep note of. You should always record what versions of software you have used and what parameters you ran the software with in order to make your analysis reproducible.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb17" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>cutadapt version 3.5</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>Copyright (C) 2010-2021 Marcel Martin &lt;marcel.martin@scilifelab.se&gt;</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>cutadapt removes adapter sequences from high-throughput sequencing reads.</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>Usage:</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    cutadapt -a ADAPTER [options] [-o output.fastq] input.fastq</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>For paired-end reads:</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    cutadapt -a ADAPT1 -A ADAPT2 [options] -o out1.fastq -p out2.fastq in1.fastq in2.fastq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This output shows us that there is a different usage for single end or paired end reads. For single ended data we need to use:</p>
+<ul>
+<li><code>-a</code> to specify the sequence of the adaptor to be removed</li>
+<li><code>-o</code> to specify the name of the trimmed output</li>
+<li>the name of the raw sequence we want to be trimmed.</li>
+</ul>
+<p>For paired end data, Cutadapt expects: - two adaptor sequences for trimming, specified by <code>-a</code> and <code>-A</code> - two (different) names for the trimmed outputs, specified by <code>-o</code> and <code>-p</code> - the two files to be trimmed.</p>
+<p>There are lots of other options to add too, but these are the compulsory ones.</p>
+<p>The first input file typically contains a <code>_1</code> or <code>_R1</code> in the name. The second input file typically contains a <code>_2</code> or <code>_R2</code> in the name.</p>
+<p>For more information about the arguments used see the <a href="https://cutadapt.readthedocs.io/en/stable/guide.html">Cutadapt documentation</a></p>
+</section>
+<section id="running-cutadapt" class="level3">
+<h3 class="anchored" data-anchor-id="running-cutadapt">Running Cutadapt</h3>
+<p>To begin, navigate to your <code>cs_course</code> directory:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb18" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/cs_course/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We need to make a new directory to keep our trimmed reads in. We’ll put it inside the <code>data</code> directory on the same level as our existing <code>raw_reads</code> directory.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb19" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> data/trimmed_reads</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We should also make a directory to keep our Cutadapt log file in, in case we need to look back at it in the future. We’ll put that inside <code>results</code>/</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb20" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> results/cutadapt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we can start constructing our command. Here are the flags and options we’ll be using:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 41%">
+<col style="width: 58%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>flag/option</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>-q 20</code></td>
+<td>Bases need to have a quality phred score of at least 20 to be maintained</td>
+</tr>
+<tr class="even">
+<td><code>-a AGATCGGAAGAG</code></td>
+<td>The adapter sequence to trim from the forward reads, based on Illumina’s Universal Adapters</td>
+</tr>
+<tr class="odd">
+<td><code>-A AGATCGGAAGAG</code></td>
+<td>The sequence to trim from the reverse reads, also based on Illumina’s Universal Adapters</td>
+</tr>
+<tr class="even">
+<td><code>-o &lt;FILEPATH&gt;</code></td>
+<td>The name of the output of the trimmed forward reads</td>
+</tr>
+<tr class="odd">
+<td><code>-p &lt;FILEPATH&gt;</code></td>
+<td>The name of the output of the trimmed reverse reads</td>
+</tr>
+<tr class="even">
+<td><code>-m 150</code></td>
+<td>Remove reads shorter than 150bp after trimmming has occured</td>
+</tr>
+<tr class="odd">
+<td><code>-j 8</code></td>
+<td>Run the process on 8 threads (to speed up the process)</td>
+</tr>
+</tbody>
+</table>
+<p>By default, Cutadapt will print updates on its progress to the console (like we saw with FastQC). It will also print a summary of how many reads were trimmed or kept, and other useful information about its process. Ideally we want to keep a copy of this summary so we can refer to it in future.</p>
+<p>We’ll therefore add an instruction to the end of the command telling Cutadapt to ‘redirect’ its console output to a file. The way to do this is <code>&amp;&gt; &lt;filepath&gt;</code>. This will ensure we keep a good record of what we’ve been doing. Be careful though! If you get an error in your command you’ll have to look inside the log to find out what the error is, as it won’t get printed to the console like it usually would.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Multi-line commands
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This command is quite long! When typing a long command into your terminal, you can use the <code>\</code> character to separate code chunks onto separate lines. This can make your code more readable.</p>
+</div>
+</div>
+<p>Here’s what our final command looks like:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb21" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">cutadapt</span> <span class="at">-q</span> 20 <span class="dt">\</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">-a</span> AGATCGGAAGAG <span class="dt">\</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">-A</span> AGATCGGAAGAG <span class="dt">\</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">-o</span> data/trimmed_reads/SRR6820491_1.trim.fastq <span class="dt">\</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">-p</span> data/trimmed_reads/SRR6820491_2.trim.fastq <span class="dt">\</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">-m</span> 150 <span class="dt">\</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">-j</span> 8 <span class="dt">\</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>          data/raw_reads/SRR6820491_1.fastq <span class="dt">\</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>          data/raw_reads/SRR6820491_2.fastq <span class="dt">\</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>          <span class="op">&amp;&gt;</span> results/cutadapt/SRR6820491_fastq.log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>When you have submitted the command, your prompt will disappear for a couple of minutes. When it comes back, your command has finished running.</p>
+<p>Let’s open up our log file and see the summary.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb22" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> results/cutadapt/SRR6820491_fastq.log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb23" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>This is cutadapt 2.8 with Python 3.8.10</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>Command line parameters: -q 20 -a AGATCGGAAGAG -A AGATCGGAAGAG -o data/trimmed_reads/SRR6820491_1.trim.fastq -p data/trimmed_reads/SRR6820491_2.trim.fastq -m 150 -j 8 data/raw_reads/SRR6820491_1.fastq data/raw_reads/SRR6820491_2.fastq</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>Processing reads on 8 cores in paired-end mode ...</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>Finished in 70.26 s (5 us/read; 12.04 M reads/minute).</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>=== Summary ===</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>Total read pairs processed:         14,099,347</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  Read 1 with adapter:               4,874,180 (34.6%)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  Read 2 with adapter:               4,716,762 (33.5%)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>Pairs that were too short:           5,913,632 (41.9%)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>Pairs written (passing filters):     8,185,715 (58.1%)</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>Total basepairs processed: 4,258,002,794 bp</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  Read 1: 2,129,001,397 bp</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>  Read 2: 2,129,001,397 bp</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>Quality-trimmed:              46,148,219 bp (1.1%)</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  Read 1:    11,786,248 bp</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>  Read 2:    34,361,971 bp</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>Total written (filtered):  2,470,608,528 bp (58.0%)</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>  Read 1: 1,235,692,634 bp</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>  Read 2: 1,234,915,894 bp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use the output from your Cutadapt command to answer the following questions.</p>
+<ol type="1">
+<li>How many reads had adapters in the R1 reads?</li>
+<li>What total percent of reads were trimmed/filtered?</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>4,874,180 (34.6%)</li>
+<li>58%</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>We can confirm that we have our output files:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb24" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> data/trimmed_reads</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="sourceCode" id="cb25" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>SRR6820491_1.trim.fastq  SRR6820491_2.trim.fastq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Great! Now we have some high quality samples to work with as we move onto our next step: filtering out ribosomal RNA.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Bonus Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Now that our samples have gone through quality control, they should perform better on the quality tests run by FastQC. Go ahead and re-run FastQC on your trimmed FASTQ files and visualise the HTML files to see whether your per base sequence quality is higher after trimming.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Start by making a new folder inside your cutadapt directory to keep the FastQC outputs in.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb26" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/cs_course</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> results/cutadapt/trimmed_fastqc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now you can run FastQC on your trimmed reads.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb27" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> data/trimmed_reads/<span class="pp">*</span>.fastq <span class="at">-o</span> results/cutadapt/trimmed_fastqc <span class="at">-t</span> 8</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In the terminal on your local machine (not the one logged into the AWS instance) use SCP to download the files.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="sourceCode" id="cb28" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> <span class="at">-i</span> login_key_instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk:/home/csuser/cs_course/results/cutadapt/trimmed_fastqc/<span class="pp">*</span>.html .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then take a look at the html files in your browser.</p>
+<p>After trimming and filtering, our overall quality is higher with no quality scores dipping into the red (low quality) zone. We now have a distribution of sequence lengths, and most of the sequences contain no adapters. Some of the metrics are still marked as “failed” (have a red cross next to them) but none that are relevant to our workflow. Cutadapt has worked well!</p>
+</div>
+</div>
+</div>
+</div>
+</div>
 
 
+</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
