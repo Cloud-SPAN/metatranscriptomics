@@ -34,25 +34,19 @@ ssh -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk
 
 *Be sure to replace NNN with your own number, twice.*
 
-## Reminder: our file structure
+### Reminder: our file structure
 
 Before we start, here's a reminder of what our file structure looks like as a hierarchy tree:
-
-<!-- ![A file hierarchy tree](../fig/blank_instance_file_tree_with_hidden.png){:width="400px"}  -->
 
 ![A file hierarchy tree.](/images/blank_instance_file_tree_with_hidden.png){width="400px" fig-alt="A file hierarchy tree."}
 
 Keep this in mind as we continue to navigate the file system, and don't hesitate to refer back to it if needed.
 
-## Quality control
-
-<!-- ![Analysis flow diagram that shows the steps: Sequence reads and Quality control.](/images/short_analysis_flowchart_crop1.png){fig-align="left" width="325" height="226" fig-alt="Analysis flow diagram that shows the steps: Sequence reads and Quality control."} -->
-
 Before we can start working properly with our data we need to do some quality control to make sure our data is as high quality as possible. There are lots of ways errors could be introduced during the sampling and sequencing process, such as RNA becoming degraded or bases being called incorrectly.
 
 Quality control (QC) has two main steps:
 - [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) to examine the quality of the reads
-- [CutAdapt](https://cutadapt.readthedocs.io/en/stable/index.html) to trim off low quality bases and remove adapter sequences
+- [Cutadapt](https://cutadapt.readthedocs.io/en/stable/index.html) to trim off low quality bases and remove adapter sequences
 
 ## Quality control using FastQC
 
@@ -64,7 +58,7 @@ This could be rather time consuming and is very nuanced. Luckily, there's a bett
 
 Rather than looking at quality scores for each individual read, FastQC looks at quality collectively across all reads within a sample. The image below shows one FastQC-generated plot that indicates a very high quality sample:
 
-<!-- <img align="center" width="800" height="600" src="{{ page.root }}/fig/good_quality1.8.png" alt="Example of high quality sample - all bars are in green section"> -->
+<!-- <img align="center" width="800" height="600" src="{{ page.root }}/fig/good_quality1.8.png" alt="Example of high quality sample - all bars are in green section"-->
 
 ![Example of high quality sample - all bars are in green section.](/images/good_quality1.8.png){width="600" height="450" fig-alt="Example of high quality sample - all bars are in green section"}
 
@@ -79,7 +73,7 @@ Each position has a box-and-whisker plot showing the distribution of quality sco
 
 Now let’s take a look at a quality plot on the other end of the spectrum.
 
-<!-- <img align="center" width="800" height="600" src="{{ page.root }}/fig/bad_quality1.8.png" alt="Example of low quality sample - all bars are in green section"> -->
+<!-- <img align="center" width="800" height="600" src="{{ page.root }}/fig/bad_quality1.8.png" alt="Example of low quality sample - all bars are in green section"-->
 
 ![Example of low quality sample - more bars are not in green section.](/images/bad_quality1.8.png){width="600" height="450" fig-alt="Example of low quality sample - more bars are not in green section"}
 
@@ -319,7 +313,7 @@ To do this we will use the `scp` command. `scp` stands for ‘secure copy protoc
 The `scp` command takes this form:
 
 ``` {.bash filename="Code"}
-scp <file I want to copy> <where I want the copy to be placed>
+scp <file I want to copy<where I want the copy to be placed>
 ```
 
 You need to start a second terminal window that is ***not*** logged into the cloud instance and ensure you are in your `cloudspan` directory. This is important because it contains your .pem file, which will allow the `scp` command access to your AWS instance to copy the file.
@@ -383,3 +377,201 @@ Adapter sequences are short sequences that are added to the sample to aid during
 These graphs show us that a high proportion of our reads contain adapters, so we'll need to trim these out too. Helpfully, FastQC has identified that the adapters present are Illumina Universal adapters, so we can easily find out what the sequence to trim out will be.
 
 ## Trimming reads
+
+So, we've looked at our read files and discovered that some of the bases are low quality and a high proportion of them still contain adapters. Now we'll learn how to use a program called [Cutadapt](https://cutadapt.readthedocs.io/en/stable/index.html) to filter poor quality reads and trim poor quality bases.
+
+### Cutadapt Options
+
+Cutadapt has a variety of options to trim your reads. If we run the following command, we can see some of our options.
+
+``` {.bash filename="Code"}
+cutadapt -h
+```
+
+There are many parameters here so we will just show the top of the output which explains the usage, but you should look through and familiarise yourself with the options available. Importantly it shows you what are the required parameters and also the version of the software you have used which is important to keep note of. You should always record what versions of software you have used and what parameters you ran the software with in order to make your analysis reproducible.
+
+``` {.default filename="Output"}
+cutadapt version 3.5
+
+Copyright (C) 2010-2021 Marcel Martin <marcel.martin@scilifelab.se>
+
+cutadapt removes adapter sequences from high-throughput sequencing reads.
+
+Usage:
+    cutadapt -a ADAPTER [options] [-o output.fastq] input.fastq
+
+For paired-end reads:
+    cutadapt -a ADAPT1 -A ADAPT2 [options] -o out1.fastq -p out2.fastq in1.fastq in2.fastq
+```
+
+This output shows us that there is a different usage for single end or paired end reads. For single ended data we need to use:
+
+- `-a` to specify the sequence of the adaptor to be removed 
+- `-o` to specify the name of the trimmed output
+- the name of the raw sequence we want to be trimmed.
+
+For paired end data, Cutadapt expects:
+- two adaptor sequences for trimming, specified by `-a` and `-A`
+- two (different) names for the trimmed outputs, specified by `-o` and `-p`
+- the two files to be trimmed.
+
+There are lots of other options to add too, but these are the compulsory ones.
+
+The first input file typically contains a `_1` or `_R1` in the name. The second input file typically contains a `_2` or `_R2` in the name.
+
+For more information about the arguments used see the [Cutadapt documentation](https://cutadapt.readthedocs.io/en/stable/guide.html)
+
+### Running Cutadapt
+
+To begin, navigate to your `cs_course` directory:
+
+``` {.bash filename="Code"}
+cd ~/cs_course/
+```
+
+We need to make a new directory to keep our trimmed reads in. We'll put it inside the `data` directory on the same level as our existing `raw_reads` directory.
+
+``` {.bash filename="Code"}
+mkdir data/trimmed_reads
+```
+
+We should also make a directory to keep our Cutadapt log file in, in case we need to look back at it in the future. We'll put that inside `results`/
+
+``` {.bash filename="Code"}
+mkdir results/cutadapt
+```
+
+
+Now we can start constructing our command. Here are the flags and options we'll be using:
+
+| flag/option   | meaning |
+| ------- | ---------- |
+|`-q 20`| Bases need to have a quality phred score of at least 20 to be maintained |
+| `-a AGATCGGAAGAG` | The adapter sequence to trim from the forward reads, based on Illumina's Universal Adapters|
+| `-A AGATCGGAAGAG` | The sequence to trim from the reverse reads, also based on Illumina's Universal Adapters |
+| `-o <FILEPATH>` | The name of the output of the trimmed forward reads |
+| `-p <FILEPATH>` | The name of the output of the trimmed reverse reads |
+| `-m 150` | Remove reads shorter than 150bp after trimmming has occured |
+| `-j 8` | Run the process on 8 threads (to speed up the process) |
+
+By default, Cutadapt will print updates on its progress to the console (like we saw with FastQC). It will also print a summary of how many reads were trimmed or kept, and other useful information about its process. Ideally we want to keep a copy of this summary so we can refer to it in future.
+
+We'll therefore add an instruction to the end of the command telling Cutadapt to 'redirect' its console output to a file. The way to do this is `&> <filepath>`. This will ensure we keep a good record of what we've been doing. Be careful though! If you get an error in your command you'll have to look inside the log to find out what the error is, as it won't get printed to the console like it usually would.
+
+::: callout-note
+## Multi-line commands
+This command is quite long! When typing a long command into your terminal, you can use the `\` character to separate code chunks onto separate lines. This can make your code more readable.
+:::
+
+Here's what our final command looks like:
+
+``` {.bash filename="Code"}
+cutadapt -q 20 \
+          -a AGATCGGAAGAG \
+          -A AGATCGGAAGAG \
+          -o data/trimmed_reads/SRR6820491_1.trim.fastq \
+          -p data/trimmed_reads/SRR6820491_2.trim.fastq \
+          -m 150 \
+          -j 8 \
+          data/raw_reads/SRR6820491_1.fastq \
+          data/raw_reads/SRR6820491_2.fastq \
+          &> results/cutadapt/SRR6820491_fastq.log
+
+```
+
+
+When you have submitted the command, your prompt will disappear for a couple of minutes. When it comes back, your command has finished running.
+
+Let's open up our log file and see the summary.
+
+```{.bash filename="Code"}
+less results/cutadapt/SRR6820491_fastq.log
+```
+
+``` {.default filename="Output"}
+This is cutadapt 2.8 with Python 3.8.10
+Command line parameters: -q 20 -a AGATCGGAAGAG -A AGATCGGAAGAG -o data/trimmed_reads/SRR6820491_1.trim.fastq -p data/trimmed_reads/SRR6820491_2.trim.fastq -m 150 -j 8 data/raw_reads/SRR6820491_1.fastq data/raw_reads/SRR6820491_2.fastq
+Processing reads on 8 cores in paired-end mode ...
+Finished in 70.26 s (5 us/read; 12.04 M reads/minute).
+
+=== Summary ===
+
+Total read pairs processed:         14,099,347
+  Read 1 with adapter:               4,874,180 (34.6%)
+  Read 2 with adapter:               4,716,762 (33.5%)
+Pairs that were too short:           5,913,632 (41.9%)
+Pairs written (passing filters):     8,185,715 (58.1%)
+
+Total basepairs processed: 4,258,002,794 bp
+  Read 1: 2,129,001,397 bp
+  Read 2: 2,129,001,397 bp
+Quality-trimmed:              46,148,219 bp (1.1%)
+  Read 1:    11,786,248 bp
+  Read 2:    34,361,971 bp
+Total written (filtered):  2,470,608,528 bp (58.0%)
+  Read 1: 1,235,692,634 bp
+  Read 2: 1,234,915,894 bp
+```
+
+::: callout-note
+## Exercise
+Use the output from your Cutadapt command to answer the
+following questions.
+
+1. How many reads had adapters in the R1 reads?
+2. What total percent of reads were trimmed/filtered?
+
+::: {.callout-note collapse="true"} 
+## Solution
+1. 4,874,180 (34.6%)
+2. 58%
+:::
+:::
+
+We can confirm that we have our output files:
+
+``` {.bash filename="Code"}
+cd data/trimmed_reads
+ls
+```
+
+``` {.default filename="Output"}
+SRR6820491_1.trim.fastq  SRR6820491_2.trim.fastq
+```
+
+Great! Now we have some high quality samples to work with as we move onto our next step: filtering out ribosomal RNA.
+
+::: callout-note
+## Bonus Exercise
+
+Now that our samples have gone through quality control, they should perform better on the quality tests run by FastQC. Go ahead and re-run FastQC on your trimmed FASTQ files and visualise the HTML files to see whether your per base sequence quality is higher after
+trimming.
+
+::: {.callout-note collapse="true"}
+## Solution
+
+Start by making a new folder inside your cutadapt directory to keep the FastQC outputs in.
+
+``` {.bash filename="Code"}
+cd ~/cs_course
+mkdir results/cutadapt/trimmed_fastqc
+```
+
+Now you can run FastQC on your trimmed reads.
+
+``` {.bash filename="Code"}
+fastqc data/trimmed_reads/*.fastq -o results/cutadapt/trimmed_fastqc -t 8
+```
+
+In the terminal on your local machine (not the one logged into the AWS instance) use SCP to download the files.
+
+``` {.bash filename="Code"}
+scp -i login_key_instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk:/home/csuser/cs_course/results/cutadapt/trimmed_fastqc/*.html .
+```
+
+Then take a look at the html files in your browser.
+
+After trimming and filtering, our overall quality is higher with no quality scores dipping into the red (low quality) zone. We now have a distribution of sequence lengths, and most of the sequences contain no adapters. Some of the metrics are still marked as "failed" (have a red cross next to them) but none that are relevant to our workflow. Cutadapt has worked well!
+:::
+:::
+
