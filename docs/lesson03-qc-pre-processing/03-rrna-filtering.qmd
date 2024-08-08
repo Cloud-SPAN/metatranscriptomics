@@ -1,230 +1,247 @@
 ---
 title: "Ribosomal RNA Filtering"
 ---
-
+<!--
 ::: callout-important
 ## IMPORTANT
 
 The analyses in this lesson will take several hours to complete! You can find some recommended reading at the end of the page that you might want to read whilst you're waiting.
-:::
+::: -->
 
-## Assembling reads
+Now we have some high quality reads to work with, our next step is to filter our reads. We'll use these filtered reads in our lesson on functional analysis.
 
-In the last episode, we put both the long and short raw reads through quality control.
+## Why filter reads?
 
-They are now ready to be assembled into a metagenome. Genomic assembly is the process of joining smaller fragments of DNA (*i.e.*, reads) to make longer segments to try and reconstruct the original genomes.
+We're going to be looking at the functional capacity of our microbial communities AKA what genes are being expressed in what abundances. That means we'll really only be interested in mRNA, the RNA that codes for those proteins.
 
-### Genomic assembly
+Our samples were treated to remove free nucleotides and tRNAs as part of the extraction process. They were also enriched for mRNAs using an enrichment kit which binds and removes rRNA fragments. But just to make sure there aren't any rRNA fragments left, we're going to do some more filtering.
 
-You can think of Genomic assembly as a jigsaw puzzle: each raw read corresponds to a piece of the puzzle and you are aiming to complete the puzzle by joining these pieces together in the right order.
+For our lesson on taxonomic analysis we will use the unfiltered reads, since in this case it doesn't matter whether the reads are mRNA or rRNA.
 
-There are two main strategies for genome assembly:
+## Filtering with SortMeRNA
 
-1.  Mapping to a reference genome - requires that there is a complete genome of the organism you have sequenced, or a closely related organism. This is the approach you would take if you were trying to identify variants for well-characterised species, such as humans.
-2.  *De novo* assembly - does not use a reference but instead assembles reads together based on the content of the reads (the specific approach depends on which assembly software you are using). It is commonly used for environmental samples which usually contain many organisms that have not been cultured previously.
+We will use a command line tool called [SortMeRNA](https://sortmerna.readthedocs.io/en/latest/index.html) to do this filtering.
 
-Continuing the jigsaw analogy, mapping to a reference genome would be equivalent to having an image of the final puzzle to compare your assembly to. In contrast, in *de novo* assembly you would have to depend entirely on which pieces fit together.
+SortMeRNA uses a large RNA database and a complex algorithm to decide whether each read is rRNA or not. It sorts reads into two files - one for rRNA, one for "other" (which in our case is most likely to be mRNA).
 
-### Metagenomic assembly
+### Making an output directory
 
-Metagenomic sequencing adds another layer to the challenge of assembly! Instead of having one organism to assemble you now have many! Depending on the complexity of a metagenome you could have anywhere from a handful of organisms in a community to thousands.
+The first thing we should do is make a directory to store our outputs from SortMeRNA. We'll use the same `mkdir` command we used in the last episode.
 
-You no longer have one jigsaw puzzle, but many with all the pieces mixed together.
-
-![](/images/03_genomics_v_metagenomics.png){width="720" fig-align="center" fig-alt="Diagram comparing genomics and metagenomics using the jigsaw metaphor described above."}
-
-Many of the communities sequenced using metagenomics contain previously uncultured microbes (often known as microbial dark matter) so they are unlikely to have reference genomes. In addition, you don't usually know what you are sequencing - the community of organisms is unknown.
-
-Assembling our metaphorical jigsaw will be a challenge. We have many, perhaps thousands, of jigsaws to assemble and no pictures
-
-Luckily there are programs, known as assemblers, that will do this for us!
-
-Metagenomic assembly faces additional problems, which means we need an assembler built to handle metagenomes. These additional problems include:
-
-1.  Differences in coverage between the genomes, due to differences in abundance across the sample.
-2.  The fact that different species often share conserved regions.
-3.  The presence of several strains of a single species in the community
-
-The assembly strategy also differs based on the sequencing technology used to generate the raw reads. Here we're using raw data from [Nanopore sequencing](https://nanoporetech.com/applications/dna-nanopore-sequencing) as the basis for this metagenome assembly so we need to use a metagenome assembler appropriate for long-read sequencing.
-
-We will be using [Flye](https://github.com/fenderglass/Flye), which is a **long-read** *de novo* assembler for assembling large and complex data with a metagenomic mode. Like all our programs, Flye has been pre-installed onto your instance.
-
-## Flye is a long-read assembler
-
-::: callout-important
-## Important
-
-Make sure you're still logged into your cloud instance. If you can't remember how to log on, visit [the instructions from earlier today](./02-QC-quality-raw-reads.qmd#getting-started).
-:::
-
-Navigate to the `cs_course` directory.
+First, make sure you're in the `cs_course` directory.
 
 ``` {.bash filename="Code"}
 cd ~/cs_course
 ```
 
-Run the `flye` command without any arguments to see a short description of its use:
+Now we can make a new directory for SortMeRNA outputs inside our existing results folder.
 
 ``` {.bash filename="Code"}
-flye
+mkdir -p results/sortmerna
 ```
 
-``` {.default filename="Output"}
-$ flye
-usage: flye (--pacbio-raw | --pacbio-corr | --pacbio-hifi | --nano-raw |
-      --nano-corr | --nano-hq ) file1 [file_2 ...]
-      --out-dir PATH
+### Building the SortMeRNA command
 
-      [--genome-size SIZE] [--threads int] [--iterations int]
-      [--meta] [--polish-target] [--min-overlap SIZE]
-      [--keep-haplotypes] [--debug] [--version] [--help]
-      [--scaffold] [--resume] [--resume-from] [--stop-after]
-      [--read-error float] [--extra-params]
-flye: error: the following arguments are required: -o/--out-dir
-```
-
-A full description can be displayed by using the `--help` flag:
+We're ready to start thinking about our command! Let's have a look at the help documentation for SortMeRNA.
 
 ``` {.bash filename="Code"}
-flye --help
+sortmrna -h
 ```
 
 ::: {.callout-note collapse="true"}
-## Output --- `flye` help documentation
+## Output --- SortMeRNA seq help documentation
 
-``` default
-usage: flye (--pacbio-raw | --pacbio-corr | --pacbio-hifi | --nano-raw |
-         --nano-corr | --nano-hq ) file1 [file_2 ...]
-         --out-dir PATH
+``` {.default filename="Output"}
 
-         [--genome-size SIZE] [--threads int] [--iterations int]
-         [--meta] [--polish-target] [--min-overlap SIZE]
-         [--keep-haplotypes] [--debug] [--version] [--help]
-         [--scaffold] [--resume] [--resume-from] [--stop-after]
-         [--read-error float] [--extra-params]
+ Usage:   sortmerna -ref FILE [-ref FILE] -reads FWD_READS [-reads REV_READS] [OPTIONS]:
+    [REQUIRED]
+    --ref             PATH        Required  Reference file (FASTA) absolute or relative path.
+       Use multiple times, once per a reference file
 
-Assembly of long reads with repeat graphs
+    --reads           PATH        Required  Raw reads file (FASTA/FASTQ/FASTA.GZ/FASTQ.GZ).
+       Use twice for files with paired reads.
+       The file extensions are Not important. The program automatically
+       recognizes the file format as flat/compressed, fasta/fastq
 
-optional arguments:
-   -h, --help            show this help message and exit
-   --pacbio-raw path [path ...]
-                         PacBio regular CLR reads (<20% error)
-   --pacbio-corr path [path ...]
-                         PacBio reads that were corrected with other methods (<3% error)
-   --pacbio-hifi path [path ...]
-                         PacBio HiFi reads (<1% error)
-   --nano-raw path [path ...]
-                         ONT regular reads, pre-Guppy5 (<20% error)
-   --nano-corr path [path ...]
-                         ONT reads that were corrected with other methods (<3% error)
-   --nano-hq path [path ...]
-                         ONT high-quality reads: Guppy5+ or Q20 (<5% error)
-   --subassemblies path [path ...]
-                         [deprecated] high-quality contigs input
-   -g size, --genome-size size
-                         estimated genome size (for example, 5m or 2.6g)
-   -o path, --out-dir path
-                         Output directory
-   -t int, --threads int
-                         number of parallel threads [1]
-   -i int, --iterations int
-                         number of polishing iterations [1]
-   -m int, --min-overlap int
-                         minimum overlap between reads [auto]
-   --asm-coverage int    reduced coverage for initial disjointig assembly [not set]
-   --hifi-error float    [deprecated] same as --read-error
-   --read-error float    adjust parameters for given read error rate (as fraction e.g. 0.03)
-   --extra-params extra_params
-                         extra configuration parameters list (comma-separated)
-   --plasmids            unused (retained for backward compatibility)
-   --meta                metagenome / uneven coverage mode
-   --keep-haplotypes     do not collapse alternative haplotypes
-   --scaffold            enable scaffolding using graph [disabled by default]
-   --trestle             [deprecated] enable Trestle [disabled by default]
-   --polish-target path  run polisher on the target sequence
-   --resume              resume from the last completed stage
-   --resume-from stage_name
-                         resume from a custom stage
-   --stop-after stage_name
-                         stop after the specified stage completed
-   --debug               enable debug output
-   -v, --version         show program's version number and exit
+    [COMMON]
+    --workdir         PATH        Optional  Workspace directory                         USRDIR/sortmerna/run/
+       Default structure: WORKDIR/
+                              idx/   (References index)
+                              kvdb/  (Key-value storage for alignments)
+                              out/   (processing output)
+                              readb/ (pre-processed reads/index)
 
-Input reads can be in FASTA or FASTQ format, uncompressed
-or compressed with gz. Currently, PacBio (CLR, HiFi, corrected)
-and ONT reads (regular, HQ, corrected) are supported. Expected error rates are
-<15% for PB CLR/regular ONT; <5% for ONT HQ, <3% for corrected, and <1% for HiFi. Note that Flye
-was primarily developed to run on uncorrected reads. You may specify multiple
-files with reads (separated by spaces). Mixing different read
-types is not yet supported. The --meta option enables the mode
-for metagenome/uneven coverage assembly.
 
-To reduce memory consumption for large genome assemblies,
-you can use a subset of the longest reads for initial disjointig
-assembly by specifying --asm-coverage and --genome-size options. Typically,
-40x coverage is enough to produce good disjointigs.
+    --kvdb            PATH        Optional  Directory for Key-value database            WORKDIR/kvdb
+       KVDB is used for storing the alignment results.
 
-You can run Flye polisher as a standalone tool using
---polish-target option.
+    --idx-dir         PATH        Optional  Directory for storing Reference index.      WORKDIR/idx
+
+    --readb           PATH        Optional  Storage for pre-processed reads             WORKDIR/readb/
+
+       Directory storing the split reads, or the random access index of compressed reads
+
+    --fastx           BOOL        Optional  Output aligned reads into FASTA/FASTQ file
+    --sam             BOOL        Optional  Output SAM alignment for aligned reads.
+
+    --SQ              BOOL        Optional  Add SQ tags to the SAM file
+
+    --blast           STR         Optional  output alignments in various Blast-like formats
+       Sample values: '0'                    - pairwise
+                      '1'                    - tabular (Blast - m 8 format)
+                      '1 cigar'              - tabular + column for CIGAR
+                      '1 cigar qcov'         - tabular + columns for CIGAR and query coverage
+                      '1 cigar qcov qstrand' - tabular + columns for CIGAR, query coverage,
+                                               and strand
+
+    --aligned         STR/BOOL    Optional  Aligned reads file prefix [dir/][pfx]       WORKDIR/out/aligned
+       Directory and file prefix for aligned output i.e. each
+       output file goes into the specified directory with the given prefix.
+       The appropriate extension: (fasta|fastq|blast|sam|etc) is automatically added.
+       Both 'dir' and 'pfx' are optional.
+       The 'dir' can be a relative or an absolute path.
+       If 'dir' is not specified, the output is created in the WORKDIR/out/
+       If 'pfx' is not specified, the prefix 'aligned' is used
+       Examples:
+       '-aligned $MYDIR/dir_1/dir_2/1' -> $MYDIR/dir_1/dir_2/1.fasta
+       '-aligned dir_1/apfx'           -> $PWD/dir_1/apfx.fasta
+       '-aligned dir_1/'               -> $PWD/aligned.fasta
+       '-aligned apfx'                 -> $PWD/apfx.fasta
+       '-aligned  (no argument)'       -> WORKDIR/out/aligned.fasta
+
+    --other           STR/BOOL    Optional  Non-aligned reads file prefix [dir/][pfx]   WORKDIR/out/other
+       Directory and file prefix for non-aligned output i.e. each
+       output file goes into the specified directory with the given prefix.
+       The appropriate extension: (fasta|fastq|blast|sam|etc) is automatically added.
+       Must be used with 'fastx'.
+       Both 'dir' and 'pfx' are optional.
+       The 'dir' can be a relative or an absolute path.
+       If 'dir' is not specified, the output is created in the WORKDIR/out/
+       If 'pfx' is not specified, the prefix 'other' is used
+       Examples:
+       '-other $MYDIR/dir_1/dir_2/1' -> $MYDIR/dir_1/dir_2/1.fasta
+       '-other dir_1/apfx'           -> $PWD/dir_1/apfx.fasta
+       '-other dir_1/'               -> $PWD/dir_1/other.fasta
+       '-other apfx'                 -> $PWD/apfx.fasta
+       '-other  (no argument)'       -> aligned_out/other.fasta
+                                        i.e. the same output directory
+                                        as used for aligned output
+
+    --num_alignments  INT         Optional  Positive integer (INT >=0).
+
+       If used with '-no-best' reports first INT alignments per read reaching
+       E-value threshold, which allows to lower the CPU time and memory use.
+       Otherwise outputs INT best alignments.
+       If INT = 0, all alignments are output
+
+    --no-best         BOOL        Optional  Disable best alignments search                          False
+       The 'best' alignment is the highest scoring alignment out of All alignments of a read,
+       and the read can potentially be aligned (reaching E-value threshold) to multiple reference
+       sequences.
+       By default the program searches for best alignments i.e. performs an exhaustive search
+       over all references. Using '-no-best' will make the program to search just
+       the first N alignments, where N is set using '-num_alignments' i.e. 1 by default.
+
+    --min_lis         INT         Optional  Search only alignments that have the LIS                2
+                                            of at least N seeds long
+       LIS stands for Longest Increasing Subsequence. It is computed using seeds, which
+       are k-mers common to the read and the reference sequence. Sorted sequences of such seeds
+       are used to filter the candidate references prior performing the Smith-Waterman alignment.
+
+    --print_all_reads BOOL        Optional  Output null alignment strings for non-aligned reads     False
+                                            to SAM and/or BLAST tabular files
+    --paired          BOOL        Optional  Flags paired reads                                      False
+        If a single reads file is provided, use this option to indicate
+        the file contains interleaved paired reads when neither
+        'paired_in' | 'paired_out' | 'out2' | 'sout' are specified.
+
+
+    --paired_in       BOOL        Optional  Flags the paired-end reads as Aligned,                  False
+                                            when either of them is Aligned.
+        With this option both reads are output into Aligned FASTA/Q file
+        Must be used with 'fastx'.
+        Mutually exclusive with 'paired_out'.
+
+    --paired_out      BOOL        Optional  Flags the paired-end reads as Non-aligned,              False
+                                            when either of them is non-aligned.
+        With this option both reads are output into Non-Aligned FASTA/Q file
+        Must be used with 'fastx'.
+        Mutually exclusive with 'paired_in'.
+
+    --out2            BOOL        Optional  Output paired reads into separate files.                False
+       Must be used with 'fastx'.
+       If a single reads file is provided, this options implies interleaved paired reads
+       When used with 'sout', four (4) output files for aligned reads will be generated:
+       'aligned-paired-fwd, aligned-paired-rev, aligned-singleton-fwd, aligned-singleton-rev'.
+       If 'other' option is also used, eight (8) output files will be generated.
+
+    --sout            BOOL        Optional  Separate paired and singleton aligned reads.            False
+       To be used with 'fastx'.
+       If a single reads file is provided, this options implies interleaved paired reads
+       Cannot be used with 'paired_in' | 'paired_out'
+
+    --zip-out         STR/BOOL    Optional  Controls the output compression                        '-1'
+       By default the report files are produced in the same format as the input i.e.
+       if the reads files are compressed (gz), the output is also compressed.
+       The default behaviour can be overriden by using '-zip-out'.
+       The possible values: '1/true/t/yes/y'
+                            '0/false/f/no/n'
+                            '-1' (the same format as input - default)
+       The values are Not case sensitive i.e. 'Yes, YES, yEs, Y, y' are all OK
+       Examples:
+       '-reads freads.gz -zip-out n' : generate flat output when the input is compressed
+       '-reads freads.flat -zip-out' : compress the output when the input files are flat
+
+    --match           INT         Optional  SW score (positive integer) for a match.                2
+    
+    --mismatch        INT         Optional  SW penalty (negative integer) for a mismatch.          -3
+
+    --gap_open        INT         Optional  SW penalty (positive integer) for introducing a gap.    5
+
+    --gap_ext         INT         Optional  SW penalty (positive integer) for extending a gap.      2
+
+    -e                DOUBLE      Optional  E-value threshold.                                      1
+       Defines the 'statistical significance' of a local alignment.
+       Exponentially correllates with the Minimal Alignment score.
+       Higher E-values (100, 1000, ...) cause More reads to Pass the alignment threshold
+
+    -F                BOOL        Optional  Search only the forward strand.                         False
+
+    -N                BOOL        Optional  SW penalty for ambiguous letters (N's) scored
+                                            as --mismatch
+                                            
+    -R                BOOL        Optional  Search only the reverse-complementary strand.           False
 ```
 :::
 
-Flye has multiple different options available and we need to work out which ones are appropriate for our dataset.
+There are two required arguments for SortMeRNA - reference (`--ref`) and reads (`--reads`).
 
-The most important thing to know is which program was used to basecall our reads, as this determines which of `(--pacbio-raw | --pacbio-corr | --pacbio-hifi | --nano-raw | --nano-corr | --nano-hq )` we choose. In the [Methods section of our source paper](https://environmentalmicrobiome.biomedcentral.com/articles/10.1186/s40793-022-00424-2#Sec2) the authors state that:
+The reference is a database containing rRNA sequences which helps SortMeRNA determine whether reads are rRNA or not. We've already downloaded the rRNA database onto the instance.
 
-> "Nanopore data were basecalled with GPU guppy v4.0.11 using the high-accuracy model and applying a minimum quality score of 7."
+The reads are our trimmed FASTQ files. Since our reads are paired, we have to give this argument twice and specify each file separately. The program will take their 'pairedness' into account while it is sorting.
 
-This means we should use the `--nano-raw` option (ONT regular reads, pre-Guppy5), as the reads were called with a version of Guppy that precedes v5. Guppy is a program used to convert the signals that come out of a sequencer into an actual string of bases.
+We'll also use some other optional arguments to customise the command and make our output easier to work with later:
 
-This option will be followed by the relative path to the long-read .fastq file.
+- `--workdir` tells SortMeRNA to put all outputs in a directory of our choice
+- `--threads` tells it how many cores/processors to use
+- `--aligned` tells it what we want the file containing aligned (i.e. rRNA) reads to be called
+- `--other` tells it what we want unaligned (i.e. non-rRNA) reads to be called
+- `--fastx` tells it we want our output files in fastq format
+- `--paired-out` tells it that if one read in a pair is aligned and the other is not, both reads in the pair should be classed as unaligned
 
-We also need to choose how many times we want Flye to 'polish' the data after assembly. Polishing is a way to improve the accuracy of the assembly. The number of rounds of polishing is specified using `-i` or `--iterations`. We will do three rounds of polishing, which is a standard practice (though the default in Flye is one round only).
+<!--
+| flag/option       | meaning                                                                                     |
+|------------------------------|------------------------------------------|
+| `--workdir <FILEPATH>`    | A path to the directory where outputs should be placed |
+| `--aligned <FILEPATH>` | The adapter sequence to trim from the forward reads, based on Illumina's Universal Adapters |
+| `-A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT` | The sequence to trim from the reverse reads, also based on Illumina's Universal Adapters    |
+| `-o <FILEPATH>`   | The name of the output of the trimmed forward reads                                         |
+| `-p <FILEPATH>`   | The name of the output of the trimmed reverse reads                                         |
+| `-m 150`          | Remove reads shorter than 150bp after trimmming has occured                                 |
+| `-j 8`            | Run the process on 8 threads (to speed up the process)                                      |
+-->
 
-The other options are a bit easier:
-
--   We use `-o` or `--outdir` to specify (using a relative path) where the Flye output should be stored
--   We also use the `-t` or `--threads` flag in order to run the assembly on multiple threads (aka running several processes at once) in order to speed it up
--   Finally we indicate that the dataset is a metagenome using the `--meta` option
-
-::: callout-note
-## Unused parameters
-
-There are many parameters that we don't need. Some of these are deprecated and some are only appropriate for certain types of data. Others are useful to allow tweaking to try to further improve an assembly (e.g. `--genome-size` and `--read-error`).
-
-Most bioinformatics programs have an associated website (which is often a GitHub page) with a whole manual to use the program. The [Flye Manual](https://github.com/fenderglass/Flye/blob/flye/docs/USAGE.md) contains a lot of further information about the parameters available. If you're going to try using Flye on your own long-read dataset this is a good place to start.
-:::
-
-Now we've worked out what parameters are appropriate for our data we can put them all together in one command. Since the command is quite long, we will use backward slashes to allow it to span several lines. `\` basically means "start a new line and carry on reading without submitting the command".
-
-First let's make sure we're in the `cs_course` directory, and make a new directory called `assembly` for the Flye output inside `results`.
-
-``` {.bash filename="Code"}
-cd ~/cs_course
-mkdir results/assembly
-```
-
-Now we can start constructing our command! You can type/copy this code into your command line but don't press enter just yet.
-
-``` {.bash filename="Code"}
-flye --nano-raw data/nano_fastq/ERR5000342_sub12_filtered.fastq \
-     --out-dir results/assembly \
-     --threads 8 \
-     --iterations 3 \
-     --meta
-```
-
--   `--nano-raw` tells Flye that it is receiving pre-Guppy5 reads and that the **input** is found at the path `data/nano_fastq/ERR5000342_sub12_filtered.fastq` (note that we are using our 'filtered reads' - there'd be no point doing quality control and filtering otherwise!)
--   `--out-dir` tells Flye that the **output** should be saved in the `results/assembly/` directory
--   `--threads` indicates that the number of parallel cores is `8`
--   `--iterations` indicates that the data will be polished `3` times
--   `--meta` indicates that the dataset is a metagenome
-
-[**Don't run this command yet! --- If you have, you can press** <kbd>Ctrl</kbd>+<kbd>z</kbd> to stop the command.]{style="color:red"}
-
-Now we've built our command we could stop here **but** metagenomic assembly takes a long time. If we were to run this command as is we'd have to stay logged into the instance (aka leaving your computer running) for hours.
-
-Luckily we don't have to do that as we're using a remote computer.
+Once again, our command is going to be quite long, so we'll use `\` to separate it into multiple lines. We'll also use `&>` to redirect the terminal outputs to a file, like we did with Cutadapt. This time, though, there's one more step - telling the command to run in the background.
 
 ### Running a command in the background
 
@@ -232,84 +249,107 @@ All the commands we have run so far have been in the "foreground", meaning they'
 
 Commands can also be run in the "background" so the prompt is returned before the command is finished and we can continue using our terminal. Commands run in the background are often called "jobs". A major advantage of running a long job in the background is that you can log out of your instance without killing the process.
 
+SortMeRNA can take a while to run, which is why we're going to take advantage of this.
+
 ::: callout-warning
 ## Warning
 
 If you run a job in the foreground it will stop as soon as you log out of the instance! This could cause a problem if you momentarily have unstable internet or your computer runs out of battery. Running long commands in the background means you are protected from these circumstances **and** means you can do other things in the terminal in the meantime.
 :::
 
-To run a command in the background, you follow it with an ampersand (`&`) symbol.
+To run a command in the background, you add an ampersand (`&`) symbol to the end. When you press enter, your prompt will immediately return, but the code is still running.
 
-But we're still not quite done! Flye is going to print a bunch of updates to the terminal while it runs. We need to tell it to send those updates to a file, otherwise the terminal will still be unusable despite using a `&`. We can do this with redirection: `> results/assembly/flye_output.txt` will send any output that would be sent to the terminal to a file called `flye_output.txt` (inside `results/assembly`) instead.
+### Running SortMeRNA
 
-The complete command is:
+We're now ready to run our command!
 
+First make sure you're in your `cs_course` folder.
 ``` {.bash filename="Code"}
-flye --nano-raw data/nano_fastq/ERR5000342_sub12_filtered.fastq \
-     --out-dir results/assembly \
-     --threads 8 \
-     --iterations 3 \
-     --meta &> results/assembly/flye_output.txt &
+cd ~/cs_course
 ```
 
-The first `&` sends the main command to the background. It is immediately followed by a `>` to redirect the logging and progress information to a file. Finally, the second `&` puts *that* command into the background too.
+Then enter the full command:
+``` {.bash filename="Code"}
+sortmerna --ref databases/sortmerna_databases/smr_v4.3_default_db.fasta \
+          --reads data/trimmed_reads/SRR6820491_1.trim.fastq \
+          --reads data/trimmed_reads/SRR6820491_2.trim.fastq \
+          --workdir results/sortmerna \
+          --aligned results/sortmerna/SRR6820491_rrna \
+          --other results/sortmerna/SRR6820491_mrna \
+          --threads 8 \
+          --fastx --paired-out \
+          &> results/sortmerna/SRR6820491_sortmerna.log &
+```
 
-We can now press enter to run the command. Your prompt should immediately return. This doesn't mean that the code has finished already: it is now running in the background.
+Once you press enter your prompt should immediately return and you will see a terminal printout below your command that looks something like this:
+``` {.bash filename="Code"}
+[1] 274852
+```
+
+The first number (in square brackets) is your 'job number'. The second number is a 'process ID (PID)'. These numbers allow you to refer to your job should you need to.
 
 ::: callout-note
 ## Running commands on different servers
 
-There are many different ways to run jobs in the background in a terminal.\
-How you run these commands will depend on the computing resources (and their fair use policies) you are using. The main options include:
+There are many different ways to run jobs in the background in a terminal. How you run these commands will depend on the computing resources (and their fair use policies) you are using. The main options include:
 
 -   `&`, which we've covered here. Depending on the infrastructure you're running the command on, you may also need to use [`nohup`](https://www.digitalocean.com/community/tutorials/nohup-command-in-linux) to prevent the background job from being killed when you close the terminal.\
 -   The command line program [`screen`](https://linuxize.com/post/how-to-use-linux-screen/), which allows you to create a shell session that can be completely detached from a terminal and re-attached when needed.
 -   Queuing system - many shared computing resources, like the High Performance Computing (HPC) clusters owned by some Universities, operate a queuing system (e.g. SLURM or SGE) so each user gets their fair share of computing resources. With these you submit your command / job to the queueing system, which will then handle when to run the job on the resources available.
 :::
 
-As we're running the command in the background we no longer see the output on the terminal but we can still check on the progress of the assembly. There are two ways to do this.
+As we're running the command in the background we no longer see the output on the terminal but we can still check on the progress of the command. There are two ways to do this.
 
 1.  Using the command `jobs` to view what is running
-2.  Examining the log file created by `flye` using `less`
+2.  Examining the log file created by SortMeRNA using `less`
 
 ### Checking progress: `jobs`
 
-Jobs command is used to list the jobs that you are running in the background and in the foreground. If the prompt is returned with no information no commands are being run.
+The jobs command is used to list the jobs that you are running in the background and in the foreground. If the prompt is returned with no information no commands are being run.
 
 ``` {.bash filename="Code"}
 jobs
 ```
 
 ``` {.default filename="Output"}
-[1]+  Running      flye --nano-raw data/nano_fastq/ERR5000342_sub12_filtered.fastq --out-dir results/assembly --threads 8 --iterations 3 --meta &> results/assembly/flye_output.txt &
+[1]+  Running      sortmerna --ref databases/sortmerna_databases/smr_v4.3_default_db.fasta --reads data/trimmed_reads/SRR6820491_1.trim.fastq --reads data/trimmed_reads/SRR6820491_2.trim.fastq --workdir results/sortmerna --aligned results/sortmerna/SRR6820491_rrna --other results/sortmerna/SRR6820491_mrna --threads 8 --fastx --paired-out &> results/sortmerna/SRR6820491_sortmerna.log &
 ```
 
 The `[1]` is the job number. If you need to stop the job running, you can use `kill %1`, where 1 is the job number.
 
 ### Checking progress: the log file
 
-Flye generates a log file when running, which is stored in the output folder it has generated. Using `less` we can navigate through this file.
+We can also look at the log file we generated to store the command's terminal outputs. Using `less` we can navigate through this file.
 
 ``` {.bash filename="Code"}
-cd results/assembly
-less flye.log
+cd results/sortmerna
+less SRR6820491_sortmerna.log
 ```
 
-The contents of the file will depend on how far through the assembly Flye is. At the start of an assembly you'll probably see something like this:
+The contents of the file will depend on how far through the process SortMeRNA is. At the start of an assembly you'll probably see something like this:
 
 ``` {.default filename="Output"}
-[2022-10-05 17:22:03] INFO: Starting Flye 2.9.1-b1780
-[2022-10-05 17:22:03] INFO: >>>STAGE: configure
-[2022-10-05 17:22:03] INFO: Configuring run
-[2022-10-05 17:22:17] INFO: Total read length: 3023658929
-[2022-10-05 17:22:17] INFO: Reads N50/N90: 5389 / 2607
-[2022-10-05 17:22:17] INFO: Minimum overlap set to 3000
-[2022-10-05 17:22:17] INFO: >>>STAGE: assembly
+[process:1393] === Options processing starts ... ===
+Found value: sortmerna
+Found flag: --ref
+Found value: databases/sortmerna_database/smr_v4.3_default_db.fasta of previous flag: --ref
+Found flag: --reads
+Found value: data/trimmed_reads/SRR6820491_1.trim.fastq.gz of previous flag: --reads
+Found flag: --reads
+Found value: data/trimmed_reads/SRR6820491_2.trim.fastq.gz of previous flag: --reads
+Found flag: --workdir
+Found value: results/sortmerna/SRR6820491_temp/ of previous flag: --workdir
+Found flag: --aligned
+Found value: results/sortmerna/SRR6820491_temp/SRR6820491_rrna of previous flag: --aligned
+Found flag: --other
+Found value: results/sortmerna/SRR6820491_temp/SRR6820491_mrna of previous flag: --other
+Found flag: --threads
+Found value: 8 of previous flag: --threads
+Found flag: --fastx
+Found value: --paired-out of previous flag: --fastx
 ```
 
-Different steps in the assembly process take different amounts of time so it might appear stuck. However, it is almost certainly still running if it was run in the background.
-
-Note: this log file will contain data similar to the data in the `flye_output.txt` file we're generating when redirecting the terminal output. But it's easier to look at the log file as flye will always generate that even if you're running the command differently (e.g. in the foreground).
+The file won't update until you close and open it again, so you'll need to keep checking back to see what progress is being made. Different steps in the process take different amounts of time so it might appear stuck. However, it is almost certainly still running if it was run in the background.
 
 ::: callout-note
 ## Navigation commands in `less`:
@@ -322,132 +362,39 @@ Note: this log file will contain data similar to the data in the `flye_output.tx
 | <kbd>G</kbd>     | to go to the end       |
 | <kbd>q</kbd>     | to quit                |
 
-See [Prenomics - Working with Files and Directories](https://cloud-span.github.io/prenomics02-command-line/02-working-with-file/index.html) for a full overview on using `less`.
+See [Lesson 2 - Working with Files and Directories](../lesson02-using-the-command-line/02-working-with-file.qmd) for a full overview on using `less`.
 :::
 
-Flye is likely to take **up to 5 hours** to finish assembling - so feel free to leave this running overnight and come back to it tomorrow. You don't need to remain connected to the instance during this time (and you can turn your computer off!) but once you have disconnected from the instance it does mean you can no longer use `jobs` to track the job.
+SortMeRNA is likely to take **about 70 minutes** to finish, so feel free to leave this running while you do something else and come back to it later. You don't need to remain connected to the instance during this time but once you have disconnected from the instance it does mean you can no longer use `jobs` to track the job.
 
-In the meantime, if you wanted to read more about assembly and metagenomics there's a few papers and resources at the end with recommended reading.
+### Determining if SortMeRNA has finished
 
-### Determining if the assembly has finished
-
-After leaving it several hours, Flye should have finished assembling.
+After leaving it for an hour or so, SortMeRNA should have finished running.
 
 If you remained connected to the instance during the process you will be able to tell it has finished because you get the following output in your terminal when the command has finished.
 
 ``` {.default filename="Output"}
-[2]+  Done      flye --nano-raw data/nano_fastq/ERR5000342_sub12_filtered.fastq --out-dir results/assembly --threads 8 --iterations 3 --meta &> results/assembly/flye_output.txt &
+[1]+  Done      sortmerna --ref databases/sortmerna_databases/smr_v4.3_default_db.fasta --reads data/trimmed_reads/SRR6820491_1.trim.fastq --reads data/trimmed_reads/SRR6820491_2.trim.fastq --workdir results/sortmerna --aligned results/sortmerna/SRR6820491_rrna --other results/sortmerna/SRR6820491_mrna --threads 8 --fastx --paired-out &> results/sortmerna/SRR6820491_sortmerna.log &
 ```
 
-This message won't be displayed if you disconnected from the instance for whatever reason during the assembly process. However, you can still examine the `flye.log` file in the `assembly` directory. If the assembly has finished the log file will have summary statistics and information about the location of the assembly at the end.
+This message won't be displayed if you disconnected from the instance for whatever reason during the assembly process. However, you can still examine the log file in the `sortmrna` directory. If the assembly has finished the log file will have ...
 
-Move to the `assembly` directory and use `less` to examine the contents of the log file:
+Move to the `sortmerna` directory and use `less` to examine the contents of the log file:
 
 ``` {.bash filename="Code"}
-cd ~/cs_course/results/assembly/
-less flye.log
+cd ~/cs_course/results/sortmerna/
+less SRR6820491_sortmerna.log
 ```
 
 Navigate to the end of the file using <kbd>G</kbd>. You should see something like:
 
 ``` {.default filename="Output"}
-[2024-05-02 16:42:37] root: INFO: Assembly statistics:
-
-        Total length:   11947363
-        Fragments:      787
-        Fragments N50:  19835
-        Largest frg:    95862
-        Scaffolds:      0
-        Mean coverage:  7
-
-[2024-05-02 16:42:37] root: INFO: Final assembly: /home/csuser/cs_course/results/assembly/assembly.fasta
+[writeReports:268] === done Reports in 213.494 sec ===
 ```
 
-There are some basic statistics about the final assembly created.
+## SortMeRNA Outputs
 
-### What is the Assembly output?
-
-If we use `ls` in the `assembly` directory we can see the that Flye has created many different files.
 
 ``` {.default filename="Output"}
-00-assembly   20-repeat     40-polishing    assembly_graph.gfa  assembly_info.txt  params.json
-10-consensus  30-contigger  assembly.fasta  assembly_graph.gv   flye.log
+idx  kvdb  readb  SRR6820491_mrna.fq  SRR6820491_rrna.fq  SRR6820491_rrna.log  SRR6820491_sortmerna.log
 ```
-
-One of these is `flye.log` which we have already looked at.
-
--   Flye generates a directory to contain the output for each step of the assembly process. (These are the `00-assembly`, `10-consensus`, `20-repeat`, `30-contigger` and `40-polishing` directories.)\
--   We also have a file containing the parameters we ran the assembly under `params.json` which is useful to keep our results reproducible.\
--   The assembled contigs are in FASTA format (`assembly.fasta`), a common standard file type for storing sequence data without its quality scores.\
--   There's a text file which contains more information about each contig created (`assembly_info.txt`).
--   Finally we have two files for a repeat graph (`assembly_graph.gfa` or `assembly_graph.gv`) which is a visual way to view the assembly.
-
-You can see more about the output for Flye in the [documentation on GitHub](https://github.com/fenderglass/Flye/blob/flye/docs/USAGE.md#output).
-
-::: callout-note
-## Contigs vs. reads
-
-We have seen reads in the raw sequencing data - these are our individual jigsaw pieces.
-
-Contigs (from the word *contiguous*) are longer fragments of DNA produced after raw reads are joined together by the assembly process. These are like the chunks of the jigsaw puzzle the assembler has managed to complete.
-
-Contigs are usually much longer than raw reads but vary in length and number depending on how successful the assembly has been.
-:::
-
-## Assembly Statistics
-
-Flye gave us basic statistics about the size of the assembly but not all assemblers do. We can use [Seqkit](https://bioinf.shenwei.me/seqkit/) to calculate summary statistics from the assembly. We previously used another `Seqkit` command, `seq` to Filter our Nanopore sequences by quality. This time we will use the command `stats`.
-
-Make sure you are in the `cs_course` folder then run `seqkit stats` on `assembly.fasta`:
-
-``` {.bash filename="Code"}
-cd ~/cs_course
-seqkit stats results/assembly/assembly.fasta
-```
-
-`SeqKit` is fast so we have run the command in the terminal foreground. It should take just a couple of seconds to process this assembly. Assemblies with more sequencing data can take a bit longer.
-
-Once it has finished you should see an output table like this:
-
-``` {.default filename="Output"}
-file                             format  type  num_seqs     sum_len  min_len   avg_len  max_len
-results/assembly/assembly.fasta  FASTA   DNA        787  11,947,363      923  15,180.9   95,862
-```
-
-This table shows the input file, the format of the file, the type of sequence and other statistics. The assembly process introduces small random variations in the assemly so your table will likely differ slightly. However, you should expect the numbers to be very similar.
-
-Using this table of statistics, answer the questions below.
-
-::: callout-note
-## Exercise 1: Looking at basic statistics
-
-Using the output for seqkit stats above, answer the following questions.
-
-a)  How many contigs are in this assembly?\
-b)  How many bases in total have been assembled?\
-c)  What is the shortest and longest contig produced by this assembly?
-
-::: {.callout-note collapse="true"}
-## Solution
-
-From our table:\
-a) From `num_seqs` we can see that this assembly is made up of 787 contigs\
-b) Looking at `sum_length` we can see that the assembly is 11,947,363bp in total (nearly 12 million basepairs!)\
-c) From `min_length` we can see the shortest contig is 923bp and from `max_length` the longest contig is 95,862bp
-:::
-:::
-
-::: callout-tip
-## Recommended reading:
-
-While you're waiting for the assembly to finish here are some things you might want to read about:
-
--   An overall background to the history of DNA sequencing in [DNA sequencing at 40: past, present and future](https://www.nature.com/articles/nature24286)\
--   An overview of a metagenomics project [Shotgun metagenomics, from sampling to analysis](https://www.nature.com/articles/nbt.3935) - though note this paper is from 2017 so some techniques and software will be different now.\
--   The challenges of genomic and metagenomic assembly and the algorithms that have been built to overcome these in [Assembly Algorithms for Next-Generation Sequencing Data](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2874646/)\
--   The approach Flye uses to assemble metagenomes is covered in [metaFlye: scalable long-read metagenome assembly using repeat graphs](https://www.nature.com/articles/s41592-020-00971-x)
--   Comparison of genome assembly for bacteria [Comparison of De Novo Assembly Strategies for Bacterial Genomes](https://www.mdpi.com/1422-0067/22/14/7668/htm)
--   Benchmarking of assemblers including flye in prokaryotes [Benchmarking of long-read assemblers for prokaryote whole genome sequencing](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6966772/)
--   Comparison of combined assembly and polishing method [Trycycler: consensus long-read assemblies for bacterial genomes](https://link.springer.com/article/10.1186/s13059-021-02483-z)
--   Using nanopore to produce ultra long reads and contiguous assemblies [Nanopore sequencing and assembly of a human genome with ultra-long reads](https://www.nature.com/articles/nbt.4060)
-:::

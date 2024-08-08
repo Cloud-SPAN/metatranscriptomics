@@ -1,5 +1,5 @@
 ---
-title: "Quality Control of Raw Reads"
+title: "Quality  of Raw Reads"
 ---
 
 ## Getting started
@@ -44,9 +44,7 @@ Keep this in mind as we continue to navigate the file system, and don't hesitate
 
 Before we can start working properly with our data we need to do some quality control to make sure our data is as high quality as possible. There are lots of ways errors could be introduced during the sampling and sequencing process, such as RNA becoming degraded or bases being called incorrectly.
 
-Quality control (QC) has two main steps:
-- [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) to examine the quality of the reads
-- [Cutadapt](https://cutadapt.readthedocs.io/en/stable/index.html) to trim off low quality bases and remove adapter sequences
+Quality control (QC) has two main steps: - [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) to examine the quality of the reads - [Cutadapt](https://cutadapt.readthedocs.io/en/stable/index.html) to trim off low quality bases and remove adapter sequences
 
 ## Quality control using FastQC
 
@@ -97,7 +95,7 @@ Create the directories `results` inside `cs_course`:
 mkdir -p cs_course/results
 ```
 
-You might want to use `ls` to check those nested directories have been made.
+You might want to use `ls` to check those directories have been made.
 
 We are going to have lots of outputs so it makes sense to organise them with some more subdirectories. Let's make one called `qc` (for **q**uality **c**ontrol).
 
@@ -365,14 +363,13 @@ In SRR6820491_1 (the forward reads) the overall quality is fairly high, although
 
 In SRR6820491_2 (reverse reads) the quality is much more variable though the mean quality remains high. Some reads are dipping into the medium and low quality sections towards the end.
 
-We definitely want to do some trimming to make sure the lower quality bases are removed from our reads. First though, we should also have a look at the "Adapter Content" graph which will show us where adapter sequences occur in the reads. 
+We definitely want to do some trimming to make sure the lower quality bases are removed from our reads. First though, we should also have a look at the "Adapter Content" graph which will show us where adapter sequences occur in the reads.
 
 Adapter sequences are short sequences that are added to the sample to aid during the preparation of the DNA library. They therefore don't tell us anything biologically important and should be removed if they are present in high numbers. They might also be removed in the case of certain applications, such as when the base sequence needs to be particularly accurate.
 
 |               **SRR6820491_1.fastq**                |               **SRR6820491_2.fastq**                |
 |:----------------------------------:|:----------------------------------:|
 | ![.](/images/SRR6820491_1_adapter.png){width="700"} | ![.](/images/SRR6820491_2_adapter.png){width="700"} |
-
 
 These graphs show us that a high proportion of our reads contain adapters, so we'll need to trim these out too. Helpfully, FastQC has identified that the adapters present are Illumina Universal adapters, so we can easily find out what the sequence to trim out will be.
 
@@ -406,14 +403,11 @@ For paired-end reads:
 
 This output shows us that there is a different usage for single end or paired end reads. For single ended data we need to use:
 
-- `-a` to specify the sequence of the adaptor to be removed 
-- `-o` to specify the name of the trimmed output
-- the name of the raw sequence we want to be trimmed.
+-   `-a` to specify the sequence of the adaptor to be removed
+-   `-o` to specify the name of the trimmed output
+-   the name of the raw sequence we want to be trimmed.
 
-For paired end data, Cutadapt expects:
-- two adaptor sequences for trimming, specified by `-a` and `-A`
-- two (different) names for the trimmed outputs, specified by `-o` and `-p`
-- the two files to be trimmed.
+For paired end data, Cutadapt expects: - two adaptor sequences for trimming, specified by `-a` and `-A` - two (different) names for the trimmed outputs, specified by `-o` and `-p` - the two files to be trimmed.
 
 There are lots of other options to add too, but these are the compulsory ones.
 
@@ -441,25 +435,25 @@ We should also make a directory to keep our Cutadapt log file in, in case we nee
 mkdir results/cutadapt
 ```
 
-
 Now we can start constructing our command. Here are the flags and options we'll be using:
 
-| flag/option   | meaning |
-| ------- | ---------- |
-|`-q 20`| Bases need to have a quality phred score of at least 20 to be maintained |
-| `-a AGATCGGAAGAG` | The adapter sequence to trim from the forward reads, based on Illumina's Universal Adapters|
-| `-A AGATCGGAAGAG` | The sequence to trim from the reverse reads, also based on Illumina's Universal Adapters |
-| `-o <FILEPATH>` | The name of the output of the trimmed forward reads |
-| `-p <FILEPATH>` | The name of the output of the trimmed reverse reads |
-| `-m 150` | Remove reads shorter than 150bp after trimmming has occured |
-| `-j 8` | Run the process on 8 threads (to speed up the process) |
+| flag/option       | meaning                                                                                     |
+|------------------------------|------------------------------------------|
+| `-q 20`           | Bases need to have a quality phred score of at least 20 to be maintained                    |
+| `-a AGATCGGAAGAGCACACGTCTGAACTCCAGTCA` | The adapter sequence to trim from the forward reads, based on Illumina's Universal Adapters |
+| `-A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT` | The sequence to trim from the reverse reads, also based on Illumina's Universal Adapters    |
+| `-o <FILEPATH>`   | The name of the output of the trimmed forward reads                                         |
+| `-p <FILEPATH>`   | The name of the output of the trimmed reverse reads                                         |
+| `-m 150`          | Remove reads shorter than 150bp after trimmming has occured                                 |
+| `-j 8`            | Run the process on 8 threads (to speed up the process)                                      |
 
 By default, Cutadapt will print updates on its progress to the console (like we saw with FastQC). It will also print a summary of how many reads were trimmed or kept, and other useful information about its process. Ideally we want to keep a copy of this summary so we can refer to it in future.
 
-We'll therefore add an instruction to the end of the command telling Cutadapt to 'redirect' its console output to a file. The way to do this is `&> <filepath>`. This will ensure we keep a good record of what we've been doing. Be careful though! If you get an error in your command you'll have to look inside the log to find out what the error is, as it won't get printed to the console like it usually would.
+We'll therefore add an instruction to the end of the command telling Cutadapt to 'redirect' its console output to a file. The way to do this is `&> <filepath>`. This will ensure we keep a good record of what we've been doing. Be careful though! If you have an error in your command you'll have to look inside the log to find out what the error is, as it won't get printed to the console like it usually would.
 
 ::: callout-note
 ## Multi-line commands
+
 This command is quite long! When typing a long command into your terminal, you can use the `\` character to separate code chunks onto separate lines. This can make your code more readable.
 :::
 
@@ -467,8 +461,8 @@ Here's what our final command looks like:
 
 ``` {.bash filename="Code"}
 cutadapt -q 20 \
-          -a AGATCGGAAGAG \
-          -A AGATCGGAAGAG \
+          -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCA \
+          -A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT \
           -o data/trimmed_reads/SRR6820491_1.trim.fastq \
           -p data/trimmed_reads/SRR6820491_2.trim.fastq \
           -m 150 \
@@ -476,15 +470,26 @@ cutadapt -q 20 \
           data/raw_reads/SRR6820491_1.fastq \
           data/raw_reads/SRR6820491_2.fastq \
           &> results/cutadapt/SRR6820491_fastq.log
-
 ```
 
+::: callout-note
+## Reminder: pasting in the command line
+
+The adapter sequences we provide are very long, so you may want to copy and paste these sequences from this page into your command. However, you cannot paste in the shell using <kbd>Ctrl</kbd> + <kbd>V</kbd> like you can usually. Instead you have two options:
+
+-   right click and select `paste`
+-   hover the mouse pointer over the terminal window and press the mouse middle button
+
+The same is true for copying in the shell - <kbd>Ctrl</kbd> + <kbd>C</kbd> will not work. Instead, you will need to highlight whatever you want to copy, right click and select `copy`.
+
+You can copy and paste the full command if you wish, but we recommend typing it out yourself to help you remember what each of the flags does.
+:::
 
 When you have submitted the command, your prompt will disappear for a couple of minutes. When it comes back, your command has finished running.
 
 Let's open up our log file and see the summary.
 
-```{.bash filename="Code"}
+``` {.bash filename="Code"}
 less results/cutadapt/SRR6820491_fastq.log
 ```
 
@@ -515,16 +520,17 @@ Total written (filtered):  2,470,608,528 bp (58.0%)
 
 ::: callout-note
 ## Exercise
-Use the output from your Cutadapt command to answer the
-following questions.
 
-1. How many reads had adapters in the R1 reads?
-2. What total percent of reads were trimmed/filtered?
+Use the output from your Cutadapt command to answer the following questions.
 
-::: {.callout-note collapse="true"} 
+1.  How many reads had adapters in the R1 reads?
+2.  What total percent of reads were trimmed/filtered?
+
+::: {.callout-note collapse="true"}
 ## Solution
-1. 4,874,180 (34.6%)
-2. 58%
+
+1.  4,874,180 (34.6%)
+2.  58%
 :::
 :::
 
@@ -544,8 +550,7 @@ Great! Now we have some high quality samples to work with as we move onto our ne
 ::: callout-note
 ## Bonus Exercise
 
-Now that our samples have gone through quality control, they should perform better on the quality tests run by FastQC. Go ahead and re-run FastQC on your trimmed FASTQ files and visualise the HTML files to see whether your per base sequence quality is higher after
-trimming.
+Now that our samples have gone through quality control, they should perform better on the quality tests run by FastQC. Go ahead and re-run FastQC on your trimmed FASTQ files and visualise the HTML files to see whether your per base sequence quality is higher after trimming.
 
 ::: {.callout-note collapse="true"}
 ## Solution
@@ -574,4 +579,3 @@ Then take a look at the html files in your browser.
 After trimming and filtering, our overall quality is higher with no quality scores dipping into the red (low quality) zone. We now have a distribution of sequence lengths, and most of the sequences contain no adapters. Some of the metrics are still marked as "failed" (have a red cross next to them) but none that are relevant to our workflow. Cutadapt has worked well!
 :::
 :::
-
