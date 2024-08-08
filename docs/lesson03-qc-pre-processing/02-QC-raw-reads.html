@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.54">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="keywords" content="transcriptomics, cloud computing, AWS, command line tools, data analysis, environmental science, learning resource">
 
-<title>Quality Control of Raw Reads – Cloud-SPAN Metatranscriptomics</title>
+<title>Quality of Raw Reads – Cloud-SPAN Metatranscriptomics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -173,7 +173,7 @@ cookieconsent.run({
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/lesson03-qc-pre-processing/index.html">QC &amp; RNA pre-processing</a></li><li class="breadcrumb-item"><a href="../../docs/lesson03-qc-pre-processing/02-QC-raw-reads.html">Quality Control of Raw Reads</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/lesson03-qc-pre-processing/index.html">QC &amp; RNA pre-processing</a></li><li class="breadcrumb-item"><a href="../../docs/lesson03-qc-pre-processing/02-QC-raw-reads.html">Quality of Raw Reads</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -261,7 +261,7 @@ cookieconsent.run({
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../docs/lesson03-qc-pre-processing/02-QC-raw-reads.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Quality Control of Raw Reads</span></a>
+ <span class="menu-text">Quality of Raw Reads</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -408,7 +408,7 @@ cookieconsent.run({
 <main class="content column-body" id="quarto-document-content">
 
 <header id="title-block-header">
-<h1 class="title display-7">Quality Control of Raw Reads</h1>
+<h1 class="title display-7">Quality of Raw Reads</h1>
 
 </header>
 
@@ -510,7 +510,7 @@ cookieconsent.run({
 </div>
 <div class="sourceCode" id="cb3" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> cs_course/results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>You might want to use <code>ls</code> to check those nested directories have been made.</p>
+<p>You might want to use <code>ls</code> to check those directories have been made.</p>
 <p>We are going to have lots of outputs so it makes sense to organise them with some more subdirectories. Let’s make one called <code>qc</code> (for <strong>q</strong>uality <strong>c</strong>ontrol).</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
@@ -930,11 +930,11 @@ Help!
 <td>Bases need to have a quality phred score of at least 20 to be maintained</td>
 </tr>
 <tr class="even">
-<td><code>-a AGATCGGAAGAG</code></td>
+<td><code>-a AGATCGGAAGAGCACACGTCTGAACTCCAGTCA</code></td>
 <td>The adapter sequence to trim from the forward reads, based on Illumina’s Universal Adapters</td>
 </tr>
 <tr class="odd">
-<td><code>-A AGATCGGAAGAG</code></td>
+<td><code>-A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT</code></td>
 <td>The sequence to trim from the reverse reads, also based on Illumina’s Universal Adapters</td>
 </tr>
 <tr class="even">
@@ -956,7 +956,7 @@ Help!
 </tbody>
 </table>
 <p>By default, Cutadapt will print updates on its progress to the console (like we saw with FastQC). It will also print a summary of how many reads were trimmed or kept, and other useful information about its process. Ideally we want to keep a copy of this summary so we can refer to it in future.</p>
-<p>We’ll therefore add an instruction to the end of the command telling Cutadapt to ‘redirect’ its console output to a file. The way to do this is <code>&amp;&gt; &lt;filepath&gt;</code>. This will ensure we keep a good record of what we’ve been doing. Be careful though! If you get an error in your command you’ll have to look inside the log to find out what the error is, as it won’t get printed to the console like it usually would.</p>
+<p>We’ll therefore add an instruction to the end of the command telling Cutadapt to ‘redirect’ its console output to a file. The way to do this is <code>&amp;&gt; &lt;filepath&gt;</code>. This will ensure we keep a good record of what we’ve been doing. Be careful though! If you have an error in your command you’ll have to look inside the log to find out what the error is, as it won’t get printed to the console like it usually would.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -976,8 +976,8 @@ Multi-line commands
 <pre><strong>Code</strong></pre>
 </div>
 <div class="sourceCode" id="cb21" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">cutadapt</span> <span class="at">-q</span> 20 <span class="dt">\</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">-a</span> AGATCGGAAGAG <span class="dt">\</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">-A</span> AGATCGGAAGAG <span class="dt">\</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">-a</span> AGATCGGAAGAGCACACGTCTGAACTCCAGTCA <span class="dt">\</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">-A</span> AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT <span class="dt">\</span></span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">-o</span> data/trimmed_reads/SRR6820491_1.trim.fastq <span class="dt">\</span></span>
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">-p</span> data/trimmed_reads/SRR6820491_2.trim.fastq <span class="dt">\</span></span>
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">-m</span> 150 <span class="dt">\</span></span>
@@ -985,6 +985,25 @@ Multi-line commands
 <span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>          data/raw_reads/SRR6820491_1.fastq <span class="dt">\</span></span>
 <span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>          data/raw_reads/SRR6820491_2.fastq <span class="dt">\</span></span>
 <span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>          <span class="op">&amp;&gt;</span> results/cutadapt/SRR6820491_fastq.log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Reminder: pasting in the command line
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The adapter sequences we provide are very long, so you may want to copy and paste these sequences from this page into your command. However, you cannot paste in the shell using <kbd>Ctrl</kbd> + <kbd>V</kbd> like you can usually. Instead you have two options:</p>
+<ul>
+<li>right click and select <code>paste</code></li>
+<li>hover the mouse pointer over the terminal window and press the mouse middle button</li>
+</ul>
+<p>The same is true for copying in the shell - <kbd>Ctrl</kbd> + <kbd>C</kbd> will not work. Instead, you will need to highlight whatever you want to copy, right click and select <code>copy</code>.</p>
+<p>You can copy and paste the full command if you wish, but we recommend typing it out yourself to help you remember what each of the flags does.</p>
+</div>
 </div>
 <p>When you have submitted the command, your prompt will disappear for a couple of minutes. When it comes back, your command has finished running.</p>
 <p>Let’s open up our log file and see the summary.</p>
@@ -1037,7 +1056,7 @@ Exercise
 <li>What total percent of reads were trimmed/filtered?</li>
 </ol>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1046,7 +1065,7 @@ Solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ol type="1">
 <li>4,874,180 (34.6%)</li>
@@ -1084,7 +1103,7 @@ Bonus Exercise
 <div class="callout-body-container callout-body">
 <p>Now that our samples have gone through quality control, they should perform better on the quality tests run by FastQC. Go ahead and re-run FastQC on your trimmed FASTQ files and visualise the HTML files to see whether your per base sequence quality is higher after trimming.</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1093,7 +1112,7 @@ Solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Start by making a new folder inside your cutadapt directory to keep the FastQC outputs in.</p>
 <div class="code-with-filename">
