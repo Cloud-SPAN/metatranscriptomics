@@ -1,5 +1,5 @@
 ---
-title: "[Metagenomics](/index.qmd): Precourse Instructions"
+title: "[Metatranscriptomics](/index.qmd): Precourse Instructions"
 page-navigation: false
 sidebar: false
 ---
