@@ -1,12 +1,15 @@
 ---
 title: "Ribosomal RNA Filtering"
 ---
+
+```{=html}
 <!--
 ::: callout-important
 ## IMPORTANT
 
 The analyses in this lesson will take several hours to complete! You can find some recommended reading at the end of the page that you might want to read whilst you're waiting.
 ::: -->
+```
 
 Now we have some high quality reads to work with, our next step is to filter our reads. We'll use these filtered reads in our lesson on functional analysis.
 
@@ -222,13 +225,14 @@ The reads are our trimmed FASTQ files. Since our reads are paired, we have to gi
 
 We'll also use some other optional arguments to customise the command and make our output easier to work with later:
 
-- `--workdir` tells SortMeRNA to put all outputs in a directory of our choice
-- `--threads` tells it how many cores/processors to use
-- `--aligned` tells it what we want the file containing aligned (i.e. rRNA) reads to be called
-- `--other` tells it what we want unaligned (i.e. non-rRNA) reads to be called
-- `--fastx` tells it we want our output files in fastq format
-- `--paired-out` tells it that if one read in a pair is aligned and the other is not, both reads in the pair should be classed as unaligned
+-   `--workdir` tells SortMeRNA to put all outputs in a directory of our choice
+-   `--threads` tells it how many cores/processors to use
+-   `--aligned` tells it what we want the file containing aligned (i.e. rRNA) reads to be called
+-   `--other` tells it what we want unaligned (i.e. non-rRNA) reads to be called
+-   `--fastx` tells it we want our output files in fastq format
+-   `--paired-out` tells it that if one read in a pair is aligned and the other is not, both reads in the pair should be classed as unaligned
 
+```{=html}
 <!--
 | flag/option       | meaning                                                                                     |
 |------------------------------|------------------------------------------|
@@ -240,6 +244,7 @@ We'll also use some other optional arguments to customise the command and make o
 | `-m 150`          | Remove reads shorter than 150bp after trimmming has occured                                 |
 | `-j 8`            | Run the process on 8 threads (to speed up the process)                                      |
 -->
+```
 
 Once again, our command is going to be quite long, so we'll use `\` to separate it into multiple lines. We'll also use `&>` to redirect the terminal outputs to a file, like we did with Cutadapt. This time, though, there's one more step - telling the command to run in the background.
 
@@ -264,11 +269,13 @@ To run a command in the background, you add an ampersand (`&`) symbol to the end
 We're now ready to run our command!
 
 First make sure you're in your `cs_course` folder.
+
 ``` {.bash filename="Code"}
 cd ~/cs_course
 ```
 
 Then enter the full command:
+
 ``` {.bash filename="Code"}
 sortmerna --ref databases/sortmerna_databases/smr_v4.3_default_db.fasta \
           --reads data/trimmed_reads/SRR6820491_1.trim.fastq \
@@ -282,6 +289,7 @@ sortmerna --ref databases/sortmerna_databases/smr_v4.3_default_db.fasta \
 ```
 
 Once you press enter your prompt should immediately return and you will see a terminal printout below your command that looks something like this:
+
 ``` {.bash filename="Code"}
 [1] 274852
 ```
@@ -393,7 +401,6 @@ Navigate to the end of the file using <kbd>G</kbd>. You should see something lik
 ```
 
 ## SortMeRNA Outputs
-
 
 ``` {.default filename="Output"}
 idx  kvdb  readb  SRR6820491_mrna.fq  SRR6820491_rrna.fq  SRR6820491_rrna.log  SRR6820491_sortmerna.log

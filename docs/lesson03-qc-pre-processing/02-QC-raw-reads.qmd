@@ -353,8 +353,8 @@ If you had trouble downloading and viewing the files you can view them here: [SR
 
 First we will look at the "Per base sequence quality" graphs for `SRR6820491_1.fastq` and `SRR6820491_2.fastq`.
 
-|              **SRR6820491_1.fastq**              |              **SRR6820491_2.fastq**              |
-|:----------------------------------:|:----------------------------------:|
+| **SRR6820491_1.fastq** | **SRR6820491_2.fastq** |
+|:--:|:--:|
 | ![.](/images/SRR6820491_1_pbsq.png){width="700"} | ![.](/images/SRR6820491_2_pbsq.png){width="700"} |
 
 The x-axis displays the base position in the read, and the y-axis shows quality scores. The blue line represents the mean quality across samples.
@@ -367,8 +367,8 @@ We definitely want to do some trimming to make sure the lower quality bases are 
 
 Adapter sequences are short sequences that are added to the sample to aid during the preparation of the DNA library. They therefore don't tell us anything biologically important and should be removed if they are present in high numbers. They might also be removed in the case of certain applications, such as when the base sequence needs to be particularly accurate.
 
-|               **SRR6820491_1.fastq**                |               **SRR6820491_2.fastq**                |
-|:----------------------------------:|:----------------------------------:|
+| **SRR6820491_1.fastq** | **SRR6820491_2.fastq** |
+|:--:|:--:|
 | ![.](/images/SRR6820491_1_adapter.png){width="700"} | ![.](/images/SRR6820491_2_adapter.png){width="700"} |
 
 These graphs show us that a high proportion of our reads contain adapters, so we'll need to trim these out too. Helpfully, FastQC has identified that the adapters present are Illumina Universal adapters, so we can easily find out what the sequence to trim out will be.
@@ -437,15 +437,15 @@ mkdir results/cutadapt
 
 Now we can start constructing our command. Here are the flags and options we'll be using:
 
-| flag/option       | meaning                                                                                     |
-|------------------------------|------------------------------------------|
-| `-q 20`           | Bases need to have a quality phred score of at least 20 to be maintained                    |
+| flag/option | meaning |
+|----|----|
+| `-q 20` | Bases need to have a quality phred score of at least 20 to be maintained |
 | `-a AGATCGGAAGAGCACACGTCTGAACTCCAGTCA` | The adapter sequence to trim from the forward reads, based on Illumina's Universal Adapters |
-| `-A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT` | The sequence to trim from the reverse reads, also based on Illumina's Universal Adapters    |
-| `-o <FILEPATH>`   | The name of the output of the trimmed forward reads                                         |
-| `-p <FILEPATH>`   | The name of the output of the trimmed reverse reads                                         |
-| `-m 150`          | Remove reads shorter than 150bp after trimmming has occured                                 |
-| `-j 8`            | Run the process on 8 threads (to speed up the process)                                      |
+| `-A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT` | The sequence to trim from the reverse reads, also based on Illumina's Universal Adapters |
+| `-o <FILEPATH>` | The name of the output of the trimmed forward reads |
+| `-p <FILEPATH>` | The name of the output of the trimmed reverse reads |
+| `-m 150` | Remove reads shorter than 150bp after trimmming has occured |
+| `-j 8` | Run the process on 8 threads (to speed up the process) |
 
 By default, Cutadapt will print updates on its progress to the console (like we saw with FastQC). It will also print a summary of how many reads were trimmed or kept, and other useful information about its process. Ideally we want to keep a copy of this summary so we can refer to it in future.
 
@@ -518,7 +518,7 @@ Total written (filtered):  2,470,608,528 bp (58.0%)
   Read 2: 1,234,915,894 bp
 ```
 
-::: callout-note
+:::: callout-note
 ## Exercise
 
 Use the output from your Cutadapt command to answer the following questions.
@@ -532,7 +532,7 @@ Use the output from your Cutadapt command to answer the following questions.
 1.  4,874,180 (34.6%)
 2.  58%
 :::
-:::
+::::
 
 We can confirm that we have our output files:
 
@@ -547,7 +547,7 @@ SRR6820491_1.trim.fastq  SRR6820491_2.trim.fastq
 
 Great! Now we have some high quality samples to work with as we move onto our next step: filtering out ribosomal RNA.
 
-::: callout-note
+:::: callout-note
 ## Bonus Exercise
 
 Now that our samples have gone through quality control, they should perform better on the quality tests run by FastQC. Go ahead and re-run FastQC on your trimmed FASTQ files and visualise the HTML files to see whether your per base sequence quality is higher after trimming.
@@ -578,4 +578,4 @@ Then take a look at the html files in your browser.
 
 After trimming and filtering, our overall quality is higher with no quality scores dipping into the red (low quality) zone. We now have a distribution of sequence lengths, and most of the sequences contain no adapters. Some of the metrics are still marked as "failed" (have a red cross next to them) but none that are relevant to our workflow. Cutadapt has worked well!
 :::
-:::
+::::

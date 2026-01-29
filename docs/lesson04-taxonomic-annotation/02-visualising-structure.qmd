@@ -97,7 +97,7 @@ It indicates the average size of the contigs the assembly software has produced.
 
 `seqkit stats` has an option to calculate the N50 length. Use the `seqkit stats` help documentation to answer the exercise below.
 
-::: callout-note
+:::: callout-note
 ## Exercise 1: Flag to get the N50 length
 
 a)  Using the help documentation, what flag can we add to get the N50 length for this assembly?\
@@ -113,7 +113,7 @@ b)  The new command would be `seqkit stats -a results/assembly/assembly.fasta` o
 
 Bonus: The flag `-T` allows us to save it in a tabular output - this makes the table easier to use in other command line programs or programming languages such as R and Python. The command could be either `seqkit stats -a -T assembly/assembly.fasta` or we can combine the two flags `seqkit stats -aT assembly/assembly.fasta`
 :::
-:::
+::::
 
 Next, run the command on the original draft assembly (`~/cs_course/results/assembly/assembly.fasta`) to calculate the N50 length and answer the questions below about the output.
 
@@ -126,7 +126,7 @@ seqkit stats -a results/assembly/assembly.fasta
 ```
 :::
 
-::: callout-note
+:::: callout-note
 ## Exercise 2: Calculating the N50 length
 
 a)  What is the output if we run the new command from the above exercise?\
@@ -150,7 +150,7 @@ b)  The N50 length for this assembly is 20,921 bp. This tells us that 50% of the
 
 Bonus: `Q1`, `Q2` and `Q3` are the quartile ranges of sequence length. `sum_gap` is the total number of ambiguous bases (N's) in the sequence. `Q20`(%) is the percentage of bases with a PHRED score over 20 and similarly `Q30`(%) is the percentage of bases with a PHRED score over 30. GC(%) is the [guanine-cytosine content](https://en.wikipedia.org/wiki/GC-content) of the sequence.
 :::
-:::
+::::
 
 ### Generating statistics for all three assemblies
 
@@ -181,7 +181,7 @@ medaka/consensus.fasta  FASTA  DNA  791      12,019,945 662     15,195.9 96,516 
 pilon/pilon.fasta       FASTA  DNA  791      11,950,064 662     15,107.5 95,826  7,108.5 10,902 18,830   0       19,748 0.00   0.00   66.13
 ```
 
-::: callout-note
+:::: callout-note
 ## Exercise 3: Comparing the Assemblies
 
 Using the seqkit output for all three assemblies, compare the statistics for each of the three assemblies. What has changed across the two rounds of polishing? (From assembly\>medaka\>pilon)
@@ -197,7 +197,7 @@ Between the medaka polished assembly and the pilon polished assembly:
 
 -   All variables have either decreased in length or stayed the same, except the maximum length which is higher (as is GC content by a very small margin).
 :::
-:::
+::::
 
 We can compare these basic assembly statistics in this way. However, these may not tell the full story as there will also have been changes to the overall sequence (e.g. correcting individual base errors).
 
@@ -628,7 +628,7 @@ The statistics without a reference are based on the full assembly rather than co
 
 There is a detailed description of each of the outputs in the [MetaQUAST manual](https://quast.sourceforge.net/docs/manual.html#sec3) which you can use to understand the output more fully.
 
-::: callout-note
+:::: callout-note
 ## Comparing assemblies using MetaQUAST
 
 Using the above image how has the iterative polishing from assembly \> consensus \> pilon improved the assembly?
@@ -638,4 +638,4 @@ Using the above image how has the iterative polishing from assembly \> consensus
 
 In all three assemblies there is a low duplication ratio and this decreases with each round of polishing. Completeness of the assembly increases with polishing, as does largest alignment. In these areas polishing has improved the assembly. However, the number of mismatches and misassemblies increased with polishing and the size of the largest contig decreased. These conflicting statistics illustrate the difficulty in assessing the quality of an assembly.
 :::
-:::
+::::
