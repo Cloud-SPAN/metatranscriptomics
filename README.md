@@ -4,7 +4,20 @@
 
 ```{=html}
 <!---
-This hands-on, online course teaches data analysis for metagenomics projects. It is aimed at those with little or no experience of using high performance computing (HPC) for data analysis. In the course we will cover: - navigating file directories and using the command line - logging into a remote cloud instance - using common commands and running analysis programs in the command line - what is metagenomics? - following a metagenomics analysis workflow including: - performing quality control on reads - assembly of reads into a metagenome - improving your assembly with polishing - binning into species/metagenome-assembled genomes (MAGs) - taxonomic assignment and functional annotation using your binned reads
+This hands-on, online course teaches data analysis for metatranscriptomics projects. It is aimed at those with little or no experience of using high performance computing (HPC) for data analysis. In the course we will cover: - navigating file directories and using the command line - logging into a remote cloud instance - using common commands and running analysis programs in the command line - what is metagenomics? - following a metatranscriptomics analysis workflow including:
+    -   Perform quality control on RNA-seq reads
+
+    -   Carry out adapter trimming and quality filtering
+
+    -   Remove rRNA sequences from RNA-seq data
+
+    -   Merge and prepare reads for downstream analyses
+
+    -   Perform taxonomic profiling of metatranscriptomic data
+
+    -   Functionally interpret expressed genes
+
+    -   Visualise and explore results using interactive tools such as Krona
 
 The course is taught as a mixture of live coding, online lectures, self-study and drop-in sessions.
 
