@@ -69,11 +69,11 @@ website:
 #            icon: "question-circle"
 #            href: docs/faq/index.qmd
   
-#  sidebar:
-#    style: "docked"
-#    collapse-level: 1
-#    pinned: true
-#    contents:
+  sidebar:
+    style: "docked"
+    collapse-level: 1
+    pinned: true
+    contents:
 #      - section: Files and Directories
 #        href: docs/lesson01-files-and-directories/index.qmd
 #        contents: 
