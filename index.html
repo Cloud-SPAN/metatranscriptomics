@@ -356,7 +356,6 @@ cookieconsent.run({
   <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites">Prerequisites</a></li>
   <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
   <li><a href="#course-format" id="toc-course-format" class="nav-link" data-scroll-target="#course-format">Course format</a></li>
-  <li><a href="#course-overview" id="toc-course-overview" class="nav-link" data-scroll-target="#course-overview">Course Overview</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -369,19 +368,21 @@ cookieconsent.run({
 </header>
 
 
-<p>This hands-on, online course teaches data analysis for metagenomics projects. It is aimed at those with little or no experience of using high performance computing (HPC) for data analysis. In the course we will cover:</p>
+<p>This hands-on, online course teaches data analysis for metatranscriptomics projects. It is aimed at those with little or no experience of using high performance computing (HPC) for data analysis. In the course we will cover:</p>
 <ul>
 <li>navigating file directories and using the command line</li>
 <li>logging into a remote cloud instance</li>
 <li>using common commands and running analysis programs in the command line</li>
-<li>what is metagenomics?</li>
-<li>following a metagenomics analysis workflow including:
+<li>what is metatranscriptomics?</li>
+<li>following a metatranscriptomics analysis workflow including:
 <ul>
-<li>performing quality control on reads</li>
-<li>assembly of reads into a metagenome</li>
-<li>improving your assembly with polishing</li>
-<li>binning into species/metagenome-assembled genomes (MAGs)</li>
-<li>taxonomic assignment and functional annotation using your binned reads</li>
+<li><p>Perform quality control on RNA-seq reads</p></li>
+<li><p>Carry out adapter trimming and quality filtering</p></li>
+<li><p>Remove rRNA sequences from RNA-seq data</p></li>
+<li><p>Merge and prepare reads for downstream analyses</p></li>
+<li><p>Perform taxonomic profiling of metatranscriptomic data</p></li>
+<li><p>Functionally interpret expressed genes</p></li>
+<li><p>Visualise and explore results using interactive tools such as Krona</p></li>
 </ul></li>
 </ul>
 <p>The course is taught as a mixture of live coding, online lectures, self-study and drop-in sessions.</p>
@@ -414,8 +415,8 @@ cookieconsent.run({
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This course uses data from a 2022 paper published in BMC Environmental Microbiome titled <a href="https://environmentalmicrobiome.biomedcentral.com/articles/10.1186/s40793-022-00424-2">In-depth characterization of denitrifier communities across different soil ecosystems in the tundra</a>. In this course we will compare data from two of the sites studied.</p>
-<p>You can read more about the data used in the course <a href="./docs/miscellanea/extras/data.html">here</a>.</p>
+<p>This course uses data from the Galaxy Training Network tutorial on metatranscriptomics, which utilizes a dataset hosted on Zenodo (<a href="https://academic.oup.com/ismej/article/13/3/603/7475213">Kunath et al., 2018, ISME J</a>). The dataset comes from a time-series analysis of a microbial community inside a bioreactor. For the purposes of this course, we focus on a single time point (the first) and one biological replicate (replicate A). The data consist of paired-end RNA-Seq sequences in FastQ format, representing the expressed functional potential of the microbial community.</p>
+<p>The samples originate from a <strong>cellulose-degrading microbial consortium (SEM1b)</strong> enriched from a thermophilic biogas reactor in Norway. The consortium is co-dominated by <em>Clostridium thermocellum</em>, a cellulolytic bacterium, and multiple strains of <em>Coprothermobacter proteolyticus</em>, which together degrade plant biomass under anaerobic, high-temperature conditions. This enrichment was performed to study the active expression of carbohydrate-degrading genes within the community.</p>
 </div>
 </div>
 </section>
@@ -423,43 +424,15 @@ cookieconsent.run({
 <h2 class="anchored" data-anchor-id="course-format">Course format</h2>
 <p>This workshop is designed to be run on pre-imaged Amazon Web Services (AWS) instances. All the software and data used in the workshop are hosted on an Amazon Machine Image (AMI). We will give you details as to how to access these instances after registration.</p>
 <p>The course will take place over three weeks and will combine live coding and teaching with offline work. We will guide you through the analysis each session but some steps may need to completed offline due to the amount of time they take to complete. There will also be drop-in sessions to offer support and troubleshooting help, and a Slack workspace for questions.</p>
-</section>
-<section id="course-overview" class="level2">
-<h2 class="anchored" data-anchor-id="course-overview">Course Overview</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Lesson</th>
-<th>Overview</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><a href="./docs/lesson01-files-and-directories/index.html">Files and Directories</a></td>
-<td>Learn about files and directories, log onto a cloud instance and get a basic introduction to the shell.</td>
-</tr>
-<tr class="even">
-<td><a href="./docs/lesson02-using-the-command-line/index.html">Using the Command Line</a></td>
-<td>Learn more about using the shell to navigate directories, manipulate and search files, and combine existing commands to do new things.</td>
-</tr>
-<tr class="odd">
-<td><a href="./docs/lesson03-qc-pre-processing/index.html">QC &amp; Pre-Processing</a></td>
-<td>How to quality control raw RNA reads and prepare them for further analysis.</td>
-</tr>
-<tr class="even">
-<td><a href="./docs/lesson04-taxonomic-annotation/index.html">Taxonomic Annotation</a></td>
-<td>How to extract the community profile from RNA reads.</td>
-</tr>
-<tr class="odd">
-<td><a href="./docs/lesson05-functional-annotation/index.html">Functional Annotation</a></td>
-<td>How to find out which genes and pathways are present in our community.</td>
-</tr>
-<tr class="even">
-<td><a href="./docs/lesson06-combining-annotations/index.html">Combining Annotations</a></td>
-<td>How to combine taxonomic and functional annotations for deeper understanding.</td>
-</tr>
-</tbody>
-</table>
+<!-- ## Course Overview -->
+<!-- | Lesson | Overview | -->
+<!-- |-----------------------------|-------------------------------------------| -->
+<!-- | [Files and Directories](docs/lesson01-files-and-directories/index.qmd) | Learn about files and directories, log onto a cloud instance and get a basic introduction to the shell. | -->
+<!-- | [Using the Command Line](docs/lesson02-using-the-command-line/index.qmd) | Learn more about using the shell to navigate directories, manipulate and search files, and combine existing commands to do new things. | -->
+<!-- | [QC & Pre-Processing](docs/lesson03-qc-pre-processing/index.qmd) | How to quality control raw RNA reads and prepare them for further analysis. | -->
+<!-- | [Taxonomic Annotation](docs/lesson04-taxonomic-annotation/index.qmd) | How to extract the community profile from RNA reads. | -->
+<!-- | [Functional Annotation](docs/lesson05-functional-annotation/index.qmd) | How to find out which genes and pathways are present in our community. | -->
+<!-- | [Combining Annotations](docs/lesson06-combining-annotations/index.qmd) | How to combine taxonomic and functional annotations for deeper understanding. | -->
 <!-- | [Automating Analyses with Bash Scripts](docs/lesson07-automation-bash-scripts/index.qmd) | How to automate the analyses tasks in the previous lessons using Bash scripts. | -->
 
 

@@ -355,8 +355,7 @@ cookieconsent.run({
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#the-paper" id="toc-the-paper" class="nav-link active" data-scroll-target="#the-paper">The paper</a></li>
-  <li><a href="#the-sites" id="toc-the-sites" class="nav-link" data-scroll-target="#the-sites">The sites</a></li>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link active" data-scroll-target="#the-data">The Data</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/edit/main/docs/miscellanea/extras/data.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -369,23 +368,10 @@ cookieconsent.run({
 </header>
 
 
-<section id="the-paper" class="level2">
-<h2 class="anchored" data-anchor-id="the-paper">The paper</h2>
-<p>This course uses data from a 2022 paper published in BMC Environmental Microbiome titled <a href="https://environmentalmicrobiome.biomedcentral.com/articles/10.1186/s40793-022-00424-2">In-depth characterization of denitrifier communities across different soil ecosystems in the tundra</a>.</p>
-<p>The paper characterises microbial communities across 43 mountain tundra sites in northern Finland with focus on their role in nitrous oxide cycling. Each site was classified as being barren, heathland, meadow or fen.</p>
-<p>Environmental information such as elevation, soil moisture and N2O fluxes was gathered for each site. DNA from each site was extracted and sequenced using Illumina technology, giving “short reads”. Two sites were additionally sequenced using a Nanopore MinION, giving “long reads”. In this course we will focus on these two sites as they have both long and short read data available.</p>
-</section>
-<section id="the-sites" class="level2">
-<h2 class="anchored" data-anchor-id="the-sites">The sites</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../../../images/sample_sites_comparison-03.png" class="img-fluid figure-img" alt="Graphic showing the two sample sites: m11216, a mountainous heathland site, and m12208, a boggy fenland site." width="500"></p>
-<figcaption>.</figcaption>
-</figure>
-</div>
-<!-- OLD <img align="center" width = "500" src="{{ page.root }}/fig/sample_sites_comparison-03.png" alt="Graphic showing the two sample sites: m11216, a mountainous heathland site, and m12208, a boggy fenland site."/> -->
-<p>The main site we will be looking at is site <strong>m11216</strong>, a heathland site with elevation 812.7 metres above sea level. We have two samples for this site: a short-read sample called <em>ERR4998593</em> and a long-read sample called <em>ERR5000342</em>. These are the samples we will be working with most and using in our metagenomics analysis workflow.</p>
-<p>Towards the end of the course we will compare this site with site m12208, a fenland site with elevation 706.3m above sea level. We will not be using the samples associated with this site during the course but we will use the outputs of their analysis for comparison with our own.</p>
+<section id="the-data" class="level2">
+<h2 class="anchored" data-anchor-id="the-data">The Data</h2>
+<p>This course uses data from the Galaxy Training Network tutorial on metatranscriptomics, which utilizes a dataset hosted on Zenodo (<a href="https://academic.oup.com/ismej/article/13/3/603/7475213">Kunath et al., 2018, ISME J</a>). The dataset comes from a time-series analysis of a microbial community inside a bioreactor. For the purposes of this course, we focus on a single time point (the first) and one biological replicate (replicate A). The data consist of paired-end RNA-Seq sequences in FastQ format, representing the expressed functional potential of the microbial community.</p>
+<p>The samples originate from a <strong>cellulose-degrading microbial consortium (SEM1b)</strong> enriched from a thermophilic biogas reactor in Norway. The consortium is co-dominated by <em>Clostridium thermocellum</em>, a cellulolytic bacterium, and multiple strains of <em>Coprothermobacter proteolyticus</em>, which together degrade plant biomass under anaerobic, high-temperature conditions. This enrichment was performed to study the active expression of carbohydrate-degrading genes within the community.</p>
 
 
 </section>

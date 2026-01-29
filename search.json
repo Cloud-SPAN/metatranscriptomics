@@ -38,23 +38,11 @@
     ]
   },
   {
-    "objectID": "docs/miscellanea/extras/data.html#the-paper",
-    "href": "docs/miscellanea/extras/data.html#the-paper",
+    "objectID": "docs/miscellanea/extras/data.html#the-data",
+    "href": "docs/miscellanea/extras/data.html#the-data",
     "title": "Data",
-    "section": "The paper",
-    "text": "The paper\nThis course uses data from a 2022 paper published in BMC Environmental Microbiome titled In-depth characterization of denitrifier communities across different soil ecosystems in the tundra.\nThe paper characterises microbial communities across 43 mountain tundra sites in northern Finland with focus on their role in nitrous oxide cycling. Each site was classified as being barren, heathland, meadow or fen.\nEnvironmental information such as elevation, soil moisture and N2O fluxes was gathered for each site. DNA from each site was extracted and sequenced using Illumina technology, giving “short reads”. Two sites were additionally sequenced using a Nanopore MinION, giving “long reads”. In this course we will focus on these two sites as they have both long and short read data available.",
-    "crumbs": [
-      "Home",
-      "Extras",
-      "Data"
-    ]
-  },
-  {
-    "objectID": "docs/miscellanea/extras/data.html#the-sites",
-    "href": "docs/miscellanea/extras/data.html#the-sites",
-    "title": "Data",
-    "section": "The sites",
-    "text": "The sites\n\n\n\n.\n\n\n\nThe main site we will be looking at is site m11216, a heathland site with elevation 812.7 metres above sea level. We have two samples for this site: a short-read sample called ERR4998593 and a long-read sample called ERR5000342. These are the samples we will be working with most and using in our metagenomics analysis workflow.\nTowards the end of the course we will compare this site with site m12208, a fenland site with elevation 706.3m above sea level. We will not be using the samples associated with this site during the course but we will use the outputs of their analysis for comparison with our own.",
+    "section": "The Data",
+    "text": "The Data\nThis course uses data from the Galaxy Training Network tutorial on metatranscriptomics, which utilizes a dataset hosted on Zenodo (Kunath et al., 2018, ISME J). The dataset comes from a time-series analysis of a microbial community inside a bioreactor. For the purposes of this course, we focus on a single time point (the first) and one biological replicate (replicate A). The data consist of paired-end RNA-Seq sequences in FastQ format, representing the expressed functional potential of the microbial community.\nThe samples originate from a cellulose-degrading microbial consortium (SEM1b) enriched from a thermophilic biogas reactor in Norway. The consortium is co-dominated by Clostridium thermocellum, a cellulolytic bacterium, and multiple strains of Coprothermobacter proteolyticus, which together degrade plant biomass under anaerobic, high-temperature conditions. This enrichment was performed to study the active expression of carbohydrate-degrading genes within the community.",
     "crumbs": [
       "Home",
       "Extras",
@@ -506,7 +494,7 @@
     "href": "index.html",
     "title": "Metatranscriptomics",
     "section": "",
-    "text": "This hands-on, online course teaches data analysis for metagenomics projects. It is aimed at those with little or no experience of using high performance computing (HPC) for data analysis. In the course we will cover:\nThe course is taught as a mixture of live coding, online lectures, self-study and drop-in sessions."
+    "text": "This hands-on, online course teaches data analysis for metatranscriptomics projects. It is aimed at those with little or no experience of using high performance computing (HPC) for data analysis. In the course we will cover:\nThe course is taught as a mixture of live coding, online lectures, self-study and drop-in sessions."
   },
   {
     "objectID": "index.html#prerequisites",
@@ -520,7 +508,7 @@
     "href": "index.html#data",
     "title": "Metatranscriptomics",
     "section": "Data",
-    "text": "Data\n\n\n\n\n\n\nNoteAbout the data used in the course\n\n\n\nThis course uses data from a 2022 paper published in BMC Environmental Microbiome titled In-depth characterization of denitrifier communities across different soil ecosystems in the tundra. In this course we will compare data from two of the sites studied.\nYou can read more about the data used in the course here."
+    "text": "Data\n\n\n\n\n\n\nNoteAbout the data used in the course\n\n\n\nThis course uses data from the Galaxy Training Network tutorial on metatranscriptomics, which utilizes a dataset hosted on Zenodo (Kunath et al., 2018, ISME J). The dataset comes from a time-series analysis of a microbial community inside a bioreactor. For the purposes of this course, we focus on a single time point (the first) and one biological replicate (replicate A). The data consist of paired-end RNA-Seq sequences in FastQ format, representing the expressed functional potential of the microbial community.\nThe samples originate from a cellulose-degrading microbial consortium (SEM1b) enriched from a thermophilic biogas reactor in Norway. The consortium is co-dominated by Clostridium thermocellum, a cellulolytic bacterium, and multiple strains of Coprothermobacter proteolyticus, which together degrade plant biomass under anaerobic, high-temperature conditions. This enrichment was performed to study the active expression of carbohydrate-degrading genes within the community."
   },
   {
     "objectID": "index.html#course-format",
@@ -528,13 +516,6 @@
     "title": "Metatranscriptomics",
     "section": "Course format",
     "text": "Course format\nThis workshop is designed to be run on pre-imaged Amazon Web Services (AWS) instances. All the software and data used in the workshop are hosted on an Amazon Machine Image (AMI). We will give you details as to how to access these instances after registration.\nThe course will take place over three weeks and will combine live coding and teaching with offline work. We will guide you through the analysis each session but some steps may need to completed offline due to the amount of time they take to complete. There will also be drop-in sessions to offer support and troubleshooting help, and a Slack workspace for questions."
-  },
-  {
-    "objectID": "index.html#course-overview",
-    "href": "index.html#course-overview",
-    "title": "Metatranscriptomics",
-    "section": "Course Overview",
-    "text": "Course Overview\n\n\n\nLesson\nOverview\n\n\n\n\nFiles and Directories\nLearn about files and directories, log onto a cloud instance and get a basic introduction to the shell.\n\n\nUsing the Command Line\nLearn more about using the shell to navigate directories, manipulate and search files, and combine existing commands to do new things.\n\n\nQC & Pre-Processing\nHow to quality control raw RNA reads and prepare them for further analysis.\n\n\nTaxonomic Annotation\nHow to extract the community profile from RNA reads.\n\n\nFunctional Annotation\nHow to find out which genes and pathways are present in our community.\n\n\nCombining Annotations\nHow to combine taxonomic and functional annotations for deeper understanding."
   },
   {
     "objectID": "docs/lesson02-using-the-command-line/03-redirection.html#searching-files",
