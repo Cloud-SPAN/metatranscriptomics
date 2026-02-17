@@ -2,7 +2,17 @@
 title: "Extracting a Community Profile"
 ---
 
-In the [previous lesson](#0) we filtered our samples to separate out rRNA and mRNA sequences, however for our taxonomic analysis we shall be using our unfiltered data.
+## Taxonomic Profiling
+
+Community structure is the data that tells us which species or taxa are present and what their abundances are. This taxonomic information is important as it tells us which microbes within the microbiome are the most likely to be driving the function. This kind of analysis is often called **taxonomic profiling**.
+
+Taxonomic profiling can be achieved by a few different approaches. These include:
+
+-   Using 16S/18S rRNA sub-unit sequencing to identify Operation Taxonomic Units (OTUs), a sort of proxy for species. This approach is also called "**amplicon sequencing**" or "**amplicon analysis**". Whilst this approach usually utilises targeted PCR amplification of 16S/18S sequences, it is possible to use our aligned reads from SortMeRNA to yield our rRNA sequences in traditional amplicon analysis tools.
+
+-   Using gene alignment software to assign taxonomy to reads by aligning them to marker genes from curated databases.
+
+In this tutorial we shall be following the second of the approaches detailed above. In the [previous lesson](#0) we filtered our samples to separate out rRNA and mRNA sequences, however for our taxonomic analysis we shall be using our unfiltered data.
 
 We shall be using a tool called MetaPhlan, which aligns sequences with reference genomes in order to estimate which taxon those sequences originate from. Because rRNA is often used as a taxonomic marker, we will want to use our unfiltered data. The filtered data will be used instead for our functional analysis next lesson.
 
@@ -89,6 +99,6 @@ metaphlan data/trimmedreads/SRR6820491_merged.fastq  \
 ##note if you want to re-run metaphlan you'll have to delete the original outputs
 ```
 
-Now we have a better idea of what we're asking metaphlan to do, let's run it. Go ahead and run the command in your terminal. Be sure that you're in your cs_course directory so the commands point to the correct input and output directories!
+Now we have a better idea of what we're asking metaphlan to do, let's run it. Be sure that you're in your `cs_course` directory so that the commands point to the correct input and output directories! Go ahead and run the command in your terminal.
 
 This should take about 20 minutes to run.
