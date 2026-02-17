@@ -2,7 +2,7 @@
 title: "Extracting a Community Profile"
 ---
 
-In the [previous episode](/docs/lesson03-qc-assembly/03-rna-filtering.qmd) we filtered our samples to separate out rRNA and mRNA sequences, however for our taxonomic analysis we shall be using our unfiltered data.
+In the [previous lesson](#0) we filtered our samples to separate out rRNA and mRNA sequences, however for our taxonomic analysis we shall be using our unfiltered data.
 
 We shall be using a tool called MetaPhlan, which aligns sequences with reference genomes in order to estimate which taxon those sequences originate from. Because rRNA is often used as a taxonomic marker, we will want to use our unfiltered data. The filtered data will be used instead for our functional analysis next lesson.
 
