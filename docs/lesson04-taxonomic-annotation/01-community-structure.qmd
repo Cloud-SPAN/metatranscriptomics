@@ -32,7 +32,7 @@ And so, MetaPhlan uses bowtie2 to map sequenced reads to the Chocophlan database
 
 ### Running Metaphlan
 
-First of all let's make a directory to store all of our Metaphlan outputs:
+First of all, ensuring we are in our `~/cs_course` directory, let's make a directory to store all of our Metaphlan outputs:
 
 ``` bash
 mkdir analysis/metaphlan
@@ -105,15 +105,25 @@ Now we have a better idea of what we're asking metaphlan to do, let's run it. Be
 
 This should take about 30 minutes to run. It takes a while as each sequence is compared to the full database one by one!
 
+### A note on analysing community data from Metatranscriptomes
+
+This approach of analysing RNA reads is largely the same as the approach we would use for analysing DNA reads. However, this approach does have one main caveat, as explained here.
+
+Because Metaphlan quantifies species abundance based on the number of reads that match species-specific marker genes it may seem sensible to assume a higher abundance of reads means a higher abundances of individuals or genomes of that species, but this is not necessarily true.
+
+When analysing metagenomic DNA data it is safe to assume each genome corresponds to a single copy of a given marker gene (assuming that gene appears once within the genome). However, for metatranscriptomic RNA data that same assumption cannot be made as markers may be transcribed more or less than the average transcription rate for that species. This means the abundance Metaphlan calculates may be greater or smaller than that species' contribution to the overall transcript pool.
+
+In effect we are observing a measure of the marker gene transcript pool (not the overall transcript pool of all expressed genes), and this should be taken into account when analysing the outputs of Metaphlan. Remember it is always important to consider how our data is linked to biological reality!
+
 A note on species level:!!!!! EXPLAIN WHY SPECIES ONLY LEVEL!!!
 
 ## Interpreting the Metaphlan output
 
 From our Metaphlan run we have a few main outputs:
 
-**A tabular file containing the community profile (metaphlan_output.txt)**
+#### Tabular file containing the community profile (metaphlan_output.txt)
 
-Each line of this file will have four "columns":
+-   Each line of this file will have four "columns":
 
 1.  the closest matched taxon (to the species level)
 
@@ -123,16 +133,44 @@ Each line of this file will have four "columns":
 
 4.  additional species that may share the same species group marker as the closest matched taxon
 
-This file is used for both interpretation of the data and as an input for the functional annotation later on.
+-   This file is used for both interpretation of the data and as an input for the functional annotation later on.
 
-**A Bowtie2 alignment file (SRR6820491.bowtie2.bz2)**
+#### Bowtie2 alignment file (SRR6820491.bowtie2.bz2)
 
-This file is a compressed archive of intermediate files from the alignment process. It contains read IDs, marker gene matches, and alignment scores.
+-   This file is a compressed archive of intermediate files from the alignment process. It contains read IDs, marker gene matches, and alignment scores.
 
-We don't need it for this pipeline, but could be useful if you wanted to know how efficiently Metaphlan has mapped your reads to the database.
+-   We don't need it for this pipeline, but could be useful if you wanted to know how efficiently Metaphlan has mapped your reads to the database.
 
-It can also be used as an input if you need to re-run Metaphlan, which saves time as it will skip the mapping step.
+-   It can also be used as an input if you need to re-run Metaphlan, which saves time as it will skip the mapping step.
 
-**An execution log file (metaphlan.log)**
+#### Execution log file (metaphlan.log)
 
-This log contains messages that would otherwise appear in the terminal that we have redirected using the &\> command. We can use this to track if there have been any errors or warnings if things go wrong.
+-   This log contains messages that would otherwise appear in the terminal that we have redirected using the &\> command. We can use this to track if there have been any errors or warnings if things go wrong.
+
+Let's have a look at our community profile output using less.
+
+``` bash
+less analysis/metaphlan/metaphlan_output.txt
+```
+
+``` {#output}
+#mpa_vJan25_CHOCOPhlAnSGB_202503 #/home/ubuntu/.local/bin/metaphlan data/trimmedreads/SRR6820491_merged.fastq --input_type fastq --bowtie2out analysis/metaphlan/SRR6820491_s.bowtie2.bz2 --bowtie2db data/chocophlandb/ -t rel_ab --tax_lev s -o analysis/metaphlan/SRR6820491_profile_vJan25_s.txt --nproc 8 --add_viruses --stat_q 0.1 --min_ab 0.1 
+#16372080 reads processed 
+#SampleID Metaphlan_Analysis #clade_name NCBI_tax_id relative_abundance additional_species 
+s__Coprothermobacter_proteolyticus 35786 81.43426
+s__Acetivibrio_thermocellus 1515 12.51698
+s__Tepidanaerobacter_sp_GT38 2722793 5.52737 s__Methanothermobacter_thermautotrophicus 145262 0.50341
+s__Escherichia_coli 562 0.01798
+```
+
+From the output here, try and answer these questions:
+
+1.  How many taxons have been identified?
+
+2.  What different taxonomic levels do we have access to with MetaPhlan?
+
+3.  What genus and species are found in our sample?
+
+4.  Has only bacteria been identified in our sample?
+
+ANSWERS HERE
