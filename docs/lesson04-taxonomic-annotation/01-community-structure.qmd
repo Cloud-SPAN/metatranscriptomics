@@ -16,10 +16,6 @@ In this tutorial we shall be following the second of the approaches detailed abo
 
 We shall be using a tool called MetaPhlan, which aligns sequences with reference genomes in order to estimate which taxon those sequences originate from. Because rRNA is often used as a taxonomic marker, we will want to use our unfiltered data. The filtered data will be used instead for our functional analysis next lesson.
 
-### Taxonomic analysis methods
-
-Often a metatranscriptomic analysis will also include data on the community structure of the microbiome being analysed. This data can be obtained in a few different ways:
-
 (For more on different methodologies see the [introduction to lesson 3](/docs/lesson03-qc-assembly/01-introduction-meta.qmd)).
 
 ### What is Metaphlan?
@@ -35,6 +31,12 @@ You may have also seen "Chocophlan" listed among the Biobakery tools too. Unlike
 And so, MetaPhlan uses bowtie2 to map sequenced reads to the Chocophlan database of marker genes, determining species by the proportion of aligned reads. This approach allows researchers to quickly study microbiome composition without having to perform separate sequencing to determine taxonomy.
 
 ### Running Metaphlan
+
+First of all let's make a directory to store all of our Metaphlan outputs:
+
+``` bash
+mkdir analysis/metaphlan
+```
 
 Here's what the Metaphlan command looks like:
 
@@ -101,4 +103,36 @@ metaphlan data/trimmedreads/SRR6820491_merged.fastq  \
 
 Now we have a better idea of what we're asking metaphlan to do, let's run it. Be sure that you're in your `cs_course` directory so that the commands point to the correct input and output directories! Go ahead and run the command in your terminal.
 
-This should take about 20 minutes to run.
+This should take about 30 minutes to run. It takes a while as each sequence is compared to the full database one by one!
+
+A note on species level:!!!!! EXPLAIN WHY SPECIES ONLY LEVEL!!!
+
+## Interpreting the Metaphlan output
+
+From our Metaphlan run we have a few main outputs:
+
+**A tabular file containing the community profile (metaphlan_output.txt)**
+
+Each line of this file will have four "columns":
+
+1.  the closest matched taxon (to the species level)
+
+2.  the matched taxon NCBI ID
+
+3.  the relative abundance of the taxon
+
+4.  additional species that may share the same species group marker as the closest matched taxon
+
+This file is used for both interpretation of the data and as an input for the functional annotation later on.
+
+**A Bowtie2 alignment file (SRR6820491.bowtie2.bz2)**
+
+This file is a compressed archive of intermediate files from the alignment process. It contains read IDs, marker gene matches, and alignment scores.
+
+We don't need it for this pipeline, but could be useful if you wanted to know how efficiently Metaphlan has mapped your reads to the database.
+
+It can also be used as an input if you need to re-run Metaphlan, which saves time as it will skip the mapping step.
+
+**An execution log file (metaphlan.log)**
+
+This log contains messages that would otherwise appear in the terminal that we have redirected using the &\> command. We can use this to track if there have been any errors or warnings if things go wrong.
