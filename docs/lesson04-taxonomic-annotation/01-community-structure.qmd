@@ -66,7 +66,7 @@ metaphlan -h
 
 There are many possible input arguments for metaphlan, which can seem overwhelming at first. However, there's no need to know them all! We only need to use those which are relevant to our analysis.
 
-Referring to the manual can be useful to toggle different settings on and off, for example changing the flag of tax_lev from 's' to 'g' will change the taxonomic level we're searching for from species to genus.
+Referring to the manual can be useful to toggle different settings on and off, for example changing the flag of tax_lev from 's' to 'g' will change the taxonomic level we're searching at from species to genus.
 
 Here's the command again with comments explaining each lines.
 
@@ -101,11 +101,22 @@ metaphlan data/trimmedreads/SRR6820491_merged.fastq  \
 ##note if you want to re-run metaphlan you'll have to delete the original outputs
 ```
 
-Now we have a better idea of what we're asking metaphlan to do, let's run it. Be sure that you're in your `cs_course` directory so that the commands point to the correct input and output directories! Go ahead and run the command in your terminal.
+Now we have a better idea of what we're asking metaphlan to do, let's run it. Be sure that you're in your `cs_course` directory so that the commands point to the correct input and output directories! Go ahead and run the command in your terminal:
 
-This should take about 30 minutes to run. It takes a while as each sequence is compared to the full database one by one!
+``` bash
+ metaphlan data/trimmedreads/SRR6820491_merged.fastq \
+ --input_type fastq \
+ --bowtie2db data/chocophlandb/ \
+ --bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2 \
+ --nproc 8--add_viruses--tax_lev 's' \
+ --min_cu_len 2000--read_min_len 70 \
+ --stat_q 0.1--output_file analysis/metaphlan/metaphlan_output.txt \
+ --min_ab 0.1&> analysis/metaphlan/log.txt &
+```
 
-### A note on analysing community data from Metatranscriptomes
+This should take about 30 minutes to run. It takes a while as each sequence is compared to the full database one by one! Our test data here only consists of one sample, but in your research you may be working on many many more. As such a "real" Metaphlan run may take much longer.
+
+## A note on analysing community data from Metatranscriptomes
 
 This approach of analysing RNA reads is largely the same as the approach we would use for analysing DNA reads. However, this approach does have one main caveat, as explained here.
 
@@ -115,7 +126,15 @@ When analysing metagenomic DNA data it is safe to assume each genome corresponds
 
 In effect we are observing a measure of the marker gene transcript pool (not the overall transcript pool of all expressed genes), and this should be taken into account when analysing the outputs of Metaphlan. Remember it is always important to consider how our data is linked to biological reality!
 
-A note on species level:!!!!! EXPLAIN WHY SPECIES ONLY LEVEL!!!
+::: callout-note
+## Why are we only searching at the species level?
+
+In a real world Metaphlan run it is most likely you would set the taxonomic level for the search to be Kingdom and below, so why are we setting it to just species for this tutorial?
+
+Metaphlan will output results for reads it can match with confidence to a set of marker genes. However some of those matches will only be resolved down to a higher taxonomic level as some genes are shared between all members of, for example, a certain Family. If only those shared genes are matched then it cannot be determined which Genus that read is from, and so it Metaphlan will report only to the Family level.
+
+This can result in outputs that are much larger and much more complex to interpret. For simplicity's sake we shall only deal with species level outputs for this tutorial, but we will include a pre-made output file for you to explore in the next episode.
+:::
 
 ## Interpreting the Metaphlan output
 
@@ -159,18 +178,31 @@ less analysis/metaphlan/metaphlan_output.txt
 #SampleID Metaphlan_Analysis #clade_name NCBI_tax_id relative_abundance additional_species 
 s__Coprothermobacter_proteolyticus 35786 81.43426
 s__Acetivibrio_thermocellus 1515 12.51698
-s__Tepidanaerobacter_sp_GT38 2722793 5.52737 s__Methanothermobacter_thermautotrophicus 145262 0.50341
+s__Tepidanaerobacter_sp_GT38 2722793 5.52737
+s__Methanothermobacter_thermautotrophicus 145262 0.50341
 s__Escherichia_coli 562 0.01798
 ```
 
+:::: callout-note
 From the output here, try and answer these questions:
 
 1.  How many taxons have been identified?
 
 2.  What different taxonomic levels do we have access to with MetaPhlan?
 
-3.  What genus and species are found in our sample?
+3.  What species are found in our sample?
 
-4.  Has only bacteria been identified in our sample?
+4.  Can you tell if only bacteria have been identified in our sample?
 
-ANSWERS HERE
+::: {.callout-note collapse="true"}
+1.  Our output has 5 lines, meaning we have 5 taxons identified
+
+2.  We only have species level accessed in our run. Changing the –tax_lev will allow us to identify a broader set of taxa
+
+3.  In our sample we identified: *Coprothermobacter proteolyticus, Acetivibrio thermocellus, Tepidanaerobacter sp. GT38, Methanothermobacter thermautotrophicus, Escherichia coli*
+
+4.  Trick question! Although you can manually verify each taxa you will need to adjust the –tax_lev flag on Metaphlan to show the kingdom (`k__`) level
+:::
+::::
+
+Whilst it is possible to interpret information from this table alone, it is far easier to try to do so from visualised data. In the next episode we shall be using Krona and Graphlan to generate visualisations of Metaphlan's output.
