@@ -30,6 +30,8 @@ You may have also seen "Chocophlan" listed among the Biobakery tools too. Unlike
 
 And so, MetaPhlan uses bowtie2 to map sequenced reads to the Chocophlan database of marker genes, determining species by the proportion of aligned reads. This approach allows researchers to quickly study microbiome composition without having to perform separate sequencing to determine taxonomy.
 
+Humann is a tool used for functional annotation, which we shall explore next lesson.
+
 ### Running Metaphlan
 
 First of all, ensuring we are in our `~/cs_course` directory, let's make a directory to store all of our Metaphlan outputs:
