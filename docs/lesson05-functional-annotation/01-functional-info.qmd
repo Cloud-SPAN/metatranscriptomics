@@ -4,10 +4,18 @@ title: "Extracting Functional Information"
 
 In the previous lesson we used Metaphlan to assess the taxonomic profile and discover which microbes are active in our sample. Now we know "who" is in our sample, it's time to find out "what" they are doing, that is to say the functional information. To do so we shall use another piece of software called Humann.
 
+## What is Functional Profiling?
+
+Functional profiling is the identification of the function of a microbiome. With metagenomic data (DNA) a functional profile will indicate which gene pathways *can* be expressed, but in metatranscriptomics the analysis of mRNA we can identify which genes pathways *are* expressed. In other words, this lets us see which gene pathways are active in the microbiome, and how relatively active they are.
+
+Gene pathways, sometimes called metabolic pathways, are collections of genes that code for enzymes that carry out certain biological functions such as carbohydrate metabolism, amino acid biosynthesis, stress response, or antibiotic resistance.
+
+Usually gene expression is measured in relative abundance rather than absolute as the isolated, reverse-transcribed, and sequenced RNA only a subset of the true total biological pool. RNA extraction is never 100% efficient as molecules can be lost during cell lysis, purification, library prep, and sequencing prep. Sequencing depth is always limited, and so even RNA molecules present in the sequencing plate may not be detected if they are lower in count. As such absolute abundances will not necessarily be a meaningful measure, whereas the relative expression of gene pathways can be informative and useful for the comparison of function between samples or treatments.
+
 ## What is Humann?
 
 HUMAnN (The HMP Unified Metabolic Analysis Network) is another piece of software from the BioBakery suite of software as detailed in the previous lesson. It is a pipeline for accurate determination of either the abundance or presence/absence of microbial gene pathways in a community. It can use either DNA (metagenomic) or RNA (metatranscriptomic) data.
 
 It works by finding the abundance of orthologous (performing approximately the same function) gene families in the data, using the KEGG Orthology (KO) catalog by default. It also finds gene pathways (defined as two or more genes) using KEGG Pathways or GO (Gene Ontology) terms. Abudance of each pathway (how many copies there are present in the data) as well as presence/absence can be outputted by Humann.
 
-As we are looking at community function we no longer need the rRNA sequences as they do not contain gene coding regions and so will slow the run down considerably. This means we shall be using the filtered output of SortMeRNA
+As we are looking at community function we no longer need the rRNA sequences as they do not contain gene coding regions and so will slow the run down considerably. This means we shall be using the filtered output of SortMeRNA.
