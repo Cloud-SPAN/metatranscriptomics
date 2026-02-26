@@ -39,7 +39,8 @@ humann --input analysis/sortmerna/rejected_reads.fq \
 &> analysis/humann/humann.out &
 ```
 
-As we are looking at community function we no longer need the rRNA sequences as they do not contain gene coding regions and so will slow the run down considerably. This means we shall be using the filtered output of SortMeRNA. In order to speed up the run further we feed our Metaphlan output into the command, which tells Humann to only look at particular subsections of the Chocophlan database relevant to the taxa we identified with Metaphlan.
+As we are looking at community function we no longer need the rRNA sequences as they do not contain gene coding regions and so will slow the run down considerably. This means we shall be using the filtered output of SortMeRNA.
+
 
 ## Humann outputs
 
