@@ -101,7 +101,6 @@ website:
         href: docs/lesson05-functional-annotation/index.qmd
         contents: 
           - docs/lesson05-functional-annotation/01-functional-info.qmd
-          - docs/lesson05-functional-annotation/02-normalising-and-identifying.qmd
 #      - section: "Combining Annotations"
 #        href: docs/lesson06-combining-annotations/index.qmd
 #        contents: 
