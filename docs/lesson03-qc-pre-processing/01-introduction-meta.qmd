@@ -2,85 +2,70 @@
 title: "Introduction to Metatranscriptomics"
 ---
 
-## What is the difference between Genomics and Metagenomics?
+## What is the difference between Genomics, Metagenomics, and Metatranscriptomics?
 
 In **genomics**, we sequence and analyse the genome of a single species. We often have a known reference genome to which we can align all our reads.
 
-In **metagenomics** we sequence samples composed of many genomes. These might be environmental samples from soil or anaerobic digestors for example, or samples from the skin or digestive tracts of animals. Such samples typically include species that are difficult to culture and thus lack reference genomes. The challenge in metagenomics is to assemble this mix of diverse genomes into its constituent genomes.
+In **metagenomics**, we sequence DNA from samples composed of many genomes. These might be environmental samples from soil or anaerobic digestors, or samples from the skin or digestive tracts of animals. The goal is to understand which organisms are present and what functional potential they encode.
 
-## Metagenomics
+In **metatranscriptomics**, we sequence RNA from mixed communities. Instead of asking “What genes are present?”, we ask:
 
-A metagenome is a collection of genomic sequences from various (micro) organisms coexisting in a given space. They are snapshots that tell us about the taxonomic, metabolic or functional composition of the communities that we study.
+-   Which genes are actively being expressed?
 
-Analysing multiple genomes rather than individual genomes introduces additional complexity:
+-   How are organisms responding to environmental conditions?
 
--   Taxonomic assignment: How can we separate the sequences to the different putative organisms or taxonomic units?
--   Community Composition: How can we quantify the relative abundances of the taxonomic units present?
+Metatranscriptomics provides a snapshot of the active functional state of a microbial community at a specific point in time.
 
-A typical metagenomic workflow is designed to answer two questions:
+## Metatranscriptomics
 
-1.  What species are present in the sample and what are their relative abundances?
-2.  What is the functional capacity of the organisms or the community?
+A metatranscriptome is the complete collection of RNA transcripts (usually mRNA, but also rRNA, tRNA and other RNAs) from all organisms in a given community at a given time.
 
-## Community sequencing approaches
+While metagenomics tells us about functional capacity, metatranscriptomics tells us about functional activity.
 
-There are two technologies used in mixed community sequencing which have different use cases, advantages and disadvantages: **Whole genome metagenomics** and **Amplicon/(16S) sequencing**.
+Because RNA is unstable and expression levels change rapidly, metatranscriptomes are highly dynamic and sensitive to environmental conditions.
 
-### Whole metagenome sequencing (WMS)
+Analysing transcriptomes presents several key challenges:
 
-Random parts of **all of the genomes** present in a sample are sequenced in WMS. We aim to find what organism, or "taxonomic unit", they come from, what part of their genome they come from, and what functions they encode. This can be done by cross-referencing the sequences obtained with databases of information.
+-   RNA Stability: RNA degrades quickly, so careful sampling, storage and extraction are critical.
+-   rRNA Dominance: Ribosomal RNA (rRNA) often makes up more than 80–90% of total RNA. It usually needs to be removed before sequencing to focus on mRNA.
+-   Expression Variability: Gene expression levels vary across species, environmental conditions, time, and even individual cells.
+-   Taxonomic Assignment: Assigning transcripts to the correct organism can be difficult, especially when reference genomes are unavailable.
+-   Quantification: We must distinguish between high abundance because the organism is abundant and high abundance because the gene is highly expressed.
 
-If the metagenome is complex and deeply sequenced enough, we may even be able obtain full individual genomes from WMS and a strong understanding of the functional capacity of the microbiome.
+A typical metatranscriptomic workflow is designed to answer two questions:
 
-For abundant organisms in a metagenome sample, there are likely to be enough data to generate reasonable genome coverage. However, this is not the case for low abundance organisms. Often deeper sequencing/ more total sequencing data is required to assemble the genomes of these organisms. If your research question can be addressed by considering the most abundant organisms, you need do less sequencing than if your question requires an understanding of the rarest organisms present.
+1.  Which organisms are metabolically active in the sample?
+2.  Which genes and pathways are being actively expressed?
 
-The cost of both preparing the samples and the computational effort required to analyse them can become prohibitively expensive quickly. Before starting you need to think carefully about the question your dataset is trying to answer and how many samples you will need to sequence to get one. This is especially the case when you are trying to include biological or technical replication in your experimental design.
+Metatranscriptomics provides insight into the functional activity of a microbial community, rather than just its potential, allowing us to see which genes are actively being expressed. It captures dynamic responses to environmental changes or treatments and, when combined with taxonomic profiling, can link specific taxa to the metabolic pathways they are actively using. This approach is also particularly useful for identifying rare organisms that, while low in abundance, are transcriptionally active and would be missed in DNA-based analyses.
 
-### Amplicon sequencing
+## Metatranscriptome sequencing approaches
 
-An **amplicon** is a small piece of DNA or RNA that will be amplified through PCR (Polymerase Chain Reaction). Amplicon sequencing is cheaper than WMS because only a small part of the genome is sequenced. This makes it affordable to include additional replicates.
+In metatranscriptomics, RNA is extracted from the microbial community and converted into complementary DNA (cDNA) for sequencing. This approach captures:
 
-The region being amplified needs to be present in all the individuals in the community being characterised, and be highly conserved. 16 rRNA is often used for amplicon sequencing in bacteria for this reason (for eukaryotes 18S rRNA is used instead).
+-   mRNA: coding transcripts, revealing active metabolic pathways.
 
-For organisms that are well characterised, establishing identity can give you information about functional capacity of the community. For organisms which are not well characterised - and these are common in such samples - we will know little other than relative abundances in the community.
+-   rRNA and tRNA: structural and regulatory RNAs; rRNA is often removed or depleted because it dominates total RNA.
 
-Despite this, there are workflows such as [QIIME2](https://qiime2.org/), which are free and community led, which use database annotations of the reference versions of the organisms identified from the amplicon, to suggest what metabolic functions maybe present. The amplicon sequence is also limited because species may have genomic differences, but may be indistinguishable from the amplicon sequence alone. This means that amplicon sequencing can rarely resolve to less than a genus level.
+Metatranscriptomic sequencing begins with careful sample collection, as RNA is far more labile than DNA and degrades rapidly if not preserved correctly.
 
-| Attribute            | Amplicon                   | Whole genome metagenomics                            |
-|---------------------|----------------------|-----------------------------|
-| Cost                 | Cheap                      | Expensive                                            |
-| Coverage depth       | High                       | Lower - medium                                       |
-| Taxonomy detection   | Specific to amplicons used | All in sample                                        |
-| Genome coverage      | Only region amplified      | All of genome                                        |
-| Taxonomic resolution | Lower                      | Higher                                               |
-| Turnaround time      | Fast                       | Slower - more computational time for analysis needed |
+Samples are therefore typically treated immediately with RNA stabilisation reagents or flash frozen to maintain transcript integrity.
 
-## Nanopore (long-read) vs Illumina (short-read) data
+The next step is RNA extraction, which must be performed under conditions that minimise degradation and contamination; in some cases, RNA and DNA are co-extracted to allow comparison between gene expression and genomic potential.
 
-In our [Statistically Useful Experimental Design](https://cloud-span.github.io/experimental_design01-principles/01-platform/index.html) course we cover how to choose your sequencing platform based on your research question. However, it's a bit different when doing a whole metagenome assembly experiment.
+Once total RNA has been isolated, ribosomal RNA (rRNA), which usually constitutes 80–90% of the total RNA pool, is depleted to enrich for messenger RNA (mRNA), the fraction that reflects protein-coding gene expression.
 
-For single genome analyses you can choose between assembling your genome one of two ways: using a reference as a template or *de novo* (without a reference). Which route you choose depends on whether there is a reasonable reference available for the genome you're assembling.
+The enriched RNA is then reverse transcribed into complementary DNA (cDNA), as sequencing platforms require DNA rather than RNA as input.
 
-When looking at whole metagenome assembly, there will not be a reference available for the metagenome as a whole. You are also unlikely to know what species will be present. All of your assembly stages will therefore be *de novo*. This makes using long reads preferable as it's easier to piece them together.
+Finally, the cDNA undergoes library preparation before sequencing, which can be performed using either short-read or long-read technologies depending on the research question and desired resolution.
 
-We will talk about this more later in this lesson as part of the [Genome Assembly](https://cloud-span.github.io/nerc-metagenomics03-qc-assembly/03-assembly/index.html) section. There are pros and cons to each using both long and short reads, and so using them in combination is usually the best method. These pros and cons are irrespective of the application.
+### Technical challenges
 
-However, for metagenome analysis, if you were to use only short read sequencing for the assembly you would end up with a much more fragmented assembly to work with.
+It is important to note that metatranscriptomics comes with a number of technical and analytical challenges.
 
-|                           | Short reads                  | Long reads                                                                        |
-|---------------------|----------------------|-----------------------------|
-| Technologies              | Illumina                     | Nanopore and pacbio                                                               |
-| Number of reads generated | 800 million paired end**\*** | Depends on read length, and instrument, but usually only 10s of thousands**\*\*** |
-| Base accuracy             | Very high                    | Low                                                                               |
-| Ease of assembly          | Very difficult               | Easier                                                                            |
-| Format output files       | Fastq                        | Fastq, Fast5                                                                      |
-| Read length               | 150-300bp                    | Commonly 10-30kb**\*\*\***                                                        |
+As mentioned above, RNA is inherently unstable, so careful sample handling and storage are essential, as degradation can quickly affect data quality. Bias can also be introduced during extraction, since some microbes are more difficult to lyse than others, which may skew the representation of transcripts recovered. Although rRNA depletion is routinely performed, it is rarely completely efficient, and residual rRNA can still dominate the sequencing output. Because mRNA makes up only a small proportion of total RNA, deeper sequencing is often required to capture sufficient coding transcripts.
 
-**\* As of July 2022, the NextSeq 550 high-output system runs were capable of generating upto [800 million paired-end reads](https://emea.illumina.com/systems/sequencing-platforms/nextseq/specifications.html) in one run**
-
-**\*\* There are different Nanopore instruments. The smaller instruments, like the minION, will generate far fewer reads. Larger instruments like the promethION will result in \~10-20k reads, but this will vary a lot between samples and their quality. They will never result in millions of reads like the Illumina platforms.**
-
-**\*\*\* The read length will vary based on the DNA extraction method. If the DNA is very fragmented it will not result in very long reads. In many metagenomes bead beating is required to lyse cells, and so read length will still be longer than Illumina but shorter than non-metagenomic samples sequenced.**
+The downstream analysis is also computationally demanding, requiring specialised workflows for transcript quantification and normalisation. As with other sequencing approaches, functional interpretation relies on reference databases, which are incomplete for many microbial taxa, meaning that poorly characterised organisms may remain difficult to interpret.
 
 ## Our data
 

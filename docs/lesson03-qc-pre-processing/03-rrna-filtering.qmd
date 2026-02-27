@@ -1,12 +1,15 @@
 ---
 title: "Ribosomal RNA Filtering"
 ---
+
+```{=html}
 <!--
 ::: callout-important
 ## IMPORTANT
 
 The analyses in this lesson will take several hours to complete! You can find some recommended reading at the end of the page that you might want to read whilst you're waiting.
 ::: -->
+```
 
 Now we have some high quality reads to work with, our next step is to filter our reads. We'll use these filtered reads in our lesson on functional analysis.
 
@@ -37,7 +40,7 @@ cd ~/cs_course
 Now we can make a new directory for SortMeRNA outputs inside our existing results folder.
 
 ``` {.bash filename="Code"}
-mkdir -p results/sortmerna
+mkdir -p analysis/sortmerna
 ```
 
 ### Building the SortMeRNA command
@@ -222,13 +225,14 @@ The reads are our trimmed FASTQ files. Since our reads are paired, we have to gi
 
 We'll also use some other optional arguments to customise the command and make our output easier to work with later:
 
-- `--workdir` tells SortMeRNA to put all outputs in a directory of our choice
-- `--threads` tells it how many cores/processors to use
-- `--aligned` tells it what we want the file containing aligned (i.e. rRNA) reads to be called
-- `--other` tells it what we want unaligned (i.e. non-rRNA) reads to be called
-- `--fastx` tells it we want our output files in fastq format
-- `--paired-out` tells it that if one read in a pair is aligned and the other is not, both reads in the pair should be classed as unaligned
+-   `--workdir` tells SortMeRNA to put all outputs in a directory of our choice
+-   `--threads` tells it how many cores/processors to use
+-   `--aligned` tells it what we want the file containing aligned (i.e. rRNA) reads to be called
+-   `--other` tells it what we want unaligned (i.e. non-rRNA) reads to be called
+-   `--fastx` tells it we want our output files in fastq format
+-   `--paired-out` tells it that if one read in a pair is aligned and the other is not, both reads in the pair should be classed as unaligned
 
+```{=html}
 <!--
 | flag/option       | meaning                                                                                     |
 |------------------------------|------------------------------------------|
@@ -240,6 +244,7 @@ We'll also use some other optional arguments to customise the command and make o
 | `-m 150`          | Remove reads shorter than 150bp after trimmming has occured                                 |
 | `-j 8`            | Run the process on 8 threads (to speed up the process)                                      |
 -->
+```
 
 Once again, our command is going to be quite long, so we'll use `\` to separate it into multiple lines. We'll also use `&>` to redirect the terminal outputs to a file, like we did with Cutadapt. This time, though, there's one more step - telling the command to run in the background.
 
@@ -264,24 +269,27 @@ To run a command in the background, you add an ampersand (`&`) symbol to the end
 We're now ready to run our command!
 
 First make sure you're in your `cs_course` folder.
+
 ``` {.bash filename="Code"}
 cd ~/cs_course
 ```
 
 Then enter the full command:
+
 ``` {.bash filename="Code"}
 sortmerna --ref databases/sortmerna_databases/smr_v4.3_default_db.fasta \
           --reads data/trimmed_reads/SRR6820491_1.trim.fastq \
           --reads data/trimmed_reads/SRR6820491_2.trim.fastq \
-          --workdir results/sortmerna \
-          --aligned results/sortmerna/SRR6820491_rrna \
-          --other results/sortmerna/SRR6820491_mrna \
+          --workdir analysis/sortmerna \
+          --aligned analysis/sortmerna/SRR6820491_rrna \
+          --other analysis/sortmerna/SRR6820491_mrna \
           --threads 8 \
           --fastx --paired-out \
-          &> results/sortmerna/SRR6820491_sortmerna.log &
+          &> analysis/sortmerna/SRR6820491_sortmerna.log &
 ```
 
 Once you press enter your prompt should immediately return and you will see a terminal printout below your command that looks something like this:
+
 ``` {.bash filename="Code"}
 [1] 274852
 ```
@@ -312,7 +320,7 @@ jobs
 ```
 
 ``` {.default filename="Output"}
-[1]+  Running      sortmerna --ref databases/sortmerna_databases/smr_v4.3_default_db.fasta --reads data/trimmed_reads/SRR6820491_1.trim.fastq --reads data/trimmed_reads/SRR6820491_2.trim.fastq --workdir results/sortmerna --aligned results/sortmerna/SRR6820491_rrna --other results/sortmerna/SRR6820491_mrna --threads 8 --fastx --paired-out &> results/sortmerna/SRR6820491_sortmerna.log &
+[1]+  Running      sortmerna --ref databases/sortmerna_databases/smr_v4.3_default_db.fasta --reads data/trimmed_reads/SRR6820491_1.trim.fastq --reads data/trimmed_reads/SRR6820491_2.trim.fastq --workdir analysis/sortmerna --aligned analysis/sortmerna/SRR6820491_rrna --other analysis/sortmerna/SRR6820491_mrna --threads 8 --fastx --paired-out &> analysis/sortmerna/SRR6820491_sortmerna.log &
 ```
 
 The `[1]` is the job number. If you need to stop the job running, you can use `kill %1`, where 1 is the job number.
@@ -322,7 +330,7 @@ The `[1]` is the job number. If you need to stop the job running, you can use `k
 We can also look at the log file we generated to store the command's terminal outputs. Using `less` we can navigate through this file.
 
 ``` {.bash filename="Code"}
-cd results/sortmerna
+cd analysis/sortmerna
 less SRR6820491_sortmerna.log
 ```
 
@@ -338,11 +346,11 @@ Found value: data/trimmed_reads/SRR6820491_1.trim.fastq.gz of previous flag: --r
 Found flag: --reads
 Found value: data/trimmed_reads/SRR6820491_2.trim.fastq.gz of previous flag: --reads
 Found flag: --workdir
-Found value: results/sortmerna/SRR6820491_temp/ of previous flag: --workdir
+Found value: analysis/sortmerna/SRR6820491_temp/ of previous flag: --workdir
 Found flag: --aligned
-Found value: results/sortmerna/SRR6820491_temp/SRR6820491_rrna of previous flag: --aligned
+Found value: analysis/sortmerna/SRR6820491_temp/SRR6820491_rrna of previous flag: --aligned
 Found flag: --other
-Found value: results/sortmerna/SRR6820491_temp/SRR6820491_mrna of previous flag: --other
+Found value: analysis/sortmerna/SRR6820491_temp/SRR6820491_mrna of previous flag: --other
 Found flag: --threads
 Found value: 8 of previous flag: --threads
 Found flag: --fastx
@@ -374,7 +382,7 @@ After leaving it for an hour or so, SortMeRNA should have finished running.
 If you remained connected to the instance during the process you will be able to tell it has finished because you get the following output in your terminal when the command has finished.
 
 ``` {.default filename="Output"}
-[1]+  Done      sortmerna --ref databases/sortmerna_databases/smr_v4.3_default_db.fasta --reads data/trimmed_reads/SRR6820491_1.trim.fastq --reads data/trimmed_reads/SRR6820491_2.trim.fastq --workdir results/sortmerna --aligned results/sortmerna/SRR6820491_rrna --other results/sortmerna/SRR6820491_mrna --threads 8 --fastx --paired-out &> results/sortmerna/SRR6820491_sortmerna.log &
+[1]+  Done      sortmerna --ref databases/sortmerna_databases/smr_v4.3_default_db.fasta --reads data/trimmed_reads/SRR6820491_1.trim.fastq --reads data/trimmed_reads/SRR6820491_2.trim.fastq --workdir analysis/sortmerna --aligned analysis/sortmerna/SRR6820491_rrna --other analysis/sortmerna/SRR6820491_mrna --threads 8 --fastx --paired-out &> analysis/sortmerna/SRR6820491_sortmerna.log &
 ```
 
 This message won't be displayed if you disconnected from the instance for whatever reason during the assembly process. However, you can still examine the log file in the `sortmrna` directory. If the assembly has finished the log file will have ...
@@ -382,7 +390,7 @@ This message won't be displayed if you disconnected from the instance for whatev
 Move to the `sortmerna` directory and use `less` to examine the contents of the log file:
 
 ``` {.bash filename="Code"}
-cd ~/cs_course/results/sortmerna/
+cd ~/cs_course/analysis/sortmerna/
 less SRR6820491_sortmerna.log
 ```
 
@@ -394,7 +402,16 @@ Navigate to the end of the file using <kbd>G</kbd>. You should see something lik
 
 ## SortMeRNA Outputs
 
+There are several outputs from a SortMeRNA run:
 
 ``` {.default filename="Output"}
 idx  kvdb  readb  SRR6820491_mrna.fq  SRR6820491_rrna.fq  SRR6820491_rrna.log  SRR6820491_sortmerna.log
 ```
+
+The main files of interest for us are:
+
+-   SRR6820491_mrna.fq our sorted mRNA (to be used during our Functional annotation)
+
+-   SRR6820491_rrna.fq
+
+-   SRR6820491_rrna.log SRR6820491_sortmerna.log

@@ -74,34 +74,33 @@ website:
     collapse-level: 1
     pinned: true
     contents:
-#      - section: Files and Directories
-#        href: docs/lesson01-files-and-directories/index.qmd
-#        contents: 
-#          - docs/lesson01-files-and-directories/01-understanding-file-systems.qmd 
-#          - docs/lesson01-files-and-directories/02-logging-onto-cloud.qmd
-#          - docs/lesson01-files-and-directories/03-shell-introduction.qmd
-#      - section: "Using the Command Line"
-#        href: docs/lesson02-using-the-command-line/index.qmd
-#        contents: 
-#          - docs/lesson02-using-the-command-line/01-navigating-file-directories.qmd
-#          - docs/lesson02-using-the-command-line/02-working-with-file.qmd
-#          - docs/lesson02-using-the-command-line/03-redirection.qmd
-#      - section: "QC & RNA pre-processing"
-#        href: docs/lesson03-qc-pre-processing/index.qmd
-#        contents: 
-#          - docs/lesson03-qc-pre-processing/01-introduction-meta.qmd
-#          - docs/lesson03-qc-pre-processing/02-QC-raw-reads.qmd
-#          - docs/lesson03-qc-pre-processing/03-rrna-filtering.qmd
-#      - section: "Taxonomic Annotation"
-#        href: docs/lesson04-taxonomic-annotation/index.qmd
-#        contents: 
-#          - docs/lesson04-taxonomic-annotation/01-community-structure.qmd
-#          - docs/lesson04-taxonomic-annotation/02-visualising-structure.qmd
-#      - section:  "Functional Annotation"
-#        href: docs/lesson05-functional-annotation/index.qmd
-#        contents: 
-#          - docs/lesson05-functional-annotation/01-functional-info.qmd
-#          - docs/lesson05-functional-annotation/02-normalising-and-identifying.qmd
+      - section: Files and Directories
+        href: docs/lesson01-files-and-directories/index.qmd
+        contents: 
+          - docs/lesson01-files-and-directories/01-understanding-file-systems.qmd 
+          - docs/lesson01-files-and-directories/02-logging-onto-cloud.qmd
+          - docs/lesson01-files-and-directories/03-shell-introduction.qmd
+      - section: "Using the Command Line"
+        href: docs/lesson02-using-the-command-line/index.qmd
+        contents: 
+          - docs/lesson02-using-the-command-line/01-navigating-file-directories.qmd
+          - docs/lesson02-using-the-command-line/02-working-with-file.qmd
+          - docs/lesson02-using-the-command-line/03-redirection.qmd
+      - section: "QC & RNA pre-processing"
+        href: docs/lesson03-qc-pre-processing/index.qmd
+        contents: 
+          - docs/lesson03-qc-pre-processing/01-introduction-meta.qmd
+          - docs/lesson03-qc-pre-processing/02-QC-raw-reads.qmd
+          - docs/lesson03-qc-pre-processing/03-rrna-filtering.qmd
+      - section: "Taxonomic Annotation"
+        href: docs/lesson04-taxonomic-annotation/index.qmd
+        contents: 
+          - docs/lesson04-taxonomic-annotation/01-community-structure.qmd
+          - docs/lesson04-taxonomic-annotation/02-visualising-structure.qmd
+      - section:  "Functional Annotation"
+        href: docs/lesson05-functional-annotation/index.qmd
+        contents: 
+          - docs/lesson05-functional-annotation/01-functional-info.qmd
 #      - section: "Combining Annotations"
 #        href: docs/lesson06-combining-annotations/index.qmd
 #        contents: 
@@ -111,8 +110,8 @@ website:
       - section: "Extras"
         contents: 
           - docs/miscellanea/extras/data.qmd
- #         - docs/miscellanea/extras/glossary.qmd
- #         - docs/miscellanea/extras/workflow.qmd
+          - docs/miscellanea/extras/glossary.qmd
+          - docs/miscellanea/extras/workflow.qmd
 
 format:
   html:

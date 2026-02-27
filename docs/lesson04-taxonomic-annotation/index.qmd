@@ -1,6 +1,6 @@
 ---
-title: "Polishing"
-#subtitle: "[Metagenomics](/index.qmd)"
+title: "Taxonomic Annotation"
+#subtitle: "[Metatranscriptomics](/index.qmd)"
 # title-block-banner: true
 ---
 <!-- ---
@@ -9,15 +9,13 @@ root: .
 --- -->
 Welcome back to this **Metagenomics with High Performance Computing** course!
 
-In previous lessons we had an introduction to the command line and completed the first part of our worflow: we assessed the quality of long and short reads and used the long reads to generate a draft assembly. 
+In previous lessons, we preprocessed our RNA-seq data by assessing read quality, trimming adapters, and removing unwanted sequences. This prepared our dataset for downstream analyses.
 
-Long read data are great for tasks like this because they produce a less fragmented assembly and are more likely to span areas with repeats. However, they are also more likely to contain sequencing errors than short read data.
-
-We must therefore use further tools to improve the quality of our draft assembly. We can "polish" our assembly using both long and short read data. After that, we can perform quality control (QC) checks to see what impact the polishing has had.
+One of the first major steps in metatranscriptomics is to understand the community composition: which organisms are present in the sample and in what relative abundances. This is called taxonomic profiling. Tools like MetaPhlAn allow us to map reads to clade-specific marker genes to generate a profile of the microbial community. Once we have this profile, we can also visualize it interactively using tools like Krona or generate publication-ready figures with Graphlan.
 
 By the end of this lesson you will be able to:
 
-- explain what polishing is and why it is important
-- polish a draft metagenome assembly with long reads using Medaka 
-- polish a draft metagenome assembly with short reads using Pilon
-- check the quality of your draft assembly using Seqkit and metaQUAST
+- explain what community profiling is and why it is important
+- run MetaPhlAn to extract the taxonomic composition of a sample 
+- interpret the main MetaPhlAn output, including relative abundances at different taxonomic levels
+- visualize the microbial community interactively with Krona

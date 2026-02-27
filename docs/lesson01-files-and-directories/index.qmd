@@ -6,7 +6,7 @@ title: "Files and Directories"
 
 ![.](/images/xkcd-comic-file-names.png){fig-alt="A comic figure is looking over the shoulder of another and is shocked by a list of files with names like 'Untitled 138 copy.docx' and 'Untitled 243.doc'. Caption: 'Protip: Never look in someone else's documents folder'."}
 
-Welcome to the first lesson in Cloud-SPAN’s **Metagenomics with High Performance Computing** course!
+Welcome to the first lesson in Cloud-SPAN’s **Metatranscriptomics with High Performance Computing** course!
 
 Over the next two lessons we will cover the foundational skills and knowledge needed for the rest of the course. Once you are comfortable with these skills, we can move on to applying them to a metagenomics analysis workflow.
 

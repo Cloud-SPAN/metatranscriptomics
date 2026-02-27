@@ -2,296 +2,470 @@
 title: "Extracting Functional Information"
 ---
 
-Now we are ready to start doing analysis of our metagenomic assembly!
+In the previous lesson we used Metaphlan to assess the taxonomic profile and discover which microbes are active in our sample. Now we know "who" is in our sample, it's time to find out "what" they are doing, that is to say the functional information. To do so we shall use another piece of software called Humann.
 
-## A new assembly
+## What is Functional Profiling?
 
-In the last two lessons we constructed and polished an assembly based on a subset of a bigger dataset. That's why our `nano_fastq` file was called ERR5000342\_**sub12**.fastq - it contained a randomly chosen 12% subset of the original dataset. We did this because the full `nano_fastq` dataset contains over 2 million reads, and the instance doesn't have enough computing power to cope with that much data.
+Functional profiling is the identification of the function of a microbiome. With metagenomic data (DNA) a functional profile will indicate which genes and gene pathways *can* be expressed, but in metatranscriptomics the analysis of mRNA we can identify which genes pathways *are* expressed. In other words, this lets us see which gene pathways are active in the microbiome, and how relatively active they are.
 
-Subsetting your data is a great way to practice and troubleshoot workflows like the one we're following in this course. *However*, only assembling 12% of the reads means the assembly is far less likely to be complete. We saw the effects of this when we used `seqkit` and `MetaQUAST` to quality check our assemblies in the last lesson. Only about 0.2-0.3% of the genomes were complete.
+Gene pathways, sometimes called metabolic pathways, are collections of genes that code for enzymes that carry out certain biological functions such as carbohydrate metabolism, amino acid biosynthesis, stress response, or antibiotic resistance. Similarly, gene families are evolutionarily related genes that perform similar functions. Because of the natural genetic diversity of microbial life it is easier to search for gene families and pathways than individual genes.
 
-Fortunately, we have access to an assembly that was generated from the full `ERR5000342.fastq` long read dataset. The process to generate and polish it was exactly the same; we just started with a larger dataset (2,000,000 reads compared to 300,000 reads). Now that we are onto analysis, which relies on having a strong assembly, we will switch to using this bigger assembly.
+Usually gene expression is measured in relative abundance rather than absolute as the sequenced RNA is only a subset of the true total biological pool. RNA extraction is never 100% efficient as molecules can be lost during cell lysis, purification, library prep, and sequencing prep. Sequencing depth is always limited, and so even RNA molecules present in the sequencing plate may not be detected if they are lower in count. As such absolute abundances will not necessarily be a meaningful measure, whereas the relative expression of gene pathways can be informative and useful for the comparison of function between samples or treatments.
 
-### Where to find the new assembly
+## What is Humann?
 
-The new assembly is stored in a hidden file in our `data` directory. Let's take a look using the `-a` flag for `ls`.
+HUMAnN (The HMP Unified Metabolic Analysis Network) is another piece of software from the BioBakery suite of software as detailed in the previous lesson. It is a pipeline for accurate determination of either the abundance or presence/absence of microbial gene pathways in a community. It can use either DNA (metagenomic) or RNA (metatranscriptomic) data.
 
-``` {.bash filename="Code"}
-cd ~/cs_course/data
-ls -a
-```
+It works by finding the abundance of orthologous (performing approximately the same function) gene families in the data, using the KEGG Orthology (KO) catalog by default. It does this by aligning the transcript reads firstly against the Chocophlan database to get nucleotide-level hits, then any unaligned reads are translated into amino acid sequences and then aligned against a UniRef database of protein sequences.
 
-``` {.default filename="Output"}
-illumina_fastq/   nano_fastq/  .assembly_ERR5000342.fasta.gz
-```
+It also finds gene pathways (defined as two or more genes) using KEGG Pathways or GO (Gene Ontology) terms. Abundance of each pathway (how many copies there are present in the data) as well as presence/absence can be outputted by Humann.
 
-The `.gz` extension means the file is zipped using the command `gzip`. Gzip stores files in a compressed format so they take up less space. It can be reversed with the command `gunzip`.
+### Running Humann
 
-``` {.bash filename="Code"}
-gunzip .assembly_ERR5000342.fasta.gz
-```
-
-Now the assembly is unzipped, the `.gz` extension is gone.
-
-``` {.bash filename="Code"}
-ls -a
-```
-
-``` {.default filename="Output"}
-illumina_fastq/   nano_fastq/  .assembly_ERR5000342.fasta
-```
-
-Let's rename the file to get rid of the `.` at the start and put it into its own directory called `full_assembly`.
-
-``` {.bash filename="Code"}
-mv .assembly_ERR5000342.fasta assembly_ERR5000342.fasta
-mkdir full_assembly
-mv assembly_ERR5000342.fasta full_assembly/
-```
-
-Now we're ready to start binning!
-
-## Metagenomic binning
-
-Now we can start to separate out the individual genomes using a process called binning. This will allow us to analyse each of the species inside our sample individually. We call these genomes metagenome-assembled genomes (MAGs).
-
-The assembled contigs that make up the metagenome will be assigned to different "bins" (FASTA files that contain certain contigs). Ideally, each bin will correspond to one original genome only (a MAG).
-
-As we covered in the [assembly section](/docs/lesson03-qc-assembly/03-assembly.qmd), assembling the pieces of a metagenome is more difficult compared to single genome assembly. Most assemblers are not able to reconstruct complete genomes for the organisms that are represented in the metagenome - even using our new bigger dataset. As a result each organism will be represented by multiple contigs following assembly and polishing. This means that we need to be able to separate these contigs so we can identify which belong to each organism in our metagenome. This is where binning comes in.
-
-```{=html}
-<!-- <a href="{{ page.root }}/fig/03-05-01.png">
-  <img src="{{ page.root }}/fig/03-05-01.png" width="435" height="631" alt="Diagram depicting the DNA sequences  in the original sample as circular chromosomes, then the DNA fragmented into reads, then assembled into contigs, and then binned"/>
-</a> -->
-```
-![Diagram depicting the DNA sequences in the original sample as circular chromosomes, then the DNA fragmented into reads, then assembled into contigs, and then binned.](/images/03-05-01.png){width="380" height="500" fig-alt="Diagram depicting the DNA sequences  in the original sample as circular chromosomes, then the DNA fragmented into reads, then assembled into contigs, and then binned."}
-
-One way to separate contigs that belong to different species is by their taxonomic assignation. However, this can be time consuming and require a lot of computational power. There are easier methods that perform binning to a high quality using characteristics of the contigs, such as their GC content, their tetranucleotide frequencies (TNF), their coverage (abundance), sets of marker genes, taxonomic aligments and their preferred codons.
-
-Most binning tools use short reads for the binning; only a few use Hi-C sequencing. Hi-C is a method of sequencing that gives spatial proximity information, as described [here](https://en.wikipedia.org/wiki/Hi-C_(genomic_analysis_technique)). Different tools use different algorithms for performing the binning. A few popular tools are summarised below. For more information see Section 2.4 (Tools for metagenome binning) of [this review](https://www.sciencedirect.com/science/article/pii/S2001037021004931#s0045).
-
-| Tool     | Core algorithm           | Website                                   | Publication                                                                        |
-|----------------|----------------|----------------|------------------------|
-| MaxBin2  | Expectation-maximization | http://sourceforge.net/projects/maxbin/   | [Wu et al, 2016](https://academic.oup.com/bioinformatics/article/32/4/605/1744462) |
-| CONCOCT  | GaussiAN Mixture Models  | https://github.com/BinPro/CONCOCT         | [Alneberg et al, 2014](https://www.nature.com/articles/nmeth.3103)                 |
-| MetaBAT2 | Label propagation        | https://bitbucket.org/berkeleylab/metabat | [Kang et al, 2019](https://peerj.com/articles/7359/)                               |
-
-There are other tools that bin MAGs using several different methods and then further refine these bins. [DAStool](https://www.nature.com/articles/s41564-018-0171-1), [MetaWRAP](https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-018-0541-1) and Metagenome Assembled Genomes Orchestra [MAGO](https://academic.oup.com/mbe/article/37/2/593/5601623) are capable of doing this.
-
-[MetaBAT2](https://bitbucket.org/berkeleylab/metabat/src/master/) is a binning algorithm that distinguishes between contigs that belong to different bins according to their coverage levels and the tetranucleotide frequencies they have. We will be using this algorithm for our binning today, but first we need to prepare our assembly.
-
-## Preparation for binning
-
-This preparation process follows exactly the same steps we used to prepare our long-read polished assembly for short-read polishing. We need to align our short reads to our assembly to determine **depth-of-coverage** --- how many reads align to each portion of the assembly.
-
-First we index the polished reference using `bwa index`. Remember, we're using our new assembly which is in our `data/full_assembly` directory. The outputs will automatically be put in the same folder as the assembly, as they should always stay together.
-
-``` {.bash filename="Code"}
-cd ~/cs_course
-bwa index data/full_assembly/assembly_ERR5000342.fasta
-```
-
-This is a big file so indexing will take about 4-5 minutes to complete. We ran this command in the foreground so you won't be able to use your prompt until it's finished.
-
-We then make a directory for the output of our binning.
-
-``` {.bash filename="Code"}
-mkdir results/binning
-```
-
-We can then use an adapted form of the `bwa mem` command we used earlier to align our short reads to the polished assembly and determine the abundance of each contig.
-
-``` {.bash filename="Code"}
-( bwa mem -t 8 data/full_assembly/assembly_ERR5000342.fasta data/illumina_fastq/ERR4998593_1.fastq data/illumina_fastq/ERR4998593_2.fastq | samtools view - -Sb | samtools sort - -@8 -o results/binning/assembly_short_read_alignment.bam ) &> results/binning/alignment.out &
-```
-
-This should take around 80 minutes to complete.
-
-Once the file is created, we can check the `alignment.out` log file.
-
-``` {.bash filename="Code"}
-cd results/binning
-less alignment.out
-```
-
-The start of the file should look like this:
-
-``` {.default filename="Output"}
-[M::bwa_idx_load_from_disk] read 0 ALT contigs
-[M::process] read 529802 sequences (80000102 bp)...
-[M::process] read 529802 sequences (80000102 bp)...
-[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (23, 49949, 37, 28)
-[M::mem_pestat] analyzing insert size distribution for orientation FF...
-[M::mem_pestat] (25, 50, 75) percentile: (7, 872, 2681)
-[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 8029)
-[M::mem_pestat] mean and std.dev: (1744.43, 2239.00)
-[M::mem_pestat] low and high boundaries for proper pairs: (1, 10703)
-[M::mem_pestat] analyzing insert size distribution for orientation FR...
-[M::mem_pestat] (25, 50, 75) percentile: (347, 430, 555)
-[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 971)
-[M::mem_pestat] mean and std.dev: (453.47, 163.23)
-```
-
-If we scroll down, the end should look like this:
-
-``` {.default filename="Output"}
-[M::mem_process_seqs] Processed 182762 reads in 84.398 CPU sec, 11.894 real sec
-[main] Version: 0.7.17-r1188
-[main] CMD: bwa mem -t 8 ../../data/full_assembly/assembly_ERR5000342.fasta ../../data/illumina_fastq/ERR4998593_1.fastq ../../data/illumina_fastq/ERR4998593_2.fastq
-[main] Real time: 4154.680 sec; CPU: 30896.696 sec
-[bam_sort_core] merging from 7 files and 4 in-memory blocks...
-```
-
-We can also check that the new BAM file exists using `ls`.
-
-``` {.bash filename="Code"}
-ls
-```
-
-``` {.default filename="Output"}
-alignment.out   assembly_short_read_alignment.bam
-```
-
-In order to use this new BAM with MetaBAT2 we also need to index the alignment using the command `samtools index`. This only takes 2-3 minutes.
-
-``` {.bash filename="Code"}
-cd ~/cs_course
-samtools index results/binning/assembly_short_read_alignment.bam
-```
-
-When we have the sorted and indexed BAM file we are then ready to use MetaBAT2.
-
-## Binning using MetaBAT2
-
-MetaBAT2 has been pre-installed on your instance. The [documentation](https://bitbucket.org/berkeleylab/metabat/src/master/README.md) tells us how to run the program via the command line.
-
-The easiest way to run MetaBAT2 is using the command `runMetaBat.sh <options> assembly.fasta sample1.bam [sample2.bam ...]`. This will generate a depth file and then do the binning for us. In this example, we're also going to add the flag `-m 1500`, which sets the minimum contig length to 1500bp - any contigs shorter than this will not be binned.
-
-``` {.bash filename="Code"}
-cd ~/cs_course
-runMetaBat.sh -m 1500 data/full_assembly/assembly_ERR5000342.fasta results/binning/assembly_short_read_alignment.bam
-```
-
-MetaBAT2 first reads in the `.bam` file, then generates bins. This should take around 2 or 3 minutes.
-
-While MetaBAT2 is processing the `.bam` file you will see the following output:
-
-``` {.default filename="Output"}
-Executing: 'jgi_summarize_bam_contig_depths --outputDepth assembly_ERR5000342.fasta.depth.txt --percentIdentity 97 --minContigLength 1000 --minContigDepth 1.0  --referenceFasta data/full_assembly/assembly_ERR5000342.fasta results/binning/assembly_short_read_alignment.bam' at Tue 14 Mar 2023 05:39:47 PM UTC
-Output depth matrix to assembly_ERR5000342.fasta.depth.txt
-Minimum percent identity for a mapped read: 0.97
-minContigLength: 1000
-minContigDepth: 1
-Reference fasta file /home/csuser/cs_course/data/full_assembly/assembly_ERR5000342.fasta
-jgi_summarize_bam_contig_depths 2.15 (Bioconda) 2020-01-04T21:10:40
-Output matrix to assembly_ERR5000342.fasta.depth.txt
-Reading reference fasta file: /home/csuser/cs_course/data/full_assembly/assembly_ERR5000342.fasta
-... 7250 sequences
-0: Opening bam: assembly_short_read_alignment.bam
-Processing bam files
-```
-
-Once the `.bam` file has processed and binning has completed, the output will look like this:
-
-``` {.default filename="Output"}
-Thread 0 finished: assembly_short_read_alignment.bam with 68793457 reads and 11049740 readsWellMapped
-Creating depth matrix file: assembly_ERR5000342.fasta.depth.txt
-Closing most bam files
-Closing last bam file
-Finished
-Finished jgi_summarize_bam_contig_depths at Fri 17 Mar 2023 12:24:35 PM UTC
-Creating depth file for metabat at Fri 17 Mar 2023 12:24:35 PM UTC
-Executing: 'metabat2  -m 1500 --inFile /home/csuser/cs_course/data/full_assembly/assembly_ERR5000342.fasta --outFile assembly_ERR5000342.fasta.metabat-bins1500-20230317_122435/bin --abdFile assembly_ERR5000342.fasta.depth.txt' at Fri 17 Mar 2023 12:24:35 PM UTC
-MetaBAT 2 (2.15 (Bioconda)) using minContig 1500, minCV 1.0, minCVSum 1.0, maxP 95%, minS 60, maxEdges 200 and minClsSize 200000. with random seed=1679055875
-90 bins (212166000 bases in total) formed.
-Finished metabat2 at Tue 14 Mar 2023 05:40:46 PM UTC
-```
-
-The penultimate line tells us that MetaBAT has produced 90 bins containing 212166000 bases (your number might vary slightly depending on how the algorithm has analysed your assembly).
-
-Using `ls` will show that MetaBAT2 has generated a depth file (`assembly_ERR5000342.fasta.depth.txt`) and a directory (`assembly_ERR5000342.fasta.metabat-bins1500-YYYYMMDD_HHMMSS/`). Annoyingly, the "easy" way of running MetaBat2 (which we just used) doesn't allow us to specify an output directory, so we'll need to move our outputs into `results/binning` manually using `mv`.
+First of all let's make a new directory to store out Humann results in.
 
 ``` bash
-mv assembly* results/binning
+mkdir analysis/humann
 ```
 
-Now let's move into our new directory and take a look!
+Humann is a very extensive programme with many features. Let's run `humann -–help` :
 
-::: callout-tip
-### Note
-
-The name of the directory containing the bins will depend on exactly when the binning completes. Don't forget to replace `YYYMMDD_HHMMSS` in the command below with the actual name of your directory.
-:::
-
-``` {.bash filename="Code"}
-cd results/binning/assembly_ERR5000342.fasta.metabat-bins1500-YYYYMMDD_HHMMSS/
-ls
-```
+::: {.callout-note collapse="true"}
+## Output --- Humann help documentation
 
 ``` {.default filename="Output"}
-bin.10.fa  bin.22.fa  bin.34.fa  bin.46.fa  bin.58.fa  bin.6.fa   bin.81.fa
-bin.11.fa  bin.23.fa  bin.35.fa  bin.47.fa  bin.59.fa  bin.70.fa  bin.82.fa
-bin.12.fa  bin.24.fa  bin.36.fa  bin.48.fa  bin.5.fa   bin.71.fa  bin.83.fa
-bin.13.fa  bin.25.fa  bin.37.fa  bin.49.fa  bin.60.fa  bin.72.fa  bin.84.fa
-bin.14.fa  bin.26.fa  bin.38.fa  bin.4.fa   bin.61.fa  bin.73.fa  bin.85.fa
-bin.15.fa  bin.27.fa  bin.39.fa  bin.50.fa  bin.62.fa  bin.74.fa  bin.86.fa
-bin.16.fa  bin.28.fa  bin.3.fa   bin.51.fa  bin.63.fa  bin.75.fa  bin.87.fa
-bin.17.fa  bin.29.fa  bin.40.fa  bin.52.fa  bin.64.fa  bin.76.fa  bin.88.fa
-bin.18.fa  bin.2.fa   bin.41.fa  bin.53.fa  bin.65.fa  bin.77.fa  bin.89.fa
-bin.19.fa  bin.30.fa  bin.42.fa  bin.54.fa  bin.66.fa  bin.78.fa  bin.8.fa
-bin.1.fa   bin.31.fa  bin.43.fa  bin.55.fa  bin.67.fa  bin.79.fa  bin.90.fa
-bin.20.fa  bin.32.fa  bin.44.fa  bin.56.fa  bin.68.fa  bin.7.fa   bin.9.fa
-bin.21.fa  bin.33.fa  bin.45.fa  bin.57.fa  bin.69.fa  bin.80.fa
+$ humann --help
+usage: humann [-h] -i <input.fastq> -o <output> [--threads <1>] [--version] [-r] [--bypass-nucleotide-index]
+              [--bypass-nucleotide-search] [--bypass-prescreen] [--bypass-translated-search]
+              [--taxonomic-profile <taxonomic_profile.tsv>] [--memory-use {minimum,maximum}]
+              [--input-format {fastq,fastq.gz,fasta,fasta.gz,sam,bam,blastm8,genetable,biom}] [--search-mode {uniref50,uniref90}]
+              [-v] [--metaphlan <metaphlan>] [--metaphlan-options <metaphlan_options>] [--prescreen-threshold <0.01>]
+              [--bowtie2 <bowtie2>] [--bowtie-options <bowtie_options>] [--nucleotide-database <nucleotide_database>]
+              [--nucleotide-identity-threshold <0.0>] [--nucleotide-query-coverage-threshold <90.0>]
+              [--nucleotide-subject-coverage-threshold <50.0>] [--diamond <diamond>] [--diamond-options <diamond_options>]
+              [--evalue <1.0>] [--protein-database <protein_database>] [--rapsearch <rapsearch>]
+              [--translated-alignment {usearch,rapsearch,diamond}]
+              [--translated-identity-threshold <Automatically: 50.0 or 80.0, Custom: 0.0-100.0>]
+              [--translated-query-coverage-threshold <90.0>] [--translated-subject-coverage-threshold <50.0>] [--usearch <usearch>]
+              [--gap-fill {on,off}] [--minpath {on,off}] [--pathways {metacyc,unipathway}]
+              [--pathways-database <pathways_database.tsv>] [--xipe {on,off}] [--annotation-gene-index <3>]
+              [--id-mapping <id_mapping.tsv>] [--remove-temp-output] [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
+              [--o-log <sample.log>] [--output-basename <sample_name>] [--output-format {tsv,biom}] [--output-max-decimals <10>]
+              [--remove-column-description-output] [--remove-stratified-output]
+
+HUMAnN : HMP Unified Metabolic Analysis Network 3
+
+optional arguments:
+  -h, --help            show this help message and exit
+
+[0] Common settings:
+  -i <input.fastq>, --input <input.fastq>
+                        input file of type {fastq,fastq.gz,fasta,fasta.gz,sam,bam,blastm8,genetable,biom}
+                        [REQUIRED]
+  -o <output>, --output <output>
+                        directory to write output files
+                        [REQUIRED]
+  --threads <1>         number of threads/processes
+                        [DEFAULT: 1]
+  --version             show program's version number and exit
+
+[1] Workflow refinement:
+  -r, --resume          bypass commands if the output files exist
+  --bypass-nucleotide-index
+                        bypass the nucleotide index step and run on the indexed ChocoPhlAn database
+  --bypass-nucleotide-search
+                        bypass the nucleotide search steps
+  --bypass-prescreen    bypass the prescreen step and run on the full ChocoPhlAn database
+  --bypass-translated-search
+                        bypass the translated search step
+  --taxonomic-profile <taxonomic_profile.tsv>
+                        a taxonomic profile (the output file created by metaphlan)
+                        [DEFAULT: file will be created]
+  --memory-use {minimum,maximum}
+                        the amount of memory to use
+                        [DEFAULT: minimum]
+  --input-format {fastq,fastq.gz,fasta,fasta.gz,sam,bam,blastm8,genetable,biom}
+                        the format of the input file
+                        [DEFAULT: format identified by software]
+  --search-mode {uniref50,uniref90}
+                        search for uniref50 or uniref90 gene families
+                        [DEFAULT: based on translated database selected]
+  -v, --verbose         additional output is printed
+
+[2] Configure tier 1: prescreen:
+  --metaphlan <metaphlan>
+                        directory containing the MetaPhlAn software
+                        [DEFAULT: $PATH]
+  --metaphlan-options <metaphlan_options>
+                        options to be provided to the MetaPhlAn software
+                        [DEFAULT: "-t rel_ab"]
+  --prescreen-threshold <0.01>
+                        minimum percentage of reads matching a species
+                        [DEFAULT: 0.01]
+
+[3] Configure tier 2: nucleotide search:
+  --bowtie2 <bowtie2>   directory containing the bowtie2 executable
+                        [DEFAULT: $PATH]
+  --bowtie-options <bowtie_options>
+                        options to be provided to the bowtie software
+                        [DEFAULT: "--very-sensitive"]
+  --nucleotide-database <nucleotide_database>
+                        directory containing the nucleotide database
+                        [DEFAULT: /home/ubuntu/cs_course/data/chocophlanhumann/chocophlan]
+  --nucleotide-identity-threshold <0.0>
+                        identity threshold for nuclotide alignments
+                        [DEFAULT: 0.0]
+  --nucleotide-query-coverage-threshold <90.0>
+                        query coverage threshold for nucleotide alignments
+                        [DEFAULT: 90.0]
+  --nucleotide-subject-coverage-threshold <50.0>
+                        subject coverage threshold for nucleotide alignments
+                        [DEFAULT: 50.0]
+
+[3] Configure tier 2: translated search:
+  --diamond <diamond>   directory containing the diamond executable
+                        [DEFAULT: $PATH]
+  --diamond-options <diamond_options>
+                        options to be provided to the diamond software
+                        [DEFAULT: "--top 1 --outfmt 6"]
+  --evalue <1.0>        the evalue threshold to use with the translated search
+                        [DEFAULT: 1.0]
+  --protein-database <protein_database>
+                        directory containing the protein database
+                        [DEFAULT: /home/ubuntu/cs_course/data/chocophlanhumann/uniref/uniref]
+  --rapsearch <rapsearch>
+                        directory containing the rapsearch executable
+                        [DEFAULT: $PATH]
+  --translated-alignment {usearch,rapsearch,diamond}
+                        software to use for translated alignment
+                        [DEFAULT: diamond]
+  --translated-identity-threshold <Automatically: 50.0 or 80.0, Custom: 0.0-100.0>
+                        identity threshold for translated alignments
+                        [DEFAULT: Tuned automatically (based on uniref mode) unless a custom value is specified]
+  --translated-query-coverage-threshold <90.0>
+                        query coverage threshold for translated alignments
+                        [DEFAULT: 90.0]
+  --translated-subject-coverage-threshold <50.0>
+                        subject coverage threshold for translated alignments
+                        [DEFAULT: 50.0]
+  --usearch <usearch>   directory containing the usearch executable
+                        [DEFAULT: $PATH]
+
+[5] Gene and pathway quantification:
+  --gap-fill {on,off}   turn on/off the gap fill computation
+                        [DEFAULT: on]
+  --minpath {on,off}    turn on/off the minpath computation
+                        [DEFAULT: on]
+  --pathways {metacyc,unipathway}
+                        the database to use for pathway computations
+                        [DEFAULT: metacyc]
+  --pathways-database <pathways_database.tsv>
+                        mapping file (or files, at most two in a comma-delimited list) to use for pathway computations
+                        [DEFAULT: metacyc database ]
+  --xipe {on,off}       turn on/off the xipe computation
+                        [DEFAULT: off]
+  --annotation-gene-index <3>
+                        the index of the gene in the sequence annotation
+                        [DEFAULT: 3]
+  --id-mapping <id_mapping.tsv>
+                        id mapping file for alignments
+                        [DEFAULT: alignment reference used]
+
+[6] More output configuration:
+  --remove-temp-output  remove temp output files
+                        [DEFAULT: temp files are not removed]
+  --log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
+                        level of messages to display in log
+                        [DEFAULT: DEBUG]
+  --o-log <sample.log>  log file
+                        [DEFAULT: temp/sample.log]
+  --output-basename <sample_name>
+                        the basename for the output files
+                        [DEFAULT: input file basename]
+  --output-format {tsv,biom}
+                        the format of the output files
+                        [DEFAULT: tsv]
+  --output-max-decimals <10>
+                        the number of decimals to output
+                        [DEFAULT: 10]
+  --remove-column-description-output
+                        remove the description in the output column
+                        [DEFAULT: output column includes description]
+  --remove-stratified-output
+                        remove stratification from output
+                        [DEFAULT: output is stratified]
+```
+:::
+
+Although there are many different possible ways we can use Humann, the core arguments are very simple:
+
+-   `--input` tells it where our sorted mRNA input is
+
+-   `--output` tells it where to output the files
+
+We will also include a few more
+
+-   `--threads 8` tells it to use all 8 CPU cores of our instance
+
+-   `--taxonomic-profile` tells it were the output of our Metaphlan run is
+
+-   `&> analysis/humann/log.txt &` to get the terminal to redirect messages to a log
+
+And so, the command we are going to run Humann with looks like this:
+
+``` bash
+humann --input analysis/sortmerna/SRR6820491_mrna.fq \
+--output analysis/humann/ \
+--taxonomic-profile analysis/metaphlan/metaphlan_output.txt \
+--threads 8 \
+&> analysis/humann/log.txt &
 ```
 
-Note these output files have the file extensions of `.fa`. This is exactly the same format as a `.fasta` file but with a shortened version of the extension. See the wikipedia page on [FASTA format - file](https://en.wikipedia.org/wiki/FASTA_format#FASTA_file) for some other examples of file extensions.
+As we are looking at community function we no longer need the rRNA sequences as they do not contain gene coding regions and so will slow the run down considerably. This means we shall be using the filtered output of SortMeRNA.
 
-Ideally we would like only one contig per bin, with a length similar to the genome size of the corresponding taxa. This is challenging as this would require knowing what species are present in the mixed community, but all we have is "microbial dark matter". Instead, other statistics can demonstrate how effective our assembly and binning were.
+In order to speed up the run further we feed our Metaphlan output into the command with `--taxonomic-profile`, which tells Humann to only look at database entries relevant to the taxa we identified with Metaphlan.
 
-One useful statistic is the N50 which will give an indication of the size of the contigs (fragments) each bin is made up. We looked at this statistic [previously](/docs/lesson04-polishing/02-QC-polished-assembly.qmd) when we were quality checking our assemblies, using `seqkit stats`. We can do the same again for each of the bins.
+For space-saving and efficiency we are also using the UniRef90 EC filtered database, a version which only contains proteins associated with a level-4 enzyme commision category (ones with precisely identified substrates). Whilst this may not identify a broader number of transcribed proteins, it will be more informative for pathway analysis.
 
-``` {.bash filename="Code"}
-seqkit stats -a *.fa
+This command will take up to a few hours to run, but hopefully you managed to run it at the end of last session!
+
+::: callout-note
+The UniRef databases can also be extremely large, with over 100GB being standard. Our instances are not quite large enough to accomodate the full size database we would usually need. This is because for costing purposes only we're working on slightly smaller instances for this course. It is entirely possible to expand the disk space of an AWS instance, and during your own analyses we recommend about 1TB of storage (or more if you are processing more than \~20 samples).
+:::
+
+## Humann outputs
+
+Humann will produce five outputs:
+
+#### A directory of temporary files
+
+This will contain multiple files generated by humann during the analysis, including aligned reads, intermediate mapping files, and a log file. Some other pieces of software clear their temporary files afterwards, but Humann leaves them intact. This can be useful for troubleshooting, but takes up a large portion of you storage space. If you are happy the run is complete you can delete these files to save space
+
+#### Tabular file with gene families and abundances
+
+This is a functional profile consisting of two columns: the identified gene families, and their abundances.
+
+It should look a bit like this:
+
+::: callout-note
+\# Gene Family SRR6820491_mrna_Abundance-RPKs\
+UNMAPPED 2255586.0000000000\
+UniRef90_C8C186 93805.0748916235\
+UniRef90_A0A098YGS3 89602.4872409256\
+UniRef90_A6B9Y3 82482.4155008284\
+UniRef90_A0A343J0E6 75487.8135721117\
+UniRef90_A0A141RML6 73343.1679686251\
+UniRef90_A6BBS7 69594.8394299401\
+UniRef90_R0JKC3 57188.9820833425\
+UniRef90_A0A127SFT5 54088.4634226876
+
+...
+:::
+
+Gene family abundance is reported in RPK (reads per kilobase), a measure which normalises for gene length to reflect the actual copy number in the community. Gene families are reported in order of abundance from most abundant to least. The "UNMAPPED" reads are reads which remain unidentified after both the nucleotide and the translated protein alignment steps. It treats all unmapped reads as a gene of size 1 kilobase for calculating the RPK.
+
+:::: callout-note
+Have a look at the output above and try and answer these questions:
+
+1.  What is the most abundant gene family?
+
+2.  What is the abundance of the UNMAPPED reads?
+
+::: {.callout-note collapse="true"}
+1.  UniRef90_C8C186
+
+2.  2,255,586 RPK
+:::
+::::
+
+#### Tabular file with gene pathways and their abundance
+
+This is a functional profile consisting of two columns: identified gene pathways and their abundances.
+
+It should look a bit like this:
+
+::: callout-note
+#Pathway SRR6820491_mrna_Abundance\
+UNMAPPED 643040.1584233012 \
+UNINTEGRATED 372056.7564164627 \
+UNINTEGRATED\|unclassified 372056.7564164627 \
+PWY-1042: glycolysis IV 5122.3409693358 \
+PWY-1042: glycolysis IV\|unclassified 5122.3409693358 \
+PWY-5695: inosine 5'-phosphate degradation 2522.4660551855 \
+PWY-5695: inosine 5'-phosphate degradation\|unclassified 2522.4660551855 \
+PWY-7221: guanosine ribonucleotides de novo biosynthesis 2393.1160596558 \
+PWY-7221: guanosine ribonucleotides de novo biosynthesis\|unclassified 2393.1160596558 \
+ANAGLYCOLYSIS-PWY: glycolysis III (from glucose) 2219.7232237331 \
+ANAGLYCOLYSIS-PWY: glycolysis III (from glucose)\|unclassified 2219.7232237331
+
+...
+:::
+
+#### Tabular file with gene pathways and their coverage
+
+We shall not be using this file today, but this gives a qualitative measure that a specific metabolic pathway is present in the microbial community. The measure ranges from 0 (not present) to 1 (present)
+
+#### Log file
+
+Finally, our log file should have captured all the terminal messages Humann prints during its run. It's worth checking to see if the run has ran smoothly. If it has you should see the following at the end:
+
+::: callout-note
+Output files created: /home/ubuntu/cs_course/analysis/humann/SRR6820491_mrna_genefamilies.tsv /home/ubuntu/cs_course/analysis/humann/SRR6820491_mrna_pathabundance.tsv /home/ubuntu/cs_course/analysis/humann/SRR6820491_mrna_pathcoverage.tsv
+:::
+
+### Normalising abundances
+
+It's worth noting that gene family abundances are measured in RPKs and so are normalised for *read length* but not *sampling depth*. This means that our output may still be biased by sampling depth. Whilst some analyses such as strain profiling may use RPKs, most of the time it is better to work with normalised abundances.
+
+To normalise our data we can use the following command:
+
+``` bash
+humann_renorm_table -i analysis/humann/SRR6820491_mrna_genefamilies.tsv -u relab -m community --update-snames -o analysis/humann/SRR6820491_mrna_genefamilies_normalised.tsv
 ```
 
-| file      | format | type | num_seqs | sum_len | min_len | avg_len  | max_len | Q1        | Q2      | Q3        | sum_gap | N50     | Q20(%) | Q30(%) | GC(%) |
-|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
-| bin.10.fa | FASTA  | DNA  | 5        | 221,552 | 22,334  | 44,310.4 | 65,450  | 30,590    | 38,514  | 64,664    | 0       | 64,664  | 0      | 0      | 57.31 |
-| bin.11.fa | FASTA  | DNA  | 11       | 319,827 | 8,885   | 29,075.2 | 48,350  | 25,427.5  | 30,240  | 34,944.5  | 0       | 30,309  | 0      | 0      | 54.83 |
-| bin.12.fa | FASTA  | DNA  | 13       | 415,561 | 13,844  | 31,966.2 | 72,402  | 17,948    | 29,809  | 35,084    | 0       | 34,115  | 0      | 0      | 69.98 |
-| bin.13.fa | FASTA  | DNA  | 1        | 206,331 | 206,331 | 206,331  | 206,331 | 103,165.5 | 206,331 | 103,165.5 | 0       | 206,331 | 0      | 0      | 56.92 |
-| bin.14.fa | FASTA  | DNA  | 8        | 392,143 | 22,611  | 49,017.9 | 85,177  | 32,278.5  | 49,048  | 60,851    | 0       | 53,439  | 0      | 0      | 59.51 |
-| bin.15.fa | FASTA  | DNA  | 5        | 317,530 | 12,569  | 63,506   | 138,947 | 51,122    | 53,427  | 61,465    | 0       | 61,465  | 0      | 0      | 64.14 |
+And the same for pathway abundances:
 
-The table is quite long as we have 90 separate bins! It may also be hard to read depending on how your shell program formats and wraps the table columns. You might find it useful to copy and paste the table into a Google Sheets or Excel spreadsheet and use the 'split text to columns' feature to have a better look at your bins.
+``` bash
+humann_renorm_table -i analysis/humann/SRR6820491_mrna_pathabundance.tsv -u relab -m community --update-snames -o analysis/humann/SRR6820491_mrna_pathabundance_normalised.tsv
+```
 
--   
+Take a look at the output using `less analysis/humann/SRR6820491_mrna_pathabundance_normalised.tsv`
 
-    ### Google Sheets
+::: callout-note
+#Gene Family SRR6820491_mrna_Abundance-RELAB\
+UNMAPPED 0.587576\
+UniRef90_C8C186 0.024436\
+UniRef90_A0A098YGS3 0.0233413\
+UniRef90_A6B9Y3 0.0214865\
+UniRef90_A0A343J0E6 0.0196644\
+UniRef90_A0A141RML6 0.0191057\
+UniRef90_A6BBS7 0.0181293\
+UniRef90_R0JKC3 0.0148976\
+...
+:::
 
-    -   Copy the data from the shell. Open a new Google Sheet and use <kbd>Ctrl</kbd>-<kbd>v</kbd> (or right click on the top left cell and select Paste) to paste the data into the sheet
-    -   With all of the leftmost column selected, go to **Data** \> **Split text to columns**.
-    -   Your data should magically split so that each value has its own cell. If you are prompted to choose the type of separator, select 'Space' from the drop-down list.
+You'll note the abundances are now relative (in %) rather than absolute RPKs. This will allow us to more reliably compare the gene expressions in our sample to other studies.
 
--   
+:::: callout-note
+Have a look at the normalised gene families file.
 
-    ### Excel
+1.  What percentage of sequences do not have an assigned gene family?
 
-    -   Copy the data from the shell. Open a new spreadsheet and use <kbd>Ctrl</kbd>-<kbd>v</kbd> (or right click on the top left cell and select Paste) to paste the data into the sheet
-    -   With all of the leftmost column selected, go to **Data** \> **Text to columns**.
-    -   A 'Wizard' popup will ask you to select either 'Delimited' or 'Fixed width' - choose 'Fixed width' and click Next.
-    -   Check that the column breaks are correct (they should be fine but worth checking anyway).
-    -   Click Finish and your data should be split so each value has its own cell.
+2.  What is the relative abundance of the most abundant gene family?
 
-You can now peruse your bins at your leisure. In the next section we will be doing more analysis of our bins and deciding which are highest quality.
+::: {.callout-note collapse="true"}
+1.  58.76%
 
-::: callout-tip
-## Recommended reading:
+2.  2.4%
+:::
+::::
 
-Generating metagenome bins can be challenging, especially in complex community samples or where degradation of the DNA has resulted in a very incomplete assembly and short contig lengths. This workflow for binning might not work for you, and you might find that a different binning method might result in better refined MAGs for your dataset. There are lots of other binning software methods inlcuding:
+### Identifying gene families in pathways
 
--   [CONCOCT](https://www.nature.com/articles/nmeth.3103) Clustering cOntigs with COverage and ComposiTion, the manual for running this is [here](https://github.com/BinPro/CONCOCT)
--   [Maxbin2](https://academic.oup.com/bioinformatics/article/32/4/605/1744462) uses an expectation-maximization algorithm to form bins. The link to installing maxbin2 as a conda package is [here](https://anaconda.org/bioconda/maxbin2)
--   There are also tools that can combine different binning methods and use them to refine, [DAS tool](https://www.nature.com/articles/s41564-018-0171-1) being one of them. DAS tool can also give completeness information, similarly to checkM.
--   This [review](https://www.sciencedirect.com/science/article/pii/S2001037021004931#s0055) gives a thorough look at the pros and cons of different tools used for generating MAGs and including binning .
+Now we have normalised abundance data on our gene families we can go one step further and see which genes are involved in the pathways that Humann has identified. HUMAnN can provide this information using the pathway and gene family tables.
+
+We will “unpack” the pathways to reveal the gene families involved. This adds another level of detail to the pathway abundance table.
+
+We can generate a table linking pathways to the gene families that contribute to them using the "unpack" function like so:
+
+``` bash
+humann_unpack_pathways --input-genes analysis/humann/SRR6820491_mrna_genefamilies_normalised.tsv --input-pathways analysis/humann/SRR6820491_mrna_pathabundance_normalised.tsv -o analysis/humann/unpacked_pathways_normalised.tsv
+```
+
+This will produce a table that looks like this:
+
+::: callout-note
+#Pathway SRR6820491_mrna_Abundance-RELAB\
+ANAEROFRUCAT-PWY: homolactic fermentation 0.00114903 \
+ANAEROFRUCAT-PWY\|unclassified 0.00114903 \
+ANAEROFRUCAT-PWY\|unclassified\|UniRef90_B5Y768 0.000249259 \
+ANAEROFRUCAT-PWY\|unclassified\|UniRef90_M1ZLX7 1.74048e-05 \
+ANAEROFRUCAT-PWY\|unclassified\|UniRef90_R1AXJ4 4.85755e-05 \
+ANAEROFRUCAT-PWY\|unclassified\|UniRef90_D9PUH5 3.73373e-06 \
+ANAEROFRUCAT-PWY\|unclassified\|UniRef90_A0A1M6IZD8 2.86919e-05 \
+ANAEROFRUCAT-PWY\|unclassified\|UniRef90_B5Y8I1 0.000413006 \
+ANAEROFRUCAT-PWY\|unclassified\|UniRef90_F4LQU7 3.06039e-05 \
+ANAEROFRUCAT-PWY\|unclassified\|UniRef90_B5Y8B9 0.000497463 \
+ANAEROFRUCAT-PWY\|unclassified\|UniRef90_A0A2X1LMF5 3.11042e-07\
+...
+:::
+
+From this table:
+
+-   The pathway row shows the total community abundance for the pathway.
+
+-   The species-stratified row shows how much each species contributes.
+
+-   The gene family row shows the individual UniRef90 genes and their abundances.
+
+:::: callout-note
+1.  Which gene family contributes to the most abundant pathway with an associated family in this sample?
+
+::: {.callout-note collapse="true"}
+1.  UniRef90_B5Y768
+:::
+::::
+
+### Group gene families into GO terms
+
+Our outputs contain many different gene IDs in long lists that can be extremely laborious and time-consuming to look up and analyse. Finding which ones are important or interesting can be a difficult task, but we can instead use GO terms to simplify this process.
+
+Gene Ontology (GO) terms are high-level, structured, standardised, and species-agnostic functional descriptors. GO terms describe gene/protein function across three independent high-level categories:
+
+-   Biological Process (pathways/events) e.g. cell division
+
+-   Molecular Function (biochemical activity) e.g. kinase
+
+-   Cellular Component (location) e.g. membrane
+
+Using GO terms will reduce the complexity of functional annotation outputs and highlight the biological functions of interest in our analysis.
+
+We can use HUMAnN’s regrouping utility to map gene families to GO terms. The command looks like this:
+
+``` bash
+humann_regroup_table -i analysis/humann/SRR6820491_mrna_genefamilies_normalised.tsv -g uniref90_go -o analysis/humann/SRR6820491_mrna_go.tsv
+```
+
+After this has ran we can then turn the quite cryptic GO term IDs into human-readable titles using the renaming utility:
+
+``` bash
+humann_rename_table -i analysis/humann/SRR6820491_mrna_go.tsv -n go -o analysis/humann/SRR6820491_mrna_go_renamed.tsv
+```
+
+Let's inspect the output using:
+
+``` bash
+less analysis/humann/SRR6820491_mrna_go_renamed.tsv
+```
+
+:::: callout-note
+From our GO Terms outputs:
+
+1.  Which of the GO terms is least abundant?
+
+2.  Which of the GO terms related to Molecular Functions is the most abundant?
+
+::: {.callout-note collapse="true"}
+1.  methanofuran biosynthetic process
+
+2.  adenine deaminase activity
+:::
+::::
+
+::: callout-note
+## Another note on interpreting an isolated Metatranscriptome
+
+When analysing our RNA reads from a metatranscriptomics dataset by itself there is a crucial confounding factor we must consider.
+
+Any given transcript could appear more abundant in one sample compared to another for one of two reasons:
+
+-   The gene is more highly expressed in that sample
+
+-   The copy number of that gene is higher in that sample
+
+Without accompanying metagenomic data it is impossible to truly detect which one of these scenarios is true. This is a recurrent challenge in analysing any metatranscriptome in isolation.
+
+The best case scenario would be to have a metagenomic DNA dataset from the same sample and run Metaphlan on that, then feed that taxonomic profile output into Humann (as metagenomic data is more reliable for quanitifying species). After that running Humann on both metagenomic and metatranscriptomic data will give us gene family copy numbers as well as expression levels, which together can then be used to normalise our dataset and provide a more reliable measure of expression abundance.
+
+Because we do not have an attached metagenomic dataset here, we must be careful in our interpretation of our analysis!
 :::
