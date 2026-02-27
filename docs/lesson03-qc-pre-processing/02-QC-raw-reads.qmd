@@ -100,7 +100,7 @@ You might want to use `ls` to check those directories have been made.
 We are going to have lots of outputs so it makes sense to organise them with some more subdirectories. Let's make one called `qc` (for **q**uality **c**ontrol).
 
 ``` {.bash filename="Code"}
-mkdir -p cs_course/results/qc
+mkdir -p cs_course/analysis/qc
 ```
 
 Now we have created the directories we are ready to start with quality control.
@@ -253,13 +253,13 @@ Now you can enter the command, using `-o` to tell FastQC to put its output files
 ::: callout-tip
 ### Why here?
 
-You might be wondering why we're running our command from the `cs_course` directory and not the place where the data is stored (`~/cs_course/data/raw_reads/`), or where we want our outputs to end up (`~/cs_course/results/qc/`). The reason is that it's *best practice* not to run commands from the same folder as your data in case you accidentally do something which would overwrite your data files. From `cs_course` we can easily "see" both our `data` and `results` directories to refer to them with local paths.
+You might be wondering why we're running our command from the `cs_course` directory and not the place where the data is stored (`~/cs_course/data/raw_reads/`), or where we want our outputs to end up (`~/cs_course/analysis/qc/`). The reason is that it's *best practice* not to run commands from the same folder as your data in case you accidentally do something which would overwrite your data files. From `cs_course` we can easily "see" both our `data` and `results` directories to refer to them with local paths.
 
 Over the rest of the course we will be moving all over the file tree to look at files but will always return to `~/cs_course` to run commands. We encourage you to do the same in your own work!
 :::
 
 ``` {.bash filename="Code"}
-fastqc data/raw_reads/*.fastq -o results/qc/ -t 8
+fastqc data/raw_reads/*.fastq -o analysis/qc/ -t 8
 ```
 
 Press enter and you will see an automatically updating output message telling you the progress of the analysis. It should start like this:
@@ -288,10 +288,10 @@ $
 
 ### Looking at FastQC outputs
 
-The FastQC program has created four new files (two for each .fastq file) within our `results/qc/` directory. We can see them by listing the contents of the `qc` folder
+The FastQC program has created four new files (two for each .fastq file) within our `analysis/qc/` directory. We can see them by listing the contents of the `qc` folder
 
 ``` {.bash filename="Code"}
-ls results/qc/
+ls analysis/qc/
 ```
 
 ``` {.default filename="Output"}
@@ -331,7 +331,7 @@ Now use `scp` to download the file. We need to add in our .pem file, like when w
 The command will look something like:
 
 ``` {.bash filename="Code"}
-scp -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk:~/cs_course/results/qc/*_fastqc.html .
+scp -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk:~/cs_course/analysis/qc/*_fastqc.html .
 ```
 
 Remember to replace NNN with your instance number.
@@ -354,7 +354,7 @@ If you had trouble downloading and viewing the files you can view them here: [SR
 First we will look at the "Per base sequence quality" graphs for `SRR6820491_1.fastq` and `SRR6820491_2.fastq`.
 
 | **SRR6820491_1.fastq** | **SRR6820491_2.fastq** |
-|:--:|:--:|
+|:----------------------------------:|:----------------------------------:|
 | ![.](/images/SRR6820491_1_pbsq.png){width="700"} | ![.](/images/SRR6820491_2_pbsq.png){width="700"} |
 
 The x-axis displays the base position in the read, and the y-axis shows quality scores. The blue line represents the mean quality across samples.
@@ -368,7 +368,7 @@ We definitely want to do some trimming to make sure the lower quality bases are 
 Adapter sequences are short sequences that are added to the sample to aid during the preparation of the DNA library. They therefore don't tell us anything biologically important and should be removed if they are present in high numbers. They might also be removed in the case of certain applications, such as when the base sequence needs to be particularly accurate.
 
 | **SRR6820491_1.fastq** | **SRR6820491_2.fastq** |
-|:--:|:--:|
+|:----------------------------------:|:----------------------------------:|
 | ![.](/images/SRR6820491_1_adapter.png){width="700"} | ![.](/images/SRR6820491_2_adapter.png){width="700"} |
 
 These graphs show us that a high proportion of our reads contain adapters, so we'll need to trim these out too. Helpfully, FastQC has identified that the adapters present are Illumina Universal adapters, so we can easily find out what the sequence to trim out will be.
@@ -429,16 +429,16 @@ We need to make a new directory to keep our trimmed reads in. We'll put it insid
 mkdir data/trimmed_reads
 ```
 
-We should also make a directory to keep our Cutadapt log file in, in case we need to look back at it in the future. We'll put that inside `results`/
+We should also make a directory to keep our Cutadapt log file in, in case we need to look back at it in the future. We'll put that inside `analysis/`
 
 ``` {.bash filename="Code"}
-mkdir results/cutadapt
+mkdir analysis/cutadapt
 ```
 
 Now we can start constructing our command. Here are the flags and options we'll be using:
 
 | flag/option | meaning |
-|----|----|
+|------------------------------------|------------------------------------|
 | `-q 20` | Bases need to have a quality phred score of at least 20 to be maintained |
 | `-a AGATCGGAAGAGCACACGTCTGAACTCCAGTCA` | The adapter sequence to trim from the forward reads, based on Illumina's Universal Adapters |
 | `-A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT` | The sequence to trim from the reverse reads, also based on Illumina's Universal Adapters |
@@ -469,7 +469,7 @@ cutadapt -q 20 \
           -j 8 \
           data/raw_reads/SRR6820491_1.fastq \
           data/raw_reads/SRR6820491_2.fastq \
-          &> results/cutadapt/SRR6820491_fastq.log
+          &> analysis/cutadapt/SRR6820491_fastq.log
 ```
 
 ::: callout-note
@@ -490,7 +490,7 @@ When you have submitted the command, your prompt will disappear for a couple of 
 Let's open up our log file and see the summary.
 
 ``` {.bash filename="Code"}
-less results/cutadapt/SRR6820491_fastq.log
+less analysis/cutadapt/SRR6820491_fastq.log
 ```
 
 ``` {.default filename="Output"}
@@ -559,19 +559,19 @@ Start by making a new folder inside your cutadapt directory to keep the FastQC o
 
 ``` {.bash filename="Code"}
 cd ~/cs_course
-mkdir results/cutadapt/trimmed_fastqc
+mkdir analysis/cutadapt/trimmed_fastqc
 ```
 
 Now you can run FastQC on your trimmed reads.
 
 ``` {.bash filename="Code"}
-fastqc data/trimmed_reads/*.fastq -o results/cutadapt/trimmed_fastqc -t 8
+fastqc data/trimmed_reads/*.fastq -o analysis/cutadapt/trimmed_fastqc -t 8
 ```
 
 In the terminal on your local machine (not the one logged into the AWS instance) use SCP to download the files.
 
 ``` {.bash filename="Code"}
-scp -i login_key_instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk:/home/csuser/cs_course/results/cutadapt/trimmed_fastqc/*.html .
+scp -i login_key_instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk:/home/csuser/cs_course/analysis/cutadapt/trimmed_fastqc/*.html .
 ```
 
 Then take a look at the html files in your browser.

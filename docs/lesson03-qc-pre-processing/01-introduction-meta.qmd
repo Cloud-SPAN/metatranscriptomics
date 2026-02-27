@@ -43,9 +43,9 @@ Metatranscriptomics provides insight into the functional activity of a microbial
 
 In metatranscriptomics, RNA is extracted from the microbial community and converted into complementary DNA (cDNA) for sequencing. This approach captures:
 
--    mRNA: coding transcripts, revealing active metabolic pathways.
+-   mRNA: coding transcripts, revealing active metabolic pathways.
 
--    rRNA and tRNA: structural and regulatory RNAs; rRNA is often removed or depleted because it dominates total RNA.
+-   rRNA and tRNA: structural and regulatory RNAs; rRNA is often removed or depleted because it dominates total RNA.
 
 Metatranscriptomic sequencing begins with careful sample collection, as RNA is far more labile than DNA and degrades rapidly if not preserved correctly.
 
@@ -63,7 +63,7 @@ Finally, the cDNA undergoes library preparation before sequencing, which can be 
 
 It is important to note that metatranscriptomics comes with a number of technical and analytical challenges.
 
-RNA is inherently unstable, so careful sample handling and storage are essential, as degradation can quickly affect data quality. Bias can also be introduced during extraction, since some microbes are more difficult to lyse than others, which may skew the representation of transcripts recovered. Although rRNA depletion is routinely performed, it is rarely completely efficient, and residual rRNA can still dominate the sequencing output. Because mRNA makes up only a small proportion of total RNA, deeper sequencing is often required to capture sufficient coding transcripts.
+As mentioned above, RNA is inherently unstable, so careful sample handling and storage are essential, as degradation can quickly affect data quality. Bias can also be introduced during extraction, since some microbes are more difficult to lyse than others, which may skew the representation of transcripts recovered. Although rRNA depletion is routinely performed, it is rarely completely efficient, and residual rRNA can still dominate the sequencing output. Because mRNA makes up only a small proportion of total RNA, deeper sequencing is often required to capture sufficient coding transcripts.
 
 The downstream analysis is also computationally demanding, requiring specialised workflows for transcript quantification and normalisation. As with other sequencing approaches, functional interpretation relies on reference databases, which are incomplete for many microbial taxa, meaning that poorly characterised organisms may remain difficult to interpret.
 

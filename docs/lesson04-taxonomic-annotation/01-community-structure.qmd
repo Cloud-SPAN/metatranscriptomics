@@ -43,7 +43,7 @@ mkdir analysis/metaphlan
 Here's what the Metaphlan command looks like:
 
 ``` {.bash filename="Code"}
-metaphlan data/trimmedreads/SRR6820491_merged.fastq  \
+metaphlan data/trimmed_reads/SRR6820491_merged.fastq  \
   --input_type fastq \
   --bowtie2db data/chocophlandb/ \
   --bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2 \
@@ -73,7 +73,7 @@ Referring to the manual can be useful to toggle different settings on and off, f
 Here's the command again with comments explaining each lines.
 
 ``` {.bash filename="Code"}
-metaphlan data/trimmedreads/SRR6820491_merged.fastq  \
+metaphlan data/trimmed_reads/SRR6820491_merged.fastq  \
 # this specifies the input file, our trimmed reads
   --input_type fastq \
 # this tells the command which format the input file will be  
@@ -106,7 +106,7 @@ metaphlan data/trimmedreads/SRR6820491_merged.fastq  \
 Now we have a better idea of what we're asking metaphlan to do, let's run it. Be sure that you're in your `cs_course` directory so that the commands point to the correct input and output directories! Go ahead and run the command in your terminal:
 
 ``` bash
- metaphlan data/trimmedreads/SRR6820491_merged.fastq \
+ metaphlan data/trimmed_reads/SRR6820491_merged.fastq \
  --input_type fastq \
  --bowtie2db data/chocophlandb/ \
  --bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2 \
@@ -175,7 +175,7 @@ less analysis/metaphlan/metaphlan_output.txt
 ```
 
 ``` {#output}
-#mpa_vJan25_CHOCOPhlAnSGB_202503 #/home/ubuntu/.local/bin/metaphlan data/trimmedreads/SRR6820491_merged.fastq --input_type fastq --bowtie2out analysis/metaphlan/SRR6820491_s.bowtie2.bz2 --bowtie2db data/chocophlandb/ -t rel_ab --tax_lev s -o analysis/metaphlan/SRR6820491_profile_vJan25_s.txt --nproc 8 --add_viruses --stat_q 0.1 --min_ab 0.1 
+#mpa_vJan25_CHOCOPhlAnSGB_202503 #/home/ubuntu/.local/bin/metaphlan data/trimmed_reads/SRR6820491_merged.fastq --input_type fastq --bowtie2out analysis/metaphlan/SRR6820491_s.bowtie2.bz2 --bowtie2db data/chocophlandb/ -t rel_ab --tax_lev s -o analysis/metaphlan/SRR6820491_profile_vJan25_s.txt --nproc 8 --add_viruses --stat_q 0.1 --min_ab 0.1 
 #16372080 reads processed 
 #SampleID Metaphlan_Analysis #clade_name NCBI_tax_id relative_abundance additional_species 
 s__Coprothermobacter_proteolyticus 35786 81.43426
