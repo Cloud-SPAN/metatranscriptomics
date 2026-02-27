@@ -4,6 +4,8 @@ title: "Introduction to Metatranscriptomics"
 
 ## What is the difference between Genomics, Metagenomics, and Metatranscriptomics?
 
+Microbiomes play key roles in host health, disease, and environmental processes. Modern sequencing technologies now allow us to study these communities at multiple molecular levels: DNA (metagenomics), RNA (metatranscriptomics), proteins (metaproteomics), and metabolites (metabolomics).
+
 In **genomics**, we sequence and analyse the genome of a single species. We often have a known reference genome to which we can align all our reads.
 
 In **metagenomics**, we sequence DNA from samples composed of many genomes. These might be environmental samples from soil or anaerobic digestors, or samples from the skin or digestive tracts of animals. The goal is to understand which organisms are present and what functional potential they encode.
@@ -69,37 +71,37 @@ The downstream analysis is also computationally demanding, requiring specialised
 
 ## Our data
 
-The data we will be using for the rest of the course (and that we've been using already!) comes from a 2022 paper titled [In-depth characterization of denitrifier communities across different soil ecosystems in the tundra](https://environmentalmicrobiome.biomedcentral.com/articles/10.1186/s40793-022-00424-2).
+This course uses data from the Galaxy Training Network tutorial on metatranscriptomics, which utilizes a dataset hosted on Zenodo ([Kunath et al., 2018, ISME J](https://academic.oup.com/ismej/article/13/3/603/7475213)). The dataset comes from a time-series analysis of a microbial community inside a bioreactor. For the purposes of this course, we focus on a single time point (the first) and one biological replicate (replicate A). The data consist of paired-end RNA-Seq sequences in FastQ format, representing the expressed functional potential of the microbial community.
 
-The paper looks at microbial communities across 43 mountain tundra sites in Northern Finland. The researchers took soil samples from each site and followed a metagenomic analysis workflow to identify the species present in each one. They also measured environmental information such as elevation, soil moisture and N<sub>2</sub>O fluxes.
-
-We will be focusing on data from a single heathland site which has two sets of sequencing data available: one long-read (nanopore) and one short-read (illumina). We've already taken a look at these data as part of the previous two lessons - they are saved on our cloud instance under `nano_fastq` and `illumina_fastq` respectively.
-
-Towards the end of the course we'll compare some of the data from our site with another site to see how they differ in terms of species composition and diversity.
+The samples originate from a \*\*cellulose-degrading microbial consortium (SEM1b)\*\* enriched from a thermophilic biogas reactor in Norway. The consortium is co-dominated by \*Clostridium thermocellum\*, a cellulolytic bacterium, and multiple strains of \*Coprothermobacter proteolyticus\*, which together degrade plant biomass under anaerobic, high-temperature conditions. This enrichment was performed to study the active expression of carbohydrate-degrading genes within the community.
 
 ## Bioinformatic workflows
 
-<!-- ORIGINAL <img align="right" width="325" height="506" src="{{ page.root }}/fig/metagenomics_flowchart_short.png" alt="Flow diagram that shows the steps: Sequence reads, Quality control, Assembly, Binning and Taxonomy"/> -->
+<!-- ORIGINAL <img align="right" width="325" height="506" src="{{ page.root }}/fig/metatranscriptomics_flowchart_short.png" alt=""/> -->
 
-<!-- <img align="right" width="325" height="506" src="/images/metagenomics_flowchart_short.png" alt="Flow diagram that shows the steps: Sequence reads, Quality control, Assembly, Binning and Taxonomy"/> THIS WORKED ALONG THE HTML CODE COMMENTED BELOW -->
+<!-- <img align="right" width="325" height="506" src="/images/metatranscriptomics_flowchart_short.png" alt=""/> THIS WORKED ALONG THE HTML CODE COMMENTED BELOW -->
 
 <!-- ::: {layout-ncol=2} -->
 
-When working with high-throughput sequencing data, the raw reads you get off of the sequencer need to pass through a number of different tools in order to generate your final desired output.
+When working with high-throughput RNA-sequencing (RNA-seq) data, the raw reads obtained from the sequencer need to pass through several tools to generate meaningful biological insights.
 
-The use of this set of tools in a specified order is commonly referred to as a *workflow* or a *pipeline*.
+The use of a defined set of tools in a specific order is commonly referred to as a **workflow** or **pipeline**.
 
-Here is an example of the workflow we will be using for our analysis with a brief description of each step.
+Here is an example of the workflow we will follow for metatranscriptomics analysis, with a brief description of each step:
 
-1.  Sequence reads - obtaining raw reads from a sample via sequencing
-2.  Quality control - assessing quality of the reads and trimming and filtering if necessary.
-3.  Metagenome assembly - piecing together genomes from reads into multiple long "contigs" (overlapping DNA segments)
-4.  Binning - separating out genomes into 'bins' containing related contigs
-5.  Taxonomic assignment - assigning taxonomy and functional analysis to sequences/contigs
+-   **Sequence reads** – obtaining raw RNA-seq reads from a sample via sequencing.
 
-Workflows in bioinformatics often adopt a plug-and-play approach so the output of one tool can be easily used as input to another tool. The use of standard data formats in bioinformatics (such as FASTA or FASTQ, which we will be using here) makes this possible. The tools that are used to analyze data at different stages of the workflow are therefore built under the assumption that the data will be provided in a specific format.
+-   **Quality control** – assessing read quality, trimming adapters, and filtering low-quality or unwanted sequences (e.g., rRNA).
 
-You can find a [more detailed version of the workflow](/docs/miscellanea/extras/workflow.qmd) we will be following by going to `Extras` and selecting `Workflow Reference`. This diagram contains all of the steps followed over the course alongside program names.
+-   **Taxonomic profiling** – estimating the microbial composition of the community from expressed transcripts.
+
+-   **Functional profiling** – identifying expressed genes, gene families, and metabolic pathways to understand the active functions of the microbiome.
+
+-   V**isualization and interpretation** – generating plots, tables, and interactive charts to explore taxonomic and functional patterns.
+
+Workflows in bioinformatics often adopt a **modular approach**, allowing the output of one tool to serve as the input for the next. Standard data formats such as FASTA and FASTQ make this possible, and many tools assume data are provided in these formats.
+
+A more detailed version of the workflow, including all steps and program names used throughout this tutorial, can be found in **Extras → Workflow Reference**.
 
 <!-- <br clear="right"/> -->
 
