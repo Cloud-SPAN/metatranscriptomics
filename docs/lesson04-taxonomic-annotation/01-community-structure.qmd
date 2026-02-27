@@ -45,7 +45,7 @@ Here's what the Metaphlan command looks like:
 ``` {.bash filename="Code"}
 metaphlan data/trimmed_reads/SRR6820491_merged.fastq  \
   --input_type fastq \
-  --bowtie2db data/chocophlandb/ \
+  --bowtie2db databases/chocophlandb/ \
   --bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2 \
   --nproc 8 \
   --add_viruses \
@@ -56,9 +56,11 @@ metaphlan data/trimmed_reads/SRR6820491_merged.fastq  \
   --output_file analysis/metaphlan/metaphlan_output.txt \
   --min_ab 0.1 \
   &> analysis/metaphlan/log.txt &
-
-##note if you want to re-run metaphlan you'll have to delete the original outputs
 ```
+
+::: callout-note
+Note: if you want to re-run MetaPhlan you'll have to delete the original outputs
+:::
 
 It may look like there's a lot of complicated parts to this command, but we can break it down piece by piece to understand exactly what we are about to run. Remember, most programmes have a manual or help section that can be accessed by using the '-h' flag. Let's bring it up now.
 
@@ -68,55 +70,58 @@ metaphlan -h
 
 There are many possible input arguments for metaphlan, which can seem overwhelming at first. However, there's no need to know them all! We only need to use those which are relevant to our analysis.
 
-Referring to the manual can be useful to toggle different settings on and off, for example changing the flag of tax_lev from 's' to 'g' will change the taxonomic level we're searching at from species to genus.
+Referring to the manual can be useful to toggle different settings on and off, for example changing the flag of `tax_lev` from `s` to `g` will change the taxonomic level we're searching at from species to genus.
 
-Here's the command again with comments explaining each lines.
+Let's build our command now.
 
-``` {.bash filename="Code"}
-metaphlan data/trimmed_reads/SRR6820491_merged.fastq  \
-# this specifies the input file, our trimmed reads
-  --input_type fastq \
-# this tells the command which format the input file will be  
-  --bowtie2db data/chocophlandb/ \
-# this specifies the location of the input reference database
-  --bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2 \
-# this specifies the location of the output database
-  --nproc 8 \
-# this tells the programme to use all 8 CPU cores of the remote machine
-  --add_viruses \
-# this tells the programme to allow sequences of viral origin to be analysed
-  --tax_lev 's' \
-# this tells the programme to try and resolve the taxonomy down to the species level
-  --min_cu_len 2000 \
-# this specifies the minimum nucleotide length for clade markers
-  --read_min_len 70 \
-# this specifies the minimum length a sequence read must be to be analysed
-  --stat_q 0.1 \
-# this specifies the quantile value for the average abundances
-  --output_file analysis/metaphlan/metaphlan_output.txt \
-# this specifies where to write the output file
-  --min_ab 0.1 \
-# this tells the programme that a clade must have at least 0.1% abundance to be included
-  &> analysis/metaphlan/log.txt &
-# you may recall this is a bash command which tells the terminal to pipe the console readouts to a log file, and then run the process in the background
+`data/trimmed_reads/SRR6820491_merged.fastq` specifies our input file containing our trimmed reads. We use this rather than our sorted mRNA from sortmeRNA as MetaPhlan identifies species based on a wide range of marker genes, some of which may be filtered out by sortmeRNA.
 
-##note if you want to re-run metaphlan you'll have to delete the original outputs
-```
+`--input_type fastq` tells MetaPhlan the format of our input file.
 
-Now we have a better idea of what we're asking metaphlan to do, let's run it. Be sure that you're in your `cs_course` directory so that the commands point to the correct input and output directories! Go ahead and run the command in your terminal:
+`--bowtie2db databases/chocophlandb/` specifies the location of the reference marker gene database that MetaPhlAn will use for alignment.
+
+`--output_file analysis/metaphlan/metaphlan_output.txt` tells the program where to write the taxonomic profile.
+
+We will also include a few additional arguments.
+
+`--bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2` saves the intermediate Bowtie2 alignment output.
+
+`--nproc 8` tells the program to use all 8 CPU cores of our instance.
+
+`--add_viruses` allows viral marker genes to be included in the taxonomic profiling.
+
+`--tax_lev 's'` tells MetaPhlAn to report results at the species level.
+
+`--min_cu_len 2000` sets the minimum total nucleotide length for clade-specific markers.
+
+`--read_min_len 70` ensures that only reads of at least 70 bp are analysed.
+
+`--stat_q 0.1` sets the statistical quantile used for robust average abundance estimation.
+
+`--min_ab 0.1` specifies that only clades with at least 0.1% relative abundance will be reported.
+
+Finally,
+
+`&> analysis/metaphlan/log.txt &` redirects all terminal output to a log file and runs the process in the background.
+
+Now we have a better idea of what we're asking MetaPhlAn to do, let's run it. Be sure that you're in your `cs_course` directory so that the commands point to the correct input and output directories! Go ahead and run the command in your terminal:
 
 ``` bash
- metaphlan data/trimmed_reads/SRR6820491_merged.fastq \
- --input_type fastq \
- --bowtie2db data/chocophlandb/ \
- --bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2 \
- --nproc 8--add_viruses--tax_lev 's' \
- --min_cu_len 2000--read_min_len 70 \
- --stat_q 0.1--output_file analysis/metaphlan/metaphlan_output.txt \
- --min_ab 0.1&> analysis/metaphlan/log.txt &
+metaphlan data/trimmed_reads/SRR6820491_merged.fastq  \
+--input_type fastq  --bowtie2db databases/chocophlandb/  \
+--bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2  \
+--nproc 8  \
+--add_viruses  \
+--tax_lev 's'  \
+--min_cu_len 2000  \
+--read_min_len 70  \
+--stat_q 0.1  \
+--min_ab 0.1  \
+--output_file analysis/metaphlan/metaphlan_output.txt  \
+&> analysis/metaphlan/log.txt &
 ```
 
-This should take about 30 minutes to run. It takes a while as each sequence is compared to the full database one by one! Our test data here only consists of one sample, but in your research you may be working on many many more. As such a "real" Metaphlan run may take much longer.
+This should take about 30-45 minutes to run. It takes a while as each sequence is compared to the full database one by one! Our test data here only consists of one sample, but in your research you may be working on many many more. As such a "real" Metaphlan run may take much longer.
 
 ## A note on analysing community data from Metatranscriptomes
 

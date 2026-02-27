@@ -4,9 +4,9 @@ title: "Using the Command Line"
 # title-block-banner: true
 ---
 
-Welcome to the second lesson of our **Metagenomics with High Performance Computing** course.
+Welcome to the second lesson of our **Metatranscriptomics with High Performance Computing** course.
 
-In this lesson we will continue learning the foundational command line skills needed for metagenomics analysis. We will recap how to navigate our cloud-based file system, learn how to work with files and discover how combining commands can unlock new possibilities.
+In this lesson we will continue learning the foundational command line skills needed for metatranscriptomics analysis. We will recap how to navigate our cloud-based file system, learn how to work with files and discover how combining commands can unlock new possibilities.
 
 #### By the end of this lesson you will be able to:
 
