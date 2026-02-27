@@ -102,12 +102,12 @@ website:
         contents: 
           - docs/lesson05-functional-annotation/01-functional-info.qmd
           - docs/lesson05-functional-annotation/02-normalising-and-identifying.qmd
-      - section: "Combining Annotations"
-        href: docs/lesson06-combining-annotations/index.qmd
-        contents: 
-          - docs/lesson06-combining-annotations/01-combining-annotations.qmd
-          - docs/lesson06-combining-annotations/02-Diversity-tackled-with-R.qmd
-          - docs/lesson06-combining-annotations/03-hands_on-diversity.qmd
+#      - section: "Combining Annotations"
+#        href: docs/lesson06-combining-annotations/index.qmd
+#        contents: 
+#          - docs/lesson06-combining-annotations/01-combining-annotations.qmd
+#          - docs/lesson06-combining-annotations/02-Diversity-tackled-with-R.qmd
+#          - docs/lesson06-combining-annotations/03-hands_on-diversity.qmd
       - section: "Extras"
         contents: 
           - docs/miscellanea/extras/data.qmd
