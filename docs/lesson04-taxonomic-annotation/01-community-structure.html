@@ -65,6 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../docs/lesson04-taxonomic-annotation/02-visualising-structure.html" rel="next">
+<link href="../../docs/lesson04-taxonomic-annotation/index.html" rel="prev">
 <link href="../../images/cloud-span-icon.png" rel="icon" type="image/png">
 <script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
 <link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
@@ -78,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2ff81c2e5dfd9e56c4f590b9591e1eb8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-bb93917089bb75c56c9545cc4373ce17.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-29f81ccfb4d4d5dda5719abf90063df3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -175,7 +177,7 @@ cookieconsent.run({
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Extracting a Community Profile</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/lesson04-taxonomic-annotation/index.html">Taxonomic Annotation</a></li><li class="breadcrumb-item"><a href="../../docs/lesson04-taxonomic-annotation/01-community-structure.html">Extracting a Community Profile</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -189,8 +191,8 @@ cookieconsent.run({
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
- <span class="menu-text">Extras</span></a>
+            <a href="../../docs/lesson01-files-and-directories/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Files and Directories</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -198,8 +200,147 @@ cookieconsent.run({
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson01-files-and-directories/01-understanding-file-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Understanding your file system</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson01-files-and-directories/02-logging-onto-cloud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Logging onto the Cloud</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson01-files-and-directories/03-shell-introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducing the Shell</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson02-using-the-command-line/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Using the Command Line</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson02-using-the-command-line/01-navigating-file-directories.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Navigating Files and Directories</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson02-using-the-command-line/02-working-with-file.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working with Files and Directories</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson02-using-the-command-line/03-redirection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Redirection</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson03-qc-pre-processing/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">QC &amp; RNA pre-processing</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson03-qc-pre-processing/01-introduction-meta.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Metatranscriptomics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson03-qc-pre-processing/02-QC-raw-reads.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Quality of Raw Reads</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson03-qc-pre-processing/03-rrna-filtering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ribosomal RNA Filtering</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson04-taxonomic-annotation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Taxonomic Annotation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson04-taxonomic-annotation/01-community-structure.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Extracting a Community Profile</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson04-taxonomic-annotation/02-visualising-structure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Visualising Community Structure</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/lesson05-functional-annotation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Functional Annotation</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/lesson05-functional-annotation/01-functional-info.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extracting Functional Information</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Extras</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../docs/miscellanea/extras/data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/miscellanea/extras/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/miscellanea/extras/workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Workflow Reference</span></a>
   </div>
 </li>
       </ul>
@@ -214,13 +355,18 @@ cookieconsent.run({
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#taxonomic-analysis-methods" id="toc-taxonomic-analysis-methods" class="nav-link active" data-scroll-target="#taxonomic-analysis-methods">Taxonomic analysis methods</a></li>
+  <li><a href="#taxonomic-profiling" id="toc-taxonomic-profiling" class="nav-link active" data-scroll-target="#taxonomic-profiling">Taxonomic Profiling</a>
+  <ul class="collapse">
   <li><a href="#what-is-metaphlan" id="toc-what-is-metaphlan" class="nav-link" data-scroll-target="#what-is-metaphlan">What is Metaphlan?</a></li>
+  <li><a href="#running-metaphlan" id="toc-running-metaphlan" class="nav-link" data-scroll-target="#running-metaphlan">Running Metaphlan</a></li>
+  </ul></li>
+  <li><a href="#a-note-on-analysing-community-data-from-metatranscriptomes" id="toc-a-note-on-analysing-community-data-from-metatranscriptomes" class="nav-link" data-scroll-target="#a-note-on-analysing-community-data-from-metatranscriptomes">A note on analysing community data from Metatranscriptomes</a></li>
+  <li><a href="#interpreting-the-metaphlan-output" id="toc-interpreting-the-metaphlan-output" class="nav-link" data-scroll-target="#interpreting-the-metaphlan-output">Interpreting the Metaphlan output</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/edit/main/docs/lesson04-taxonomic-annotation/01-community-structure.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content column-body" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7">Extracting a Community Profile</h1></header>
+<main class="content column-body" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/lesson04-taxonomic-annotation/index.html">Taxonomic Annotation</a></li><li class="breadcrumb-item"><a href="../../docs/lesson04-taxonomic-annotation/01-community-structure.html">Extracting a Community Profile</a></li></ol></nav><h1 class="title display-7">Extracting a Community Profile</h1></header>
 
 <header id="title-block-header">
 
@@ -228,38 +374,210 @@ cookieconsent.run({
 </header>
 
 
-<p>In the <a href="../../docs/lesson03-qc-assembly/03-rna-filtering.qmd">previous episode</a> we filtered our samples to separate out rRNA and mRNA sequences, however for our taxonomic analysis we shall be using our unfiltered data.</p>
-<p>We shall be using a tool called Metaphlan, which aligns sequences with reference genomes in order to estimate which taxon those sequences originate from. Because rRNA is often used as a taxonomic marker, we will want to use our unfiltered data. The filtered data will be used instead for our functional analysis next lesson.</p>
-<section id="taxonomic-analysis-methods" class="level3">
-<h3 class="anchored" data-anchor-id="taxonomic-analysis-methods">Taxonomic analysis methods</h3>
-<p>Often a metatranscriptomic analysis will also include data on the community structure of the microbiome being analysed. This data can be obtained in a few different ways:</p>
+<section id="taxonomic-profiling" class="level2">
+<h2 class="anchored" data-anchor-id="taxonomic-profiling">Taxonomic Profiling</h2>
+<p>Community structure is the data that tells us which species or taxa are present and what their abundances are. This taxonomic information is important as it tells us which microbes within the microbiome are the most likely to be driving the function. This kind of analysis is often called <strong>taxonomic profiling</strong>.</p>
+<p>Taxonomic profiling can be achieved by a few different approaches. These include:</p>
+<ul>
+<li><p>Using 16S/18S rRNA sub-unit sequencing to identify Operation Taxonomic Units (OTUs), a sort of proxy for species. This approach is also called “<strong>amplicon sequencing</strong>” or “<strong>amplicon analysis</strong>”. Whilst this approach usually utilises targeted PCR amplification of 16S/18S sequences, it is possible to use our aligned reads from SortMeRNA to yield our rRNA sequences in traditional amplicon analysis tools.</p></li>
+<li><p>Using gene alignment software to assign taxonomy to reads by aligning them to marker genes from curated databases.</p></li>
+</ul>
+<p>In this tutorial we shall be following the second of the approaches detailed above. In the <a href="#0">previous lesson</a> we filtered our samples to separate out rRNA and mRNA sequences, however for our taxonomic analysis we shall be using our unfiltered data.</p>
+<p>We shall be using a tool called MetaPhlan, which aligns sequences with reference genomes in order to estimate which taxon those sequences originate from. Because rRNA is often used as a taxonomic marker, we will want to use our unfiltered data. The filtered data will be used instead for our functional analysis next lesson.</p>
 <p>(For more on different methodologies see the <a href="../../docs/lesson03-qc-assembly/01-introduction-meta.qmd">introduction to lesson 3</a>).</p>
-</section>
 <section id="what-is-metaphlan" class="level3">
 <h3 class="anchored" data-anchor-id="what-is-metaphlan">What is Metaphlan?</h3>
-<p>Metaphlan (Metagenomic Phylogenetic Analysis) is one tool from the Biobakery suite of software, which all have bakery related names. Whilst this is a fun naming convention it can be somewhat confusing as to what each tool does.</p>
+<p>MetaPhlan (Metagenomic Phylogenetic Analysis) is one tool from the Biobakery suite of software, which all have bakery related names. Whilst this is a fun naming convention it can be somewhat confusing as to what each tool does! You may see many different tools mentioned in the literature but possibly be unclear on what they do. Here’s a rundown of the tools relevant to this section of the course.</p>
+<p>MetaPhlAn is a tool for profiling microbial communities in metagenomic samples by identifying the species present and their relative abundances. Instead of analyzing full genomes, MetaPhlAn targets unique marker genes specific to each species, making it faster and computationally lighter than other approaches. We will be using MetaPhlan 4, the fourth iteration of the programme.</p>
+<p>MetaPhlan uses another tool called Bowtie2, which is a tool for aligning reads against long reference sequences. Bowtie2 excels at aligning sequences of between 50-100 bp in length, perfect for our purposes.</p>
+<p>You may have also seen “Chocophlan” listed among the Biobakery tools too. Unlike metaphlan, this is not actually a programme, but a database! Chocophlan serves as a pangenome reference database configured specifically to work with other biobakery tools. In effect this is a massive list of genes, their sequences, and their most likely organism of origin.</p>
+<p>And so, MetaPhlan uses bowtie2 to map sequenced reads to the Chocophlan database of marker genes, determining species by the proportion of aligned reads. This approach allows researchers to quickly study microbiome composition without having to perform separate sequencing to determine taxonomy.</p>
+<p>Humann is a tool used for functional annotation, which we shall explore next lesson.</p>
+</section>
+<section id="running-metaphlan" class="level3">
+<h3 class="anchored" data-anchor-id="running-metaphlan">Running Metaphlan</h3>
+<p>First of all, ensuring we are in our <code>~/cs_course</code> directory, let’s make a directory to store all of our Metaphlan outputs:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> analysis/metaphlan</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Here’s what the Metaphlan command looks like:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">metaphlan</span> data/trimmedreads/SRR6820491_merged.fastq  <span class="dt">\</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--input_type</span> fastq <span class="dt">\</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--bowtie2db</span> data/chocophlandb/ <span class="dt">\</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--bowtie2out</span> analysis/metaphlan/metaphlan_bowtie2.bz2 <span class="dt">\</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--nproc</span> 8 <span class="dt">\</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--add_viruses</span> <span class="dt">\</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--tax_lev</span> <span class="st">'s'</span> <span class="dt">\</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--min_cu_len</span> 2000 <span class="dt">\</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">--read_min_len</span> 70 <span class="dt">\</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">--stat_q</span> 0.1 <span class="dt">\</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output_file</span> analysis/metaphlan/metaphlan_output.txt <span class="dt">\</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">--min_ab</span> 0.1 <span class="dt">\</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="op">&amp;&gt;</span> analysis/metaphlan/log.txt <span class="kw">&amp;</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">##note if you want to re-run metaphlan you'll have to delete the original outputs</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">metaphlan</span> data/trimmed_reads/SRR6820491_merged.fastq  <span class="dt">\</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--input_type</span> fastq <span class="dt">\</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--bowtie2db</span> databases/chocophlandb/ <span class="dt">\</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--bowtie2out</span> analysis/metaphlan/metaphlan_bowtie2.bz2 <span class="dt">\</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--nproc</span> 8 <span class="dt">\</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--add_viruses</span> <span class="dt">\</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--tax_lev</span> <span class="st">'s'</span> <span class="dt">\</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--min_cu_len</span> 2000 <span class="dt">\</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">--read_min_len</span> 70 <span class="dt">\</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">--stat_q</span> 0.1 <span class="dt">\</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output_file</span> analysis/metaphlan/metaphlan_output.txt <span class="dt">\</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">--min_ab</span> 0.1 <span class="dt">\</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="op">&amp;&gt;</span> analysis/metaphlan/log.txt <span class="kw">&amp;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note: if you want to re-run MetaPhlan you’ll have to delete the original outputs</p>
+</div>
+</div>
+<p>It may look like there’s a lot of complicated parts to this command, but we can break it down piece by piece to understand exactly what we are about to run. Remember, most programmes have a manual or help section that can be accessed by using the ‘-h’ flag. Let’s bring it up now.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">metaphlan</span> <span class="at">-h</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>There are many possible input arguments for metaphlan, which can seem overwhelming at first. However, there’s no need to know them all! We only need to use those which are relevant to our analysis.</p>
+<p>Referring to the manual can be useful to toggle different settings on and off, for example changing the flag of <code>tax_lev</code> from <code>s</code> to <code>g</code> will change the taxonomic level we’re searching at from species to genus.</p>
+<p>Let’s build our command now.</p>
+<p><code>data/trimmed_reads/SRR6820491_merged.fastq</code> specifies our input file containing our trimmed reads. We use this rather than our sorted mRNA from sortmeRNA as MetaPhlan identifies species based on a wide range of marker genes, some of which may be filtered out by sortmeRNA.</p>
+<p><code>--input_type fastq</code> tells MetaPhlan the format of our input file.</p>
+<p><code>--bowtie2db databases/chocophlandb/</code> specifies the location of the reference marker gene database that MetaPhlAn will use for alignment.</p>
+<p><code>--output_file analysis/metaphlan/metaphlan_output.txt</code> tells the program where to write the taxonomic profile.</p>
+<p>We will also include a few additional arguments.</p>
+<p><code>--bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2</code> saves the intermediate Bowtie2 alignment output.</p>
+<p><code>--nproc 8</code> tells the program to use all 8 CPU cores of our instance.</p>
+<p><code>--add_viruses</code> allows viral marker genes to be included in the taxonomic profiling.</p>
+<p><code>--tax_lev 's'</code> tells MetaPhlAn to report results at the species level.</p>
+<p><code>--min_cu_len 2000</code> sets the minimum total nucleotide length for clade-specific markers.</p>
+<p><code>--read_min_len 70</code> ensures that only reads of at least 70 bp are analysed.</p>
+<p><code>--stat_q 0.1</code> sets the statistical quantile used for robust average abundance estimation.</p>
+<p><code>--min_ab 0.1</code> specifies that only clades with at least 0.1% relative abundance will be reported.</p>
+<p>Finally,</p>
+<p><code>&amp;&gt; analysis/metaphlan/log.txt &amp;</code> redirects all terminal output to a log file and runs the process in the background.</p>
+<p>Now we have a better idea of what we’re asking MetaPhlAn to do, let’s run it. Be sure that you’re in your <code>cs_course</code> directory so that the commands point to the correct input and output directories! Go ahead and run the command in your terminal:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">metaphlan</span> data/trimmed_reads/SRR6820491_merged.fastq  <span class="dt">\</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>--input_type fastq  <span class="at">--bowtie2db</span> databases/chocophlandb/  <span class="dt">\</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>--bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2  <span class="dt">\</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>--nproc 8  <span class="dt">\</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>--add_viruses  <span class="dt">\</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>--tax_lev <span class="st">'s'</span>  <span class="dt">\</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>--min_cu_len 2000  <span class="dt">\</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>--read_min_len 70  <span class="dt">\</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>--stat_q 0.1  <span class="dt">\</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>--min_ab 0.1  <span class="dt">\</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>--output_file analysis/metaphlan/metaphlan_output.txt  <span class="dt">\</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="op">&amp;&gt;</span> analysis/metaphlan/log.txt <span class="kw">&amp;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This should take about 30-45 minutes to run. It takes a while as each sequence is compared to the full database one by one! Our test data here only consists of one sample, but in your research you may be working on many many more. As such a “real” Metaphlan run may take much longer.</p>
+</section>
+</section>
+<section id="a-note-on-analysing-community-data-from-metatranscriptomes" class="level2">
+<h2 class="anchored" data-anchor-id="a-note-on-analysing-community-data-from-metatranscriptomes">A note on analysing community data from Metatranscriptomes</h2>
+<p>This approach of analysing RNA reads is largely the same as the approach we would use for analysing DNA reads. However, this approach does have one main caveat, as explained here.</p>
+<p>Because Metaphlan quantifies species abundance based on the number of reads that match species-specific marker genes it may seem sensible to assume a higher abundance of reads means a higher abundances of individuals or genomes of that species, but this is not necessarily true.</p>
+<p>When analysing metagenomic DNA data it is safe to assume each genome corresponds to a single copy of a given marker gene (assuming that gene appears once within the genome). However, for metatranscriptomic RNA data that same assumption cannot be made as markers may be transcribed more or less than the average transcription rate for that species. This means the abundance Metaphlan calculates may be greater or smaller than that species’ contribution to the overall transcript pool.</p>
+<p>In effect we are observing a measure of the marker gene transcript pool (not the overall transcript pool of all expressed genes), and this should be taken into account when analysing the outputs of Metaphlan. Remember it is always important to consider how our data is linked to biological reality!</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Why are we only searching at the species level?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In a real world Metaphlan run it is most likely you would set the taxonomic level for the search to be Kingdom and below, so why are we setting it to just species for this tutorial?</p>
+<p>Metaphlan will output results for reads it can match with confidence to a set of marker genes. However some of those matches will only be resolved down to a higher taxonomic level as some genes are shared between all members of, for example, a certain Family. If only those shared genes are matched then it cannot be determined which Genus that read is from, and so it Metaphlan will report only to the Family level.</p>
+<p>This can result in outputs that are much larger and much more complex to interpret. For simplicity’s sake we shall only deal with species level outputs for this tutorial, but we will include a pre-made output file for you to explore in the next episode.</p>
+</div>
+</div>
+</section>
+<section id="interpreting-the-metaphlan-output" class="level2">
+<h2 class="anchored" data-anchor-id="interpreting-the-metaphlan-output">Interpreting the Metaphlan output</h2>
+<p>From our Metaphlan run we have a few main outputs:</p>
+<section id="tabular-file-containing-the-community-profile-metaphlan_output.txt" class="level4">
+<h4 class="anchored" data-anchor-id="tabular-file-containing-the-community-profile-metaphlan_output.txt">Tabular file containing the community profile (metaphlan_output.txt)</h4>
+<ul>
+<li>Each line of this file will have four “columns”:</li>
+</ul>
+<ol type="1">
+<li><p>the closest matched taxon (to the species level)</p></li>
+<li><p>the matched taxon NCBI ID</p></li>
+<li><p>the relative abundance of the taxon</p></li>
+<li><p>additional species that may share the same species group marker as the closest matched taxon</p></li>
+</ol>
+<ul>
+<li>This file is used for both interpretation of the data and as an input for the functional annotation later on.</li>
+</ul>
+</section>
+<section id="bowtie2-alignment-file-srr6820491.bowtie2.bz2" class="level4">
+<h4 class="anchored" data-anchor-id="bowtie2-alignment-file-srr6820491.bowtie2.bz2">Bowtie2 alignment file (SRR6820491.bowtie2.bz2)</h4>
+<ul>
+<li><p>This file is a compressed archive of intermediate files from the alignment process. It contains read IDs, marker gene matches, and alignment scores.</p></li>
+<li><p>We don’t need it for this pipeline, but could be useful if you wanted to know how efficiently Metaphlan has mapped your reads to the database.</p></li>
+<li><p>It can also be used as an input if you need to re-run Metaphlan, which saves time as it will skip the mapping step.</p></li>
+</ul>
+</section>
+<section id="execution-log-file-metaphlan.log" class="level4">
+<h4 class="anchored" data-anchor-id="execution-log-file-metaphlan.log">Execution log file (metaphlan.log)</h4>
+<ul>
+<li>This log contains messages that would otherwise appear in the terminal that we have redirected using the &amp;&gt; command. We can use this to track if there have been any errors or warnings if things go wrong.</li>
+</ul>
+<p>Let’s have a look at our community profile output using less.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> analysis/metaphlan/metaphlan_output.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="{#output}"><code>#mpa_vJan25_CHOCOPhlAnSGB_202503 #/home/ubuntu/.local/bin/metaphlan data/trimmed_reads/SRR6820491_merged.fastq --input_type fastq --bowtie2out analysis/metaphlan/SRR6820491_s.bowtie2.bz2 --bowtie2db data/chocophlandb/ -t rel_ab --tax_lev s -o analysis/metaphlan/SRR6820491_profile_vJan25_s.txt --nproc 8 --add_viruses --stat_q 0.1 --min_ab 0.1 
+#16372080 reads processed 
+#SampleID Metaphlan_Analysis #clade_name NCBI_tax_id relative_abundance additional_species 
+s__Coprothermobacter_proteolyticus 35786 81.43426
+s__Acetivibrio_thermocellus 1515 12.51698
+s__Tepidanaerobacter_sp_GT38 2722793 5.52737
+s__Methanothermobacter_thermautotrophicus 145262 0.50341
+s__Escherichia_coli 562 0.01798</code></pre>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>From the output here, try and answer these questions:</p>
+<ol type="1">
+<li><p>How many taxons have been identified?</p></li>
+<li><p>What different taxonomic levels do we have access to with MetaPhlan?</p></li>
+<li><p>What species are found in our sample?</p></li>
+<li><p>Can you tell if only bacteria have been identified in our sample?</p></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>Our output has 5 lines, meaning we have 5 taxons identified</p></li>
+<li><p>We only have species level accessed in our run. Changing the –tax_lev will allow us to identify a broader set of taxa</p></li>
+<li><p>In our sample we identified: <em>Coprothermobacter proteolyticus, Acetivibrio thermocellus, Tepidanaerobacter sp. GT38, Methanothermobacter thermautotrophicus, Escherichia coli</em></p></li>
+<li><p>Trick question! Although you can manually verify each taxa you will need to adjust the –tax_lev flag on Metaphlan to show the kingdom (<code>k__</code>) level</p></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Whilst it is possible to interpret information from this table alone, it is far easier to try to do so from visualised data. In the next episode we shall be using Krona and Graphlan to generate visualisations of Metaphlan’s output.</p>
 
 
+</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
@@ -663,6 +981,18 @@ cookieconsent.run({
     }
   });
   </script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../../docs/lesson04-taxonomic-annotation/index.html" class="pagination-link" aria-label="Taxonomic Annotation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Taxonomic Annotation</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../docs/lesson04-taxonomic-annotation/02-visualising-structure.html" class="pagination-link" aria-label="Visualising Community Structure">
+        <span class="nav-page-text">Visualising Community Structure</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
