@@ -360,8 +360,6 @@ cookieconsent.run({
   <li><a href="#what-is-metaphlan" id="toc-what-is-metaphlan" class="nav-link" data-scroll-target="#what-is-metaphlan">What is Metaphlan?</a></li>
   <li><a href="#running-metaphlan" id="toc-running-metaphlan" class="nav-link" data-scroll-target="#running-metaphlan">Running Metaphlan</a></li>
   </ul></li>
-  <li><a href="#a-note-on-analysing-community-data-from-metatranscriptomes" id="toc-a-note-on-analysing-community-data-from-metatranscriptomes" class="nav-link" data-scroll-target="#a-note-on-analysing-community-data-from-metatranscriptomes">A note on analysing community data from Metatranscriptomes</a></li>
-  <li><a href="#interpreting-the-metaphlan-output" id="toc-interpreting-the-metaphlan-output" class="nav-link" data-scroll-target="#interpreting-the-metaphlan-output">Interpreting the Metaphlan output</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/edit/main/docs/lesson04-taxonomic-annotation/01-community-structure.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -397,7 +395,12 @@ cookieconsent.run({
 <section id="running-metaphlan" class="level3">
 <h3 class="anchored" data-anchor-id="running-metaphlan">Running Metaphlan</h3>
 <p>First of all, ensuring we are in our <code>~/cs_course</code> directory, let’s make a directory to store all of our Metaphlan outputs:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> analysis/metaphlan</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> analysis/metaphlan</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p>Here’s what the Metaphlan command looks like:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
@@ -456,76 +459,75 @@ Note
 <p>Finally,</p>
 <p><code>&amp;&gt; analysis/metaphlan/log.txt &amp;</code> redirects all terminal output to a log file and runs the process in the background.</p>
 <p>Now we have a better idea of what we’re asking MetaPhlAn to do, let’s run it. Be sure that you’re in your <code>cs_course</code> directory so that the commands point to the correct input and output directories! Go ahead and run the command in your terminal:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">metaphlan</span> data/trimmed_reads/SRR6820491_merged.fastq  <span class="dt">\</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>--input_type fastq  <span class="at">--bowtie2db</span> databases/chocophlandb/  <span class="dt">\</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>--bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2  <span class="dt">\</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>--nproc 8  <span class="dt">\</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>--add_viruses  <span class="dt">\</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>--tax_lev <span class="st">'s'</span>  <span class="dt">\</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>--min_cu_len 2000  <span class="dt">\</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>--read_min_len 70  <span class="dt">\</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>--stat_q 0.1  <span class="dt">\</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>--min_ab 0.1  <span class="dt">\</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>--output_file analysis/metaphlan/metaphlan_output.txt  <span class="dt">\</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="op">&amp;&gt;</span> analysis/metaphlan/log.txt <span class="kw">&amp;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>This should take about 30-45 minutes to run. It takes a while as each sequence is compared to the full database one by one! Our test data here only consists of one sample, but in your research you may be working on many many more. As such a “real” Metaphlan run may take much longer.</p>
-</section>
-</section>
-<section id="a-note-on-analysing-community-data-from-metatranscriptomes" class="level2">
-<h2 class="anchored" data-anchor-id="a-note-on-analysing-community-data-from-metatranscriptomes">A note on analysing community data from Metatranscriptomes</h2>
-<p>This approach of analysing RNA reads is largely the same as the approach we would use for analysing DNA reads. However, this approach does have one main caveat, as explained here.</p>
-<p>Because Metaphlan quantifies species abundance based on the number of reads that match species-specific marker genes it may seem sensible to assume a higher abundance of reads means a higher abundances of individuals or genomes of that species, but this is not necessarily true.</p>
-<p>When analysing metagenomic DNA data it is safe to assume each genome corresponds to a single copy of a given marker gene (assuming that gene appears once within the genome). However, for metatranscriptomic RNA data that same assumption cannot be made as markers may be transcribed more or less than the average transcription rate for that species. This means the abundance Metaphlan calculates may be greater or smaller than that species’ contribution to the overall transcript pool.</p>
-<p>In effect we are observing a measure of the marker gene transcript pool (not the overall transcript pool of all expressed genes), and this should be taken into account when analysing the outputs of Metaphlan. Remember it is always important to consider how our data is linked to biological reality!</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Why are we only searching at the species level?
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>In a real world Metaphlan run it is most likely you would set the taxonomic level for the search to be Kingdom and below, so why are we setting it to just species for this tutorial?</p>
-<p>Metaphlan will output results for reads it can match with confidence to a set of marker genes. However some of those matches will only be resolved down to a higher taxonomic level as some genes are shared between all members of, for example, a certain Family. If only those shared genes are matched then it cannot be determined which Genus that read is from, and so it Metaphlan will report only to the Family level.</p>
-<p>This can result in outputs that are much larger and much more complex to interpret. For simplicity’s sake we shall only deal with species level outputs for this tutorial, but we will include a pre-made output file for you to explore in the next episode.</p>
-</div>
-</div>
-</section>
-<section id="interpreting-the-metaphlan-output" class="level2">
-<h2 class="anchored" data-anchor-id="interpreting-the-metaphlan-output">Interpreting the Metaphlan output</h2>
-<p>From our Metaphlan run we have a few main outputs:</p>
-<section id="tabular-file-containing-the-community-profile-metaphlan_output.txt" class="level4">
-<h4 class="anchored" data-anchor-id="tabular-file-containing-the-community-profile-metaphlan_output.txt">Tabular file containing the community profile (metaphlan_output.txt)</h4>
-<ul>
-<li>Each line of this file will have four “columns”:</li>
-</ul>
-<ol type="1">
-<li><p>the closest matched taxon (to the species level)</p></li>
-<li><p>the matched taxon NCBI ID</p></li>
-<li><p>the relative abundance of the taxon</p></li>
-<li><p>additional species that may share the same species group marker as the closest matched taxon</p></li>
-</ol>
-<ul>
-<li>This file is used for both interpretation of the data and as an input for the functional annotation later on.</li>
-</ul>
-</section>
-<section id="bowtie2-alignment-file-srr6820491.bowtie2.bz2" class="level4">
-<h4 class="anchored" data-anchor-id="bowtie2-alignment-file-srr6820491.bowtie2.bz2">Bowtie2 alignment file (SRR6820491.bowtie2.bz2)</h4>
-<ul>
-<li><p>This file is a compressed archive of intermediate files from the alignment process. It contains read IDs, marker gene matches, and alignment scores.</p></li>
-<li><p>We don’t need it for this pipeline, but could be useful if you wanted to know how efficiently Metaphlan has mapped your reads to the database.</p></li>
-<li><p>It can also be used as an input if you need to re-run Metaphlan, which saves time as it will skip the mapping step.</p></li>
-</ul>
-</section>
-<section id="execution-log-file-metaphlan.log" class="level4">
-<h4 class="anchored" data-anchor-id="execution-log-file-metaphlan.log">Execution log file (metaphlan.log)</h4>
-<ul>
-<li>This log contains messages that would otherwise appear in the terminal that we have redirected using the &amp;&gt; command. We can use this to track if there have been any errors or warnings if things go wrong.</li>
-</ul>
-<p>Let’s have a look at our community profile output using less.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> analysis/metaphlan/metaphlan_output.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code></code> {.bash filename=“Code”} metaphlan data/trimmed_reads/SRR6820491_merged.fastq<br>
+–input_type fastq –bowtie2db databases/chocophlandb/<br>
+–bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2<br>
+–nproc 8<br>
+–add_viruses<br>
+–tax_lev ‘s’<br>
+–min_cu_len 2000<br>
+–read_min_len 70<br>
+–stat_q 0.1<br>
+–min_ab 0.1<br>
+–output_file analysis/metaphlan/metaphlan_output.txt<br>
+&amp;&gt; analysis/metaphlan/log.txt &amp;</p>
+<pre><code>
+This should take about 30-45 minutes to run. It takes a while as each sequence is compared to the full database one by one! Our test data here only consists of one sample, but in your research you may be working on many many more. As such a "real" Metaphlan run may take much longer.
+
+## A note on analysing community data from Metatranscriptomes
+
+This approach of analysing RNA reads is largely the same as the approach we would use for analysing DNA reads. However, this approach does have one main caveat, as explained here.
+
+Because Metaphlan quantifies species abundance based on the number of reads that match species-specific marker genes it may seem sensible to assume a higher abundance of reads means a higher abundances of individuals or genomes of that species, but this is not necessarily true.
+
+When analysing metagenomic DNA data it is safe to assume each genome corresponds to a single copy of a given marker gene (assuming that gene appears once within the genome). However, for metatranscriptomic RNA data that same assumption cannot be made as markers may be transcribed more or less than the average transcription rate for that species. This means the abundance Metaphlan calculates may be greater or smaller than that species' contribution to the overall transcript pool.
+
+In effect we are observing a measure of the marker gene transcript pool (not the overall transcript pool of all expressed genes), and this should be taken into account when analysing the outputs of Metaphlan. Remember it is always important to consider how our data is linked to biological reality!
+
+::: callout-note
+## Why are we only searching at the species level?
+
+In a real world Metaphlan run it is most likely you would set the taxonomic level for the search to be Kingdom and below, so why are we setting it to just species for this tutorial?
+
+Metaphlan will output results for reads it can match with confidence to a set of marker genes. However some of those matches will only be resolved down to a higher taxonomic level as some genes are shared between all members of, for example, a certain Family. If only those shared genes are matched then it cannot be determined which Genus that read is from, and so it Metaphlan will report only to the Family level.
+
+This can result in outputs that are much larger and much more complex to interpret. For simplicity's sake we shall only deal with species level outputs for this tutorial, but we will include a pre-made output file for you to explore in the next episode.
+:::
+
+## Interpreting the Metaphlan output
+
+From our Metaphlan run we have a few main outputs:
+
+#### Tabular file containing the community profile (metaphlan_output.txt)
+
+-   Each line of this file will have four "columns":
+
+1.  the closest matched taxon (to the species level)
+
+2.  the matched taxon NCBI ID
+
+3.  the relative abundance of the taxon
+
+4.  additional species that may share the same species group marker as the closest matched taxon
+
+-   This file is used for both interpretation of the data and as an input for the functional annotation later on.
+
+#### Bowtie2 alignment file (SRR6820491.bowtie2.bz2)
+
+-   This file is a compressed archive of intermediate files from the alignment process. It contains read IDs, marker gene matches, and alignment scores.
+
+-   We don't need it for this pipeline, but could be useful if you wanted to know how efficiently Metaphlan has mapped your reads to the database.
+
+-   It can also be used as an input if you need to re-run Metaphlan, which saves time as it will skip the mapping step.
+
+#### Execution log file (metaphlan.log)
+
+-   This log contains messages that would otherwise appear in the terminal that we have redirected using the &amp;\&gt; command. We can use this to track if there have been any errors or warnings if things go wrong.
+
+Let's have a look at our community profile output using less.
+
+``` {.bash filename="Code"}
+less analysis/metaphlan/metaphlan_output.txt</code></pre>
 <pre class="{#output}"><code>#mpa_vJan25_CHOCOPhlAnSGB_202503 #/home/ubuntu/.local/bin/metaphlan data/trimmed_reads/SRR6820491_merged.fastq --input_type fastq --bowtie2out analysis/metaphlan/SRR6820491_s.bowtie2.bz2 --bowtie2db data/chocophlandb/ -t rel_ab --tax_lev s -o analysis/metaphlan/SRR6820491_profile_vJan25_s.txt --nproc 8 --add_viruses --stat_q 0.1 --min_ab 0.1 
 #16372080 reads processed 
 #SampleID Metaphlan_Analysis #clade_name NCBI_tax_id relative_abundance additional_species 
@@ -552,7 +554,7 @@ Note
 <li><p>Can you tell if only bacteria have been identified in our sample?</p></li>
 </ol>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -561,7 +563,7 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ol type="1">
 <li><p>Our output has 5 lines, meaning we have 5 taxons identified</p></li>

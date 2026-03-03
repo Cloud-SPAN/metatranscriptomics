@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -349,24 +384,49 @@ cookieconsent.run({
 <h3 class="anchored" data-anchor-id="interactive-plots-with-krona">Interactive plots with Krona</h3>
 <p>Krona (Ondov et al.&nbsp;2011)!!!! renders your Metaphlan output into a zoomable, multi-layered pie chart, and allows for hierarchical data (in our case taxonomic levels) to be explored.</p>
 <p>In order to create a Krona plot we can use a tool to convert our output into a Krona-ready input. This tool is conveniently called <code>metaphlan2krona</code>. The command to use it is simple and looks like this:</p>
-<pre><code>metaphlan2krona.py -p analysis/metaphlan/SRR6820491_profile_vJan25_s.txt -k analysis/metaphlan/metaphlan.krona.txt</code></pre>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">metaphlan2krona.py</span> <span class="at">-p</span> analysis/metaphlan/metaphlan_output.txt <span class="at">-k</span> analysis/metaphlan/metaphlan.krona.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p>Run this command and wait a few seconds for it to run. For our table it should only take a few moments, but on larger tables it could take a little longer.</p>
 <p>Once our <code>metaphlan.krona.txt</code> file is generated we can then feed that directly into Krona, using:</p>
-<pre><code>ktImportText analysis/metaphlan/metaphlan.krona.txt -o analysis/krona.html</code></pre>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ktImportText</span> analysis/metaphlan/metaphlan.krona.txt <span class="at">-o</span> analysis/krona.html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p>This will also only take a short few moments to process.</p>
 <p>Once it has ran you should be able to see <code>krona.html</code> in your <code>analysis/</code> directory. Unfortunately we cannot view html files using the command line, and so we shall instead have to download it to your local computer.</p>
 <p>First, open up gitbash in your CloudSPAN folder. Then we shall use the “secure copy” or <code>scp</code> function to download the file from your instance using this command:</p>
-<pre><code>scp -i login-key-instanceXXX.pem ubuntu@instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona.html .</code></pre>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> <span class="at">-i</span> login-key-instanceXXX.pem ubuntu@instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona.html .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p>replacing XXX with your instance number. Much like cp or mv commands, this is telling the command where to copy from (<code>ubuntu@instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona.html</code>) and then where to copy to (remember, the <code>.</code> means current working directory).</p>
-<p>If you are struggling to get the download to work, don’t worry, you can access a copy of it HERE [insert link!].</p>
+<p>If you are struggling to get the download to work, don’t worry, you can access a copy of it <a href="../../files/krona.html">here</a>.</p>
 <p>You may notice that the sections of the pie chart are incorrectly labelled with abundances rather than taxa names. This is because Krona expects all levels of taxonomy when generating the chart and has misread the abundances as a label also. To see more of a “real world” example we shall now look at the output of a Metaphlan run that captured all taxonomic levels (the <code>--tax_lev</code> flag set to <code>a</code> for “all”).</p>
 <section id="generating-a-more-detailed-krona-plot" class="level4">
 <h4 class="anchored" data-anchor-id="generating-a-more-detailed-krona-plot">Generating a more detailed Krona plot</h4>
 <p>We have hidden a pre-ran Metaphlan all levels output in your data folder in a hidden directory, <code>data/.fullmetaphlanrun</code>. You can process this with Krona in the same way as before:</p>
-<pre><code>ktImportText data/.fullmetaphlanrun/*.krona.txt -o analysis/krona_alltaxa.html</code></pre>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ktImportText</span> data/.fullmetaphlanrun/<span class="pp">*</span>.krona.txt <span class="at">-o</span> analysis/krona_alltaxa.html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p>Now you can download it from our instance to your local computer, again using <code>scp</code>:</p>
-<pre><code>scp -i login-key-instanceXXX.pem ubuntu@instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona.html .</code></pre>
-<p>Once again, substituting XXX for your instance number. Again if you’re struggling to get this to work, don’t worry, you can find a copy of it HERE [insert link].</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> <span class="at">-i</span> login-key-instanceXXX.pem ubuntu@instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona.html .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Once again, substituting XXX for your instance number. Again if you’re struggling to get this to work, don’t worry, you can find a copy of it <a href="../../files/krona_alltaxa.html">here</a>.</p>
 <p>As you can see tise plot is in much greater detail than our previous one. You can click on the different sections to see summaries of the abundances at different levels, as well as double click on a section to zoom into the sub-structure that particular clade (you can use the back and forward arrows at the top left to navigate back and forward).</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
