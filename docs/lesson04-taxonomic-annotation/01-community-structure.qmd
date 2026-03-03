@@ -106,7 +106,7 @@ Finally,
 
 Now we have a better idea of what we're asking MetaPhlAn to do, let's run it. Be sure that you're in your `cs_course` directory so that the commands point to the correct input and output directories! Go ahead and run the command in your terminal:
 
-``` ``` {.bash filename="Code"}
+``` {.bash filename="Code"}
 metaphlan data/trimmed_reads/SRR6820491_merged.fastq  \
 --input_type fastq  --bowtie2db databases/chocophlandb/  \
 --bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2  \
