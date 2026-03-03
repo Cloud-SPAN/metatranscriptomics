@@ -10,11 +10,7 @@ Using the HUMAnN pipeline, we can map the community’s expressed genes to known
 By the end of this lesson you will be able to:
 
 - explain the purpose of functional profiling in metatranscriptomics
-
 - run HUMAnN to identify expressed gene families and pathways from RNA-seq data
-
 - interpret HUMAnN output tables for gene family and pathway abundances
-
 - stratify gene family abundances by contributing species
-
 - generate pathway abundance profiles to understand the metabolic capabilities of the community
