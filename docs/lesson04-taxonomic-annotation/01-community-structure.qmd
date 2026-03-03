@@ -36,7 +36,7 @@ Humann is a tool used for functional annotation, which we shall explore next les
 
 First of all, ensuring we are in our `~/cs_course` directory, let's make a directory to store all of our Metaphlan outputs:
 
-``` bash
+``` {.bash filename="Code"}
 mkdir analysis/metaphlan
 ```
 
@@ -106,7 +106,7 @@ Finally,
 
 Now we have a better idea of what we're asking MetaPhlAn to do, let's run it. Be sure that you're in your `cs_course` directory so that the commands point to the correct input and output directories! Go ahead and run the command in your terminal:
 
-``` bash
+``` ``` {.bash filename="Code"}
 metaphlan data/trimmed_reads/SRR6820491_merged.fastq  \
 --input_type fastq  --bowtie2db databases/chocophlandb/  \
 --bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2  \
@@ -175,7 +175,7 @@ From our Metaphlan run we have a few main outputs:
 
 Let's have a look at our community profile output using less.
 
-``` bash
+``` {.bash filename="Code"}
 less analysis/metaphlan/metaphlan_output.txt
 ```
 

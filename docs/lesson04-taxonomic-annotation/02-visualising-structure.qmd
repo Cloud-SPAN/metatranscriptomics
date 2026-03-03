@@ -18,15 +18,15 @@ Krona (Ondov et al. 2011)!!!! renders your Metaphlan output into a zoomable, mul
 
 In order to create a Krona plot we can use a tool to convert our output into a Krona-ready input. This tool is conveniently called `metaphlan2krona`. The command to use it is simple and looks like this:
 
-```         
-metaphlan2krona.py -p analysis/metaphlan/SRR6820491_profile_vJan25_s.txt -k analysis/metaphlan/metaphlan.krona.txt
+``` {.bash filename="Code"}
+metaphlan2krona.py -p analysis/metaphlan/metaphlan_output.txt -k analysis/metaphlan/metaphlan.krona.txt
 ```
 
 Run this command and wait a few seconds for it to run. For our table it should only take a few moments, but on larger tables it could take a little longer.
 
 Once our `metaphlan.krona.txt` file is generated we can then feed that directly into Krona, using:
 
-```         
+``` {.bash filename="Code"}
 ktImportText analysis/metaphlan/metaphlan.krona.txt -o analysis/krona.html
 ```
 
@@ -36,13 +36,13 @@ Once it has ran you should be able to see `krona.html` in your `analysis/` direc
 
 First, open up gitbash in your CloudSPAN folder. Then we shall use the "secure copy" or `scp` function to download the file from your instance using this command:
 
-```         
+``` {.bash filename="Code"}
 scp -i login-key-instanceXXX.pem ubuntu@instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona.html .
 ```
 
 replacing XXX with your instance number. Much like cp or mv commands, this is telling the command where to copy from (`ubuntu@instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona.html`) and then where to copy to (remember, the `.` means current working directory).
 
-If you are struggling to get the download to work, don't worry, you can access a copy of it HERE \[insert link!\].
+If you are struggling to get the download to work, don't worry, you can access a copy of it [here](/files/krona.html).
 
 You may notice that the sections of the pie chart are incorrectly labelled with abundances rather than taxa names. This is because Krona expects all levels of taxonomy when generating the chart and has misread the abundances as a label also. To see more of a "real world" example we shall now look at the output of a Metaphlan run that captured all taxonomic levels (the `--tax_lev` flag set to `a` for "all").
 
@@ -50,17 +50,17 @@ You may notice that the sections of the pie chart are incorrectly labelled with 
 
 We have hidden a pre-ran Metaphlan all levels output in your data folder in a hidden directory, `data/.fullmetaphlanrun`. You can process this with Krona in the same way as before:
 
-```         
+``` {.bash filename="Code"}
 ktImportText data/.fullmetaphlanrun/*.krona.txt -o analysis/krona_alltaxa.html
 ```
 
 Now you can download it from our instance to your local computer, again using `scp`:
 
-```         
+``` {.bash filename="Code"}
 scp -i login-key-instanceXXX.pem ubuntu@instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona.html .
 ```
 
-Once again, substituting XXX for your instance number. Again if you're struggling to get this to work, don't worry, you can find a copy of it HERE \[insert link\].
+Once again, substituting XXX for your instance number. Again if you're struggling to get this to work, don't worry, you can find a copy of it [here](/files/krona_alltaxa.html).
 
 As you can see tise plot is in much greater detail than our previous one. You can click on the different sections to see summaries of the abundances at different levels, as well as double click on a section to zoom into the sub-structure that particular clade (you can use the back and forward arrows at the top left to navigate back and forward).
 
