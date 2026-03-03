@@ -674,24 +674,25 @@ Note
 <div class="callout-body-container callout-body">
 <p>Have a look at the output above and try and answer these questions:</p>
 <ol type="1">
-<li><p>What is the most abundant gene family?</p></li>
-<li><p>What is the abundance of the UNMAPPED reads?</p></li>
+<li>What is the most abundant gene family?</li>
+<li>What is the abundance of the UNMAPPED reads?</li>
 </ol>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+<span class="screen-reader-only">Caution</span>Solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><p>UniRef90_C8C186</p></li>
-<li><p>2,255,586 RPK</p></li>
+<li>UniRef90_C8C186<br>
+</li>
+<li>2,255,586 RPK</li>
 </ol>
 </div>
 </div>
@@ -774,7 +775,21 @@ Note
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> analysis/humann/SRR6820491_mrna_genefamilies_normalised.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p><code>{.default filename="Output"}#Gene Family SRR6820491_mrna_Abundance-RELAB\ UNMAPPED 0.587576\ UniRef90_C8C186 0.024436\ UniRef90_A0A098YGS3 0.0233413\ UniRef90_A6B9Y3 0.0214865\ UniRef90_A0A343J0E6 0.0196644\ UniRef90_A0A141RML6 0.0191057\ UniRef90_A6BBS7 0.0181293\ UniRef90_R0JKC3 0.0148976\ ...</code></p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>#Gene Family SRR6820491_mrna_Abundance-RELAB </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>UNMAPPED 0.587576 </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>UniRef90_C8C186 0.024436 </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>UniRef90_A0A098YGS3 0.0233413 </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>UniRef90_A6B9Y3 0.0214865 </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>UniRef90_A0A343J0E6 0.0196644 </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>UniRef90_A0A141RML6 0.0191057 </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>UniRef90_A6BBS7 0.0181293 </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>UniRef90_R0JKC3 0.0148976 </span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p>You’ll note the abundances are now relative (in %) rather than absolute RPKs. This will allow us to more reliably compare the gene expressions in our sample to other studies.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -788,24 +803,25 @@ Note
 <div class="callout-body-container callout-body">
 <p>Have a look at the normalised gene families file.</p>
 <ol type="1">
-<li><p>What percentage of sequences do not have an assigned gene family?</p></li>
-<li><p>What is the relative abundance of the most abundant gene family?</p></li>
+<li>What percentage of sequences do not have an assigned gene family?</li>
+<li>What is the relative abundance of the most abundant gene family?</li>
 </ol>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+<span class="screen-reader-only">Caution</span>Solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><p>58.76%</p></li>
-<li><p>2.4%</p></li>
+<li>58.76%<br>
+</li>
+<li>2.4%</li>
 </ol>
 </div>
 </div>
@@ -822,26 +838,26 @@ Note
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">humann_unpack_pathways</span> <span class="at">--input-genes</span> analysis/humann/SRR6820491_mrna_genefamilies_normalised.tsv <span class="at">--input-pathways</span> analysis/humann/SRR6820491_mrna_pathabundance_normalised.tsv <span class="at">-o</span> analysis/humann/unpacked_pathways_normalised.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">humann_unpack_pathways</span> <span class="at">--input-genes</span> analysis/humann/SRR6820491_mrna_genefamilies_normalised.tsv <span class="at">--input-pathways</span> analysis/humann/SRR6820491_mrna_pathabundance_normalised.tsv <span class="at">-o</span> analysis/humann/unpacked_pathways_normalised.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This will produce a table that looks like this:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>#Pathway SRR6820491_mrna_Abundance-RELAB\</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY: homolactic fermentation 0.00114903\</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY\|unclassified 0.00114903\</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY\|unclassified\|UniRef90_B5Y768 0.000249259\</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY\|unclassified\|UniRef90_M1ZLX7 1.74048e-05\</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY\|unclassified\|UniRef90_R1AXJ4 4.85755e-05\</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY\|unclassified\|UniRef90_D9PUH5 3.73373e-06\</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY\|unclassified\|UniRef90_A0A1M6IZD8 2.86919e-05\</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY\|unclassified\|UniRef90_B5Y8I1 0.000413006\</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY\|unclassified\|UniRef90_F4LQU7 3.06039e-05\</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY\|unclassified\|UniRef90_B5Y8B9 0.000497463\</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY\|unclassified\|UniRef90_A0A2X1LMF5 3.11042e-07\</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>#Pathway SRR6820491_mrna_Abundance-RELAB\</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY: homolactic fermentation 0.00114903\</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY\|unclassified 0.00114903\</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY\|unclassified\|UniRef90_B5Y768 0.000249259\</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY\|unclassified\|UniRef90_M1ZLX7 1.74048e-05\</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY\|unclassified\|UniRef90_R1AXJ4 4.85755e-05\</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY\|unclassified\|UniRef90_D9PUH5 3.73373e-06\</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY\|unclassified\|UniRef90_A0A1M6IZD8 2.86919e-05\</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY\|unclassified\|UniRef90_B5Y8I1 0.000413006\</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY\|unclassified\|UniRef90_F4LQU7 3.06039e-05\</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY\|unclassified\|UniRef90_B5Y8B9 0.000497463\</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>ANAEROFRUCAT-PWY\|unclassified\|UniRef90_A0A2X1LMF5 3.11042e-07\</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>From this table:</p>
 <ul>
@@ -862,13 +878,13 @@ Note
 <ol type="1">
 <li>Which gene family contributes to the most abundant pathway with an associated family in this sample?</li>
 </ol>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+<span class="screen-reader-only">Caution</span>Solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -898,21 +914,21 @@ Note
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">humann_regroup_table</span> <span class="at">-i</span> analysis/humann/SRR6820491_mrna_genefamilies_normalised.tsv <span class="at">-g</span> uniref90_go <span class="at">-o</span> analysis/humann/SRR6820491_mrna_go.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">humann_regroup_table</span> <span class="at">-i</span> analysis/humann/SRR6820491_mrna_genefamilies_normalised.tsv <span class="at">-g</span> uniref90_go <span class="at">-o</span> analysis/humann/SRR6820491_mrna_go.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>After this has ran we can then turn the quite cryptic GO term IDs into human-readable titles using the renaming utility:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">humann_rename_table</span> <span class="at">-i</span> analysis/humann/SRR6820491_mrna_go.tsv <span class="at">-n</span> go <span class="at">-o</span> analysis/humann/SRR6820491_mrna_go_renamed.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">humann_rename_table</span> <span class="at">-i</span> analysis/humann/SRR6820491_mrna_go.tsv <span class="at">-n</span> go <span class="at">-o</span> analysis/humann/SRR6820491_mrna_go_renamed.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s inspect the output using:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> analysis/humann/SRR6820491_mrna_go_renamed.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> analysis/humann/SRR6820491_mrna_go_renamed.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -926,24 +942,25 @@ Note
 <div class="callout-body-container callout-body">
 <p>From our GO Terms outputs:</p>
 <ol type="1">
-<li><p>Which of the GO terms is least abundant?</p></li>
-<li><p>Which of the GO terms related to Molecular Functions is the most abundant?</p></li>
+<li>Which of the GO terms is least abundant?</li>
+<li>Which of the GO terms related to Molecular Functions is the most abundant?</li>
 </ol>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+<span class="screen-reader-only">Caution</span>Solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><p>methanofuran biosynthetic process</p></li>
-<li><p>adenine deaminase activity</p></li>
+<li>methanofuran biosynthetic process<br>
+</li>
+<li>adenine deaminase activity</li>
 </ol>
 </div>
 </div>
