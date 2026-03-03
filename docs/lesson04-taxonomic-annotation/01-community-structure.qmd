@@ -201,14 +201,18 @@ From the output here, try and answer these questions:
 
 4.  Can you tell if only bacteria have been identified in our sample?
 
-::: {.callout-note collapse="true"}
-1.  Our output has 5 lines, meaning we have 5 taxons identified
+::: {.callout-caution collapse="true"}
+## Solution
 
-2.  We only have species level accessed in our run. Changing the –tax_lev will allow us to identify a broader set of taxa
+1. Our output has 5 lines, meaning we have 5 taxons identified.
 
-3.  In our sample we identified: *Coprothermobacter proteolyticus, Acetivibrio thermocellus, Tepidanaerobacter sp. GT38, Methanothermobacter thermautotrophicus, Escherichia coli*
+2. We only have species-level access in our run. Changing the `--tax_lev` flag would allow us to identify a broader set of taxa (e.g., genus, family, kingdom).
 
-4.  Trick question! Although you can manually verify each taxa you will need to adjust the –tax_lev flag on Metaphlan to show the kingdom (`k__`) level
+3. In our sample we identified:  
+   *Coprothermobacter proteolyticus, Acetivibrio thermocellus, Tepidanaerobacter sp. GT38, Methanothermobacter thermautotrophicus,* and *Escherichia coli*.
+
+4. Trick question! Although you can manually verify each taxon, you would need to adjust the `--tax_lev` flag to show the kingdom (`k__`) level to formally confirm whether only bacteria are present.
+
 :::
 ::::
 

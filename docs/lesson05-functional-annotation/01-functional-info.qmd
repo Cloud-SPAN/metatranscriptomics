@@ -276,12 +276,12 @@ Gene family abundance is reported in RPK (reads per kilobase), a measure which n
 Have a look at the output above and try and answer these questions:
 
 1.  What is the most abundant gene family?
-
 2.  What is the abundance of the UNMAPPED reads?
 
-::: {.callout-note collapse="true"}
-1.  UniRef90_C8C186
+::: {.callout-caution collapse="true"}
+## Solution
 
+1.  UniRef90_C8C186\
 2.  2,255,586 RPK
 :::
 ::::
@@ -347,7 +347,18 @@ Take a look at the output using:
 less analysis/humann/SRR6820491_mrna_genefamilies_normalised.tsv
 ```
 
-`{.default filename="Output"}#Gene Family SRR6820491_mrna_Abundance-RELAB\ UNMAPPED 0.587576\ UniRef90_C8C186 0.024436\ UniRef90_A0A098YGS3 0.0233413\ UniRef90_A6B9Y3 0.0214865\ UniRef90_A0A343J0E6 0.0196644\ UniRef90_A0A141RML6 0.0191057\ UniRef90_A6BBS7 0.0181293\ UniRef90_R0JKC3 0.0148976\ ...`
+``` {.default filename="Output"}
+#Gene Family SRR6820491_mrna_Abundance-RELAB 
+UNMAPPED 0.587576 
+UniRef90_C8C186 0.024436 
+UniRef90_A0A098YGS3 0.0233413 
+UniRef90_A6B9Y3 0.0214865 
+UniRef90_A0A343J0E6 0.0196644 
+UniRef90_A0A141RML6 0.0191057 
+UniRef90_A6BBS7 0.0181293 
+UniRef90_R0JKC3 0.0148976 
+...
+```
 
 You'll note the abundances are now relative (in %) rather than absolute RPKs. This will allow us to more reliably compare the gene expressions in our sample to other studies.
 
@@ -355,12 +366,12 @@ You'll note the abundances are now relative (in %) rather than absolute RPKs. Th
 Have a look at the normalised gene families file.
 
 1.  What percentage of sequences do not have an assigned gene family?
-
 2.  What is the relative abundance of the most abundant gene family?
 
-::: {.callout-note collapse="true"}
-1.  58.76%
+::: {.callout-caution collapse="true"}
+## Solution
 
+1.  58.76%\
 2.  2.4%
 :::
 ::::
@@ -406,7 +417,9 @@ From this table:
 :::: callout-note
 1.  Which gene family contributes to the most abundant pathway with an associated family in this sample?
 
-::: {.callout-note collapse="true"}
+::: {.callout-caution collapse="true"}
+## Solution
+
 1.  UniRef90_B5Y768
 :::
 ::::
@@ -447,12 +460,12 @@ less analysis/humann/SRR6820491_mrna_go_renamed.tsv
 From our GO Terms outputs:
 
 1.  Which of the GO terms is least abundant?
-
 2.  Which of the GO terms related to Molecular Functions is the most abundant?
 
-::: {.callout-note collapse="true"}
-1.  methanofuran biosynthetic process
+::: {.callout-caution collapse="true"}
+## Solution
 
+1.  methanofuran biosynthetic process\
 2.  adenine deaminase activity
 :::
 ::::

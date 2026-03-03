@@ -71,10 +71,13 @@ From the interactive Krona figure, try and answer these questions:
 
 2.  What is the % abundance of the SGB8555 strain of *Coprothemobacter proteolyticus*?
 
-::: {.callout-note collapse="true"}
-1.  71% and 16%
+::: {.callout-caution collapse="true"}
+## Solution
 
-2.  10%
+1. 71% and 16%
+
+2. 10%
+
 :::
 ::::
 
