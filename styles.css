@@ -1,19 +1,14 @@
 /* css styles */
-/* Bright inline code */
+/* Inline code only (not code blocks) */
 :not(pre) > code {
-  background-color: #f8f9fa;   /* light grey */
-  color: #6f42c1;              /* purple */
-  padding: 0.15rem 0.35rem;
-  border-radius: 0.25rem;
-  font-size: 0.875em;
+  background-color: #f5f5f5 !important;  /* light gray */
+  color: #222 !important;                /* dark text */
+  padding: 0.2em 0.4em;
+  border-radius: 6px;
+  font-size: 0.95em;
 }
 
-/* Remove any inherited dark theme effects */
-:not(pre) > code {
-  box-shadow: none;
-}
-
-/* extra polish on blocks */
+/* Keep Dracula background for code blocks */
 pre code {
-  border-radius: 0.5rem;
+  background-color: transparent !important;
 }
