@@ -1,1 +1,19 @@
 /* css styles */
+/* Bright inline code */
+:not(pre) > code {
+  background-color: #f8f9fa;   /* light grey */
+  color: #6f42c1;              /* purple */
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}
+
+/* Remove any inherited dark theme effects */
+:not(pre) > code {
+  box-shadow: none;
+}
+
+/* extra polish on blocks */
+pre code {
+  border-radius: 0.5rem;
+}
