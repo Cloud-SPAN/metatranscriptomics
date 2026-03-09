@@ -115,7 +115,7 @@ man ls
 
 `man` (short for manual) displays detailed documentation (also referred as man page or man file) for `bash` commands. It is a powerful resource to explore `bash` commands, understand their usage and flags. Some manual files are very long. You can scroll through the file using your keyboard's down arrow or use the <kbd>Space</kbd> key to go forward one page and the <kbd>b</kbd> key to go backwards one page. When you are done reading, hit <kbd>q</kbd> to quit.
 
-::: callout-note
+:::: callout-note
 ## Challenge
 
 Use the `-l` option for the `ls` command to display more information for each item in the directory. What is one piece of additional information this long format gives you that you don't see with the bare `ls` command?
@@ -135,7 +135,7 @@ drwxrwxr-x 3 csuser csuser 4096 Oct  6 13:08 databases
 
 The additional information given includes the name of the owner of the file, when the file was last modified, and whether the current user has permission to read and write to the file.
 :::
-:::
+::::
 
 No one can possibly learn all of these arguments - that's what the manual page is for! It does take practice to get used to using and understanding the information in the manual. Often, you don't need to understand completely what it is saying to be able to guess what to try.
 
@@ -147,32 +147,22 @@ ls -F
 ```
 
 ``` {.default filename="Output"}
-illumina_fastq/   nano_fastq/
+raw_reads/
 ```
 
 This directory contains two subdirectories. We can tell they are directories and not files because of the trailing '/'. They contain all of the raw data we will need for the rest of the course.
 
-For now, let's have a look in `illumina_fastq`. We can do this without changing directories using the `ls` command followed by the name of the directory.
+For now, let's have a look in `raw_reads`. We can do this without changing directories using the `ls` command followed by the name of the directory.
 
 ``` {.bash filename="Code"}
-ls illumina_fastq
+ls raw_reads
 ```
 
 ``` {.default filename="Output"}
-ERR4998593_1.fastq  ERR4998593_2.fastq
+SRR6820491/  SRR6820491_1.fastq  SRR6820491_2.fastq  SRR6820516/  SRR6820516_1.fastq  SRR6820516_2.fastq
 ```
 
 This directory contains two files with `.fastq` extensions. FASTQ is a format for storing information about sequencing reads and their quality. We will be learning more about FASTQ files in a later lesson.
-
-Let's also have a look in the `nano_fastq` directory.
-
-``` {.bash filename="Code"}
-ls nano_fastq
-```
-
-``` {.default filename="Output"}
-ERR5000342_sub12.fastq
-```
 
 Learning to navigate a new file directory can be confusing at first. To help, here is a tree diagram showing what we have explored so far.
 
@@ -180,7 +170,7 @@ Learning to navigate a new file directory can be confusing at first. To help, he
 
 ![A file hierarchy tree.](/images/blank_instance_file_tree.png){width="350px" fig-alt="A file hierarchy tree."}
 
-First we moved from our home directory at `csuser` into the `cs_course` directory, which is one level down. From there we opened up the `data` directory, which contains subdirectories - `illumina_fastq` and `nano_fastq`. We had a peek inside both of these directories and found that `illumina_fastq` contained two files, while `nano_fastq` contained one.
+First we moved from our home directory at `csuser` into the `cs_course` directory, which is one level down. From there we opened up the `data` directory, which contain the subdirectory - `raw_reads`. We had a peek inside this directory and found it contained multiple directories and files.
 
 ### Shortcut: Tab Completion
 
@@ -208,24 +198,24 @@ Now change directories again to `data`.
 cd data
 ```
 
-And again into `illumina_fastq`.
+And again into `raw_reads``.
 
 ``` {.bash filename="Code"}
-cd illumina_fastq
+cd raw_reads
 ```
 
 Using tab complete can be very helpful. However, it will only autocomplete a file or directory name if you've typed enough characters to provide a unique identifier for the file or directory you are trying to access.
 
-For example, if we now try to list the files in `illumina_fastq` with names starting with `ERR` by using tab complete:
+For example, if we now try to list the files in `raw_reads` with names starting with `SRR` by using tab complete:
 
 ``` {.bash filename="Code"}
-ls ERR<tab>
+ls SRR<tab>
 ```
 
-The shell auto-completes your command to `ERR4998593_`, because all file names in the directory begin with this prefix. When you hit <kbd>tab</kbd>again, the shell will list the possible choices.
+The shell auto-completes your command to `SRR6820`, because all file names in the directory begin with this prefix. When you hit <kbd>tab</kbd>again, the shell will list the possible choices.
 
 ``` {.default filename="Output"}
-ERR4998593_1.fastq  ERR4998593_2.fastq
+SRR6820491/         SRR6820491_1.fastq  SRR6820491_2.fastq  SRR6820516/         SRR6820516_1.fastq  SRR6820516_2.fastq
 ```
 
 Tab completion can also fill in the names of programs, which can be useful if you remember the beginning of a program name.
@@ -250,13 +240,13 @@ You might find it useful to keep a note of the commands you learn in this course
 
 Now we're going to learn some additional commands for moving around within our file system.
 
-Use the commands we've learned so far to navigate to the `illumina_fastq` directory from our home:
+Use the commands we've learned so far to navigate to the `raw_reads` directory from our home:
 
 ``` {.bash filename="Code"}
 cd
 cd cs_course
 cd data
-cd illumina_fastq
+cd raw_reads
 ```
 
 What if we want to move back up and out of this directory and to our top level directory? Can we type `cd data`? Try it and see what happens.
@@ -292,7 +282,7 @@ ls
 ```
 
 ``` {.default filename="Output"}
-illumina_fastq  nano_fastq
+raw_reads  nano_fastq
 ```
 
 From this output, we can see that `..` did indeed take us back one level in our file system, to `data`.
@@ -309,7 +299,7 @@ bin  cs_course  software
 
 This prints the contents of the folder called `csuser` (our home folder).
 
-::: callout-note
+:::: callout-note
 ## Finding hidden directories
 
 There is a hidden directory inside the `cs_course` directory. Explore the options for `ls` in the man page to find out how to see hidden directories. List the contents of the directory and identify the name of the text file in the hidden directory.
@@ -358,7 +348,7 @@ youfoundit.txt
 
 The name of the text file is `youfoundit.txt`.
 :::
-:::
+::::
 
 In most commands the flags can be combined together in no particular order to obtain the desired results/output.
 
