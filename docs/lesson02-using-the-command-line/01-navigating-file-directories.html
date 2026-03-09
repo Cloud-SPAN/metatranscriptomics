@@ -482,13 +482,13 @@ cookieconsent.run({
 <pre><strong>Code</strong></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> cs_course/data/illumina_fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> cs_course/data/raw_reads</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ERR4998593_1.fastq  ERR4998593_2.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>SRR6820491/  SRR6820491_1.fastq  SRR6820491_2.fastq  SRR6820516/  SRR6820516_1.fastq  SRR6820516_2.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -548,7 +548,7 @@ cookieconsent.run({
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Using the file system diagram below, if <code>pwd</code> displays <code>/home/csuser/cs_course/data/illumina_fastq</code>, what will <code>ls ../nano_fastq</code> display?</p>
+<p>Using the file system diagram below, if <code>pwd</code> displays <code>/home/csuser/cs_course/data/</code>, what will <code>ls ../databases</code> display?</p>
 <p>Can you explain why?</p>
 <!-- ![Blank instance file tree.](../fig/blank_instance_file_tree_with_hidden.png){:width="300px"} -->
 <div class="quarto-figure quarto-figure-center">
@@ -573,9 +573,9 @@ cookieconsent.run({
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ERR5000342_sub12.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>chocophlandb  humann  sortmerna_databases  uniref  utility_mapping</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>The command <code>ls ..</code> moves us up a folder level before we list the contents of <code>nano_fastq</code>.</p>
+<p>The command <code>ls ..</code> moves us up a folder level before we list the contents of <code>databases</code>.</p>
 </div>
 </div>
 </div>
@@ -585,13 +585,13 @@ cookieconsent.run({
 <h3 class="anchored" data-anchor-id="navigational-shortcuts">Navigational Shortcuts</h3>
 <p>The root directory is the highest level directory in your file system and contains files that are important for your computer to perform its daily work. While you will be using the root (<code>/</code>) at the beginning of your absolute paths, it is important that you avoid working with data in these higher-level directories, as your commands can permanently alter files that the operating system needs to function. In many cases, trying to run commands in <code>root</code> directories will require special permissions which are not discussed here, so it’s best to avoid them and work within your home directory.</p>
 <p>Dealing with your home directory is very common. The tilde character, <code>~</code>, is a shortcut for your home directory. In our case, the <code>root</code> directory is <strong>two</strong> levels above our <code>home</code> directory, so <code>cd</code> or <code>cd ~</code> will take you to<code>/home/csuser</code> and <code>cd /</code> will take you to <code>/</code>.</p>
-<p>Navigate to the <code>illumina_fastq</code> directory:</p>
+<p>Navigate to the `raw_reads`` directory:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> cs_course/data/illumina_fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> cs_course/data/raw_reads</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then enter the command:</p>
 <div class="code-with-filename">

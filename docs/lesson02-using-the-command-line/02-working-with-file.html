@@ -388,16 +388,16 @@ cookieconsent.run({
 <h2 class="anchored" data-anchor-id="working-with-files">Working with Files</h2>
 <section id="our-data-set-fastq-files" class="level3">
 <h3 class="anchored" data-anchor-id="our-data-set-fastq-files">Our data set: FASTQ files</h3>
-<p>Now that we know how to navigate around our directory structure, let’s start working with our sequencing files. We are looking at the results from a short-read sequencing experiment, which are stored in our <code>illumina_fastq</code> directory.</p>
+<p>Now that we know how to navigate around our directory structure, let’s start working with our sequencing files. We are looking at the results from a RNAseq experiment, which are stored in our `raw_reads`` directory.</p>
 </section>
 <section id="wildcards" class="level3">
 <h3 class="anchored" data-anchor-id="wildcards">Wildcards</h3>
-<p>Navigate to your <code>illumina_fastq</code> directory:</p>
+<p>Navigate to your `raw_reads`` directory:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/cs_course/data/illumina_fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/cs_course/data/raw_reads</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We are interested in looking at the fastq files in this directory. We can list all files with the .fastq extension using the command:</p>
 <div class="code-with-filename">
@@ -410,7 +410,7 @@ cookieconsent.run({
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ERR4998593_1.fastq  ERR4998593_2.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>SRR6820491_1.fastq  SRR6820491_2.fastq  SRR6820516_1.fastq  SRR6820516_2.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The <code>*</code> character is a special type of character called a wildcard, which can be used to represent any number of any type of character. Thus, <code>*.fastq</code> matches every file that ends with <code>.fastq</code>.</p>
 <p>This command:</p>
@@ -425,9 +425,9 @@ cookieconsent.run({
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ERR4998593_2.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>SRR6820491_2.fastq  SRR6820516_2.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>lists only the file that ends with <code>_2.fastq</code>.</p>
+<p>lists only the files that end with <code>_2.fastq</code>.</p>
 <p>This command:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
@@ -551,13 +551,13 @@ cookieconsent.run({
 </tr>
 </tbody>
 </table>
-<p>Enter the following command from within the <code>illumina_fastq</code> directory:</p>
+<p>Enter the following command from within the `raw_reads`` directory:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/cs_course/data/illumina_fastq</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> ERR4998593_1.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/cs_course/data/raw_reads</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> SRR6820491_1.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -632,7 +632,7 @@ Quality score:    01........11........21........31........41   </code></pre>
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li>Open the <code>~/cs_course/data/illumina_fastq/ERR4998593_1.fastq</code> file in <code>less</code>. What is the last line of the file? (Hint: use the shortcuts above to speed things up)</li>
+<li>Open the <code>~/cs_course/data/raw_reads/SRR6820491_1.fastq</code> file in <code>less</code>. What is the last line of the file? (Hint: use the shortcuts above to speed things up)</li>
 </ol>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
@@ -667,68 +667,68 @@ Quality score:    01........11........21........31........41   </code></pre>
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> ERR4998593_1.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> SRR6820491_1.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>@ERR4998593.40838091 40838091 length=151</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>CCACATGCTTTAAGTGCATGTGGTACTGCTCCAGGACCAGCATTGTAGGTCGCCAATGCTTTGGCGTAGGTGCCATCAAACATATTCGTGTAATGAGCCATGAGATGGGCTGCTCCCTTCAATGCATCAACCGGATTCCACGGATCAATGC</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>+</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>:FFFFFFF:,FFF:FFFFFFFFFFFFFFFFFFFF:FFFF:FFFFFFFFFFF:FFFFFFFFF:FFFF:FFFFFFFFFFFFFFFFFFF:FFFF,FFFFFFF,FFF:FF,FFFFFFF::FF::FFFF:FFFFF:,:FFFFF,,FFFFFFFF,,F</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>@ERR4998593.57624042 57624042 length=151</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>CCTTACCACACCGGGGCTGTGGCGTTCGACCCCATCGGCAAGGCACTCTGGGTTTCCGATAGCTCGCACCATCGGCTGCTGCGCGTCCGCAATCCGGACGGCTGGGAGAGCAAACTGCTCGTGGACACGGTCATCGGTCAGAAGGACAGGT</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>+</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF:FFF</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>@ERR4998593.3 3 length=151</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>GNGGTGCTCGACGGTGGCTCGGCGGATGCGCATGGCGTCGGGCCTGCGGTCCAGCCGCTCCCGCATGGCGTCGATCACCGCCTCATGCTCCCAGCGTTTGATGCGGCGCTCCTTGCCGCTCGTACACCGGCTCTTCAGCGGGCAGCCGGCGta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>@SRR6820491.1 1 length=151</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>NGTCGCAGCTACAAGTAGCAATGTATTGAAAAATCCACGTACCAATCCATGCAATAAATTGATTCCCCGGCCATACCAATTACCGCTCCAATTTGACACCCGTCAACCGGTATTAAAACGCAGTCAGCACTACACCCTTTAGATCGGAAGA</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>+SRR6820491.1 1 length=151</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>#&lt;AAAJ&lt;-&lt;FJJJFJFJJJJJJJJJJJJJJJJJAAJFJJFAJJ&lt;&lt;&lt;FFJJJJJJJJJJJJJJAFAJJFF&lt;FJJJJAFFJFAAJJJJ7AFJJJJ&lt;J&lt;FFAJFJJJJJ7&lt;FJ-FF&lt;AFFJJJ7A&lt;FFFAF&lt;--77FFAF7FFAFA-A&lt;--AAF</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>@SRR6820491.2 2 length=151</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>NTTTGGGTAGTAGACCGTGGAGGTAGAGCACTGGTAGGGCTAGGGGGTCGTGAGGCCTACTGAACCCTGAGATCGGAAGAGCACACGTCTGAACTCCAGTCACAGCGATAGATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAAAAATC</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>+SRR6820491.2 2 length=151</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>#&lt;AAFJFFFJJJJJAFJJJJJJJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ7FFJFFJJFJJJJJAFJFFFFJJFJJJJAFF-F777--7</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>@SRR6820491.3 3 length=151</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>NCCGTGGAAGAGTTCTTCTTGGATCGCTTAGATAGTTGGATTGAGTGCAAAGAAATTAGGGTTAAGAACGCTATCATGGACAGGGTTCTGGATAAGCCCATAGGTATGTTCCCAATCATGGTAGAAGTGCTTGGACAATTCTGGACTGGTA</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> ERR4998593_1.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> SRR6820491_1.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>+</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>FFF:F,FF:FFFFFF:F,:FFF,FF:FF,FFF::F:F,FF,FF,FFF,FFFFFF:FFFFFFF,F,,FFF:FFFF:,FFFF:FF::F:FFF,F:FFFF,:FFFFF,F:F:FF,FF:F:FFFF:FFF:FFF::FF:FF:,::FF,FF:,F,FF</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>@ERR4998593.55595926 55595926 length=151</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>CAGTACAACGTTCGCTCCCTGAATTTCTGTTTCTCGGCCGGCGAAGCAATTGCTGTGGCTATCCAGGAGCGGTTCAAGCGGATGTTCGGCGTCGAAATTACGGAAGGCTGCGGGATGACCGAACTGCAAATTTACTCCATGAATCCGCCAT</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>+</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF:FFFFFFFFFFFFFFFFF:FFFFFFF:FF:FFFFFF:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>@ERR4998593.34263610 34263610 length=151</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>ACGCCCCACAGGGCGGCACCGACGCCGCCGCCCGGGCCCGCCGGCCCGCCCCGGTGGGCACCGGTTGCCACTGCGGCTTGCTCGGCCGTCTCACTCACTTGGACACACTTCCGTTCTTCACCGTCTCCACTGGCCGGCTAGACCGGTCCCG</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>+</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>FFFFFFFFF:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,FFF,FFFF:FFFFFFFF,FFFFFF::F:F,FFFFFF,FFFFFFFFFFFFF,F:F:FF,FFFF</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>+SRR6820491.14099345 14099345 length=151</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>&lt;AAF-&lt;JJJJ-FFFJFJ&lt;FJJJFFJJ&lt;F&lt;J&lt;J-AFFJA7&lt;F-FAF-&lt;-77A&lt;JJ-FJJJ7-&lt;7FJ-F--&lt;7FFJJ--77FA-AFJ&lt;FJJ-FAFJJ-&lt;AA--FJAJJ-AAJF77F77AFF&lt;JAF-AA--77---7-777&lt;&lt;JJFFA-7AF7F</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>@SRR6820491.14099346 14099346 length=151</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>NGGAATAAGTAGCGAAAGTAAAGTGAGAATCTTTACCGTCGAAAGCCTAAGGTTTCCTGGGGAAGGTTCGTCCGCCCAGGGTAAGTCGGGACCTAAGCCGAGGCCGGAAGGCGTAGGTGATGGACAACAGGTTGAAATTCCTGAGATCGGA</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>+SRR6820491.14099346 14099346 length=151</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>#AAA&lt;AAFFFFJFJJAJJJJFFFFAFFJJJJFJJJJAJFJFJFAJJJFJJJJFJJJFJJFFJ&lt;FFFJJJJFAFJAFJAJJAAJJJFJJAJJJFJJF7FAFJJAFAJJ&lt;JJ&lt;AJJAJJA&lt;F7FA&lt;FAFFJJF77-FFJA7-AAFF&lt;7FAFF&lt;</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>@SRR6820491.14099347 14099347 length=151</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>NCTGGCATGAGTAGCGAGAAGGTAAGTGAGAATCTTACCCGTCGAAAGCCTAAGGATTCCTGAGGAAGGCTCGTCCGCTCAGGGTTAGTCGGGACCTAAGCCGAGGCTTAGAAAGCGTAGGCGATGGGCAACAGGTTGAGATTCCTGTACT</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>+SRR6820491.14099347 14099347 length=151</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>#AAFFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The <code>-n</code> option to either of these commands can be used to print the first or last <code>n</code> lines of a file.</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 1 ERR4998593_1.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 1 SRR6820491_1.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>@ERR4998593.40838091 40838091 length=151</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>@SRR6820491.1 1 length=151</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-n</span> 1 ERR4998593_1.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-n</span> 1 SRR6820491_1.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>F:FFFFFFFFFFFFFFFFFFFF:FFFFFFFFFFFFFFFF:FFFFFFFF,FFFFFFFFFFFFFFFFFFFFFFFFFF:FFFFF:FFF:FFFFFFFFFFFFFF:FFFFFF:FF:FFFFFFFFFFFFFFFFFFFFFF,F,FFF,FFFFFF,FFFF</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>#AAFFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 </section>
@@ -740,19 +740,19 @@ Quality score:    01........11........21........31........41   </code></pre>
 <h3 class="anchored" data-anchor-id="copying-files">Copying Files</h3>
 <p>When working with computational data, it’s important to keep a safe copy of that data that can’t be accidentally overwritten or deleted. For this lesson, our raw data is our FASTQ files.</p>
 <p>First, let’s make a copy of one of our FASTQ files using the <code>cp</code> command.</p>
-<p>Navigate to the <code>cs_course/data/illumina_fastq</code> directory and enter:</p>
+<p>Navigate to the <code>cs_course/data/raw_reads</code> directory and enter:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> ERR4998593_1.fastq ERR4998593_1_copy.fastq</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> SRR6820491_1.fastq SRR6820491_1_copy.fastq</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-F</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>ERR4998593_1.fastq  ERR4998593_1_copy.fastq  ERR4998593_2.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>SRR6820491_1.fastq  SRR6820491_1_copy.fastq  SRR6820491_2.fastq  SRR6820516_1.fastq  SRR6820516_2.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The prompt will disappear for up to two minutes and reappear when the command is completed and the backup is made.</p>
 <p>We now have two copies of the <code>ERR4998593_1.fastq</code> file, one of them named <code>ERR4998593_1_copy.fastq</code>. We’ll move this file to a new directory called <code>backup</code> where we’ll store our backup data files.</p>
@@ -774,14 +774,14 @@ Quality score:    01........11........21........31........41   </code></pre>
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> ERR4998593_1_copy.fastq backup</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> SRR6820491_1_copy.fastq backup</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> backup</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ERR4998593_1_copy.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>SRR6820491_1_copy.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The <code>mv</code> command is also how you rename files. Let’s rename this file to make it clear that this is a backup:</p>
 <div class="code-with-filename">
@@ -789,14 +789,14 @@ Quality score:    01........11........21........31........41   </code></pre>
 <pre><strong>Code</strong></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> backup</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> ERR4998593_1_copy.fastq ERR4998593_1_backup.fastq</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> SRR6820491_1_copy.fastq SRR6820491_1_backup.fastq</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>ERR4998593_1_backup.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>SRR6820491_1_backup.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="removing-files-and-directories" class="level3">
@@ -806,7 +806,7 @@ Quality score:    01........11........21........31........41   </code></pre>
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> ERR4998593_1_backup.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> SRR6820491_1_backup.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Important</strong>: The <code>rm</code> command permanently removes the file. Be careful with this command. It doesn’t just nicely put the files in the recycling. They’re really gone.</p>
 <p>By default, <code>rm</code> will not delete directories. You can tell <code>rm</code> to delete a directory using the <code>-r</code> (recursive) option. Let’s delete the backup directory we just made:</p>
@@ -828,14 +828,14 @@ Quality score:    01........11........21........31........41   </code></pre>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Starting in the <code>illumina_fastq</code> directory, do the following:</p>
+<p>Starting in the <code>raw_reads</code> directory, do the following:</p>
 <ol type="1">
 <li>Make sure that you have deleted your backup directory and all files it contains.<br>
 </li>
 <li>Create a backup of each of your FASTQ files using <code>cp</code>. (Note: You’ll need to do this individually for each of the two FASTQ files. We haven’t learned yet how to do this with a wildcard.)<br>
 </li>
 <li>Use a wildcard to move all of your backup files to a new backup directory.</li>
-<li>It doesn’t make sense to keep our backup directory inside the directory it is backing up. What if we accidentally delete the <code>illumina_fastq</code> directory? To fix this, move your new backup directory out of <code>illumina_fastq</code> and into the parent folder, <code>data</code>.</li>
+<li>It doesn’t make sense to keep our backup directory inside the directory it is backing up. What if we accidentally delete the <code>raw_reads</code> directory? To fix this, move your new backup directory out of <code>raw_reads</code> and into the parent folder, <code>data</code>.</li>
 </ol>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
@@ -852,7 +852,7 @@ Quality score:    01........11........21........31........41   </code></pre>
 <ol type="1">
 <li><code>rm -r backup</code><br>
 </li>
-<li><code>cp ERR4998593_1.fastq ERR4998593_1_backup.fastq</code> and <code>cp ERR4998593_2.fastq ERR4998593_2_backup.fastq</code><br>
+<li><code>cp SRR6820491_1.fastq SRR6820491_1_backup.fastq</code> and <code>cp SRR6820491_2.fastq SRR6820491_2_backup.fastq</code><br>
 </li>
 <li><code>mkdir backup</code> and <code>mv *_backup.fastq backup</code></li>
 <li><code>mv backup ..</code> or <code>mv backup ~/cs_course/data/</code> (note that you do not need to use the -r flag to move directories like you do when deleting them)</li>
@@ -862,8 +862,8 @@ Quality score:    01........11........21........31........41   </code></pre>
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>-rw-rw-r-- 1 csuser csuser 2811886584 Feb 22 11:25 ERR4998593_1_backup.fastq</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>-rw-rw-r-- 1 csuser csuser 2302264784 Feb 22 11:29 ERR4998593_2_backup.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>-rw-rw-r-- 1 ubuntu ubuntu 2811886584 Feb 22 11:25 SRR6820491_1_backup.fastq</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>-rw-rw-r-- 1 ubuntu ubuntu 2302264784 Feb 22 11:29 SRR6820491_2_backup.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
