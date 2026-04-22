@@ -89,10 +89,10 @@ Return to your home directory (`/home/csuser`):
 cd 
 ```
 
-Create the directories `results` inside `cs_course`:
+Create the directories analysis inside `cs_course`:
 
 ``` {.bash filename="Code"}
-mkdir -p cs_course/results
+mkdir -p cs_course/analysis
 ```
 
 You might want to use `ls` to check those directories have been made.
