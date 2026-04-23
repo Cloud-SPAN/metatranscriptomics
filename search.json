@@ -809,6 +809,18 @@
     ]
   },
   {
+    "objectID": "docs/lesson04-taxonomic-annotation/02-visualising-structure.html#setup-for-next-session",
+    "href": "docs/lesson04-taxonomic-annotation/02-visualising-structure.html#setup-for-next-session",
+    "title": "Visualising Community Structure",
+    "section": "Setup for next session",
+    "text": "Setup for next session\nIf you are working through this course as a self-study exercise, you can ignore this section and proceed to the next lesson for an in-depth explanation before you set any commands running. If you are participating in one of our online Zoom courses, you will want to set the below commands running at the end of this session so Humann has time to run!\n\n\nCode\n\nmkdir -p analysis/humann\n\n\n\nCode\n\nhumann --input analysis/sortmerna/SRR6820491_mrna.fq \\\n--output analysis/humann/ \\\n--taxonomic-profile analysis/metaphlan/metaphlan_output.txt \\\n--threads 8 \\\n&&gt; analysis/humann/log.txt &\n\nDon’t worry about quite what this does yet, this shall be explained more fully in the next lesson!",
+    "crumbs": [
+      "Home",
+      "Taxonomic Annotation",
+      "Visualising Community Structure"
+    ]
+  },
+  {
     "objectID": "docs/lesson03-qc-pre-processing/02-QC-raw-reads.html#getting-started",
     "href": "docs/lesson03-qc-pre-processing/02-QC-raw-reads.html#getting-started",
     "title": "Quality of Raw Reads",

@@ -361,6 +361,7 @@ cookieconsent.run({
   <ul class="collapse">
   <li><a href="#interactive-plots-with-krona" id="toc-interactive-plots-with-krona" class="nav-link" data-scroll-target="#interactive-plots-with-krona">Interactive plots with Krona</a></li>
   </ul></li>
+  <li><a href="#setup-for-next-session" id="toc-setup-for-next-session" class="nav-link" data-scroll-target="#setup-for-next-session">Setup for next session</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/edit/main/docs/lesson04-taxonomic-annotation/02-visualising-structure.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -466,10 +467,31 @@ Note
 </div>
 </div>
 <p>Because Krona outputs are portable .html files these can be sent to collaborators or uploaded for others to browse.</p>
-
-
 </section>
 </section>
+</section>
+<section id="setup-for-next-session" class="level2">
+<h2 class="anchored" data-anchor-id="setup-for-next-session">Setup for next session</h2>
+<p>If you are working through this course as a self-study exercise, you can ignore this section and proceed to the next lesson for an in-depth explanation before you set any commands running. If you are participating in one of our online Zoom courses, you will want to set the below commands running at the end of this session so Humann has time to run!</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> analysis/humann</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Code</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">humann</span> <span class="at">--input</span> analysis/sortmerna/SRR6820491_mrna.fq <span class="dt">\</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>--output analysis/humann/ <span class="dt">\</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>--taxonomic-profile analysis/metaphlan/metaphlan_output.txt <span class="dt">\</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>--threads 8 <span class="dt">\</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="op">&amp;&gt;</span> analysis/humann/log.txt <span class="kw">&amp;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Don’t worry about quite what this does yet, this shall be explained more fully in the next lesson!</p>
+
+
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
