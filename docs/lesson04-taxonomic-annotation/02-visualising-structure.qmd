@@ -82,3 +82,22 @@ From the interactive Krona figure, try and answer these questions:
 ::::
 
 Because Krona outputs are portable .html files these can be sent to collaborators or uploaded for others to browse.
+
+## Setup for next session
+
+If you are working through this course as a self-study exercise, you can ignore this section and proceed to the next lesson for an in-depth explanation before you set any commands running.
+If you are participating in one of our online Zoom courses, you will want to set the below commands running at the end of this session so Humann has time to run!
+
+``` {.bash filename="Code"}
+mkdir -p analysis/humann
+```
+
+``` {.bash filename="Code"}
+humann --input analysis/sortmerna/SRR6820491_mrna.fq \
+--output analysis/humann/ \
+--taxonomic-profile analysis/metaphlan/metaphlan_output.txt \
+--threads 8 \
+&> analysis/humann/log.txt &
+```
+
+Don't worry about quite what this does yet, this shall be explained more fully in the next lesson!
