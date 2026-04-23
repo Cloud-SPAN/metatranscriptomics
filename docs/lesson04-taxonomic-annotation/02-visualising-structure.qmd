@@ -14,7 +14,7 @@ There are two ways we shall explore for visualising the data:
 
 ### Interactive plots with Krona
 
-Krona (Ondov et al. 2011)!!!! renders your Metaphlan output into a zoomable, multi-layered pie chart, and allows for hierarchical data (in our case taxonomic levels) to be explored.
+Krona [(Ondov et al. 2011)](https://ondovb.github.io/portfolio/01-krona) renders your Metaphlan output into a zoomable, multi-layered pie chart, and allows for hierarchical data (in our case taxonomic levels) to be explored.
 
 In order to create a Krona plot we can use a tool to convert our output into a Krona-ready input. This tool is conveniently called `metaphlan2krona`. The command to use it is simple and looks like this:
 

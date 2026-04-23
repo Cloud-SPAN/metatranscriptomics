@@ -11,7 +11,7 @@ Welcome back to this **Metagenomics with High Performance Computing** course!
 
 In previous lessons, we preprocessed our RNA-seq data by assessing read quality, trimming adapters, and removing unwanted sequences. This prepared our dataset for downstream analyses.
 
-One of the first major steps in metatranscriptomics is to understand the community composition: which organisms are present in the sample and in what relative abundances. This is called taxonomic profiling. Tools like MetaPhlAn allow us to map reads to clade-specific marker genes to generate a profile of the microbial community. Once we have this profile, we can also visualize it interactively using tools like Krona or generate publication-ready figures with Graphlan.
+One of the first major steps in metatranscriptomics is to understand the community composition: which organisms are present in the sample and in what relative abundances. This is called taxonomic profiling. Tools like MetaPhlAn allow us to map reads to clade-specific marker genes to generate a profile of the microbial community. Once we have this profile, we can also visualize it interactively using tools like Krona.
 
 By the end of this lesson you will be able to:
 

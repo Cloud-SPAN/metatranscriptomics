@@ -12,11 +12,11 @@ Taxonomic profiling can be achieved by a few different approaches. These include
 
 -   Using gene alignment software to assign taxonomy to reads by aligning them to marker genes from curated databases.
 
-In this tutorial we shall be following the second of the approaches detailed above. In the [previous lesson](#0) we filtered our samples to separate out rRNA and mRNA sequences, however for our taxonomic analysis we shall be using our unfiltered data.
+In this tutorial we shall be following the second of the approaches detailed above. In the [previous lesson](/docs/lesson03-qc-pre-processing/03-rrna-filtering.qmd) we filtered our samples to separate out rRNA and mRNA sequences, however for our taxonomic analysis we shall be using our unfiltered data.
 
 We shall be using a tool called MetaPhlan, which aligns sequences with reference genomes in order to estimate which taxon those sequences originate from. Because rRNA is often used as a taxonomic marker, we will want to use our unfiltered data. The filtered data will be used instead for our functional analysis next lesson.
 
-(For more on different methodologies see the [introduction to lesson 3](/docs/lesson03-qc-assembly/01-introduction-meta.qmd)).
+(For more on different methodologies see the [introduction to lesson 3](/docs/lesson03-qc-pre-processing/01-introduction-meta.qmd)).
 
 ### What is Metaphlan?
 
