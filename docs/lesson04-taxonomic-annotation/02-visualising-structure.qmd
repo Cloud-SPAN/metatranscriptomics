@@ -81,8 +81,4 @@ From the interactive Krona figure, try and answer these questions:
 :::
 ::::
 
-Because Krona outputs are portable .html files these can be sent to collaborators or uploaded for others to browse. However this format is not entirely suitable for publication. Next we shall try using Graphlan to produce publication ready figures.
-
-### Static plots with Graphlan
-
-Graphlan does not yet work :(
+Because Krona outputs are portable .html files these can be sent to collaborators or uploaded for others to browse. However this format is not entirely suitable for publication.
