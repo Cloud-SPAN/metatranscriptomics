@@ -3,8 +3,11 @@ title: "QC & Preprocessing"
 #subtitle: "[Metatranscriptomics](/index.qmd)"
 # title-block-banner: true
 ---
+## A Metatranscriptomics Workflow Diagram
 
-![](/images/metatranscriptomics_flowchart_short.png){fig-align="center" fig-alt="Flow diagram that shows the steps: Sequence reads, Quality control and Trimming, Sorting, Community Analysis, Functional Analysis."}
+![](/images/metatranscriptomics_flowchart_short.png){fig-align="center" width="600" fig-alt="Flow diagram that shows the steps: Sequence reads, Quality control and Trimming, Sorting, Community Analysis, Functional Analysis."}
+
+## What is Metatranscriptomics?
 
 A metatranscriptome is the collection of RNA transcripts produced by the microorganisms coexisting in a sample at a given moment. Unlike metagenomics, which provides information about the potential genetic capabilities of a community, metatranscriptomics captures the active functional processes, revealing which genes are being expressed and under what conditions.
 

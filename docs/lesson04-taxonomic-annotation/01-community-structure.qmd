@@ -74,7 +74,7 @@ Referring to the manual can be useful to toggle different settings on and off, f
 
 Let's build our command now.
 
-`data/trimmed_reads/SRR6820491_merged.fastq` specifies our input file containing our trimmed reads. We use this rather than our sorted mRNA from sortmeRNA as MetaPhlan identifies species based on a wide range of marker genes, some of which may be filtered out by sortmeRNA.
+`data/trimmed_reads/SRR6820491_merged.fastq` specifies our input file containing our trimmed reads. We use this rather than our sorted mRNA from sortmeRNA as MetaPhlan identifies species based on a wide range of marker genes, some of which may be filtered out by sortmeRNA (such as species-specific ribosomal genes).
 
 `--input_type fastq` tells MetaPhlan the format of our input file.
 

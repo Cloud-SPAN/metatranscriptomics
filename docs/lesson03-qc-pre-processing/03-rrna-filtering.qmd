@@ -385,7 +385,7 @@ If you remained connected to the instance during the process you will be able to
 [1]+  Done      sortmerna --ref databases/sortmerna_databases/smr_v4.3_default_db.fasta --reads data/trimmed_reads/SRR6820491_1.trim.fastq --reads data/trimmed_reads/SRR6820491_2.trim.fastq --workdir analysis/sortmerna --aligned analysis/sortmerna/SRR6820491_rrna --other analysis/sortmerna/SRR6820491_mrna --threads 8 --fastx --paired-out &> analysis/sortmerna/SRR6820491_sortmerna.log &
 ```
 
-This message won't be displayed if you disconnected from the instance for whatever reason during the assembly process. However, you can still examine the log file in the `sortmrna` directory. If the assembly has finished the log file will have ...
+This message won't be displayed if you disconnected from the instance for whatever reason during the assembly process. However, you can still examine the log file in the `sortmrna` directory. If the assembly has finished the log file will have a similar message.
 
 Move to the `sortmerna` directory and use `less` to examine the contents of the log file:
 
@@ -410,8 +410,10 @@ idx  kvdb  readb  SRR6820491_mrna.fq  SRR6820491_rrna.fq  SRR6820491_rrna.log  S
 
 The main files of interest for us are:
 
--   SRR6820491_mrna.fq our sorted mRNA (to be used during our Functional annotation)
+-   `SRR6820491_mrna.fq` our sorted mRNA (to be used during our Functional annotation)
 
--   SRR6820491_rrna.fq
+-   `SRR6820491_rrna.fq` our sorted rRNA (although we won't need this for our particular workflow)
 
--   SRR6820491_rrna.log SRR6820491_sortmerna.log
+-   `SRR6820491_rrna.log` `SRR6820491_sortmerna.log` our log files (only needed for troubeshooting)
+
+Now we have fully prepared our data for use in the remainder of our workflow, we can proceed to Taxonomic Annotation!
