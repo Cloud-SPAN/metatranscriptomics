@@ -814,7 +814,7 @@ The analyses in this lesson will take several hours to complete! You can find so
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>[1]+  Done      sortmerna --ref databases/sortmerna_databases/smr_v4.3_default_db.fasta --reads data/trimmed_reads/SRR6820491_1.trim.fastq --reads data/trimmed_reads/SRR6820491_2.trim.fastq --workdir analysis/sortmerna --aligned analysis/sortmerna/SRR6820491_rrna --other analysis/sortmerna/SRR6820491_mrna --threads 8 --fastx --paired-out &amp;&gt; analysis/sortmerna/SRR6820491_sortmerna.log &amp;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>This message won’t be displayed if you disconnected from the instance for whatever reason during the assembly process. However, you can still examine the log file in the <code>sortmrna</code> directory. If the assembly has finished the log file will have …</p>
+<p>This message won’t be displayed if you disconnected from the instance for whatever reason during the assembly process. However, you can still examine the log file in the <code>sortmrna</code> directory. If the assembly has finished the log file will have a similar message.</p>
 <p>Move to the <code>sortmerna</code> directory and use <code>less</code> to examine the contents of the log file:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
@@ -843,10 +843,11 @@ The analyses in this lesson will take several hours to complete! You can find so
 </div>
 <p>The main files of interest for us are:</p>
 <ul>
-<li><p>SRR6820491_mrna.fq our sorted mRNA (to be used during our Functional annotation)</p></li>
-<li><p>SRR6820491_rrna.fq</p></li>
-<li><p>SRR6820491_rrna.log SRR6820491_sortmerna.log</p></li>
+<li><p><code>SRR6820491_mrna.fq</code> our sorted mRNA (to be used during our Functional annotation)</p></li>
+<li><p><code>SRR6820491_rrna.fq</code> our sorted rRNA (although we won’t need this for our particular workflow)</p></li>
+<li><p><code>SRR6820491_rrna.log</code> <code>SRR6820491_sortmerna.log</code> our log files (only needed for troubeshooting)</p></li>
 </ul>
+<p>Now we have fully prepared our data for use in the remainder of our workflow, we can proceed to Taxonomic Annotation!</p>
 
 
 </section>

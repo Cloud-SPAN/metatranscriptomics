@@ -447,7 +447,7 @@ Note
 <p>There are many possible input arguments for metaphlan, which can seem overwhelming at first. However, there’s no need to know them all! We only need to use those which are relevant to our analysis.</p>
 <p>Referring to the manual can be useful to toggle different settings on and off, for example changing the flag of <code>tax_lev</code> from <code>s</code> to <code>g</code> will change the taxonomic level we’re searching at from species to genus.</p>
 <p>Let’s build our command now.</p>
-<p><code>data/trimmed_reads/SRR6820491_merged.fastq</code> specifies our input file containing our trimmed reads. We use this rather than our sorted mRNA from sortmeRNA as MetaPhlan identifies species based on a wide range of marker genes, some of which may be filtered out by sortmeRNA.</p>
+<p><code>data/trimmed_reads/SRR6820491_merged.fastq</code> specifies our input file containing our trimmed reads. We use this rather than our sorted mRNA from sortmeRNA as MetaPhlan identifies species based on a wide range of marker genes, some of which may be filtered out by sortmeRNA (such as species-specific ribosomal genes).</p>
 <p><code>--input_type fastq</code> tells MetaPhlan the format of our input file.</p>
 <p><code>--bowtie2db databases/chocophlandb/</code> specifies the location of the reference marker gene database that MetaPhlAn will use for alignment.</p>
 <p><code>--output_file analysis/metaphlan/metaphlan_output.txt</code> tells the program where to write the taxonomic profile.</p>

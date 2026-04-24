@@ -317,11 +317,18 @@ cookieconsent.run({
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#a-metatranscriptomics-workflow-diagram" id="toc-a-metatranscriptomics-workflow-diagram" class="nav-link active" data-scroll-target="#a-metatranscriptomics-workflow-diagram">A Metatranscriptomics Workflow Diagram</a></li>
+  <li><a href="#what-is-metatranscriptomics" id="toc-what-is-metatranscriptomics" class="nav-link" data-scroll-target="#what-is-metatranscriptomics">What is Metatranscriptomics?</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/edit/main/docs/lesson03-qc-pre-processing/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content column-page-right" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7">QC &amp; Preprocessing</h1></header>
+<main class="content column-body" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7">QC &amp; Preprocessing</h1></header>
 
 <header id="title-block-header">
 
@@ -329,11 +336,16 @@ cookieconsent.run({
 </header>
 
 
+<section id="a-metatranscriptomics-workflow-diagram" class="level2">
+<h2 class="anchored" data-anchor-id="a-metatranscriptomics-workflow-diagram">A Metatranscriptomics Workflow Diagram</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../../images/metatranscriptomics_flowchart_short.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Flow diagram that shows the steps: Sequence reads, Quality control and Trimming, Sorting, Community Analysis, Functional Analysis."></p>
+<p><img src="../../images/metatranscriptomics_flowchart_short.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Flow diagram that shows the steps: Sequence reads, Quality control and Trimming, Sorting, Community Analysis, Functional Analysis." width="600"></p>
 </figure>
 </div>
+</section>
+<section id="what-is-metatranscriptomics" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-metatranscriptomics">What is Metatranscriptomics?</h2>
 <p>A metatranscriptome is the collection of RNA transcripts produced by the microorganisms coexisting in a sample at a given moment. Unlike metagenomics, which provides information about the potential genetic capabilities of a community, metatranscriptomics captures the active functional processes, revealing which genes are being expressed and under what conditions.</p>
 <p>In this lesson, we will discuss how to define metatranscriptomics and explore the challenges associated with analyzing RNA from complex microbial communities. We will also outline a typical workflow for metatranscriptomics analysis, including steps for processing, quantifying, and interpreting community-wide gene expression data.</p>
 <p>We will then log into our cloud instance and take a look at some data. Then, we’ll go through the first two steps in our workflow: quality control and metagenome assembly.</p>
@@ -360,6 +372,7 @@ cookieconsent.run({
 </div>
 
 
+</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
@@ -763,7 +776,7 @@ cookieconsent.run({
     }
   });
   </script>
-<nav class="page-navigation column-page-right">
+<nav class="page-navigation column-body">
   <div class="nav-page nav-page-previous">
       <a href="../../docs/lesson02-using-the-command-line/03-redirection.html" class="pagination-link" aria-label="Redirection">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Redirection</span>
@@ -783,7 +796,7 @@ cookieconsent.run({
 </div>   
     <div class="nav-footer-center">
 
-<div class="toc-actions"><ul><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/edit/main/docs/lesson03-qc-pre-processing/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/edit/main/docs/lesson03-qc-pre-processing/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/Cloud-SPAN/metatranscriptomics/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">
