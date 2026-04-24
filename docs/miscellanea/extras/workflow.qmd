@@ -9,4 +9,4 @@ The pale blue blocks indicate which lesson each step falls under.
 
 ## Workflow
 
-![.](/images/full_workflow_with_sections.png){width="600" fig-alt="Workflow diagram"}
+![.](/images/metatranscriptomics_flowchart_short.png){width="600" fig-alt="Workflow diagram"}
