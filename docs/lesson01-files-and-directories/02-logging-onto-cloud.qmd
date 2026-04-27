@@ -42,11 +42,9 @@ The folder should contain the login key file we downloaded in the previous episo
 
 ##### **2. Right-click and open your machine's command line interface**
 
-Now we can open the command line.
-
 - **Windows users**:
 
-  -   Right click anywhere inside the blank space of the file manager, then select **Git Bash Here**. A new window will open - this is your command line interface, also known as the shell or the terminal. It will automatically open with your `cloudspan` directory as the working directory.
+  -   Right click anywhere inside the blank space of the file manager, then select **Show more options** then **Open Git Bash Here**. A new window will open - this is your command line interface, also known as the shell or the terminal. It will automatically open with your `cloudspan` directory as the working directory.
 
 - **Mac users**, you have two options:
 
