@@ -10,19 +10,19 @@ This hands-on, online course teaches data analysis for metatranscriptomics proje
 -   using common commands and running analysis programs in the command line
 -   what is metatranscriptomics?
 -   following a metatranscriptomics analysis workflow including:
-    -   Perform quality control on RNA-seq reads
+    -   quality control on RNA-seq reads
 
-    -   Carry out adapter trimming and quality filtering
+    -  adapter trimming and quality filtering
 
-    -   Remove rRNA sequences from RNA-seq data
+    -   Removing rRNA sequences from RNA-seq data
 
-    -   Merge and prepare reads for downstream analyses
+    -   preparing reads for downstream analyses
 
-    -   Perform taxonomic profiling of metatranscriptomic data
+    -   taxonomic profiling of metatranscriptomic data
 
-    -   Functionally interpret expressed genes
+    -   functional interpretation of expressed genes
 
-    -   Visualise and explore results using interactive tools such as Krona
+    -   exploring results using interactive tools such as Krona
 
 The course is taught as a mixture of live coding, online lectures, self-study and drop-in sessions.
 
