@@ -32,7 +32,7 @@
     "href": "index.html#course-overview",
     "title": "Metatranscriptomics",
     "section": "Course Overview",
-    "text": "Course Overview\n\n\n\nLesson\nOverview\n\n\n\n\nFiles and Directories\nLearn about files and directories, log onto a cloud instance and get a basic introduction to the shell.\n\n\nUsing the Command Line\nLearn more about using the shell to navigate directories, manipulate and search files, and combine existing commands to do new things.\n\n\nQC & Assembly\nHow to quality control and sort transcript reads.\n\n\nTaxonomic Annotation\nHow to use Metaphlan to identify taxonomy of transcript reads\n\n\nFunctional Annotation\nHow to use Humann to identify functional genes from your sorted transcript reads."
+    "text": "Course Overview\n\n\n\nLesson\nOverview\n\n\n\n\nFiles and Directories\nLearn about files and directories, log onto a cloud instance and get a basic introduction to the shell.\n\n\nUsing the Command Line\nLearn more about using the shell to navigate directories, manipulate and search files, and combine existing commands to do new things.\n\n\nQC & Sorting\nHow to quality control and sort transcript reads.\n\n\nTaxonomic Annotation\nHow to use Metaphlan to identify taxonomy of transcript reads\n\n\nFunctional Annotation\nHow to use Humann to identify functional genes from your sorted transcript reads."
   },
   {
     "objectID": "docs/lesson03-qc-pre-processing/03-rrna-filtering.html",
