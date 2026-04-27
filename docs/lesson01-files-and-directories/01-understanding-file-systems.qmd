@@ -143,7 +143,7 @@ In theory you can make this folder anywhere in your file system but we recommend
     Find out what the absolute path is using your file manager application. 
 
     -   **Windows users**: Right click on the folder and select Copy as path. Paste the path to any document. Your path will be separated with backslashes (`\`) but you should write it down using forward slashes (`/`).
-    -   **Mac Users**: select *Get info*, then look at the field called *Where*. Your path should start with the word `Users/` - ignore anything that comes before this. Separate your path components using forward slashes (`/`). You will need to add `/cloudspan` to the end of this path
+    -   **Mac Users**: select Click on the folder in Finder *View path bar*, then look at the bottom where your file structure is shown, right click foldername and chose Copy 'cloudspan' as pathname
 
 This is your absolute path. Once you have this written down, do not lose it! Now you can find your way back to the `cloudspan` folder whenever you need to, no matter where you are in your file structure.
 
