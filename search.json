@@ -28,6 +28,13 @@
     "text": "Course format\nThis workshop is designed to be run on pre-imaged Amazon Web Services (AWS) instances. All the software and data used in the workshop are hosted on an Amazon Machine Image (AMI). We will give you details as to how to access these instances after registration.\nThe course will take place over three weeks and will combine live coding and teaching with offline work. We will guide you through the analysis each session but some steps may need to completed offline due to the amount of time they take to complete. There will also be drop-in sessions to offer support and troubleshooting help, and a Slack workspace for questions."
   },
   {
+    "objectID": "index.html#course-overview",
+    "href": "index.html#course-overview",
+    "title": "Metatranscriptomics",
+    "section": "Course Overview",
+    "text": "Course Overview\n\n\n\nLesson\nOverview\n\n\n\n\nFiles and Directories\nLearn about files and directories, log onto a cloud instance and get a basic introduction to the shell.\n\n\nUsing the Command Line\nLearn more about using the shell to navigate directories, manipulate and search files, and combine existing commands to do new things.\n\n\nQC & Assembly\nHow to quality control and sort transcript reads.\n\n\nPolishing\nHow to use Metaphlan to identify taxonomy of transcript reads\n\n\nBinning & Functional Annotation\nHow to use Humann to identify functional genes from your sorted transcript reads."
+  },
+  {
     "objectID": "docs/lesson03-qc-pre-processing/03-rrna-filtering.html",
     "href": "docs/lesson03-qc-pre-processing/03-rrna-filtering.html",
     "title": "Ribosomal RNA Filtering",
