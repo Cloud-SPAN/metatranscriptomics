@@ -31,7 +31,7 @@ The course is taught as a mixture of live coding, online lectures, self-study an
 ::: callout-important
 ## Biological concepts and software setup
 
-This course assumes no prior experience with the tools covered in the workshop but learners are expected to have some familiarity with biological concepts, including the concept of genomes and microbiomes. Participants should bring their own laptops and plan to participate actively.
+This course assumes no prior experience with the tools covered in the workshop, but learners are expected to have a basic understanding of biological concepts, including gene expression, mRNA, and microbiomes. Participants should bring their own laptops and be prepared to engage actively in hands-on metatranscriptomics exercises.
 
 To get started, follow the directions in the "Precourse Instructions" tab to get access to the required software and data for this workshop. **Windows users** need to install Git Bash in their laptop. **Mac users** may need to configure the **terminal** program in their laptop to use the Bash shell.
 :::
