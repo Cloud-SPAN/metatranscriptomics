@@ -135,7 +135,7 @@ One way to examine a file is to open the file in a read-only format and navigate
 | <kbd>G</kbd>     | to go to the end       |
 | <kbd>q</kbd>     | to quit                |
 
-Enter the following command from within the `raw_reads`` directory:
+Enter the following command from within the `raw_reads` directory:
 
 ``` {.bash filename="Code"}
 cd ~/cs_course/data/raw_reads
