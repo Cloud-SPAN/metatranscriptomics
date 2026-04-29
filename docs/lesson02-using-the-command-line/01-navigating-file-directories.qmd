@@ -18,7 +18,7 @@ keypoints:
 
 The first thing we need to do is log in to our cloud instance.
 
-##### **1. Open the *cloudspan* folder you created for the course**
+##### **1. Open the `cloudspan` folder you created for the course**
 
 Open your file manager and navigate to the `cloudspan` folder (hint: we recommended you make the folder in your *Desktop* directory - but you might have made it somewhere else). If you cannot find the folder, you can remind yourself where it is stored by looking at the absolute path you wrote down in the previous episode.
 
@@ -26,17 +26,17 @@ The folder should contain the login key file we downloaded in the previous episo
 
 ##### **2. Right-click and open your machine's command line interface**
 
-Now we can open the command line.
+- **Windows users**:
 
--   **Windows users**:
+  -   Right click anywhere inside the blank space of the file manager, then select **Show more options** then **Open Git Bash Here**. A new window will open - this is your command line interface, also known as the shell or the terminal. It will automatically open with your `cloudspan` directory as the working directory.
 
-    -   Right click anywhere inside the blank space of the file manager, then select **Git Bash Here**. A new window will open - this is your command line interface, also known as the shell or the terminal. It will automatically open with your `cloudspan` directory as the working directory.
+- **Mac users**, you have two options:
 
--   **Mac users**, you have two options:
+  - EITHER:  Open **Terminal** in one window and type `cd` followed by a space. Do not press enter! Now open **Finder** in another window. Drag and drop the `cloudspan` folder from the Finder to the Terminal. You should see the file path leading to your `cloudspan` folder appear. Now press enter to navigate to the folder.
 
-    -   EITHER: Open **Terminal** in one window and type `cd` followed by a space. Do not press enter! Now open **Finder** in another window. Drag and drop the `cloudspan` folder from the Finder to the Terminal. You should see the file path leading to your `cloudspan` folder appear. Now press enter to navigate to the folder.
+  - OR: Open **Terminal** and type `cd` followed by the absolute path that leads to your `cloudspan` folder. Press enter.
 
-    -   OR: Open **Terminal** and type `cd` followed by the absolute path that leads to your `cloudspan` folder. Press enter.
+The terminal displays/outputs the **command prompt** to signal that it is ready to accept commands (instructions). The **command prompt** is 1 or 2 lines depending on your operating system (Windows, Linux, MacOS) and will be similar to the following.
 
 ##### **3. Login into your instance**
 
