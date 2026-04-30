@@ -354,10 +354,10 @@ Starting in the `raw_reads` directory, do the following:
 It's always a good idea to check your work. Move to the `data` folder with `cd ..` and then list the contents of `backup` with `ls -l backup`. You should see something like:
 
 ``` {.default filename="Output"}
--rw-rw-r-- 1 csuser csuser 5397903530 Feb 11  2024 SRR6820491_1_backup.fastq
--rw-rw-r-- 1 csuser csuser 5397903530 Feb 11  2024 SRR6820491_2_backup.fastq
--rw-rw-r-- 1 csuser csuser 6729015266 Feb 11  2024 SRR6820516_1_backup.fastq
--rw-rw-r-- 1 csuser csuser 6729015266 Feb 11  2024 SRR6820516_2_backup.fastq
+-rw-rw-r-- 1 csuser csuser 5397903530 Feb 11  2026 SRR6820491_1_backup.fastq
+-rw-rw-r-- 1 csuser csuser 5397903530 Feb 11  2026 SRR6820491_2_backup.fastq
+-rw-rw-r-- 1 csuser csuser 6729015266 Feb 11  2026 SRR6820516_1_backup.fastq
+-rw-rw-r-- 1 csuser csuser 6729015266 Feb 11  2026 SRR6820516_2_backup.fastq
 ```
 :::
 :::
