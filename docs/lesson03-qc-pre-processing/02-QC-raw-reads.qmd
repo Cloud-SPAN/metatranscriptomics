@@ -38,7 +38,7 @@ ssh -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk
 
 Before we start, here's a reminder of what our file structure looks like as a hierarchy tree:
 
-![A file hierarchy tree.](/images/blank_instance_file_tree_with_hidden.png){width="400px" fig-alt="A file hierarchy tree."}
+![A file hierarchy tree.](/images/blank_instance_file_tree_with_hidden.png){width="800px" fig-alt="A file hierarchy tree."}
 
 Keep this in mind as we continue to navigate the file system, and don't hesitate to refer back to it if needed.
 
@@ -253,7 +253,7 @@ Now you can enter the command, using `-o` to tell FastQC to put its output files
 ::: callout-tip
 ### Why here?
 
-You might be wondering why we're running our command from the `cs_course` directory and not the place where the data is stored (`~/cs_course/data/raw_reads/`), or where we want our outputs to end up (`~/cs_course/analysis/qc/`). The reason is that it's *best practice* not to run commands from the same folder as your data in case you accidentally do something which would overwrite your data files. From `cs_course` we can easily "see" both our `data` and `results` directories to refer to them with local paths.
+You might be wondering why we're running our command from the `cs_course` directory and not the place where the data is stored (`~/cs_course/data/raw_reads/`), or where we want our outputs to end up (`~/cs_course/analysis/qc/`). The reason is that it's *best practice* not to run commands from the same folder as your data in case you accidentally do something which would overwrite your data files. From `cs_course` we can easily "see" both our `data` and `analysis` directories to refer to them with local paths.
 
 Over the rest of the course we will be moving all over the file tree to look at files but will always return to `~/cs_course` to run commands. We encourage you to do the same in your own work!
 :::
@@ -265,24 +265,42 @@ fastqc data/raw_reads/*.fastq -o analysis/qc/ -t 8
 Press enter and you will see an automatically updating output message telling you the progress of the analysis. It should start like this:
 
 ``` {.default filename="Output"}
+null
+null
+null
+null
 Started analysis of SRR6820491_1.fastq
+Started analysis of SRR6820491_2.fastq
+Started analysis of SRR6820516_1.fastq
+Started analysis of SRR6820516_2.fastq
 Approx 5% complete for SRR6820491_1.fastq
+Approx 5% complete for SRR6820491_2.fastq
+Approx 5% complete for SRR6820516_2.fastq
+Approx 5% complete for SRR6820516_1.fastq
 Approx 10% complete for SRR6820491_1.fastq
-Approx 15% complete for SRR6820491_1.fastq
-Approx 20% complete for SRR6820491_1.fastq
-Approx 25% complete for SRR6820491_1.fastq
-Approx 30% complete for SRR6820491_1.fastq
+Approx 10% complete for SRR6820491_2.fastq
 ```
 
 In total, it should take around ten minutes for FastQC to run on our fastq files (however, this will depend on the size and number of files you give it). When the analysis completes, your prompt will return. So your screen will look something like this:
 
 ``` {.default filename="Output"}
-Approx 75% complete for SRR6820491_2.fastq
-Approx 80% complete for SRR6820491_2.fastq
-Approx 85% complete for SRR6820491_2.fastq
 Approx 90% complete for SRR6820491_2.fastq
+Approx 70% complete for SRR6820516_2.fastq
+Analysis complete for SRR6820491_1.fastq
 Approx 95% complete for SRR6820491_2.fastq
+Approx 75% complete for SRR6820516_1.fastq
+Approx 75% complete for SRR6820516_2.fastq
 Analysis complete for SRR6820491_2.fastq
+Approx 80% complete for SRR6820516_1.fastq
+Approx 80% complete for SRR6820516_2.fastq
+Approx 85% complete for SRR6820516_1.fastq
+Approx 85% complete for SRR6820516_2.fastq
+Approx 90% complete for SRR6820516_1.fastq
+Approx 90% complete for SRR6820516_2.fastq
+Approx 95% complete for SRR6820516_1.fastq
+Approx 95% complete for SRR6820516_2.fastq
+Analysis complete for SRR6820516_1.fastq
+Analysis complete for SRR6820516_2.fastq
 $
 ```
 
@@ -295,7 +313,8 @@ ls analysis/qc/
 ```
 
 ``` {.default filename="Output"}
-SRR6820491_1_fastqc.html  SRR6820491_1_fastqc.zip  SRR6820491_2_fastqc.html  SRR6820491_2_fastqc.zip   
+SRR6820491_1_fastqc.html  SRR6820491_2_fastqc.html  SRR6820516_1_fastqc.html  SRR6820516_2_fastqc.html
+SRR6820491_1_fastqc.zip   SRR6820491_2_fastqc.zip   SRR6820516_1_fastqc.zip   SRR6820516_2_fastqc.zip
 ```
 
 For each input FASTQ file, FastQC has created a `.zip` file and a `.html` file. The `.zip` file extension indicates that this is actually a compressed set of multiple output files. A summary report for our data is in the the `.html` file.
@@ -520,14 +539,14 @@ Total written (filtered):  2,470,608,528 bp (58.0%)
 ```
 
 :::: callout-note
-## Exercise
+## Challenge
 
 Use the output from your Cutadapt command to answer the following questions.
 
 1.  How many reads had adapters in the R1 reads?
 2.  What total percent of reads were trimmed/filtered?
 
-::: {.callout-note collapse="true"}
+::: {.callout-caution collapse="true"}
 ## Solution
 
 1.  4,874,180 (34.6%)
@@ -549,11 +568,11 @@ SRR6820491_1.trim.fastq  SRR6820491_2.trim.fastq
 Great! Now we have some high quality samples to work with as we move onto our next step: filtering out ribosomal RNA.
 
 :::: callout-note
-## Bonus Exercise
+## Bonus Challenge
 
 Now that our samples have gone through quality control, they should perform better on the quality tests run by FastQC. Go ahead and re-run FastQC on your trimmed FASTQ files and visualise the HTML files to see whether your per base sequence quality is higher after trimming.
 
-::: {.callout-note collapse="true"}
+::: {.callout-caution collapse="true"}
 ## Solution
 
 Start by making a new folder inside your cutadapt directory to keep the FastQC outputs in.
