@@ -168,7 +168,7 @@ Learning to navigate a new file directory can be confusing at first. To help, he
 
 <!-- ![A file hierarchy tree](../fig/blank_instance_file_tree.png){:width="800px"} -->
 
-![A file hierarchy tree.](/images/blank_instance_file_tree.png){width="350px" fig-alt="A file hierarchy tree."}
+![A file hierarchy tree.](/images/blank_instance_file_tree.png){width="800px" fig-alt="A file hierarchy tree."}
 
 First we moved from our home directory at `csuser` into the `cs_course` directory, which is one level down. From there we opened up the `data` directory, which contain the subdirectory - `raw_reads`. We had a peek inside this directory and found it contained multiple directories and files.
 
