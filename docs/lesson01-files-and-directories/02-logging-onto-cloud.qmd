@@ -130,38 +130,35 @@ The `-i` option tells `ssh` where to find the key which proves you have permissi
 ##### **2. The terminal will display a security message, after you enter the `ssh` command, *similar* to the message below:**
 
 ``` {.default filename="Output"}
-The authenticity of host instanceNNN-cloud-span.aws.york.ac.uk (52.211.132.120) can't be
-established. ECDSA key fingerprint is SHA256:8N054prkkCeM4GCDSsa0AUnSQw5ngBQHbOR40FqfqLg.
-Are you sure you want to continue connecting (yes/no/[fingerprint])?
-```
-
-Type **yes** to continue and get connected to your AWS instance.
-
-After logging in, you will see a screen showing something like this:
-
-``` {.default filename="Output"}
-Welcome to Ubuntu 20.04.3 LTS (GNU/Linux 5.4.0-84-generic x86_64)
+Welcome to Ubuntu 20.04.6 LTS (GNU/Linux 5.4.0-169-generic x86_64)
 
  * Documentation:  https://help.ubuntu.com
  * Management:     https://landscape.canonical.com
  * Support:        https://ubuntu.com/advantage
 
-  System information as of Thu 21 Oct 2021 10:47:55 AM UTC
+  System information as of Thu 30 Apr 2026 12:54:38 PM UTC
 
-  System load:  1.68               Processes:             189
-  Usage of /:   24.0% of 98.30GB   Users logged in:       0
-  Memory usage: 25%                IPv4 address for eth0: 10.0.32.254
-  Swap usage:   0%
+  System load:  0.0                 Processes:                251
+  Usage of /:   93.1% of 236.08GB   Users logged in:          0
+  Memory usage: 3%                  IPv4 address for docker0: 172.17.0.1
+  Swap usage:   0%                  IPv4 address for eth0:    10.0.63.144
+
+  => / is using 93.1% of 236.08GB
 
   Get cloud support with Ubuntu Advantage Cloud Guest:
     http://www.ubuntu.com/business/services/cloud
 
-73 updates can be applied immediately.
-32 of these updates are standard security updates.
+Expanded Security Maintenance for Infrastructure is enabled.
+
+452 updates can be applied immediately.
+267 of these updates are ESM Infra security updates.
+136 of these updates are standard security updates.
 To see these additional updates run: apt list --upgradable
 
-Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
-applicable law.
+New release '22.04.5 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
     _____________________________
 
     W E L C O M E    T O    T H E
@@ -175,8 +172,7 @@ applicable law.
 
 
 
-    F O U N D A T I O N     C O U R S E     E N V I R O N M E N T
-
+         METATRANSCRIPTOMICS       COURSE       ENVIRONMENT
     _____________________________________________________________
 
     Scroll up with the mouse for information before this welcome
@@ -184,7 +180,9 @@ applicable law.
     Type "csguide" (and the Enter (↵) key) for some guidance
     _____________________________________________________________
 
-Last login: Thu Oct 14 11:13:28 2021 from xxxxxxx
+
+
+Last login: Thu Apr 30 09:55:40 2026 from xxxxxxx
 ```
 
 Your prompt will now look like this:
