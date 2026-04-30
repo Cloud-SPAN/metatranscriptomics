@@ -28,7 +28,9 @@ The Cloud-SPAN team are dedicated to providing a welcoming and supportive enviro
 
 This instructional material is made available for reuse and remixing under the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/).
 
-The Cloud-SPAN Metatranscriptomics course consists of materials derived from Galaxy Project's [Metatranscriptomics Tutorial](https://training.galaxyproject.org/training-material/topics/microbiome/tutorials/metatranscriptomics/tutorial.html) and . This material is not endorsed by [Galaxy Training](https://training.galaxyproject.org/training-material/). Prenomics materials are adapted from Cloud-SPAN's [Metagenomics Course](https://cloud-span.github.io/nerc-metagenomics-v2q/)
+The Cloud-SPAN Metatranscriptomics course consists of materials derived from Galaxy Project's [Metatranscriptomics Tutorial](https://training.galaxyproject.org/training-material/topics/microbiome/tutorials/metatranscriptomics/tutorial.html) and . This material is not endorsed by [Galaxy Training](https://training.galaxyproject.org/training-material/). Command Line materials are adapted from Cloud-SPAN's [Metagenomics Course](https://cloud-span.github.io/nerc-metagenomics-v2q/)
 
-Cloud-SPAN is a part of the [The UKRI Digital Research Skills Catalyst](https://digitalskillscatalyst.ac.uk/), a new national training platform built on six years of collaborative work across seven UK universities. It brings together peer-reviewed training materials covering programming, statistics, machine learning, data stewardship, and more, alongside direct one-to-one support from research software engineers and data scientists. 
+Cloud-SPAN is a part of the [The UKRI Digital Research Skills Catalyst](https://digitalskillscatalyst.ac.uk/), a new national training platform built on six years of collaborative work across seven UK universities. 
+It brings together peer-reviewed training materials covering programming, statistics, machine learning, data stewardship, and more, alongside direct one-to-one support from research software engineers and data scientists. 
+
 The Catalyst Project is funded by UKRI Digital Research Infrastructure Programme from October 2024 to March 2027. Project reference: UKRI/ST/B000299/1.
