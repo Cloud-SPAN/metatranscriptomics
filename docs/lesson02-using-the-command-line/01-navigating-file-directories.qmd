@@ -90,9 +90,9 @@ cd cs_course/data/
 This will take you to the `data` directory without having to go through the intermediate `cs_course` directory.
 
 :::: callout-note
-## Navigating practice
+## Challenge
 
-Navigate to your home directory. From there, list the contents of the `illumina_fastq` directory.
+Navigate to your home directory. From there, list the contents of the `raw_reads` directory.
 
 ::: {.callout-caution collapse="true"}
 ## Solution
@@ -150,7 +150,7 @@ You can usually use either a full path or a relative path depending on what is m
 Over time, it will become easier for you to keep a mental note of the structure of the directories that you are using and how to quickly navigate amongst them. We will be using the same directory structure for this whole course so navigating it should get easier as you progress.
 
 :::: callout-note
-## Relative path resolution
+## Challenge
 
 Using the file system diagram below, if `pwd` displays `/home/csuser/cs_course/data/`, what will `ls ../databases` display?
 
@@ -158,7 +158,7 @@ Can you explain why?
 
 <!-- ![Blank instance file tree.](../fig/blank_instance_file_tree_with_hidden.png){:width="300px"} -->
 
-![Blank instance file tree.](/images/blank_instance_file_tree_with_hidden.png){width="400px" fig-alt="Blank instance file tree."}
+![Blank instance file tree.](/images/blank_instance_file_tree_with_hidden.png){width="800px" fig-alt="Blank instance file tree."}
 
 ::: {.callout-caution collapse="true"}
 ## Solution

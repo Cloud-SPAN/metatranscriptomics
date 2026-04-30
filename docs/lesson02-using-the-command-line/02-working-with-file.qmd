@@ -45,7 +45,6 @@ The `*` character is a special type of character called a wildcard, which can be
 This command:
 
 ``` {.bash filename="Code"}
-ls ../../
 ls *_2.fastq
 ```
 
@@ -68,7 +67,7 @@ ls /usr/bin/*.sh
 Lists every file in `/usr/bin` that ends in the characters `.sh`. Note that the output displays **full** paths to files, since each result starts with `/`.
 
 ::: callout-note
-## Exercise
+## Challenge
 
 What command would you use for each of the following tasks? Start from your current directory using a single`ls`command for each:
 
@@ -174,15 +173,20 @@ Quality is interpreted as the probability of an incorrect base call. To make it 
 :::
 
 ::: callout-note
-## Exercise
+## Challenge
 
-1.  Open the `~/cs_course/data/raw_reads/SRR6820491_1.fastq` file in `less`. What is the last line of the file? (Hint: use the shortcuts above to speed things up)
+1.  Open the `~/cs_course/data/raw_reads/SRR6820491_2.fastq` file in `less`. What is the last read in the file? (Hint: use the shortcuts above to speed things up)
 
 ::: {.callout-caution collapse="true"}
 ## Solution
+``` {.bash filename="Code"}
+less ~/cs_course/data/raw_reads/SRR6820491_2.fastq
+```
+
+then shift+G to skip to the end:
 
 ``` {.default filename="Output"}
-1. :FFFFFFFFFFFFFFFFFFFF:FFFFFFFFFFFFFFFF:FFFFFFFF,FFFFFFFFFFFFFFFFFFFFFFFFFF:FFFFF:FFF:FFFFFFFFFFFFFF:FFFFFF:FF:FFFFFFFFFFFFFFFFFFFFFF,F,FFF,FFFFFF,FFFF
+CGATAGTACAGGAATCTCAACCTGTTGCCCATCGCCTACGCTTTCTAAGCCTCGGCTTAGGTCCCGACTAACCCTGAGCGGACGAGCCTTCCTCAGGAATCCTTAGGCTTTCGACGGGTAAGATTCTCACTTACCTTCTCGCTACTCATGC
 ```
 :::
 :::
@@ -269,7 +273,8 @@ ls -F
 ```
 
 ``` {.default filename="Output"}
-SRR6820491_1.fastq  SRR6820491_1_copy.fastq  SRR6820491_2.fastq  SRR6820516_1.fastq  SRR6820516_2.fastq
+SRR6820491/              SRR6820491_1.fastq  SRR6820516/         SRR6820516_2.fastq
+SRR6820491_1_copy.fastq  SRR6820491_2.fastq  SRR6820516_1.fastq
 ```
 
 The prompt will disappear for up to two minutes and reappear when the command is completed and the backup is made.
@@ -329,16 +334,16 @@ rm -r backup
 This will delete not only the directory, but all files within the directory.
 
 ::: callout-note
-## Exercise
+## Challenge
 
 Starting in the `raw_reads` directory, do the following:
 
-1.  Make sure that you have deleted your backup directory and all files it contains.\
+1.  Make sure that you have deleted your `backup` directory and all files it contains.\
 2.  Create a backup of each of your FASTQ files using `cp`. (Note: You'll need to do this individually for each of the two FASTQ files. We haven't learned yet how to do this with a wildcard.)\
-3.  Use a wildcard to move all of your backup files to a new backup directory.
-4.  It doesn't make sense to keep our backup directory inside the directory it is backing up. What if we accidentally delete the `raw_reads` directory? To fix this, move your new backup directory out of `raw_reads` and into the parent folder, `data`.
+3.  Use a wildcard to move all of your backup files to a new `backup` directory.
+4.  It doesn't make sense to keep our `backup` directory inside the directory it is backing up. What if we accidentally delete the `raw_reads` directory? To fix this, move your new backup directory out of `raw_reads` and into the parent folder, `data`.
 
-::: {.callout-note collapse="true"}
+::: {.callout-caution collapse="true"}
 ## Solution
 
 1.  `rm -r backup`\
@@ -349,12 +354,14 @@ Starting in the `raw_reads` directory, do the following:
 It's always a good idea to check your work. Move to the `data` folder with `cd ..` and then list the contents of `backup` with `ls -l backup`. You should see something like:
 
 ``` {.default filename="Output"}
--rw-rw-r-- 1 ubuntu ubuntu 2811886584 Feb 22 11:25 SRR6820491_1_backup.fastq
--rw-rw-r-- 1 ubuntu ubuntu 2302264784 Feb 22 11:29 SRR6820491_2_backup.fastq
+-rw-rw-r-- 1 csuser csuser 5397903530 Feb 11  2024 SRR6820491_1_backup.fastq
+-rw-rw-r-- 1 csuser csuser 5397903530 Feb 11  2024 SRR6820491_2_backup.fastq
+-rw-rw-r-- 1 csuser csuser 6729015266 Feb 11  2024 SRR6820516_1_backup.fastq
+-rw-rw-r-- 1 csuser csuser 6729015266 Feb 11  2024 SRR6820516_2_backup.fastq
 ```
 :::
 :::
 
 Here is what your file structure should look like at the end of this episode: <!-- ![A file hierarchy tree](../fig/file_tree_02_ep2.png){:width="500px"} -->
 
-![A file hierarchy tree.](/images/file_tree_02_ep2.png){width="450px" fig-alt="A file hierarchy tree."}
+![A file hierarchy tree.](/images/file_tree_02_ep2.png){width="800px" fig-alt="A file hierarchy tree."}
