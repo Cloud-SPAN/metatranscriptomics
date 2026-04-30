@@ -128,9 +128,9 @@ ls -l
 ```
 
 ``` {.default filename="Output"}
-total 12
-drwxrwxr-x 4 csuser csuser 4096 Oct 22 09:04 data
-drwxrwxr-x 3 csuser csuser 4096 Oct  6 13:08 databases
+total 8
+drwxrwxr-x 4 csuser csuser 4096 Mar  4 16:31 data
+drwxrwxr-x 7 csuser csuser 4096 Feb 27 10:34 databases
 ```
 
 The additional information given includes the name of the owner of the file, when the file was last modified, and whether the current user has permission to read and write to the file.
@@ -166,7 +166,7 @@ This directory contains two files with `.fastq` extensions. FASTQ is a format fo
 
 Learning to navigate a new file directory can be confusing at first. To help, here is a tree diagram showing what we have explored so far.
 
-<!-- ![A file hierarchy tree](../fig/blank_instance_file_tree.png){:width="400px"} -->
+<!-- ![A file hierarchy tree](../fig/blank_instance_file_tree.png){:width="800px"} -->
 
 ![A file hierarchy tree.](/images/blank_instance_file_tree.png){width="350px" fig-alt="A file hierarchy tree."}
 
@@ -282,7 +282,7 @@ ls
 ```
 
 ``` {.default filename="Output"}
-raw_reads  nano_fastq
+raw_reads 
 ```
 
 From this output, we can see that `..` did indeed take us back one level in our file system, to `data`.
