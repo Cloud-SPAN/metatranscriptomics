@@ -17,7 +17,7 @@ website:
   repo-actions: [edit, issue]
   page-footer:
     left: |
-      Licensed under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) 2021–24 by [Cloud-SPAN](https://cloud-span.york.ac.uk/)    
+      Licensed under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) 2021–26 by [Cloud-SPAN](https://cloud-span.york.ac.uk/)    
 #      Licensed under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) 2021–{{<meta date>}} by [Cloud-SPAN](https://cloud-span.york.ac.uk/)\
 #      Licensed under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) 2018–{{<meta date>}} by the [Carpentries](https://carpentries.org/)\
 #      Licensed under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) 2016–2018 by the [Data Carpentry](https://datacarpentry.org/)      
@@ -31,12 +31,10 @@ website:
     #   - text: "Trademark"
     #     href: trademark.qmd
     right:
-      - icon: twitter
-        href: https://twitter.com/SpanCloud
-        aria-label: Quarto Twitter
-      - icon: github
-        href: https://github.com/Cloud-SPAN/metatranscriptomics
-        aria-label: Quarto GitHub
+      - icon: linkedin
+        href: https://uk.linkedin.com/company/ukri-digital-research-skills-catalyst
+      - icon: bluesky
+        href: https://bsky.app/profile/ukriskillscatalyst.bsky.social
       # - icon: rss
       #   href: https://quarto.org/docs/blog/index.xml
       #   aria-label: Quarto Blog RSS
