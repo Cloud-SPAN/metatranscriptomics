@@ -490,7 +490,7 @@
     "href": "docs/miscellanea/about.html#licences",
     "title": "About",
     "section": "Licences",
-    "text": "Licences\nThis instructional material is made available for reuse and remixing under the Creative Commons Attribution license.\nThe Cloud-SPAN Genomics course consists of materials derived from Data Carpentry’s Genomics Workshop. This material is not endorsed by Data Carpentry or the Carpentries in general.\nCloud-SPAN is a collaboration between the University of York and The Software Sustainability Institute funded by the UKRI Innovation Scholars award. Project Reference: MR/V038680/1."
+    "text": "Licences\nThis instructional material is made available for reuse and remixing under the Creative Commons Attribution license.\nThe Cloud-SPAN Metatranscriptomics course consists of materials derived from Galaxy Project’s Metatranscriptomics Tutorial and . This material is not endorsed by Galaxy Training. Prenomics materials are adapted from Cloud-SPAN’s Metagenomics Course\nCloud-SPAN is a part of the The UKRI Digital Research Skills Catalyst, a new national training platform built on six years of collaborative work across seven UK universities. It brings together peer-reviewed training materials covering programming, statistics, machine learning, data stewardship, and more, alongside direct one-to-one support from research software engineers and data scientists. The Catalyst Project is funded by UKRI Digital Research Infrastructure Programme from October 2024 to March 2027. Project reference: UKRI/ST/B000299/1."
   },
   {
     "objectID": "docs/miscellanea/extras/data.html#the-data",
