@@ -300,7 +300,7 @@ bin  cs_course  software
 This prints the contents of the folder called `csuser` (our home folder).
 
 :::: callout-note
-## Finding hidden directories
+## Challenge
 
 There is a hidden directory inside the `cs_course` directory. Explore the options for `ls` in the man page to find out how to see hidden directories. List the contents of the directory and identify the name of the text file in the hidden directory.
 
