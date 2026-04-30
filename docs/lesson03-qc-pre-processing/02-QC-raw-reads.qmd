@@ -321,7 +321,8 @@ You need to start a second terminal window that is ***not*** logged into the clo
 
 1.  Open your file manager and navigate to the `cloudspan` folder (which should contain the login key file)
 2.  Open your machine's command line interface:
-    -   **Windows users**: Right click anywhere inside the blank space of the file manager, then select **Git Bash Here**.
+    -   **Windows users**: Right click anywhere inside the blank space of the file manager, then select **Show more options** then **Open Git Bash Here**. 
+
     -   **Mac users**: Open **Terminal** and type `cd` followed by the absolute path that leads to your `cloudspan` folder. Press enter.\
 3.  Check that you are in the right folder using `pwd`
 :::
