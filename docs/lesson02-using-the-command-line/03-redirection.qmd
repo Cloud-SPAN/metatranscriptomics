@@ -182,7 +182,7 @@ wc -l bad_reads.txt
 ```
 
 ``` {.default filename="Output"}
-3 bad_reads.txt
+0 bad_reads.txt
 ```
 :::
 :::
