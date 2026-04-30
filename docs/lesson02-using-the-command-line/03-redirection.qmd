@@ -43,20 +43,20 @@ In this lesson, we're going to be manually searching for strings of bases within
 
 To search files we use a new command called `grep`. The name "grep" comes from an abbreviation of **g**lobal **r**egular **e**xpression **p**rint.
 
-Let's search for the string NNN in the ERR4998593_1 file:
+Let's search for the string NN in the ERR4998593_1 file:
 
 ``` {.bash filename="Code"}
-grep NNN SRR6820491_1.fastq
+grep NN SRR6820491_1.fastq
 ```
 
-This command returns quite a lot of output to the terminal. Every single line in the SRR6820491_1 file that contains at least 3 consecutive Ns is printed to the terminal, regardless of how long or short the file is.
+This command returns quite a lot of output to the terminal. Every single line in the SRR6820491_1 file that contains at least 2 consecutive Ns is printed to the terminal, regardless of how long or short the file is.
 
 We may be interested not only in the actual sequence which contains this string, but in the name (or identifier) of that sequence. Think back to the FASTQ format we discussed previously - if you need a reminder, you can click to reveal one below.
 
 ::: {.callout-caution collapse="true"}
 ## Hint
 
-![.](/images/fasta_file_format_l2.png){width="450px"}
+![.](/images/fastq_file_format.png){width="450px"}
 :::
 
 To get all of the information about each read, we will return the line immediately before each match and the two lines immediately after each match.
@@ -77,7 +77,7 @@ AAFF#JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ#JJJJJ#JJJJJJJJJJJJJ#JJJJJFJJFJJJJJJJJJJJAJJJ
 ```
 
 ::: callout-note
-## Exercise
+## Challenge
 
 1.  Search for the sequence `GGGCGCGTAGGCG` in the `SRR6820491_1.fastq` file. Have your search return all matching lines and the name (or identifier) for each sequence that contains a match. What is the output?
 
@@ -110,7 +110,7 @@ We can do this with something called "redirection". The idea is that we are taki
 
 The command for redirecting output to a file is `>`.
 
-Let's try out this command and copy all the records (including all four lines of each record) in our FASTQ files that contain 'NNN' to another file called `bad_reads.txt`. The new flag `--no-group-separator` stops grep from putting a dashed line (--) between matches. The reason this is necessary will become apparent shortly.
+Let's try out this command and copy all the records (including all four lines of each record) in our FASTQ files that contain 'NN' to another file called `bad_reads.txt`. The new flag `--no-group-separator` stops grep from putting a dashed line (--) between matches. The reason this is necessary will become apparent shortly.
 
 ``` {.bash filename="Code"}
 grep -B1 -A2 NN --no-group-separator SRR6820491_1.fastq > bad_reads.txt
@@ -139,7 +139,7 @@ wc bad_reads.txt
 ```
 
 ``` {.default filename="Output"}
-  52   78 4511 bad_reads.txt
+  208   416 19864 bad_reads.txt
 ```
 
 This will tell us the number of lines, words and characters in the file. If we want only the number of lines, we can use the `-l` flag for `lines`.
@@ -155,7 +155,7 @@ wc -l bad_reads.txt
 The `--no-group-separator` flag used above prevents grep from adding unnecessary extra lines to the file which would alter the number of lines present.
 
 ::: callout-note
-## Exercise
+## Challenge
 1.  How many sequences are there in `ERR4998593_1.fastq`? Remember that every sequence is formed by four lines.
 2.  How many sequences in `ERR4998593_1.fastq` contain at least 5 consecutive Ns?
 
@@ -197,7 +197,7 @@ wc -l bad_reads.txt
 ```
 
 ``` {.default filename="Output"}
-52 bad_reads.txt
+208 bad_reads.txt
 ```
 
 ``` {.bash filename="Code"}
@@ -221,7 +221,7 @@ wc -l bad_reads.txt
 ```
 
 ``` {.default filename="Output"}
-52 bad_reads.txt
+208 bad_reads.txt
 ```
 
 ``` {.bash filename="Code"}
@@ -230,7 +230,7 @@ wc -l bad_reads.txt
 ```
 
 ``` {.default filename="Output"}
-52 bad_reads.txt
+208 bad_reads.txt
 ```
 
 The output of our second call to `wc` shows that we have not overwritten our original data.
@@ -258,7 +258,7 @@ grep -B1 -A2 NN --no-group-separator SRR6820491_1.fastq | wc -l
 ```
 
 ``` {.default filename="Output"}
-52
+208
 ```
 
 ::: callout-note
