@@ -422,7 +422,7 @@ cookieconsent.run({
 <p>Before we start, here’s a reminder of what our file structure looks like as a hierarchy tree:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../../images/blank_instance_file_tree_with_hidden.png" class="img-fluid figure-img" alt="A file hierarchy tree." width="400"></p>
+<p><img src="../../images/blank_instance_file_tree_with_hidden.png" class="img-fluid figure-img" alt="A file hierarchy tree." width="800"></p>
 <figcaption>A file hierarchy tree.</figcaption>
 </figure>
 </div>
@@ -657,7 +657,7 @@ cookieconsent.run({
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>You might be wondering why we’re running our command from the <code>cs_course</code> directory and not the place where the data is stored (<code>~/cs_course/data/raw_reads/</code>), or where we want our outputs to end up (<code>~/cs_course/analysis/qc/</code>). The reason is that it’s <em>best practice</em> not to run commands from the same folder as your data in case you accidentally do something which would overwrite your data files. From <code>cs_course</code> we can easily “see” both our <code>data</code> and <code>results</code> directories to refer to them with local paths.</p>
+<p>You might be wondering why we’re running our command from the <code>cs_course</code> directory and not the place where the data is stored (<code>~/cs_course/data/raw_reads/</code>), or where we want our outputs to end up (<code>~/cs_course/analysis/qc/</code>). The reason is that it’s <em>best practice</em> not to run commands from the same folder as your data in case you accidentally do something which would overwrite your data files. From <code>cs_course</code> we can easily “see” both our <code>data</code> and <code>analysis</code> directories to refer to them with local paths.</p>
 <p>Over the rest of the course we will be moving all over the file tree to look at files but will always return to <code>~/cs_course</code> to run commands. We encourage you to do the same in your own work!</p>
 </div>
 </div>
@@ -672,26 +672,44 @@ cookieconsent.run({
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Started analysis of SRR6820491_1.fastq</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Approx 5% complete for SRR6820491_1.fastq</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>Approx 10% complete for SRR6820491_1.fastq</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>Approx 15% complete for SRR6820491_1.fastq</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>Approx 20% complete for SRR6820491_1.fastq</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>Approx 25% complete for SRR6820491_1.fastq</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>Approx 30% complete for SRR6820491_1.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>null</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>Started analysis of SRR6820491_1.fastq</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>Started analysis of SRR6820491_2.fastq</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>Started analysis of SRR6820516_1.fastq</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>Started analysis of SRR6820516_2.fastq</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>Approx 5% complete for SRR6820491_1.fastq</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>Approx 5% complete for SRR6820491_2.fastq</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>Approx 5% complete for SRR6820516_2.fastq</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>Approx 5% complete for SRR6820516_1.fastq</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>Approx 10% complete for SRR6820491_1.fastq</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>Approx 10% complete for SRR6820491_2.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>In total, it should take around ten minutes for FastQC to run on our fastq files (however, this will depend on the size and number of files you give it). When the analysis completes, your prompt will return. So your screen will look something like this:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Approx 75% complete for SRR6820491_2.fastq</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>Approx 80% complete for SRR6820491_2.fastq</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>Approx 85% complete for SRR6820491_2.fastq</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>Approx 90% complete for SRR6820491_2.fastq</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>Approx 95% complete for SRR6820491_2.fastq</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>Analysis complete for SRR6820491_2.fastq</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>$</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Approx 90% complete for SRR6820491_2.fastq</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>Approx 70% complete for SRR6820516_2.fastq</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>Analysis complete for SRR6820491_1.fastq</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>Approx 95% complete for SRR6820491_2.fastq</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>Approx 75% complete for SRR6820516_1.fastq</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>Approx 75% complete for SRR6820516_2.fastq</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>Analysis complete for SRR6820491_2.fastq</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>Approx 80% complete for SRR6820516_1.fastq</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>Approx 80% complete for SRR6820516_2.fastq</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>Approx 85% complete for SRR6820516_1.fastq</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>Approx 85% complete for SRR6820516_2.fastq</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>Approx 90% complete for SRR6820516_1.fastq</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>Approx 90% complete for SRR6820516_2.fastq</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>Approx 95% complete for SRR6820516_1.fastq</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>Approx 95% complete for SRR6820516_2.fastq</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>Analysis complete for SRR6820516_1.fastq</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>Analysis complete for SRR6820516_2.fastq</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>$</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="looking-at-fastqc-outputs" class="level3">
@@ -707,7 +725,8 @@ cookieconsent.run({
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>SRR6820491_1_fastqc.html  SRR6820491_1_fastqc.zip  SRR6820491_2_fastqc.html  SRR6820491_2_fastqc.zip   </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>SRR6820491_1_fastqc.html  SRR6820491_2_fastqc.html  SRR6820516_1_fastqc.html  SRR6820516_2_fastqc.html</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>SRR6820491_1_fastqc.zip   SRR6820491_2_fastqc.zip   SRR6820516_1_fastqc.zip   SRR6820516_2_fastqc.zip</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>For each input FASTQ file, FastQC has created a <code>.zip</code> file and a <code>.html</code> file. The <code>.zip</code> file extension indicates that this is actually a compressed set of multiple output files. A summary report for our data is in the the <code>.html</code> file.</p>
 <p>If we were working on our local computers, we’d be able to look at each of these HTML files by opening them in a web browser.</p>
@@ -988,28 +1007,30 @@ cookieconsent.run({
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>This is cutadapt 2.8 with Python 3.8.10</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>Command line parameters: -q 20 -a AGATCGGAAGAG -A AGATCGGAAGAG -o data/trimmed_reads/SRR6820491_1.trim.fastq -p data/trimmed_reads/SRR6820491_2.trim.fastq -m 150 -j 8 data/raw_reads/SRR6820491_1.fastq data/raw_reads/SRR6820491_2.fastq</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>Processing reads on 8 cores in paired-end mode ...</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>Finished in 70.26 s (5 us/read; 12.04 M reads/minute).</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>This is cutadapt 4.6 with Python 3.11.7</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>Command line parameters: -q 20 -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCA -A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT -o data/trimmed_reads/SRR6820491_1.trim.fastq -p data/trimmed_reads/SRR6820491_2.trim.fastq -m 150 -j 8 data/raw_reads/SRR6820491_1.fastq data/raw_reads/SRR6820491_2.fastq</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>Processing paired-end reads on 8 cores ...</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>Finished in 56.805 s (4.029 µs/read; 14.89 M reads/minute).</span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>=== Summary ===</span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>Total read pairs processed:         14,099,347</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  Read 1 with adapter:               4,874,180 (34.6%)</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  Read 2 with adapter:               4,716,762 (33.5%)</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>Pairs that were too short:           5,913,632 (41.9%)</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>Pairs written (passing filters):     8,185,715 (58.1%)</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>Total basepairs processed: 4,258,002,794 bp</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  Read 1: 2,129,001,397 bp</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>  Read 2: 2,129,001,397 bp</span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>Quality-trimmed:              46,148,219 bp (1.1%)</span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  Read 1:    11,786,248 bp</span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>  Read 2:    34,361,971 bp</span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>Total written (filtered):  2,470,608,528 bp (58.0%)</span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>  Read 1: 1,235,692,634 bp</span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>  Read 2: 1,234,915,894 bp</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  Read 1 with adapter:               4,953,166 (35.1%)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  Read 2 with adapter:               4,790,842 (34.0%)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>== Read fate breakdown ==</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>Pairs that were too short:           5,913,307 (41.9%)</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>Pairs written (passing filters):     8,186,040 (58.1%)</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>Total basepairs processed: 4,258,002,794 bp</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>  Read 1: 2,129,001,397 bp</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  Read 2: 2,129,001,397 bp</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>Quality-trimmed:              46,148,219 bp (1.1%)</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>  Read 1:    11,786,248 bp</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>  Read 2:    34,361,971 bp</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>Total written (filtered):  2,470,706,602 bp (58.0%)</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>  Read 1: 1,235,741,862 bp</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>  Read 2: 1,234,964,740 bp</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1017,7 +1038,7 @@ cookieconsent.run({
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Exercise
+<span class="screen-reader-only">Note</span>Challenge
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1026,13 +1047,13 @@ cookieconsent.run({
 <li>How many reads had adapters in the R1 reads?</li>
 <li>What total percent of reads were trimmed/filtered?</li>
 </ol>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Solution
+<span class="screen-reader-only">Caution</span>Solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1068,18 +1089,18 @@ cookieconsent.run({
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Bonus Exercise
+<span class="screen-reader-only">Note</span>Bonus Challenge
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Now that our samples have gone through quality control, they should perform better on the quality tests run by FastQC. Go ahead and re-run FastQC on your trimmed FASTQ files and visualise the HTML files to see whether your per base sequence quality is higher after trimming.</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Solution
+<span class="screen-reader-only">Caution</span>Solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
