@@ -558,14 +558,17 @@ Note
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>#mpa_vJan25_CHOCOPhlAnSGB_202503 #/home/ubuntu/.local/bin/metaphlan data/trimmed_reads/SRR6820491_merged.fastq --input_type fastq --bowtie2out analysis/metaphlan/SRR6820491_s.bowtie2.bz2 --bowtie2db data/chocophlandb/ -t rel_ab --tax_lev s -o analysis/metaphlan/SRR6820491_profile_vJan25_s.txt --nproc 8 --add_viruses --stat_q 0.1 --min_ab 0.1 </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>#16372080 reads processed </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>#SampleID Metaphlan_Analysis #clade_name NCBI_tax_id relative_abundance additional_species </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>s__Coprothermobacter_proteolyticus 35786 81.43426</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>s__Acetivibrio_thermocellus 1515 12.51698</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>s__Tepidanaerobacter_sp_GT38 2722793 5.52737</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>s__Methanothermobacter_thermautotrophicus 145262 0.50341</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>s__Escherichia_coli 562 0.01798</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>#mpa_vJun23_CHOCOPhlAnSGB_202307</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>#/home/csuser/.local/bin/metaphlan data/trimmed_reads/SRR6820491_merged.fastq --input_type fastq --bowtie2db databases/chocophlandb/ --index mpa_vJun23_CHOCOPhlAnSGB_202307 --bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2 --nproc 8 --add_viruses --tax_lev s --min_cu_len 2000 --read_min_len 70 --stat_q 0.1 --min_ab 0.1 --output_file analysis/metaphlan/metaphlan_output.txt</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>#16372080 reads processed</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>#SampleID       Metaphlan_Analysis</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>#clade_name     NCBI_tax_id     relative_abundance      additional_species</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>s__Coprothermobacter_proteolyticus      35786   78.0571</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>s__Acetivibrio_thermocellus     1515    15.07538</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>s__Tepidanaerobacter_sp_GT38    2722793 6.32141</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>s__Methanothermobacter_defluvii 49339   0.53283</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>s__Escherichia_coli     562     0.01328</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>UNCLASSIFIED    -1      0.0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
