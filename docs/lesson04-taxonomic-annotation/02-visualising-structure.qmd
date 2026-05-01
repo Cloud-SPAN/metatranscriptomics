@@ -45,13 +45,13 @@ You may notice that the sections of the pie chart are incorrectly labelled with 
 We have hidden a pre-ran Metaphlan all levels output in your data folder in a hidden directory, `data/.fullmetaphlanrun`. You can process this with Krona in the same way as before:
 
 ``` {.bash filename="Code"}
-ktImportText data/.fullmetaphlanrun/*.krona.txt -o analysis/krona_alltaxa.html
+ktImportText data/.fullmetaphlanrun/metaphlan_fulltaxaoutput.krona.txt -o analysis/krona_alltaxa.html
 ```
 
 Now you can download it from our instance to your local computer, again using `scp`:
 
 ``` {.bash filename="Code"}
-scp -i login-key-instanceXXX.pem csuser@instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona.html .
+scp -i login-key-instanceXXX.pem csuser@instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona_alltaxa.html .
 ```
 
 Once again, substituting XXX for your instance number. Again if you're struggling to get this to work, don't worry, you can find a copy of it [here](/files/krona_alltaxa.html).
