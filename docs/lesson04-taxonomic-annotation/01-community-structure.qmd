@@ -191,14 +191,17 @@ less analysis/metaphlan/metaphlan_output.txt
 ```
 
 ``` {.default filename="Output"}
-#mpa_vJan25_CHOCOPhlAnSGB_202503 #/home/ubuntu/.local/bin/metaphlan data/trimmed_reads/SRR6820491_merged.fastq --input_type fastq --bowtie2out analysis/metaphlan/SRR6820491_s.bowtie2.bz2 --bowtie2db data/chocophlandb/ -t rel_ab --tax_lev s -o analysis/metaphlan/SRR6820491_profile_vJan25_s.txt --nproc 8 --add_viruses --stat_q 0.1 --min_ab 0.1 
-#16372080 reads processed 
-#SampleID Metaphlan_Analysis #clade_name NCBI_tax_id relative_abundance additional_species 
-s__Coprothermobacter_proteolyticus 35786 81.43426
-s__Acetivibrio_thermocellus 1515 12.51698
-s__Tepidanaerobacter_sp_GT38 2722793 5.52737
-s__Methanothermobacter_thermautotrophicus 145262 0.50341
-s__Escherichia_coli 562 0.01798
+#mpa_vJun23_CHOCOPhlAnSGB_202307
+#/home/csuser/.local/bin/metaphlan data/trimmed_reads/SRR6820491_merged.fastq --input_type fastq --bowtie2db databases/chocophlandb/ --index mpa_vJun23_CHOCOPhlAnSGB_202307 --bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2 --nproc 8 --add_viruses --tax_lev s --min_cu_len 2000 --read_min_len 70 --stat_q 0.1 --min_ab 0.1 --output_file analysis/metaphlan/metaphlan_output.txt
+#16372080 reads processed
+#SampleID       Metaphlan_Analysis
+#clade_name     NCBI_tax_id     relative_abundance      additional_species
+s__Coprothermobacter_proteolyticus      35786   78.0571
+s__Acetivibrio_thermocellus     1515    15.07538
+s__Tepidanaerobacter_sp_GT38    2722793 6.32141
+s__Methanothermobacter_defluvii 49339   0.53283
+s__Escherichia_coli     562     0.01328
+UNCLASSIFIED    -1      0.0
 ```
 
 :::: callout-note
