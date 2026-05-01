@@ -49,9 +49,10 @@ cat data/trimmed_reads/SRR6820491_1.trim.fastq data/trimmed_reads/SRR6820491_2.t
 Here's what the Metaphlan command looks like:
 
 ``` {.bash filename="Code"}
-metaphlan data/trimmed_reads/SRR6820491_merged.fastq  \
+metaphlan data/trimmed_reads/SRR6820491_merged.fastq \
   --input_type fastq \
   --bowtie2db databases/chocophlandb/ \
+  --index mpa_vJun23_CHOCOPhlAnSGB_202307 \
   --bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2 \
   --nproc 8 \
   --add_viruses \
@@ -59,8 +60,8 @@ metaphlan data/trimmed_reads/SRR6820491_merged.fastq  \
   --min_cu_len 2000 \
   --read_min_len 70 \
   --stat_q 0.1 \
-  --output_file analysis/metaphlan/metaphlan_output.txt \
   --min_ab 0.1 \
+  --output_file analysis/metaphlan/metaphlan_output.txt \
   &> analysis/metaphlan/log.txt &
 ```
 
@@ -85,6 +86,8 @@ Let's build our command now.
 `--input_type fastq` tells MetaPhlan the format of our input file.
 
 `--bowtie2db databases/chocophlandb/` specifies the location of the reference marker gene database that MetaPhlAn will use for alignment.
+
+`--index mpa_vJun23_CHOCOPhlAnSGB_202307` specifies which version of the chocophlan database we want to use.
 
 `--output_file analysis/metaphlan/metaphlan_output.txt` tells the program where to write the taxonomic profile.
 
@@ -113,18 +116,20 @@ Finally,
 Now we have a better idea of what we're asking MetaPhlAn to do, let's run it. Be sure that you're in your `cs_course` directory so that the commands point to the correct input and output directories! Go ahead and run the command in your terminal:
 
 ``` {.bash filename="Code"}
-metaphlan data/trimmed_reads/SRR6820491_merged.fastq  \
---input_type fastq  --bowtie2db databases/chocophlandb/  \
---bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2  \
---nproc 8  \
---add_viruses  \
---tax_lev 's'  \
---min_cu_len 2000  \
---read_min_len 70  \
---stat_q 0.1  \
---min_ab 0.1  \
---output_file analysis/metaphlan/metaphlan_output.txt  \
-&> analysis/metaphlan/log.txt &
+metaphlan data/trimmed_reads/SRR6820491_merged.fastq \
+  --input_type fastq \
+  --bowtie2db databases/chocophlandb/ \
+  --index mpa_vJun23_CHOCOPhlAnSGB_202307 \
+  --bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2 \
+  --nproc 8 \
+  --add_viruses \
+  --tax_lev 's' \
+  --min_cu_len 2000 \
+  --read_min_len 70 \
+  --stat_q 0.1 \
+  --min_ab 0.1 \
+  --output_file analysis/metaphlan/metaphlan_output.txt \
+  &> analysis/metaphlan/log.txt &
 ```
 
 This should take about 30-45 minutes to run. It takes a while as each sequence is compared to the full database one by one! Our test data here only consists of one sample, but in your research you may be working on many many more. As such a "real" Metaphlan run may take much longer.
