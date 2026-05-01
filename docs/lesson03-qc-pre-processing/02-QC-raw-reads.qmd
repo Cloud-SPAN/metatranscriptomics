@@ -408,11 +408,11 @@ cutadapt -h
 There are many parameters here so we will just show the top of the output which explains the usage, but you should look through and familiarise yourself with the options available. Importantly it shows you what are the required parameters and also the version of the software you have used which is important to keep note of. You should always record what versions of software you have used and what parameters you ran the software with in order to make your analysis reproducible.
 
 ``` {.default filename="Output"}
-cutadapt version 3.5
+cutadapt version 4.6
 
-Copyright (C) 2010-2021 Marcel Martin <marcel.martin@scilifelab.se>
+Copyright (C) 2010 Marcel Martin <marcel.martin@scilifelab.se> and contributors
 
-cutadapt removes adapter sequences from high-throughput sequencing reads.
+Cutadapt removes adapter sequences from high-throughput sequencing reads.
 
 Usage:
     cutadapt -a ADAPTER [options] [-o output.fastq] input.fastq
