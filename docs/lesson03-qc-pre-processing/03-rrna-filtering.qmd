@@ -48,7 +48,7 @@ mkdir -p analysis/sortmerna
 We're ready to start thinking about our command! Let's have a look at the help documentation for SortMeRNA.
 
 ``` {.bash filename="Code"}
-sortmrna -h
+sortmerna -h
 ```
 
 ::: {.callout-note collapse="true"}
