@@ -40,6 +40,12 @@ First of all, ensuring we are in our `~/cs_course` directory, let's make a direc
 mkdir analysis/metaphlan
 ```
 
+Before we begin we should also merge our trimmed reads into one file, as Metaphlan will expect only one input:
+
+``` {.bash filename="Code"}
+cat data/trimmed_reads/SRR6820491_1.trim.fastq data/trimmed_reads/SRR6820491_2.trim.fastq > data/trimmed_reads/SRR6820491_merged.fastq
+```
+
 Here's what the Metaphlan command looks like:
 
 ``` {.bash filename="Code"}
