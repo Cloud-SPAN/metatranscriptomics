@@ -551,8 +551,8 @@ Use the output from your Cutadapt command to answer the following questions.
 ::: {.callout-caution collapse="true"}
 ## Solution
 
-1.  4,874,180 (34.6%)
-2.  58%
+1.  4,953,166 (35.1%)
+2.  58.1%
 :::
 ::::
 
