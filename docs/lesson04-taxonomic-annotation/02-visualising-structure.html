@@ -402,9 +402,9 @@ cookieconsent.run({
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> <span class="at">-i</span> login-key-instanceXXX.pem ubuntu@instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona.html .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> <span class="at">-i</span> login-key-instanceXXX.pem csuser@instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona.html .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>replacing XXX with your instance number. Much like cp or mv commands, this is telling the command where to copy from (<code>ubuntu@instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona.html</code>) and then where to copy to (remember, the <code>.</code> means current working directory).</p>
+<p>replacing XXX with your instance number. Much like cp or mv commands, this is telling the command where to copy from (<code>csuser@instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona.html</code>) and then where to copy to (remember, the <code>.</code> means current working directory).</p>
 <p>If you are struggling to get the download to work, don’t worry, you can access a copy of it <a href="../../files/krona.html">here</a>.</p>
 <p>You may notice that the sections of the pie chart are incorrectly labelled with abundances rather than taxa names. This is because Krona expects all levels of taxonomy when generating the chart and has misread the abundances as a label also. To see more of a “real world” example we shall now look at the output of a Metaphlan run that captured all taxonomic levels (the <code>--tax_lev</code> flag set to <code>a</code> for “all”).</p>
 <section id="generating-a-more-detailed-krona-plot" class="level4">
@@ -421,7 +421,7 @@ cookieconsent.run({
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> <span class="at">-i</span> login-key-instanceXXX.pem ubuntu@instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona.html .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> <span class="at">-i</span> login-key-instanceXXX.pem csuser@instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona.html .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Once again, substituting XXX for your instance number. Again if you’re struggling to get this to work, don’t worry, you can find a copy of it <a href="../../files/krona_alltaxa.html">here</a>.</p>
 <p>As you can see tise plot is in much greater detail than our previous one. You can click on the different sections to see summaries of the abundances at different levels, as well as double click on a section to zoom into the sub-structure that particular clade (you can use the back and forward arrows at the top left to navigate back and forward).</p>
