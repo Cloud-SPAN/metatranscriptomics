@@ -414,14 +414,14 @@ cookieconsent.run({
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ktImportText</span> data/.fullmetaphlanrun/<span class="pp">*</span>.krona.txt <span class="at">-o</span> analysis/krona_alltaxa.html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ktImportText</span> data/.fullmetaphlanrun/metaphlan_fulltaxaoutput.krona.txt <span class="at">-o</span> analysis/krona_alltaxa.html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now you can download it from our instance to your local computer, again using <code>scp</code>:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> <span class="at">-i</span> login-key-instanceXXX.pem csuser@instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona.html .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> <span class="at">-i</span> login-key-instanceXXX.pem csuser@instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona_alltaxa.html .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Once again, substituting XXX for your instance number. Again if you’re struggling to get this to work, don’t worry, you can find a copy of it <a href="../../files/krona_alltaxa.html">here</a>.</p>
 <p>As you can see tise plot is in much greater detail than our previous one. You can click on the different sections to see summaries of the abundances at different levels, as well as double click on a section to zoom into the sub-structure that particular clade (you can use the back and forward arrows at the top left to navigate back and forward).</p>
