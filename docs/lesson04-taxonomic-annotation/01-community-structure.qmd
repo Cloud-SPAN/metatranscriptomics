@@ -223,7 +223,7 @@ From the output here, try and answer these questions:
 2.  We only have species-level access in our run. Changing the `--tax_lev` flag would allow us to identify a broader set of taxa (e.g., genus, family, kingdom).
 
 3.  In our sample we identified:\
-    *Coprothermobacter proteolyticus, Acetivibrio thermocellus, Tepidanaerobacter sp. GT38, Methanothermobacter thermautotrophicus,* and *Escherichia coli*.
+    *Coprothermobacter proteolyticus, Acetivibrio thermocellus, Tepidanaerobacter sp. GT38, Methanothermobacter defluvii,* and *Escherichia coli*.
 
 4.  Trick question! Although you can manually verify each taxon, you would need to adjust the `--tax_lev` flag to show the kingdom (`k__`) level to formally confirm whether only bacteria are present.
 :::
