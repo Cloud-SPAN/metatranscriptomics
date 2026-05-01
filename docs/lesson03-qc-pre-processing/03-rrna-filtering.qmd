@@ -375,6 +375,18 @@ See [Lesson 2 - Working with Files and Directories](../lesson02-using-the-comman
 
 SortMeRNA is likely to take **about 70 minutes** to finish, so feel free to leave this running while you do something else and come back to it later. You don't need to remain connected to the instance during this time but once you have disconnected from the instance it does mean you can no longer use `jobs` to track the job.
 
+::: callout-tip
+## Processing Multiple Samples
+
+You may be wondering if we started with two samples, why are we only using the one here?
+
+All the remaining tools in our workflow (SortMeRNA, Metaphlan, Humann) function correctly only when processing one sample at a time. If you try to use more than one sample at a time it can either take much longer due to inefficient use of computational resources, or it could crash due to maxing out those resources!
+
+As such we are only going to use the one sample going forward, as running each process twice would take too long for a single course. 
+
+If in your work you have multiple samples you need to process then you can create a bash loop script to automate processing batches of them at a time, without having to manually input commands for every single one! A good tutorial on how to do this can be found [here](https://swcarpentry.github.io/shell-novice/05-loop.html).
+:::
+
 ### Determining if SortMeRNA has finished
 
 After leaving it for an hour or so, SortMeRNA should have finished running.
@@ -415,5 +427,13 @@ The main files of interest for us are:
 -   `SRR6820491_rrna.fq` our sorted rRNA (although we won't need this for our particular workflow)
 
 -   `SRR6820491_rrna.log` `SRR6820491_sortmerna.log` our log files (only needed for troubeshooting)
+
+We do not need the remaining intermediate files later on in our pipeline, and so can delete them to free up space.
+
+``` {.bash filename="Code"}
+rm -r analysis/sortmerna/readb/
+rm -r analysis/sortmerna/kvdb/
+rm -r analysis/sortmerna/idx
+```
 
 Now we have fully prepared our data for use in the remainder of our workflow, we can proceed to Taxonomic Annotation!
