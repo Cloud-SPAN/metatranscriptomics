@@ -225,8 +225,8 @@ From the output here, try and answer these questions:
 3.  In our sample we identified:\
     *Coprothermobacter proteolyticus, Acetivibrio thermocellus, Tepidanaerobacter sp. GT38, Methanothermobacter defluvii,* and *Escherichia coli*.
 
-4.  Trick question! Although you can manually verify each taxon, you would need to adjust the `--tax_lev` flag to show the kingdom (`k__`) level to formally confirm whether only bacteria are present.
+4.  Trick question! Although you can manually verify each taxon, you would need to adjust the `--tax_lev` flag to show the kingdom (`k__`) level to formally confirm whether only bacteria are present. With only the species (`s__`) level shown we cannot see if there's fungal or archaeal reads that have been identified but only resolved down to a higher taxonomic level (for example phyla or family)
 :::
 ::::
 
-Whilst it is possible to interpret information from this table alone, it is far easier to try to do so from visualised data. In the next episode we shall be using Krona and Graphlan to generate visualisations of Metaphlan's output.
+Whilst it is possible to interpret information from this table alone, it is far easier to try to do so from visualised data. In the next episode we shall be using Krona to generate visualisations of Metaphlan's output.
