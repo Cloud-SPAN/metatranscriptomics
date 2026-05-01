@@ -514,18 +514,20 @@ less analysis/cutadapt/SRR6820491_fastq.log
 ```
 
 ``` {.default filename="Output"}
-This is cutadapt 2.8 with Python 3.8.10
-Command line parameters: -q 20 -a AGATCGGAAGAG -A AGATCGGAAGAG -o data/trimmed_reads/SRR6820491_1.trim.fastq -p data/trimmed_reads/SRR6820491_2.trim.fastq -m 150 -j 8 data/raw_reads/SRR6820491_1.fastq data/raw_reads/SRR6820491_2.fastq
-Processing reads on 8 cores in paired-end mode ...
-Finished in 70.26 s (5 us/read; 12.04 M reads/minute).
+This is cutadapt 4.6 with Python 3.11.7
+Command line parameters: -q 20 -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCA -A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT -o data/trimmed_reads/SRR6820491_1.trim.fastq -p data/trimmed_reads/SRR6820491_2.trim.fastq -m 150 -j 8 data/raw_reads/SRR6820491_1.fastq data/raw_reads/SRR6820491_2.fastq
+Processing paired-end reads on 8 cores ...
+Finished in 56.805 s (4.029 µs/read; 14.89 M reads/minute).
 
 === Summary ===
 
 Total read pairs processed:         14,099,347
-  Read 1 with adapter:               4,874,180 (34.6%)
-  Read 2 with adapter:               4,716,762 (33.5%)
-Pairs that were too short:           5,913,632 (41.9%)
-Pairs written (passing filters):     8,185,715 (58.1%)
+  Read 1 with adapter:               4,953,166 (35.1%)
+  Read 2 with adapter:               4,790,842 (34.0%)
+
+== Read fate breakdown ==
+Pairs that were too short:           5,913,307 (41.9%)
+Pairs written (passing filters):     8,186,040 (58.1%)
 
 Total basepairs processed: 4,258,002,794 bp
   Read 1: 2,129,001,397 bp
@@ -533,9 +535,9 @@ Total basepairs processed: 4,258,002,794 bp
 Quality-trimmed:              46,148,219 bp (1.1%)
   Read 1:    11,786,248 bp
   Read 2:    34,361,971 bp
-Total written (filtered):  2,470,608,528 bp (58.0%)
-  Read 1: 1,235,692,634 bp
-  Read 2: 1,234,915,894 bp
+Total written (filtered):  2,470,706,602 bp (58.0%)
+  Read 1: 1,235,741,862 bp
+  Read 2: 1,234,964,740 bp
 ```
 
 :::: callout-note
