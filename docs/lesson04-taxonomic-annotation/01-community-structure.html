@@ -360,7 +360,8 @@ cookieconsent.run({
   <li><a href="#taxonomic-profiling" id="toc-taxonomic-profiling" class="nav-link active" data-scroll-target="#taxonomic-profiling">Taxonomic Profiling</a>
   <ul class="collapse">
   <li><a href="#what-is-metaphlan" id="toc-what-is-metaphlan" class="nav-link" data-scroll-target="#what-is-metaphlan">What is Metaphlan?</a></li>
-  <li><a href="#running-metaphlan" id="toc-running-metaphlan" class="nav-link" data-scroll-target="#running-metaphlan">Running Metaphlan</a></li>
+  <li><a href="#metaphlan-inputs" id="toc-metaphlan-inputs" class="nav-link" data-scroll-target="#metaphlan-inputs">MetaPhlAn inputs</a></li>
+  <li><a href="#running-metaphlan" id="toc-running-metaphlan" class="nav-link" data-scroll-target="#running-metaphlan">Running MetaPhlAn</a></li>
   </ul></li>
   <li><a href="#a-note-on-analysing-community-data-from-metatranscriptomes" id="toc-a-note-on-analysing-community-data-from-metatranscriptomes" class="nav-link" data-scroll-target="#a-note-on-analysing-community-data-from-metatranscriptomes">A note on analysing community data from Metatranscriptomes</a></li>
   <li><a href="#interpreting-the-metaphlan-output" id="toc-interpreting-the-metaphlan-output" class="nav-link" data-scroll-target="#interpreting-the-metaphlan-output">Interpreting the Metaphlan output</a></li>
@@ -385,32 +386,49 @@ cookieconsent.run({
 <li><p>Using gene alignment software to assign taxonomy to reads by aligning them to marker genes from curated databases.</p></li>
 </ul>
 <p>In this tutorial we shall be following the second of the approaches detailed above. In the <a href="../../docs/lesson03-qc-pre-processing/03-rrna-filtering.html">previous lesson</a> we filtered our samples to separate out rRNA and mRNA sequences, however for our taxonomic analysis we shall be using our unfiltered data.</p>
-<p>We shall be using a tool called MetaPhlan, which aligns sequences with reference genomes in order to estimate which taxon those sequences originate from. Because rRNA is often used as a taxonomic marker, we will want to use our unfiltered data. The filtered data will be used instead for our functional analysis next lesson.</p>
+<p>We shall be using a tool called MetaPhlAn, which aligns sequences with reference genomes in order to estimate which taxon those sequences originate from. Because rRNA is often used as a taxonomic marker, we will want to use our unfiltered data. The filtered data will be used instead for our functional analysis next lesson.</p>
 <p>(For more on different methodologies see the <a href="../../docs/lesson03-qc-pre-processing/01-introduction-meta.html">introduction to lesson 3</a>).</p>
 <section id="what-is-metaphlan" class="level3">
 <h3 class="anchored" data-anchor-id="what-is-metaphlan">What is Metaphlan?</h3>
-<p>MetaPhlan (Metagenomic Phylogenetic Analysis) is one tool from the Biobakery suite of software, which all have bakery related names. Whilst this is a fun naming convention it can be somewhat confusing as to what each tool does! You may see many different tools mentioned in the literature but possibly be unclear on what they do. Here’s a rundown of the tools relevant to this section of the course.</p>
-<p>MetaPhlAn is a tool for profiling microbial communities in metagenomic samples by identifying the species present and their relative abundances. Instead of analyzing full genomes, MetaPhlAn targets unique marker genes specific to each species, making it faster and computationally lighter than other approaches. We will be using MetaPhlan 4, the fourth iteration of the programme.</p>
-<p>MetaPhlan uses another tool called Bowtie2, which is a tool for aligning reads against long reference sequences. Bowtie2 excels at aligning sequences of between 50-100 bp in length, perfect for our purposes.</p>
-<p>You may have also seen “Chocophlan” listed among the Biobakery tools too. Unlike metaphlan, this is not actually a programme, but a database! Chocophlan serves as a pangenome reference database configured specifically to work with other biobakery tools. In effect this is a massive list of genes, their sequences, and their most likely organism of origin.</p>
-<p>And so, MetaPhlan uses bowtie2 to map sequenced reads to the Chocophlan database of marker genes, determining species by the proportion of aligned reads. This approach allows researchers to quickly study microbiome composition without having to perform separate sequencing to determine taxonomy.</p>
+<p>MetaPhlAn (Metagenomic Phylogenetic Analysis) is one tool from the Biobakery suite of software, which all have bakery related names. Whilst this is a fun naming convention it can be somewhat confusing as to what each tool does! You may see many different tools mentioned in the literature but possibly be unclear on what they do. Here’s a rundown of the tools relevant to this section of the course.</p>
+<p>MetaPhlAn is a tool for profiling microbial communities in metagenomic samples by identifying the species present and their relative abundances. Instead of analyzing full genomes, MetaPhlAn targets unique marker genes specific to each species, making it faster and computationally lighter than other approaches. We will be using MetaPhlAn 4, the fourth iteration of the programme.</p>
+<p>MetaPhlAn uses another tool called Bowtie2, which is a tool for aligning reads against long reference sequences. Bowtie2 excels at aligning sequences of between 50-100 bp in length, perfect for our purposes.</p>
+<p>You may have also seen “Chocophlan” listed among the Biobakery tools too. Unlike MetaPhlAn, this is not actually a programme, but a database! Chocophlan serves as a pangenome reference database configured specifically to work with other biobakery tools. In effect this is a massive list of genes, their sequences, and their most likely organism of origin.</p>
+<p>And so, MetaPhlAn uses bowtie2 to map sequenced reads to the Chocophlan database of marker genes, determining species by the proportion of aligned reads. This approach allows researchers to quickly study microbiome composition without having to perform separate sequencing to determine taxonomy.</p>
 <p>Humann is a tool used for functional annotation, which we shall explore next lesson.</p>
 </section>
+<section id="metaphlan-inputs" class="level3">
+<h3 class="anchored" data-anchor-id="metaphlan-inputs">MetaPhlAn inputs</h3>
+<p>We will run MetaPhlAn on trimmed paired-end reads for each sample. MetaPhlAn4 does not actually use paired-end information during alignment but will instead treat each read independently when mapping against its marker gene database. However, by using both the forward (R1) and reverse (R2) trimmed read files for each sample we increase the total number of reads available for classification, improving both species detection sensitivity and the stability of relative abundance estimates. This means we will need to concatenate the R1 and R2 files into one file because MetaPhlAn needs a single input file.</p>
+</section>
 <section id="running-metaphlan" class="level3">
-<h3 class="anchored" data-anchor-id="running-metaphlan">Running Metaphlan</h3>
-<p>First of all, ensuring we are in our <code>~/cs_course</code> directory, let’s make a directory to store all of our Metaphlan outputs:</p>
+<h3 class="anchored" data-anchor-id="running-metaphlan">Running MetaPhlAn</h3>
+<p>First of all, ensuring we are in our <code>~/cs_course</code> directory, let’s make a directory to store all of our MetaPhlAn outputs:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> analysis/metaphlan</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Before we begin we should also merge our trimmed reads into one file, as Metaphlan will expect only one input:</p>
+<p>Concatenate our R1 and R2 trimmed reads into one file:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> data/trimmed_reads/SRR6820491_1.trim.fastq data/trimmed_reads/SRR6820491_2.trim.fastq <span class="op">&gt;</span> data/trimmed_reads/SRR6820491_merged.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>cat file1 file2</code> concatenates (joins) the contents of two files in sequence, printing <code>file1</code> first, then <code>file2</code> immediately after. <code>&gt; output_file</code> redirects that combined output into a new file instead of printing it to the screen.</p>
+</div>
 </div>
 <p>Here’s what the Metaphlan command looks like:</p>
 <div class="code-with-filename">
@@ -432,13 +450,13 @@ cookieconsent.run({
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output_file</span> analysis/metaphlan/metaphlan_output.txt <span class="dt">\</span></span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="op">&amp;&gt;</span> analysis/metaphlan/log.txt <span class="kw">&amp;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -500,13 +518,13 @@ Note
 <p>Because Metaphlan quantifies species abundance based on the number of reads that match species-specific marker genes it may seem sensible to assume a higher abundance of reads means a higher abundances of individuals or genomes of that species, but this is not necessarily true.</p>
 <p>When analysing metagenomic DNA data it is safe to assume each genome corresponds to a single copy of a given marker gene (assuming that gene appears once within the genome). However, for metatranscriptomic RNA data that same assumption cannot be made as markers may be transcribed more or less than the average transcription rate for that species. This means the abundance Metaphlan calculates may be greater or smaller than that species’ contribution to the overall transcript pool.</p>
 <p>In effect we are observing a measure of the marker gene transcript pool (not the overall transcript pool of all expressed genes), and this should be taken into account when analysing the outputs of Metaphlan. Remember it is always important to consider how our data is linked to biological reality!</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Why are we only searching at the species level?
+<span class="screen-reader-only">Tip</span>Why are we only searching at the species level?
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -588,7 +606,7 @@ Note
 <li><p>Can you tell if only bacteria have been identified in our sample?</p></li>
 </ol>
 <div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -597,7 +615,7 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ol type="1">
 <li><p>Our output has 5 lines, meaning we have 5 taxons identified.</p></li>
