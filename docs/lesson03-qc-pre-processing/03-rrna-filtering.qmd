@@ -51,7 +51,7 @@ We're ready to start thinking about our command! Let's have a look at the help d
 sortmerna -h
 ```
 
-::: {.callout-note collapse="true"}
+::: {.callout-caution collapse="true"}
 ## Output --- SortMeRNA seq help documentation
 
 ``` {.default filename="Output"}
