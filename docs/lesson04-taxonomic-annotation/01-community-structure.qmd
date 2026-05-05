@@ -74,8 +74,9 @@ metaphlan data/trimmed_reads/SRR6820491_merged.fastq \
   &> analysis/metaphlan/log.txt &
 ```
 
-::: callout-tip
-Note: if you want to re-run MetaPhlan you'll have to delete the original outputs
+::: callout-important
+## Running MetaPhlAn a second time
+Before running MetaPhlAn a second time, you will need to delete all the outputs from the first run with: `rm -r metaphlan
 :::
 
 It may look like there's a lot of complicated parts to this command, but we can break it down piece by piece to understand exactly what we are about to run. Remember, most programmes have a manual or help section that can be accessed by using the '-h' flag. Let's bring it up now.
