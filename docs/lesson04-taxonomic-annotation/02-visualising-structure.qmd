@@ -59,6 +59,7 @@ Once again, substituting XXX for your instance number. Again if you're strugglin
 As you can see tise plot is in much greater detail than our previous one. You can click on the different sections to see summaries of the abundances at different levels, as well as double click on a section to zoom into the sub-structure that particular clade (you can use the back and forward arrows at the top left to navigate back and forward).
 
 :::: callout-note
+## Challenge
 From the interactive Krona figure, try and answer these questions:
 
 1.  What are the % abundances of the Coprothermobacterota and Firmicutes phyla respectively?

@@ -205,6 +205,7 @@ UNCLASSIFIED    -1      0.0
 ```
 
 :::: callout-note
+## Challenge
 From the output here, try and answer these questions:
 
 1.  How many taxons have been identified?

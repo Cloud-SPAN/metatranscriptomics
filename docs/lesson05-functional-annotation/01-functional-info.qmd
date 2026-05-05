@@ -273,6 +273,7 @@ UniRef90_A0A127SFT5 54088.4634226876
 Gene family abundance is reported in RPK (reads per kilobase), a measure which normalises for gene length to reflect the actual copy number in the community. Gene families are reported in order of abundance from most abundant to least. The "UNMAPPED" reads are reads which remain unidentified after both the nucleotide and the translated protein alignment steps. It treats all unmapped reads as a gene of size 1 kilobase for calculating the RPK.
 
 :::: callout-note
+## Challenge
 Have a look at the output above and try and answer these questions:
 
 1.  What is the most abundant gene family?
@@ -363,6 +364,7 @@ UniRef90_R0JKC3 0.0148976
 You'll note the abundances are now relative (in %) rather than absolute RPKs. This will allow us to more reliably compare the gene expressions in our sample to other studies.
 
 :::: callout-note
+## Challenge
 Have a look at the normalised gene families file.
 
 1.  What percentage of sequences do not have an assigned gene family?
@@ -415,6 +417,7 @@ From this table:
 -   The gene family row shows the individual UniRef90 genes and their abundances.
 
 :::: callout-note
+## Challenge
 1.  Which gene family contributes to the most abundant pathway with an associated family in this sample?
 
 ::: {.callout-caution collapse="true"}
@@ -457,6 +460,7 @@ less analysis/humann/SRR6820491_mrna_go_renamed.tsv
 ```
 
 :::: callout-note
+## Challenge
 From our GO Terms outputs:
 
 1.  Which of the GO terms is least abundant?
