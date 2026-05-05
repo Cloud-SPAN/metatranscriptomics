@@ -111,7 +111,7 @@ FastQC has been installed on your instance. We can run it with the `-h` flag to 
 fastqc -h
 ```
 
-::: {.callout-note collapse="true"}
+::: {.callout-caution collapse="true"}
 ## Output --- FastQC seq help documentation
 
 ``` {.default filename="Output"}
@@ -471,7 +471,7 @@ By default, Cutadapt will print updates on its progress to the console (like we 
 
 We'll therefore add an instruction to the end of the command telling Cutadapt to 'redirect' its console output to a file. The way to do this is `&> <filepath>`. This will ensure we keep a good record of what we've been doing. Be careful though! If you have an error in your command you'll have to look inside the log to find out what the error is, as it won't get printed to the console like it usually would.
 
-::: callout-note
+::: callout-tip
 ## Multi-line commands
 
 This command is quite long! When typing a long command into your terminal, you can use the `\` character to separate code chunks onto separate lines. This can make your code more readable.
@@ -492,7 +492,7 @@ cutadapt -q 20 \
           &> analysis/cutadapt/SRR6820491_fastq.log
 ```
 
-::: callout-note
+::: callout-tip
 ## Reminder: pasting in the command line
 
 The adapter sequences we provide are very long, so you may want to copy and paste these sequences from this page into your command. However, you cannot paste in the shell using <kbd>Ctrl</kbd> + <kbd>V</kbd> like you can usually. Instead you have two options:
