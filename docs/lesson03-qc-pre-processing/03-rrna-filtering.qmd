@@ -256,7 +256,7 @@ Commands can also be run in the "background" so the prompt is returned before th
 
 SortMeRNA can take a while to run, which is why we're going to take advantage of this.
 
-::: callout-warning
+::: callout-important
 ## Warning
 
 If you run a job in the foreground it will stop as soon as you log out of the instance! This could cause a problem if you momentarily have unstable internet or your computer runs out of battery. Running long commands in the background means you are protected from these circumstances **and** means you can do other things in the terminal in the meantime.
