@@ -38,7 +38,7 @@ To get started, follow the directions in the "Precourse Instructions" tab to get
 
 ## Data
 
-::: callout-note
+::: callout-tip
 ## About the data used in the course
 
 This course uses data from the Galaxy Training Network tutorial on metatranscriptomics, which utilizes a dataset hosted on Zenodo ([Kunath et al., 2018, ISME J](https://academic.oup.com/ismej/article/13/3/603/7475213)). The dataset comes from a time-series analysis of a microbial community inside a bioreactor. For the purposes of this course, we focus on a single time point (the first) and one biological replicate (replicate A). The data consist of paired-end RNA-Seq sequences in FastQ format, representing the expressed functional potential of the microbial community.
