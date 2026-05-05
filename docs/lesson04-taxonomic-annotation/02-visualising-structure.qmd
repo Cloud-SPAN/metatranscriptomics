@@ -26,7 +26,7 @@ ktImportText analysis/metaphlan/metaphlan.krona.txt -o analysis/krona.html
 
 This will also only take a short few moments to process.
 
-Once it has ran you should be able to see `krona.html` in your `analysis/` directory. Unfortunately we cannot view html files using the command line, and so we shall instead have to download it to your local computer.
+Once the command has completed you should be able to see `krona.html` in your `analysis/` directory. Unfortunately we cannot view html files using the command line, and so we shall instead have to download it to your local computer.
 
 First, open up gitbash in your CloudSPAN folder. Then we shall use the "secure copy" or `scp` function to download the file from your instance using this command:
 
