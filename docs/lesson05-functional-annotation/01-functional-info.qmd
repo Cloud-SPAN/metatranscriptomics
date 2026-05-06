@@ -474,7 +474,7 @@ From our GO Terms outputs:
 :::
 ::::
 
-::: callout-note
+::: callout-tip
 ## Another note on interpreting an isolated Metatranscriptome
 
 When analysing our RNA reads from a metatranscriptomics dataset by itself there is a crucial confounding factor we must consider.
