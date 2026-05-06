@@ -233,7 +233,7 @@ For space-saving and efficiency we are also using the UniRef90 EC filtered datab
 
 This command will take up to a few hours to run, but hopefully you managed to run it at the end of last session!
 
-::: callout-note
+::: callout-tip
 The UniRef databases can be extremely large, with over 100GB being standard. Our instances are not quite large enough to accommodate the full size database we would usually need. This is because for costing purposes only we're working on slightly smaller instances for this course. It is entirely possible to expand the disk space of an AWS instance, and during your own analyses we recommend about 1TB of storage (or more if you are processing more than \~20 samples).
 :::
 
