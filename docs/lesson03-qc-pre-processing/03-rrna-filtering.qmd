@@ -330,8 +330,7 @@ The `[1]` is the job number. If you need to stop the job running, you can use `k
 We can also look at the log file we generated to store the command's terminal outputs. Using `less` we can navigate through this file.
 
 ``` {.bash filename="Code"}
-cd analysis/sortmerna
-less SRR6820491_sortmerna.log
+less analysis/sortmerna/SRR6820491_sortmerna.log
 ```
 
 The contents of the file will depend on how far through the process SortMeRNA is. At the start of an assembly you'll probably see something like this:
@@ -399,11 +398,10 @@ If you remained connected to the instance during the process you will be able to
 
 This message won't be displayed if you disconnected from the instance for whatever reason during the assembly process. However, you can still examine the log file in the `sortmrna` directory. If the assembly has finished the log file will have a similar message.
 
-Move to the `sortmerna` directory and use `less` to examine the contents of the log file:
+Let's use `less` to examine the contents of the log file:
 
 ``` {.bash filename="Code"}
-cd ~/cs_course/analysis/sortmerna/
-less SRR6820491_sortmerna.log
+less analysis/sortmerna/SRR6820491_sortmerna.log
 ```
 
 Navigate to the end of the file using <kbd>G</kbd>. You should see something like:
