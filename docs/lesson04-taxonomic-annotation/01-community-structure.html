@@ -470,44 +470,135 @@ Tip
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">metaphlan</span> <span class="at">-h</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Output</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>usage: metaphlan --input_type {fastq,fasta,bowtie2out,sam} [--force]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                 [--bowtie2db METAPHLAN_BOWTIE2_DB] [-x INDEX]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                 [--bt2_ps BowTie2 presets] [--bowtie2_exe BOWTIE2_EXE]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                 [--bowtie2_build BOWTIE2_BUILD] [--bowtie2out FILE_NAME]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                 [--min_mapq_val MIN_MAPQ_VAL] [--no_map] [--tmp_dir]</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                 [--tax_lev TAXONOMIC_LEVEL] [--min_cu_len]</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                 [--min_alignment_len] [--add_viruses] [--ignore_eukaryotes]</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                 [--ignore_bacteria] [--ignore_archaea] [--ignore_ksgbs]</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                 [--ignore_usgbs] [--stat_q] [--perc_nonzero]</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                 [--ignore_markers IGNORE_MARKERS] [--avoid_disqm] [--stat]</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                 [-t ANALYSIS TYPE] [--nreads NUMBER_OF_READS]</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                 [--pres_th PRESENCE_THRESHOLD] [--clade] [--min_ab]</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                 [--profile_vsc] [--vsc_out VSC_OUT]</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>                 [--vsc_breadth VSC_BREADTH] [-o output file]</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>                 [--sample_id_key name] [--use_group_representative]</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>                 [--sample_id value] [-s sam_output_file] [--legacy-output]</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>                 [--CAMI_format_output] [--unclassified_estimation] [--mpa3]</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>                 [--biom biom_output] [--mdelim mdelim] [--nproc N]</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>                 [--subsampling SUBSAMPLING]</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>                 [--subsampling_output SUBSAMPLING_OUTPUT]</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>                 [--subsampling_paired SUBSAMPLING_PAIRED] [-1 FORWARD_READS]</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>                 [-2 REVERSE_READS] [--mapping_subsampling]</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>                 [--subsampling_seed SUBSAMPLING_SEED] [--install] [--offline]</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>                 [--force_download] [--read_min_len READ_MIN_LEN] [-v] [-h]</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>                 [INPUT_FILE] [OUTPUT_FILE]</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>DESCRIPTION</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a> MetaPhlAn version 4.1.1 (11 Mar 2024):</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a> METAgenomic PHyLogenetic ANalysis for metagenomic taxonomic profiling.</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>AUTHORS: Aitor Blanco-Miguez (aitor.blancomiguez@unitn.it), Francesco Beghini (francesco.beghini@unitn.it), Moreno Zolfo (moreno.zolfo@unitn.it), Nicola Segata (nicola.segata@unitn.it), Duy Tin Truong, Francesco Asnicar (f.asnicar@unitn.it), Claudia Mengoni (claudia.mengoni@unitn.it)</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p>There are many possible input arguments for metaphlan, which can seem overwhelming at first. However, there’s no need to know them all! We only need to use those which are relevant to our analysis.</p>
 <p>Referring to the manual can be useful to toggle different settings on and off, for example changing the flag of <code>tax_lev</code> from <code>s</code> to <code>g</code> will change the taxonomic level we’re searching at from species to genus.</p>
 <p>Let’s build our command now.</p>
-<p><code>data/trimmed_reads/SRR6820491_merged.fastq</code> specifies our input file containing our trimmed reads. We use this rather than our sorted mRNA from sortmeRNA as MetaPhlan identifies species based on a wide range of marker genes, some of which may be filtered out by sortmeRNA (such as species-specific ribosomal genes).</p>
-<p><code>--input_type fastq</code> tells MetaPhlan the format of our input file.</p>
-<p><code>--bowtie2db databases/chocophlandb/</code> specifies the location of the reference marker gene database that MetaPhlAn will use for alignment.</p>
-<p><code>--index mpa_vJun23_CHOCOPhlAnSGB_202307</code> specifies which version of the chocophlan database we want to use.</p>
-<p><code>--output_file analysis/metaphlan/metaphlan_output.txt</code> tells the program where to write the taxonomic profile.</p>
-<p>We will also include a few additional arguments.</p>
-<p><code>--bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2</code> saves the intermediate Bowtie2 alignment output.</p>
-<p><code>--nproc 8</code> tells the program to use all 8 CPU cores of our instance.</p>
-<p><code>--add_viruses</code> allows viral marker genes to be included in the taxonomic profiling.</p>
-<p><code>--tax_lev 's'</code> tells MetaPhlAn to report results at the species level.</p>
-<p><code>--min_cu_len 2000</code> sets the minimum total nucleotide length for clade-specific markers.</p>
-<p><code>--read_min_len 70</code> ensures that only reads of at least 70 bp are analysed.</p>
-<p><code>--stat_q 0.1</code> sets the statistical quantile used for robust average abundance estimation.</p>
-<p><code>--min_ab 0.1</code> specifies that only clades with at least 0.1% relative abundance will be reported.</p>
-<p>Finally,</p>
-<p><code>&amp;&gt; analysis/metaphlan/log.txt &amp;</code> redirects all terminal output to a log file and runs the process in the background.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>flag/option</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>data/trimmed_reads/SRR6820491_merged.fastq</code></td>
+<td>specifies our input file containing our trimmed reads. We use this rather than our sorted mRNA from sortmeRNA as MetaPhlan identifies species based on a wide range of marker genes, some of which may be filtered out by sortmeRNA (such as species-specific ribosomal genes).</td>
+</tr>
+<tr class="even">
+<td><code>--input_type fastq</code></td>
+<td>tells MetaPhlan the format of our input file.</td>
+</tr>
+<tr class="odd">
+<td><code>--bowtie2db databases/chocophlandb/</code></td>
+<td>specifies the location of the reference marker gene database that MetaPhlAn will use for alignment.</td>
+</tr>
+<tr class="even">
+<td><code>--index mpa_vJun23_CHOCOPhlAnSGB_202307</code></td>
+<td>specifies which version of the chocophlan database we want to use.</td>
+</tr>
+<tr class="odd">
+<td><code>--output_file analysis/metaphlan/metaphlan_output.txt</code></td>
+<td>tells the program where to write the taxonomic profile.</td>
+</tr>
+<tr class="even">
+<td><code>--bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2</code></td>
+<td>saves the intermediate Bowtie2 alignment output.</td>
+</tr>
+<tr class="odd">
+<td><code>--nproc 8</code></td>
+<td>tells the program to use all 8 CPU cores of our instance.</td>
+</tr>
+<tr class="even">
+<td><code>--add_viruses</code></td>
+<td>allows viral marker genes to be included in the taxonomic profiling.</td>
+</tr>
+<tr class="odd">
+<td><code>--tax_lev 's'</code></td>
+<td>tells MetaPhlAn to report results at the species level.</td>
+</tr>
+<tr class="even">
+<td><code>--min_cu_len 2000</code></td>
+<td>sets the minimum total nucleotide length for clade-specific markers.</td>
+</tr>
+<tr class="odd">
+<td><code>--read_min_len 70</code></td>
+<td>ensures that only reads of at least 70 bp are analysed.</td>
+</tr>
+<tr class="even">
+<td><code>--stat_q 0.1</code></td>
+<td>sets the statistical quantile used for robust average abundance estimation.</td>
+</tr>
+<tr class="odd">
+<td><code>--min_ab 0.1</code></td>
+<td>specifies that only clades with at least 0.1% relative abundance will be reported.</td>
+</tr>
+<tr class="even">
+<td><code>&amp;&gt; analysis/metaphlan/log.txt &amp;</code></td>
+<td>redirects all terminal output to a log file and runs the process in the background.</td>
+</tr>
+</tbody>
+</table>
 <p>Now we have a better idea of what we’re asking MetaPhlAn to do, let’s run it. Be sure that you’re in your <code>cs_course</code> directory so that the commands point to the correct input and output directories! Go ahead and run the command in your terminal:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">metaphlan</span> data/trimmed_reads/SRR6820491_merged.fastq <span class="dt">\</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--input_type</span> fastq <span class="dt">\</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--bowtie2db</span> databases/chocophlandb/ <span class="dt">\</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--index</span> mpa_vJun23_CHOCOPhlAnSGB_202307 <span class="dt">\</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--bowtie2out</span> analysis/metaphlan/metaphlan_bowtie2.bz2 <span class="dt">\</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--nproc</span> 8 <span class="dt">\</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--add_viruses</span> <span class="dt">\</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--tax_lev</span> <span class="st">'s'</span> <span class="dt">\</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">--min_cu_len</span> 2000 <span class="dt">\</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">--read_min_len</span> 70 <span class="dt">\</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">--stat_q</span> 0.1 <span class="dt">\</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">--min_ab</span> 0.1 <span class="dt">\</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output_file</span> analysis/metaphlan/metaphlan_output.txt <span class="dt">\</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="op">&amp;&gt;</span> analysis/metaphlan/log.txt <span class="kw">&amp;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">metaphlan</span> data/trimmed_reads/SRR6820491_merged.fastq <span class="dt">\</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--input_type</span> fastq <span class="dt">\</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--bowtie2db</span> databases/chocophlandb/ <span class="dt">\</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--index</span> mpa_vJun23_CHOCOPhlAnSGB_202307 <span class="dt">\</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--bowtie2out</span> analysis/metaphlan/metaphlan_bowtie2.bz2 <span class="dt">\</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--nproc</span> 8 <span class="dt">\</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--add_viruses</span> <span class="dt">\</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--tax_lev</span> <span class="st">'s'</span> <span class="dt">\</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">--min_cu_len</span> 2000 <span class="dt">\</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">--read_min_len</span> 70 <span class="dt">\</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">--stat_q</span> 0.1 <span class="dt">\</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">--min_ab</span> 0.1 <span class="dt">\</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output_file</span> analysis/metaphlan/metaphlan_output.txt <span class="dt">\</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="op">&amp;&gt;</span> analysis/metaphlan/log.txt <span class="kw">&amp;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This should take about 30-45 minutes to run. It takes a while as each sequence is compared to the full database one by one! Our test data here only consists of one sample, but in your research you may be working on many many more. As such a “real” Metaphlan run may take much longer.</p>
 </section>
@@ -570,23 +661,23 @@ Tip
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> analysis/metaphlan/metaphlan_output.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> analysis/metaphlan/metaphlan_output.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Output</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>#mpa_vJun23_CHOCOPhlAnSGB_202307</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>#/home/csuser/.local/bin/metaphlan data/trimmed_reads/SRR6820491_merged.fastq --input_type fastq --bowtie2db databases/chocophlandb/ --index mpa_vJun23_CHOCOPhlAnSGB_202307 --bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2 --nproc 8 --add_viruses --tax_lev s --min_cu_len 2000 --read_min_len 70 --stat_q 0.1 --min_ab 0.1 --output_file analysis/metaphlan/metaphlan_output.txt</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>#16372080 reads processed</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>#SampleID       Metaphlan_Analysis</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>#clade_name     NCBI_tax_id     relative_abundance      additional_species</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>s__Coprothermobacter_proteolyticus      35786   78.0571</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>s__Acetivibrio_thermocellus     1515    15.07538</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>s__Tepidanaerobacter_sp_GT38    2722793 6.32141</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>s__Methanothermobacter_defluvii 49339   0.53283</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>s__Escherichia_coli     562     0.01328</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>UNCLASSIFIED    -1      0.0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>#mpa_vJun23_CHOCOPhlAnSGB_202307</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>#/home/csuser/.local/bin/metaphlan data/trimmed_reads/SRR6820491_merged.fastq --input_type fastq --bowtie2db databases/chocophlandb/ --index mpa_vJun23_CHOCOPhlAnSGB_202307 --bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2 --nproc 8 --add_viruses --tax_lev s --min_cu_len 2000 --read_min_len 70 --stat_q 0.1 --min_ab 0.1 --output_file analysis/metaphlan/metaphlan_output.txt</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>#16372080 reads processed</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>#SampleID       Metaphlan_Analysis</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>#clade_name     NCBI_tax_id     relative_abundance      additional_species</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>s__Coprothermobacter_proteolyticus      35786   78.0571</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>s__Acetivibrio_thermocellus     1515    15.07538</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>s__Tepidanaerobacter_sp_GT38    2722793 6.32141</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>s__Methanothermobacter_defluvii 49339   0.53283</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>s__Escherichia_coli     562     0.01328</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>UNCLASSIFIED    -1      0.0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
