@@ -731,8 +731,7 @@ The analyses in this lesson will take several hours to complete! You can find so
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> analysis/sortmerna</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> SRR6820491_sortmerna.log</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> analysis/sortmerna/SRR6820491_sortmerna.log</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The contents of the file will depend on how far through the process SortMeRNA is. At the start of an assembly you’ll probably see something like this:</p>
 <div class="code-with-filename">
@@ -831,13 +830,12 @@ The analyses in this lesson will take several hours to complete! You can find so
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12" data-filename="Output"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>[1]+  Done      sortmerna --ref databases/sortmerna_databases/smr_v4.3_default_db.fasta --reads data/trimmed_reads/SRR6820491_1.trim.fastq --reads data/trimmed_reads/SRR6820491_2.trim.fastq --workdir analysis/sortmerna --aligned analysis/sortmerna/SRR6820491_rrna --other analysis/sortmerna/SRR6820491_mrna --threads 8 --fastx --paired-out &amp;&gt; analysis/sortmerna/SRR6820491_sortmerna.log &amp;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This message won’t be displayed if you disconnected from the instance for whatever reason during the assembly process. However, you can still examine the log file in the <code>sortmrna</code> directory. If the assembly has finished the log file will have a similar message.</p>
-<p>Move to the <code>sortmerna</code> directory and use <code>less</code> to examine the contents of the log file:</p>
+<p>Let’s use <code>less</code> to examine the contents of the log file:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Code</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/cs_course/analysis/sortmerna/</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> SRR6820491_sortmerna.log</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13" data-filename="Code"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> analysis/sortmerna/SRR6820491_sortmerna.log</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Navigate to the end of the file using <kbd>G</kbd>. You should see something like:</p>
 <div class="code-with-filename">
