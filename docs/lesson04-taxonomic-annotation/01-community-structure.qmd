@@ -85,43 +85,63 @@ It may look like there's a lot of complicated parts to this command, but we can 
 metaphlan -h
 ```
 
+``` {.default filename="Output"}
+usage: metaphlan --input_type {fastq,fasta,bowtie2out,sam} [--force]
+                 [--bowtie2db METAPHLAN_BOWTIE2_DB] [-x INDEX]
+                 [--bt2_ps BowTie2 presets] [--bowtie2_exe BOWTIE2_EXE]
+                 [--bowtie2_build BOWTIE2_BUILD] [--bowtie2out FILE_NAME]
+                 [--min_mapq_val MIN_MAPQ_VAL] [--no_map] [--tmp_dir]
+                 [--tax_lev TAXONOMIC_LEVEL] [--min_cu_len]
+                 [--min_alignment_len] [--add_viruses] [--ignore_eukaryotes]
+                 [--ignore_bacteria] [--ignore_archaea] [--ignore_ksgbs]
+                 [--ignore_usgbs] [--stat_q] [--perc_nonzero]
+                 [--ignore_markers IGNORE_MARKERS] [--avoid_disqm] [--stat]
+                 [-t ANALYSIS TYPE] [--nreads NUMBER_OF_READS]
+                 [--pres_th PRESENCE_THRESHOLD] [--clade] [--min_ab]
+                 [--profile_vsc] [--vsc_out VSC_OUT]
+                 [--vsc_breadth VSC_BREADTH] [-o output file]
+                 [--sample_id_key name] [--use_group_representative]
+                 [--sample_id value] [-s sam_output_file] [--legacy-output]
+                 [--CAMI_format_output] [--unclassified_estimation] [--mpa3]
+                 [--biom biom_output] [--mdelim mdelim] [--nproc N]
+                 [--subsampling SUBSAMPLING]
+                 [--subsampling_output SUBSAMPLING_OUTPUT]
+                 [--subsampling_paired SUBSAMPLING_PAIRED] [-1 FORWARD_READS]
+                 [-2 REVERSE_READS] [--mapping_subsampling]
+                 [--subsampling_seed SUBSAMPLING_SEED] [--install] [--offline]
+                 [--force_download] [--read_min_len READ_MIN_LEN] [-v] [-h]
+                 [INPUT_FILE] [OUTPUT_FILE]
+
+DESCRIPTION
+ MetaPhlAn version 4.1.1 (11 Mar 2024):
+ METAgenomic PHyLogenetic ANalysis for metagenomic taxonomic profiling.
+
+AUTHORS: Aitor Blanco-Miguez (aitor.blancomiguez@unitn.it), Francesco Beghini (francesco.beghini@unitn.it), Moreno Zolfo (moreno.zolfo@unitn.it), Nicola Segata (nicola.segata@unitn.it), Duy Tin Truong, Francesco Asnicar (f.asnicar@unitn.it), Claudia Mengoni (claudia.mengoni@unitn.it)
+...
+```
+
 There are many possible input arguments for metaphlan, which can seem overwhelming at first. However, there's no need to know them all! We only need to use those which are relevant to our analysis.
 
 Referring to the manual can be useful to toggle different settings on and off, for example changing the flag of `tax_lev` from `s` to `g` will change the taxonomic level we're searching at from species to genus.
 
 Let's build our command now.
 
-`data/trimmed_reads/SRR6820491_merged.fastq` specifies our input file containing our trimmed reads. We use this rather than our sorted mRNA from sortmeRNA as MetaPhlan identifies species based on a wide range of marker genes, some of which may be filtered out by sortmeRNA (such as species-specific ribosomal genes).
-
-`--input_type fastq` tells MetaPhlan the format of our input file.
-
-`--bowtie2db databases/chocophlandb/` specifies the location of the reference marker gene database that MetaPhlAn will use for alignment.
-
-`--index mpa_vJun23_CHOCOPhlAnSGB_202307` specifies which version of the chocophlan database we want to use.
-
-`--output_file analysis/metaphlan/metaphlan_output.txt` tells the program where to write the taxonomic profile.
-
-We will also include a few additional arguments.
-
-`--bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2` saves the intermediate Bowtie2 alignment output.
-
-`--nproc 8` tells the program to use all 8 CPU cores of our instance.
-
-`--add_viruses` allows viral marker genes to be included in the taxonomic profiling.
-
-`--tax_lev 's'` tells MetaPhlAn to report results at the species level.
-
-`--min_cu_len 2000` sets the minimum total nucleotide length for clade-specific markers.
-
-`--read_min_len 70` ensures that only reads of at least 70 bp are analysed.
-
-`--stat_q 0.1` sets the statistical quantile used for robust average abundance estimation.
-
-`--min_ab 0.1` specifies that only clades with at least 0.1% relative abundance will be reported.
-
-Finally,
-
-`&> analysis/metaphlan/log.txt &` redirects all terminal output to a log file and runs the process in the background.
+| flag/option | meaning |
+|------------------------------------|------------------------------------|
+| `data/trimmed_reads/SRR6820491_merged.fastq` | specifies our input file containing our trimmed reads. We use this rather than our sorted mRNA from sortmeRNA as MetaPhlan identifies species based on a wide range of marker genes, some of which may be filtered out by sortmeRNA (such as species-specific ribosomal genes). |
+| `--input_type fastq` | tells MetaPhlan the format of our input file. |
+| `--bowtie2db databases/chocophlandb/` | specifies the location of the reference marker gene database that MetaPhlAn will use for alignment. |
+| `--index mpa_vJun23_CHOCOPhlAnSGB_202307` | specifies which version of the chocophlan database we want to use. |
+| `--output_file analysis/metaphlan/metaphlan_output.txt` | tells the program where to write the taxonomic profile. |
+| `--bowtie2out analysis/metaphlan/metaphlan_bowtie2.bz2` | saves the intermediate Bowtie2 alignment output. |
+| `--nproc 8` | tells the program to use all 8 CPU cores of our instance. |
+| `--add_viruses` | allows viral marker genes to be included in the taxonomic profiling. |
+| `--tax_lev 's'` | tells MetaPhlAn to report results at the species level. |
+| `--min_cu_len 2000` | sets the minimum total nucleotide length for clade-specific markers. |
+| `--read_min_len 70` | ensures that only reads of at least 70 bp are analysed. |
+| `--stat_q 0.1` | sets the statistical quantile used for robust average abundance estimation. |
+| `--min_ab 0.1` | specifies that only clades with at least 0.1% relative abundance will be reported. |
+| `&> analysis/metaphlan/log.txt &` | redirects all terminal output to a log file and runs the process in the background. |
 
 Now we have a better idea of what we're asking MetaPhlAn to do, let's run it. Be sure that you're in your `cs_course` directory so that the commands point to the correct input and output directories! Go ahead and run the command in your terminal:
 
