@@ -242,6 +242,10 @@ The UniRef databases can be extremely large, with over 100GB being standard. Our
 We can check that Humann has ran correctly by checking the log like so:
 
 ``` {.bash filename="Code"}
+less analysis/humann/log.txt
+```
+
+``` {.default filename="Output"}
 Output files will be written to: /home/csuser/cs_course/analysis/humann
 Removing spaces from identifiers in input file ...
 
