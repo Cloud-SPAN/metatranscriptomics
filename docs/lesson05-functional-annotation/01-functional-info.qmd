@@ -405,7 +405,7 @@ We shall not be using this file today, but this gives a qualitative measure that
 
 #### Log file
 
-Finally, our log file should have captured all the terminal messages Humann prints during its run. It's worth checking to see if the run has ran smoothly. If it has you should see the following at the end:
+Finally, our log file should have captured all the terminal messages Humann prints during its run. It's worth checking to see if the run has ran smoothly. As we checked before, if it has you should see the following at the end:
 
 ``` {.default filename="Output"}
 Output files created: /home/ubuntu/cs_course/analysis/humann/SRR6820491_mrna_genefamilies.tsv /home/ubuntu/cs_course/analysis/humann/SRR6820491_mrna_pathabundance.tsv /home/ubuntu/cs_course/analysis/humann/SRR6820491_mrna_pathcoverage.tsv
