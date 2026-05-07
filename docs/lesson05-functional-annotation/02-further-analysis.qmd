@@ -1,0 +1,141 @@
+---
+title: "Downstream analysis of taxonomic and functional profiles"
+---
+
+## Overview
+
+After running MetaPhlAn and HUMAnN you will have two main outputs:
+
+-   a **taxonomic profile** describing which organisms are present in each sample
+-   a **functional profile** describing the genes and metabolic pathways detected in the community
+
+You may be thinking: "well, now what?!"
+
+These outputs can be used to answer a huge range of biological and ecological questions.
+
+For example:
+
+-   Do microbial communities differ between sample groups?
+-   Which taxa are associated with disease or treatment?
+-   Which metabolic pathways are enriched in a particular environment?
+-   Which organisms contribute to specific biological functions?
+
+Because metatranscriptomic data sets are so information rich they can also become difficult to analyse without clear hypotheses and experimental design work before the data is collected. Without good experimental design the data will not be informative, and so clear planning is essential.
+
+Experimental methods tend to be similar within fields, so do look at the literature to see which approaches work best for your type of data.
+
+If we walked through every possible downstream analysis for this kind of data it would take many many more sessions, and perhaps only a subsection of these analyses may be relevant to your work. Instead, in this episode we introduce some common downstream analyses that can be performed using taxonomic and functional profiles.
+
+::: callout-tip
+The explanations below are brief and do not go into technical detail, instead only just touches on which kinds of experiment the analyses are appropriate for.
+
+Each section has links out to other tutorials you may find useful!
+
+In addition to these check out the [UKRI Digital Research Skills Catalyst](https://digitalskillscatalyst.ac.uk/) for more learning resources!
+:::
+
+## Functional pathway analysis
+
+In the previous episode we focused on Humann-based pathway profiling as the main approach for describing microbial function in shotgun metagenomics. That method is widely used because it produces standardised pathway tables that can be compared across samples and studies.
+
+However, Humann is only one way of estimating functional potential, and in practice there are several alternative approaches depending on the type of data you have and the question you are asking.
+
+One common alternative is predicting function from 16S or amplicon data rather than shotgun sequencing. Tools like `PICRUSt2` estimate gene families and pathways by mapping observed taxa onto reference genomes. This is useful when only marker-gene data are available, although it should be treated as an inference of potential function rather than a direct measurement.
+
+Once functional profiles have been generated, statistical comparison and visualisation are often done using tools such as `STAMP`. These are commonly used to test whether pathways differ between conditions and to produce interpretable effect size plots for reporting.
+
+-   [PICRUSt2](https://github.com/picrust/picrust2/wiki)
+-   [STAMP](https://beikolab.cs.dal.ca/software/STAMP)
+
+## Linking taxonomy and function
+
+Earlier we used HUMAnN stratified outputs to link pathways to contributing organisms. This remains one of the most direct ways to connect “who is present” with “what they are doing” in a microbial community.
+
+More recently, this idea is often extended using multivariate integration approaches, where taxonomy and function are analysed together rather than sequentially. Tools like `mixOmics` allow joint analysis of taxonomic, functional, and metadata tables to identify coordinated patterns across datasets.
+
+-   [mixOmics](https://mixomics.org)
+
+## Community diversity
+
+Community diversity analysis is often used as an initial exploratory step in microbiome studies. These approaches are useful when the aim is to compare overall community structure between sample groups, such as healthy and diseased individuals, treated and untreated samples, or different environments.
+
+Alpha diversity measures diversity within individual samples, while beta diversity compares differences between samples or groups of samples. These analyses can help identify whether communities become more or less diverse under particular conditions, or whether samples cluster according to experimental variables.
+
+Common tools for diversity analysis include `phyloseq` and `vegan` in R.
+
+-   [phyloseq basics](https://joey711.github.io/phyloseq/)
+-   [Introduction to vegan](https://vegandevs.github.io/vegan/articles/intro-vegan.html)
+
+## Ordination and visualisation
+
+Ordination methods are used to visualise patterns in high-dimensional microbiome data. These approaches are particularly useful for exploratory analysis, where the goal is to identify clustering, gradients, or outlier samples.
+
+Methods such as PCA, PCoA, and NMDS reduce complex abundance tables into a small number of dimensions that can be plotted. Ordination plots are often coloured by metadata variables such as treatment group, sampling site, or timepoint to assess whether samples separate according to experimental conditions.
+
+Ordination is commonly performed using `phyloseq`, `vegan`, and `ggplot2`.
+
+-   [Ordination with phyloseq](https://joey711.github.io/phyloseq/plot_ordination-examples.html)
+-   [Ordination tutorial](https://ourcodingclub.github.io/tutorials/ordination/)
+
+## Differential abundance analysis
+
+Differential abundance analysis is used to identify taxa or pathways that differ significantly between groups of samples. This is commonly used in case-control studies, treatment experiments, or environmental comparisons where the goal is to identify specific organisms or functions associated with a condition.
+
+These approaches typically involve fitting statistical models to abundance data and testing for significant differences between groups. The results can be used to identify candidate biomarkers, pathways associated with disease, or microbial responses to environmental change.
+
+Commonly used tools include `MaAsLin2`, `ANCOM-BC`, and `ALDEx2`.
+
+-   [MaAsLin2 tutorial](https://huttenhower.sph.harvard.edu/maaslin/)
+-   [ANCOM-BC tutorial](https://bioconductor.org/packages/release/bioc/vignettes/ANCOMBC/inst/doc/ANCOMBC.html)
+
+## Correlation and network analysis
+
+Correlation and network analyses are used to investigate relationships between taxa or pathways across samples. These approaches are commonly used in ecological studies where the goal is to explore potential interactions within microbial communities.
+
+Correlated taxa may represent organisms that co-occur under similar environmental conditions, while negative correlations may suggest exclusion or competition. The resulting relationships are often visualised as networks.
+
+Tools commonly used for these analyses include `SparCC`, `CoNet`, and `Cytoscape`.
+
+-   [SparCC repository](https://github.com/biocore/sparcc)
+-   [CoNet for Cytoscape](https://apps.cytoscape.org/apps/conet)
+
+## Machine learning approaches
+
+Machine learning approaches are commonly used for classification and prediction tasks. These analyses are useful when the aim is to determine whether microbiome profiles can predict experimental or clinical variables such as disease status, treatment response, or environmental conditions.
+
+These methods can also be used to identify taxa or pathways that contribute strongly to classification accuracy, making them useful for biomarker discovery.
+
+Common tools include `SIAMCAT` and `scikit-learn`.
+
+-   [SIAMCAT tutorial](https://siamcat.embl.de/articles/SIAMCAT_intro.html)
+-   [scikit-learn tutorial](https://scikit-learn.org/stable/tutorial/index.html)
+
+## Longitudinal analysis
+
+Longitudinal analyses are used when samples are collected repeatedly over time. These approaches are useful for studying temporal dynamics, such as microbiome recovery after treatment, community stability, or developmental changes.
+
+Because repeated measurements are collected from the same subjects or environments, specialised statistical approaches are often required to account for non-independence between samples.
+
+-   [QIIME2 longitudinal tutorial](https://docs.qiime2.org/2024.10/tutorials/longitudinal/)
+-   [MaAsLin2 documentation](https://huttenhower.sph.harvard.edu/maaslin/)
+
+## Association with metadata
+
+Metadata association analyses are used to investigate relationships between microbial profiles and experimental or environmental variables such as diet, age, treatment, or environmental measurements.
+
+These approaches are commonly used to identify variables associated with changes in community composition or functional potential, while accounting for potential confounding factors.
+
+Common tools include `MaAsLin2` and `vegan`.
+
+-   [MaAsLin2 tutorial](https://huttenhower.sph.harvard.edu/maaslin/)
+-   [Introduction to vegan](https://vegandevs.github.io/vegan/articles/intro-vegan.html)
+
+## Summary
+
+After generating taxonomic and functional profiles with MetaPhlAn and HUMAnN, a range of downstream analyses can be used to investigate microbial community structure, functional potential, ecological interactions, and associations with experimental variables.
+
+The choice of analysis depends on the biological question being asked and the experimental design of the study, there is no single “correct” analysis pipeline. Instead, the choice of methods depends on the biological question, the study design, and the type of data available. In practice, most studies combine several complementary approaches to build a consistent interpretation of the data.
+
+If in doubt, consult your Community of Practice, be that your lab group, other scientists in your field, or perhaps the Cloud-SPAN community on our Slack!
+
+Good luck!
