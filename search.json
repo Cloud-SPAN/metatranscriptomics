@@ -170,77 +170,132 @@
     "href": "docs/lesson05-functional-annotation/02-further-analysis.html#overview",
     "title": "Downstream analysis of taxonomic and functional profiles",
     "section": "Overview",
-    "text": "Overview\nAfter running MetaPhlAn and HUMAnN you will have two main outputs:\n\na taxonomic profile describing which organisms are present in each sample\na functional profile describing the genes and metabolic pathways detected in the community\n\nYou may be thinking: “well, now what?!”\nThese outputs can be used to answer a huge range of biological and ecological questions.\nFor example:\n\nDo microbial communities differ between sample groups?\nWhich taxa are associated with disease or treatment?\nWhich metabolic pathways are enriched in a particular environment?\nWhich organisms contribute to specific biological functions?\n\nBecause metatranscriptomic data sets are so information rich they can also become difficult to analyse without clear hypotheses and experimental design work before the data is collected. Without good experimental design the data will not be informative, and so clear planning is essential.\nExperimental methods tend to be similar within fields, so do look at the literature to see which approaches work best for your type of data.\nIf we walked through every possible downstream analysis for this kind of data it would take many many more sessions, and perhaps only a subsection of these analyses may be relevant to your work. Instead, in this episode we introduce some common downstream analyses that can be performed using taxonomic and functional profiles.\n\n\n\n\n\n\nTip\n\n\n\nThe explanations below are brief and do not go into technical detail, instead only just touches on which kinds of experiment the analyses are appropriate for.\nEach section has links out to other tutorials you may find useful!\nIn addition to these check out the UKRI Digital Research Skills Catalyst for more learning resources!"
+    "text": "Overview\nAfter running MetaPhlAn and HUMAnN you will have two main outputs:\n\na taxonomic profile describing which organisms are present in each sample\na functional profile describing the genes and metabolic pathways detected in the community\n\nYou may be thinking: “well, now what?!”\nThese outputs can be used to answer a huge range of biological and ecological questions.\nFor example:\n\nDo microbial communities differ between sample groups?\nWhich taxa are associated with disease or treatment?\nWhich metabolic pathways are enriched in a particular environment?\nWhich organisms contribute to specific biological functions?\n\nBecause metatranscriptomic data sets are so information rich they can also become difficult to analyse without clear hypotheses and experimental design work before the data is collected. Without good experimental design the data will not be informative, and so clear planning is essential.\nExperimental methods tend to be similar within fields, so do look at the literature to see which approaches work best for your type of data.\nIf we walked through every possible downstream analysis for this kind of data it would take many many more sessions, and perhaps only a subsection of these analyses may be relevant to your work. Instead, in this episode we introduce some common downstream analyses that can be performed using taxonomic and functional profiles.\n\n\n\n\n\n\nTip\n\n\n\nThe explanations below are brief and do not go into technical detail, instead only just touches on which kinds of experiment the analyses are appropriate for.\nEach section has links out to other tutorials you may find useful!\nIn addition to these check out the UKRI Digital Research Skills Catalyst for more learning resources!",
+    "crumbs": [
+      "Home",
+      "Functional Annotation",
+      "Downstream analysis of taxonomic and functional profiles"
+    ]
   },
   {
     "objectID": "docs/lesson05-functional-annotation/02-further-analysis.html#functional-pathway-analysis",
     "href": "docs/lesson05-functional-annotation/02-further-analysis.html#functional-pathway-analysis",
     "title": "Downstream analysis of taxonomic and functional profiles",
     "section": "Functional pathway analysis",
-    "text": "Functional pathway analysis\nIn the previous episode we focused on Humann-based pathway profiling as the main approach for describing microbial function in shotgun metagenomics. That method is widely used because it produces standardised pathway tables that can be compared across samples and studies.\nHowever, Humann is only one way of estimating functional potential, and in practice there are several alternative approaches depending on the type of data you have and the question you are asking.\nOne common alternative is predicting function from 16S or amplicon data rather than shotgun sequencing. Tools like PICRUSt2 estimate gene families and pathways by mapping observed taxa onto reference genomes. This is useful when only marker-gene data are available, although it should be treated as an inference of potential function rather than a direct measurement.\nOnce functional profiles have been generated, statistical comparison and visualisation are often done using tools such as STAMP. These are commonly used to test whether pathways differ between conditions and to produce interpretable effect size plots for reporting.\n\nPICRUSt2\nSTAMP"
+    "text": "Functional pathway analysis\nIn the previous episode we focused on Humann-based pathway profiling as the main approach for describing microbial function in shotgun metagenomics. That method is widely used because it produces standardised pathway tables that can be compared across samples and studies.\nHowever, Humann is only one way of estimating functional potential, and in practice there are several alternative approaches depending on the type of data you have and the question you are asking.\nOne common alternative is predicting function from 16S or amplicon data rather than shotgun sequencing. Tools like PICRUSt2 estimate gene families and pathways by mapping observed taxa onto reference genomes. This is useful when only marker-gene data are available, although it should be treated as an inference of potential function rather than a direct measurement.\nOnce functional profiles have been generated, statistical comparison and visualisation are often done using tools such as STAMP. These are commonly used to test whether pathways differ between conditions and to produce interpretable effect size plots for reporting.\n\nPICRUSt2\nSTAMP",
+    "crumbs": [
+      "Home",
+      "Functional Annotation",
+      "Downstream analysis of taxonomic and functional profiles"
+    ]
   },
   {
     "objectID": "docs/lesson05-functional-annotation/02-further-analysis.html#linking-taxonomy-and-function",
     "href": "docs/lesson05-functional-annotation/02-further-analysis.html#linking-taxonomy-and-function",
     "title": "Downstream analysis of taxonomic and functional profiles",
     "section": "Linking taxonomy and function",
-    "text": "Linking taxonomy and function\nEarlier we used HUMAnN stratified outputs to link pathways to contributing organisms. This remains one of the most direct ways to connect “who is present” with “what they are doing” in a microbial community.\nMore recently, this idea is often extended using multivariate integration approaches, where taxonomy and function are analysed together rather than sequentially. Tools like mixOmics allow joint analysis of taxonomic, functional, and metadata tables to identify coordinated patterns across datasets.\n\nmixOmics"
+    "text": "Linking taxonomy and function\nEarlier we used HUMAnN stratified outputs to link pathways to contributing organisms. This remains one of the most direct ways to connect “who is present” with “what they are doing” in a microbial community.\nMore recently, this idea is often extended using multivariate integration approaches, where taxonomy and function are analysed together rather than sequentially. Tools like mixOmics allow joint analysis of taxonomic, functional, and metadata tables to identify coordinated patterns across datasets.\n\nmixOmics",
+    "crumbs": [
+      "Home",
+      "Functional Annotation",
+      "Downstream analysis of taxonomic and functional profiles"
+    ]
   },
   {
     "objectID": "docs/lesson05-functional-annotation/02-further-analysis.html#community-diversity",
     "href": "docs/lesson05-functional-annotation/02-further-analysis.html#community-diversity",
     "title": "Downstream analysis of taxonomic and functional profiles",
     "section": "Community diversity",
-    "text": "Community diversity\nCommunity diversity analysis is often used as an initial exploratory step in microbiome studies. These approaches are useful when the aim is to compare overall community structure between sample groups, such as healthy and diseased individuals, treated and untreated samples, or different environments.\nAlpha diversity measures diversity within individual samples, while beta diversity compares differences between samples or groups of samples. These analyses can help identify whether communities become more or less diverse under particular conditions, or whether samples cluster according to experimental variables.\nCommon tools for diversity analysis include phyloseq and vegan in R.\n\nphyloseq basics\nIntroduction to vegan"
+    "text": "Community diversity\nCommunity diversity analysis is often used as an initial exploratory step in microbiome studies. These approaches are useful when the aim is to compare overall community structure between sample groups, such as healthy and diseased individuals, treated and untreated samples, or different environments.\nAlpha diversity measures diversity within individual samples, while beta diversity compares differences between samples or groups of samples. These analyses can help identify whether communities become more or less diverse under particular conditions, or whether samples cluster according to experimental variables.\nCommon tools for diversity analysis include phyloseq and vegan in R.\n\nphyloseq basics\nIntroduction to vegan",
+    "crumbs": [
+      "Home",
+      "Functional Annotation",
+      "Downstream analysis of taxonomic and functional profiles"
+    ]
   },
   {
     "objectID": "docs/lesson05-functional-annotation/02-further-analysis.html#ordination-and-visualisation",
     "href": "docs/lesson05-functional-annotation/02-further-analysis.html#ordination-and-visualisation",
     "title": "Downstream analysis of taxonomic and functional profiles",
     "section": "Ordination and visualisation",
-    "text": "Ordination and visualisation\nOrdination methods are used to visualise patterns in high-dimensional microbiome data. These approaches are particularly useful for exploratory analysis, where the goal is to identify clustering, gradients, or outlier samples.\nMethods such as PCA, PCoA, and NMDS reduce complex abundance tables into a small number of dimensions that can be plotted. Ordination plots are often coloured by metadata variables such as treatment group, sampling site, or timepoint to assess whether samples separate according to experimental conditions.\nOrdination is commonly performed using phyloseq, vegan, and ggplot2.\n\nOrdination with phyloseq\nOrdination tutorial"
+    "text": "Ordination and visualisation\nOrdination methods are used to visualise patterns in high-dimensional microbiome data. These approaches are particularly useful for exploratory analysis, where the goal is to identify clustering, gradients, or outlier samples.\nMethods such as PCA, PCoA, and NMDS reduce complex abundance tables into a small number of dimensions that can be plotted. Ordination plots are often coloured by metadata variables such as treatment group, sampling site, or timepoint to assess whether samples separate according to experimental conditions.\nOrdination is commonly performed using phyloseq, vegan, and ggplot2.\n\nOrdination with phyloseq\nOrdination tutorial",
+    "crumbs": [
+      "Home",
+      "Functional Annotation",
+      "Downstream analysis of taxonomic and functional profiles"
+    ]
   },
   {
     "objectID": "docs/lesson05-functional-annotation/02-further-analysis.html#differential-abundance-analysis",
     "href": "docs/lesson05-functional-annotation/02-further-analysis.html#differential-abundance-analysis",
     "title": "Downstream analysis of taxonomic and functional profiles",
     "section": "Differential abundance analysis",
-    "text": "Differential abundance analysis\nDifferential abundance analysis is used to identify taxa or pathways that differ significantly between groups of samples. This is commonly used in case-control studies, treatment experiments, or environmental comparisons where the goal is to identify specific organisms or functions associated with a condition.\nThese approaches typically involve fitting statistical models to abundance data and testing for significant differences between groups. The results can be used to identify candidate biomarkers, pathways associated with disease, or microbial responses to environmental change.\nCommonly used tools include MaAsLin2, ANCOM-BC, and ALDEx2.\n\nMaAsLin2 tutorial\nANCOM-BC tutorial"
+    "text": "Differential abundance analysis\nDifferential abundance analysis is used to identify taxa or pathways that differ significantly between groups of samples. This is commonly used in case-control studies, treatment experiments, or environmental comparisons where the goal is to identify specific organisms or functions associated with a condition.\nThese approaches typically involve fitting statistical models to abundance data and testing for significant differences between groups. The results can be used to identify candidate biomarkers, pathways associated with disease, or microbial responses to environmental change.\nCommonly used tools include MaAsLin2, ANCOM-BC, and ALDEx2.\n\nMaAsLin2 tutorial\nANCOM-BC tutorial",
+    "crumbs": [
+      "Home",
+      "Functional Annotation",
+      "Downstream analysis of taxonomic and functional profiles"
+    ]
   },
   {
     "objectID": "docs/lesson05-functional-annotation/02-further-analysis.html#correlation-and-network-analysis",
     "href": "docs/lesson05-functional-annotation/02-further-analysis.html#correlation-and-network-analysis",
     "title": "Downstream analysis of taxonomic and functional profiles",
     "section": "Correlation and network analysis",
-    "text": "Correlation and network analysis\nCorrelation and network analyses are used to investigate relationships between taxa or pathways across samples. These approaches are commonly used in ecological studies where the goal is to explore potential interactions within microbial communities.\nCorrelated taxa may represent organisms that co-occur under similar environmental conditions, while negative correlations may suggest exclusion or competition. The resulting relationships are often visualised as networks.\nTools commonly used for these analyses include SparCC, CoNet, and Cytoscape.\n\nSparCC repository\nCoNet for Cytoscape"
+    "text": "Correlation and network analysis\nCorrelation and network analyses are used to investigate relationships between taxa or pathways across samples. These approaches are commonly used in ecological studies where the goal is to explore potential interactions within microbial communities.\nCorrelated taxa may represent organisms that co-occur under similar environmental conditions, while negative correlations may suggest exclusion or competition. The resulting relationships are often visualised as networks.\nTools commonly used for these analyses include SparCC, CoNet, and Cytoscape.\n\nSparCC repository\nCoNet for Cytoscape",
+    "crumbs": [
+      "Home",
+      "Functional Annotation",
+      "Downstream analysis of taxonomic and functional profiles"
+    ]
   },
   {
     "objectID": "docs/lesson05-functional-annotation/02-further-analysis.html#machine-learning-approaches",
     "href": "docs/lesson05-functional-annotation/02-further-analysis.html#machine-learning-approaches",
     "title": "Downstream analysis of taxonomic and functional profiles",
     "section": "Machine learning approaches",
-    "text": "Machine learning approaches\nMachine learning approaches are commonly used for classification and prediction tasks. These analyses are useful when the aim is to determine whether microbiome profiles can predict experimental or clinical variables such as disease status, treatment response, or environmental conditions.\nThese methods can also be used to identify taxa or pathways that contribute strongly to classification accuracy, making them useful for biomarker discovery.\nCommon tools include SIAMCAT and scikit-learn.\n\nSIAMCAT tutorial\nscikit-learn tutorial"
+    "text": "Machine learning approaches\nMachine learning approaches are commonly used for classification and prediction tasks. These analyses are useful when the aim is to determine whether microbiome profiles can predict experimental or clinical variables such as disease status, treatment response, or environmental conditions.\nThese methods can also be used to identify taxa or pathways that contribute strongly to classification accuracy, making them useful for biomarker discovery.\nCommon tools include SIAMCAT and scikit-learn.\n\nSIAMCAT tutorial\nscikit-learn tutorial",
+    "crumbs": [
+      "Home",
+      "Functional Annotation",
+      "Downstream analysis of taxonomic and functional profiles"
+    ]
   },
   {
     "objectID": "docs/lesson05-functional-annotation/02-further-analysis.html#longitudinal-analysis",
     "href": "docs/lesson05-functional-annotation/02-further-analysis.html#longitudinal-analysis",
     "title": "Downstream analysis of taxonomic and functional profiles",
     "section": "Longitudinal analysis",
-    "text": "Longitudinal analysis\nLongitudinal analyses are used when samples are collected repeatedly over time. These approaches are useful for studying temporal dynamics, such as microbiome recovery after treatment, community stability, or developmental changes.\nBecause repeated measurements are collected from the same subjects or environments, specialised statistical approaches are often required to account for non-independence between samples.\n\nQIIME2 longitudinal tutorial\nMaAsLin2 documentation"
+    "text": "Longitudinal analysis\nLongitudinal analyses are used when samples are collected repeatedly over time. These approaches are useful for studying temporal dynamics, such as microbiome recovery after treatment, community stability, or developmental changes.\nBecause repeated measurements are collected from the same subjects or environments, specialised statistical approaches are often required to account for non-independence between samples.\n\nQIIME2 longitudinal tutorial\nMaAsLin2 documentation",
+    "crumbs": [
+      "Home",
+      "Functional Annotation",
+      "Downstream analysis of taxonomic and functional profiles"
+    ]
   },
   {
     "objectID": "docs/lesson05-functional-annotation/02-further-analysis.html#association-with-metadata",
     "href": "docs/lesson05-functional-annotation/02-further-analysis.html#association-with-metadata",
     "title": "Downstream analysis of taxonomic and functional profiles",
     "section": "Association with metadata",
-    "text": "Association with metadata\nMetadata association analyses are used to investigate relationships between microbial profiles and experimental or environmental variables such as diet, age, treatment, or environmental measurements.\nThese approaches are commonly used to identify variables associated with changes in community composition or functional potential, while accounting for potential confounding factors.\nCommon tools include MaAsLin2 and vegan.\n\nMaAsLin2 tutorial\nIntroduction to vegan"
+    "text": "Association with metadata\nMetadata association analyses are used to investigate relationships between microbial profiles and experimental or environmental variables such as diet, age, treatment, or environmental measurements.\nThese approaches are commonly used to identify variables associated with changes in community composition or functional potential, while accounting for potential confounding factors.\nCommon tools include MaAsLin2 and vegan.\n\nMaAsLin2 tutorial\nIntroduction to vegan",
+    "crumbs": [
+      "Home",
+      "Functional Annotation",
+      "Downstream analysis of taxonomic and functional profiles"
+    ]
   },
   {
     "objectID": "docs/lesson05-functional-annotation/02-further-analysis.html#summary",
     "href": "docs/lesson05-functional-annotation/02-further-analysis.html#summary",
     "title": "Downstream analysis of taxonomic and functional profiles",
     "section": "Summary",
-    "text": "Summary\nAfter generating taxonomic and functional profiles with MetaPhlAn and HUMAnN, a range of downstream analyses can be used to investigate microbial community structure, functional potential, ecological interactions, and associations with experimental variables.\nThe choice of analysis depends on the biological question being asked and the experimental design of the study, there is no single “correct” analysis pipeline. Instead, the choice of methods depends on the biological question, the study design, and the type of data available. In practice, most studies combine several complementary approaches to build a consistent interpretation of the data.\nIf in doubt, consult your Community of Practice, be that your lab group, other scientists in your field, or perhaps the Cloud-SPAN community on our Slack!\nGood luck!"
+    "text": "Summary\nAfter generating taxonomic and functional profiles with MetaPhlAn and HUMAnN, a range of downstream analyses can be used to investigate microbial community structure, functional potential, ecological interactions, and associations with experimental variables.\nThe choice of analysis depends on the biological question being asked and the experimental design of the study, there is no single “correct” analysis pipeline. Instead, the choice of methods depends on the biological question, the study design, and the type of data available. In practice, most studies combine several complementary approaches to build a consistent interpretation of the data.\nIf in doubt, consult your Community of Practice, be that your lab group, other scientists in your field, or perhaps the Cloud-SPAN community on our Slack!\nGood luck!",
+    "crumbs": [
+      "Home",
+      "Functional Annotation",
+      "Downstream analysis of taxonomic and functional profiles"
+    ]
   },
   {
     "objectID": "docs/lesson05-functional-annotation/01-functional-info.html",
