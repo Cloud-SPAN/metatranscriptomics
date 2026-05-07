@@ -1,7 +1,6 @@
 ---
 title: "Downstream analysis of taxonomic and functional profiles"
 ---
-
 ## Overview
 
 After running MetaPhlAn and HUMAnN you will have two main outputs:
@@ -9,7 +8,7 @@ After running MetaPhlAn and HUMAnN you will have two main outputs:
 -   a **taxonomic profile** describing which organisms are present in each sample
 -   a **functional profile** describing the genes and metabolic pathways detected in the community
 
-You may be thinking: "well, now what?!"
+You may be thinking: **"well, now what?!"**
 
 These outputs can be used to answer a huge range of biological and ecological questions.
 
@@ -27,9 +26,9 @@ Experimental methods tend to be similar within fields, so do look at the literat
 If we walked through every possible downstream analysis for this kind of data it would take many many more sessions, and perhaps only a subsection of these analyses may be relevant to your work. Instead, in this episode we introduce some common downstream analyses that can be performed using taxonomic and functional profiles.
 
 ::: callout-tip
-The explanations below are brief and do not go into technical detail, instead only just touches on which kinds of experiment the analyses are appropriate for.
+The explanations below are brief and do not go into technical detail, instead only just touch on which kinds of experiment the analyses are appropriate for.
 
-Each section has links out to other tutorials you may find useful!
+Each section has links out to other tutorials that you may find useful.
 
 In addition to these check out the [UKRI Digital Research Skills Catalyst](https://digitalskillscatalyst.ac.uk/) for more learning resources!
 :::
