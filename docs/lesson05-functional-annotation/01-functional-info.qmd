@@ -22,13 +22,19 @@ It also finds gene pathways (defined as two or more genes) using KEGG Pathways o
 
 ### Running Humann
 
-First of all let's make a new directory to store out Humann results in.
+First of all let's make sure we're in our working directory of `cs_course`.
+
+``` {.bash filename="Code"}
+cd /home/csuser/cs_course
+```
+
+Then let's make a new directory to store out Humann results in.
 
 ``` {.bash filename="Code"}
 mkdir -p analysis/humann
 ```
 
-Humann is a very extensive programme with many features. Let's run:
+Humann is a very extensive programme with many features. Let's run the help function to see what it can do:
 
 ``` {.bash filename="Code"}
 humann --help
@@ -201,19 +207,13 @@ optional arguments:
 ```
 :::
 
-Although there are many different possible ways we can use Humann, the core arguments are very simple:
-
--   `--input` tells it where our sorted mRNA input is
-
--   `--output` tells it where to output the files
-
-We will also include a few more
-
--   `--threads 8` tells it to use all 8 CPU cores of our instance
-
--   `--taxonomic-profile` tells it were the output of our Metaphlan run is
-
--   `&> analysis/humann/log.txt &` to get the terminal to redirect messages to a log
+| flag/option | meaning |
+|-----------------|-------------------------------------------------------|
+| `--input analysis/sortmerna/SRR6820491_mrna.fq` | specifies the input file containing our filtered mRNA reads from SortMeRNA. We use the filtered reads here because rRNA sequences do not contain protein-coding information and would slow down functional annotation considerably. |
+| `--output analysis/humann/` | tells HUMAnN where to write all output files generated during the run. |
+| `--taxonomic-profile analysis/metaphlan/metaphlan_output.txt` | provides the MetaPhlAn taxonomic profile so HUMAnN only searches database entries relevant to the taxa already identified. This greatly improves runtime efficiency. |
+| `--threads 8` | tells HUMAnN to use all 8 CPU cores available on our instance. |
+| `&> analysis/humann/log.txt &` | redirects all terminal output to a log file and runs the process in the background. |
 
 And so, the command we are going to run Humann with looks like this:
 
@@ -239,6 +239,51 @@ The UniRef databases can be extremely large, with over 100GB being standard. Our
 
 ## Humann outputs
 
+We can check that Humann has ran correctly by checking the log like so:
+
+``` {.bash filename="Code"}
+Output files will be written to: /home/csuser/cs_course/analysis/humann
+Removing spaces from identifiers in input file ...
+
+
+Total species selected from prescreen: 0
+
+Selected species explain 0.00% of predicted community composition
+
+
+
+No species were selected from the prescreen.
+Because of this the custom ChocoPhlAn database is empty.
+This will result in zero species-specific gene families and pathways.
+
+
+
+Running diamond ........
+
+
+Aligning to reference database: uniref90_201901b_ec_filtered.dmnd
+
+Total bugs after translated alignment: 1
+unclassified: 10677087 hits
+
+Total gene families after translated alignment: 3140
+
+Unaligned reads after translated alignment: 35.3608922734 %
+
+
+Computing gene families ...
+
+Computing pathways abundance and coverage ...
+
+Output files created:
+/home/csuser/cs_course/analysis/humann/SRR6820491_mrna_genefamilies.tsv
+/home/csuser/cs_course/analysis/humann/SRR6820491_mrna_pathabundance.tsv
+/home/csuser/cs_course/analysis/humann/SRR6820491_mrna_pathcoverage.tsv
+```
+
+If your log looks like this then congratulations! Humann has ran and successfully outputted the results.
+
+
 Humann will produce five outputs:
 
 #### A directory of temporary files
@@ -256,16 +301,29 @@ less analysis/humann/SRR6820491_mrna_genefamilies.tsv
 It should look a bit like this:
 
 ``` {.default filename="Output"}
-\# Gene Family SRR6820491_mrna_Abundance-RPKs\
-UNMAPPED 2255586.0000000000\
-UniRef90_C8C186 93805.0748916235\
-UniRef90_A0A098YGS3 89602.4872409256\
-UniRef90_A6B9Y3 82482.4155008284\
-UniRef90_A0A343J0E6 75487.8135721117\
-UniRef90_A0A141RML6 73343.1679686251\
-UniRef90_A6BBS7 69594.8394299401\
-UniRef90_R0JKC3 57188.9820833425\
-UniRef90_A0A127SFT5 54088.4634226876
+# Gene Family   SRR6820491_mrna_Abundance-RPKs
+UNMAPPED        2259677.0000000000
+UniRef90_C8C186 94213.0855549303
+UniRef90_C8C186|unclassified    94213.0855549303
+UniRef90_A0A098YGS3     90112.0680509912
+UniRef90_A0A098YGS3|unclassified        90112.0680509912
+UniRef90_A6B9Y3 82876.7853519426
+UniRef90_A6B9Y3|unclassified    82876.7853519426
+UniRef90_A0A343J0E6     75794.0211237180
+UniRef90_A0A343J0E6|unclassified        75794.0211237180
+UniRef90_A0A141RML6     73640.8387018042
+UniRef90_A0A141RML6|unclassified        73640.8387018042
+UniRef90_A6BBS7 69930.2570132110
+UniRef90_A6BBS7|unclassified    69930.2570132110
+UniRef90_R0JKC3 57483.5504630520
+UniRef90_R0JKC3|unclassified    57483.5504630520
+UniRef90_A0A127SFT5     54307.5293219123
+UniRef90_A0A127SFT5|unclassified        54307.5293219123
+UniRef90_A0A127SHY8     48265.0559379932
+UniRef90_A0A127SHY8|unclassified        48265.0559379932
+UniRef90_Q79DR3 40958.2935396859
+UniRef90_Q79DR3|unclassified    40958.2935396859
+UniRef90_P62593 39834.9879483638
 
 ...
 ```
@@ -274,6 +332,7 @@ Gene family abundance is reported in RPK (reads per kilobase), a measure which n
 
 :::: callout-note
 ## Challenge
+
 Have a look at the output above and try and answer these questions:
 
 1.  What is the most abundant gene family?
@@ -282,8 +341,8 @@ Have a look at the output above and try and answer these questions:
 ::: {.callout-caution collapse="true"}
 ## Solution
 
-1.  UniRef90_C8C186\
-2.  2,255,586 RPK
+1.  UniRef90_C8C186
+2.  2,259,677 RPK
 :::
 ::::
 
@@ -298,18 +357,28 @@ less analysis/humann/SRR6820491_mrna_pathabundance.tsv
 It should look a bit like this:
 
 ``` {.default filename="Output"}
-#Pathway SRR6820491_mrna_Abundance\
-UNMAPPED 643040.1584233012\
-UNINTEGRATED 372056.7564164627\
-UNINTEGRATED\|unclassified 372056.7564164627\
-PWY-1042: glycolysis IV 5122.3409693358\
-PWY-1042: glycolysis IV\|unclassified 5122.3409693358\
-PWY-5695: inosine 5'-phosphate degradation 2522.4660551855\
-PWY-5695: inosine 5'-phosphate degradation\|unclassified 2522.4660551855\
-PWY-7221: guanosine ribonucleotides de novo biosynthesis 2393.1160596558\
-PWY-7221: guanosine ribonucleotides de novo biosynthesis\|unclassified 2393.1160596558\
-ANAGLYCOLYSIS-PWY: glycolysis III (from glucose) 2219.7232237331\
-ANAGLYCOLYSIS-PWY: glycolysis III (from glucose)\|unclassified 2219.7232237331
+# Pathway       SRR6820491_mrna_Abundance
+UNMAPPED        644218.0056648480
+UNINTEGRATED    369564.0910171091
+UNINTEGRATED|unclassified       369564.0910171091
+PWY-1042: glycolysis IV 5122.9174199680
+PWY-1042: glycolysis IV|unclassified    5122.9174199680
+PWY-5695: inosine 5'-phosphate degradation      2522.4955682189
+PWY-5695: inosine 5'-phosphate degradation|unclassified 2522.4955682189
+PWY-7221: guanosine ribonucleotides de novo biosynthesis        2393.1160596558
+PWY-7221: guanosine ribonucleotides de novo biosynthesis|unclassified   2393.1160596558
+ANAGLYCOLYSIS-PWY: glycolysis III (from glucose)        2219.7642712425
+ANAGLYCOLYSIS-PWY: glycolysis III (from glucose)|unclassified   2219.7642712425
+PWY-7208: superpathway of pyrimidine nucleobases salvage        2183.2076526440
+PWY-7208: superpathway of pyrimidine nucleobases salvage|unclassified   2183.2076526440
+PWY-7228: superpathway of guanosine nucleotides de novo biosynthesis I  2161.1939689820
+PWY-7228: superpathway of guanosine nucleotides de novo biosynthesis I|unclassified     2161.1939689820
+PWY-5100: pyruvate fermentation to acetate and lactate II       2124.4245452763
+PWY-5100: pyruvate fermentation to acetate and lactate II|unclassified  2124.4245452763
+PWY-5484: glycolysis II (from fructose 6-phosphate)     1959.7318701297
+PWY-5484: glycolysis II (from fructose 6-phosphate)|unclassified        1959.7318701297
+PWY-6609: adenine and adenosine salvage III     1889.9623784489
+PWY-6609: adenine and adenosine salvage III|unclassified        1889.9623784489
 
 ...
 ```
@@ -328,18 +397,38 @@ Output files created: /home/ubuntu/cs_course/analysis/humann/SRR6820491_mrna_gen
 
 ### Normalising abundances
 
-It's worth noting that gene family abundances are measured in RPKs and so are normalised for *read length* but not *sampling depth*. This means that our output may still be biased by sampling depth. Whilst some analyses such as strain profiling may use RPKs, most of the time it is better to work with normalised abundances.
+It's worth noting that gene family abundances are measured in RPKs (Reads Per Kilobase), and so are normalised for *read length* but not *sampling depth*. This means that our output may still be biased by sampling depth. Whilst some analyses such as strain profiling may use RPKs, most of the time it is better to work with normalised abundances.
 
-To normalise our data we can use the following command:
+To normalise our data we can use the `humann_renorm_table` command, with the following options:
+
+| flag/option                                                      | meaning                                                                                                        |
+| ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `-i analysis/humann/SRR6820491_mrna_genefamilies.tsv`            | specifies the HUMAnN gene family abundance table we want to normalise.                                         |
+| `-u relab`                                                       | converts abundances into relative abundance values rather than absolute RPKs.                                  |
+| `-m community`                                                   | tells HUMAnN to normalise abundances across the entire microbial community rather than within individual taxa. |
+| `--update-snames`                                                | updates the sample names in the output file to indicate the new normalisation method.                          |
+| `-o analysis/humann/SRR6820491_mrna_genefamilies_normalised.tsv` | specifies the name of the output file containing the normalised abundances.                                    |
+
+Making sure we're still in our `cs_course` directory, let's run the command on our gene families
 
 ``` {.bash filename="Code"}
-humann_renorm_table -i analysis/humann/SRR6820491_mrna_genefamilies.tsv -u relab -m community --update-snames -o analysis/humann/SRR6820491_mrna_genefamilies_normalised.tsv
+humann_renorm_table \
+  -i analysis/humann/SRR6820491_mrna_genefamilies.tsv \
+  -u relab \
+  -m community \
+  --update-snames \
+  -o analysis/humann/SRR6820491_mrna_genefamilies_normalised.tsv
 ```
 
-And the same for pathway abundances:
+And again but with our pathway abundances (all we changed here was in the input `-i` and output `-o`):
 
 ``` {.bash filename="Code"}
-humann_renorm_table -i analysis/humann/SRR6820491_mrna_pathabundance.tsv -u relab -m community --update-snames -o analysis/humann/SRR6820491_mrna_pathabundance_normalised.tsv
+humann_renorm_table \
+  -i analysis/humann/SRR6820491_mrna_pathabundance.tsv \
+  -u relab \
+  -m community \
+  --update-snames \
+  -o analysis/humann/SRR6820491_mrna_pathabundance_normalised.tsv
 ```
 
 Take a look at the output using:
@@ -349,15 +438,30 @@ less analysis/humann/SRR6820491_mrna_genefamilies_normalised.tsv
 ```
 
 ``` {.default filename="Output"}
-#Gene Family SRR6820491_mrna_Abundance-RELAB 
-UNMAPPED 0.587576 
-UniRef90_C8C186 0.024436 
-UniRef90_A0A098YGS3 0.0233413 
-UniRef90_A6B9Y3 0.0214865 
-UniRef90_A0A343J0E6 0.0196644 
-UniRef90_A0A141RML6 0.0191057 
-UniRef90_A6BBS7 0.0181293 
-UniRef90_R0JKC3 0.0148976 
+# Gene Family   SRR6820491_mrna_Abundance-RELAB
+UNMAPPED        0.589358
+UniRef90_C8C186 0.0245722
+UniRef90_C8C186|unclassified    0.0245722
+UniRef90_A0A098YGS3     0.0235026
+UniRef90_A0A098YGS3|unclassified        0.0235026
+UniRef90_A6B9Y3 0.0216155
+UniRef90_A6B9Y3|unclassified    0.0216155
+UniRef90_A0A343J0E6     0.0197682
+UniRef90_A0A343J0E6|unclassified        0.0197682
+UniRef90_A0A141RML6     0.0192066
+UniRef90_A0A141RML6|unclassified        0.0192066
+UniRef90_A6BBS7 0.0182389
+UniRef90_A6BBS7|unclassified    0.0182389
+UniRef90_R0JKC3 0.0149926
+UniRef90_R0JKC3|unclassified    0.0149926
+UniRef90_A0A127SFT5     0.0141642
+UniRef90_A0A127SFT5|unclassified        0.0141642
+UniRef90_A0A127SHY8     0.0125883
+UniRef90_A0A127SHY8|unclassified        0.0125883
+UniRef90_Q79DR3 0.0106825
+UniRef90_Q79DR3|unclassified    0.0106825
+UniRef90_P62593 0.0103896
+
 ...
 ```
 
@@ -365,6 +469,7 @@ You'll note the abundances are now relative (in %) rather than absolute RPKs. Th
 
 :::: callout-note
 ## Challenge
+
 Have a look at the normalised gene families file.
 
 1.  What percentage of sequences do not have an assigned gene family?
@@ -373,8 +478,8 @@ Have a look at the normalised gene families file.
 ::: {.callout-caution collapse="true"}
 ## Solution
 
-1.  58.76%\
-2.  2.4%
+1.  58.93%
+2.  2.5%
 :::
 ::::
 
@@ -384,27 +489,54 @@ Now we have normalised abundance data on our gene families we can go one step fu
 
 We will “unpack” the pathways to reveal the gene families involved. This adds another level of detail to the pathway abundance table.
 
-We can generate a table linking pathways to the gene families that contribute to them using the "unpack" function like so:
+We can generate a table linking pathways to the gene families that contribute to them using the `humann_unpack_pathways`. There's a few options we have to specify:
+
+| flag/option                                                                     | meaning                                                  |
+| ------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| `--input-genes analysis/humann/SRR6820491_mrna_genefamilies_normalised.tsv`     | specifies the normalised gene family abundance table.    |
+| `--input-pathways analysis/humann/SRR6820491_mrna_pathabundance_normalised.tsv` | specifies the normalised pathway abundance table.        |
+| `-o analysis/humann/unpacked_pathways_normalised.tsv`                           | tells HUMAnN where to write the unpacked pathway output. |
+
+Let's run the command!
 
 ``` {.bash filename="Code"}
-humann_unpack_pathways --input-genes analysis/humann/SRR6820491_mrna_genefamilies_normalised.tsv --input-pathways analysis/humann/SRR6820491_mrna_pathabundance_normalised.tsv -o analysis/humann/unpacked_pathways_normalised.tsv
+humann_unpack_pathways \
+  --input-genes analysis/humann/SRR6820491_mrna_genefamilies_normalised.tsv \
+  --input-pathways analysis/humann/SRR6820491_mrna_pathabundance_normalised.tsv \
+  -o analysis/humann/unpacked_pathways_normalised.tsv
 ```
 
 This will produce a table that looks like this:
 
+``` {.bash filename="Code"}
+less analysis/humann/unpacked_pathways_normalised.tsv
+```
+
 ``` {.default filename="Output"}
-#Pathway SRR6820491_mrna_Abundance-RELAB\
-ANAEROFRUCAT-PWY: homolactic fermentation 0.00114903\
-ANAEROFRUCAT-PWY\|unclassified 0.00114903\
-ANAEROFRUCAT-PWY\|unclassified\|UniRef90_B5Y768 0.000249259\
-ANAEROFRUCAT-PWY\|unclassified\|UniRef90_M1ZLX7 1.74048e-05\
-ANAEROFRUCAT-PWY\|unclassified\|UniRef90_R1AXJ4 4.85755e-05\
-ANAEROFRUCAT-PWY\|unclassified\|UniRef90_D9PUH5 3.73373e-06\
-ANAEROFRUCAT-PWY\|unclassified\|UniRef90_A0A1M6IZD8 2.86919e-05\
-ANAEROFRUCAT-PWY\|unclassified\|UniRef90_B5Y8I1 0.000413006\
-ANAEROFRUCAT-PWY\|unclassified\|UniRef90_F4LQU7 3.06039e-05\
-ANAEROFRUCAT-PWY\|unclassified\|UniRef90_B5Y8B9 0.000497463\
-ANAEROFRUCAT-PWY\|unclassified\|UniRef90_A0A2X1LMF5 3.11042e-07\
+# Pathway       SRR6820491_mrna_Abundance-RELAB
+ANAEROFRUCAT-PWY: homolactic fermentation       0.00115042
+ANAEROFRUCAT-PWY|unclassified   0.00115042
+ANAEROFRUCAT-PWY|unclassified|UniRef90_F4LQU7   3.06411e-05
+ANAEROFRUCAT-PWY|unclassified|UniRef90_A0A376LF36       2.18255e-07
+ANAEROFRUCAT-PWY|unclassified|UniRef90_D1L5J9   1.53932e-05
+ANAEROFRUCAT-PWY|unclassified|UniRef90_F4LWJ5   3.82403e-05
+ANAEROFRUCAT-PWY|unclassified|UniRef90_B5Y7Q7   0.000806969
+ANAEROFRUCAT-PWY|unclassified|UniRef90_A0A0U9HE71       4.4773e-06
+ANAEROFRUCAT-PWY|unclassified|UniRef90_A0A1B1YMK6       4.50368e-05
+ANAEROFRUCAT-PWY|unclassified|UniRef90_A0A1B1YMK2       4.01626e-05
+ANAEROFRUCAT-PWY|unclassified|UniRef90_A0A376RRT5       1.11938e-06
+ANAEROFRUCAT-PWY|unclassified|UniRef90_M1YXF4   7.12165e-05
+ANAEROFRUCAT-PWY|unclassified|UniRef90_A0A1H3A0T4       2.5612e-05
+ANAEROFRUCAT-PWY|unclassified|UniRef90_A3DCA8   0.000505282
+ANAEROFRUCAT-PWY|unclassified|UniRef90_B5Y768   0.000249563
+ANAEROFRUCAT-PWY|unclassified|UniRef90_B5Y8V1   0.000376358
+ANAEROFRUCAT-PWY|unclassified|UniRef90_K0FCI7   8.40225e-05
+ANAEROFRUCAT-PWY|unclassified|UniRef90_A3DBX9   4.01119e-05
+ANAEROFRUCAT-PWY|unclassified|UniRef90_A0A2X1LMF5       3.11421e-07
+ANAEROFRUCAT-PWY|unclassified|UniRef90_R1AXJ4   4.86346e-05
+ANAEROFRUCAT-PWY|unclassified|UniRef90_G8LY94   5.4377e-05
+ANAEROFRUCAT-PWY|unclassified|UniRef90_B5Y840   0.00023678
+
 ...
 ```
 
@@ -416,14 +548,17 @@ From this table:
 
 -   The gene family row shows the individual UniRef90 genes and their abundances.
 
+It's important to note that this output varies because humann_unpack_pathways uses a probabilistic approach to distribute pathway abundance among the many potential contributing genes in the "unclassified" pool. This means each time the command runs it may pick one of many equally contributing genes to appear in the pathway.
+
 :::: callout-note
 ## Challenge
-1.  Which gene family contributes to the most abundant pathway with an associated family in this sample?
+
+1.  In the results above (as your results may be slightly different!), which gene family contributes to the most abundant pathway with an associated family in this sample?
 
 ::: {.callout-caution collapse="true"}
 ## Solution
 
-1.  UniRef90_B5Y768
+1.  UniRef90_F4LQU7
 :::
 ::::
 
@@ -441,16 +576,36 @@ Gene Ontology (GO) terms are high-level, structured, standardised, and species-a
 
 Using GO terms will reduce the complexity of functional annotation outputs and highlight the biological functions of interest in our analysis.
 
-We can use HUMAnN’s regrouping utility to map gene families to GO terms. The command looks like this:
+We can use HUMAnN’s regrouping utility `humann_regroup_table` to map gene families to GO terms. Let's build the command.
+
+| flag/option                                                      | meaning                                                                            |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `-i analysis/humann/SRR6820491_mrna_genefamilies_normalised.tsv` | specifies the normalised gene family abundance table to regroup.                   |
+| `-g uniref90_go`                                                 | tells HUMAnN to regroup UniRef90 gene families into Gene Ontology (GO) categories. |
+| `-o analysis/humann/SRR6820491_mrna_go.tsv`                      | specifies the output file for the regrouped GO term abundances.                    |
+
 
 ``` {.bash filename="Code"}
-humann_regroup_table -i analysis/humann/SRR6820491_mrna_genefamilies_normalised.tsv -g uniref90_go -o analysis/humann/SRR6820491_mrna_go.tsv
+humann_regroup_table \
+  -i analysis/humann/SRR6820491_mrna_genefamilies_normalised.tsv \
+  -g uniref90_go \
+  -o analysis/humann/SRR6820491_mrna_go.tsv
 ```
 
-After this has ran we can then turn the quite cryptic GO term IDs into human-readable titles using the renaming utility:
+After this has ran we can then turn the quite cryptic GO term IDs into human-readable titles using the renaming utility `humann_rename_table`.
+
+| flag/option                                         | meaning                                                            |
+| --------------------------------------------------- | ------------------------------------------------------------------ |
+| `-i analysis/humann/SRR6820491_mrna_go.tsv`         | specifies the regrouped GO table to rename.                        |
+| `-n go`                                             | tells HUMAnN to use the GO naming database for annotation.         |
+| `-o analysis/humann/SRR6820491_mrna_go_renamed.tsv` | specifies the output file containing human-readable GO term names. |
+
 
 ``` {.bash filename="Code"}
-humann_rename_table -i analysis/humann/SRR6820491_mrna_go.tsv -n go -o analysis/humann/SRR6820491_mrna_go_renamed.tsv
+humann_rename_table \
+  -i analysis/humann/SRR6820491_mrna_go.tsv \
+  -n go \
+  -o analysis/humann/SRR6820491_mrna_go_renamed.tsv
 ```
 
 Let's inspect the output using:
@@ -459,8 +614,34 @@ Let's inspect the output using:
 less analysis/humann/SRR6820491_mrna_go_renamed.tsv
 ```
 
+``` {.default filename="Output"}
+# Gene Family   SRR6820491_mrna_Abundance-RELAB
+UNMAPPED        0.589358
+UNGROUPED       0.006087598206
+UNGROUPED|unclassified  0.006087598206
+GO:0000015: [CC] phosphopyruvate hydratase complex      0.0007034955
+GO:0000015: [CC] phosphopyruvate hydratase complex|unclassified 0.0007034955
+GO:0000034: [MF] adenine deaminase activity     3.99883e-06
+GO:0000034: [MF] adenine deaminase activity|unclassified        3.99883e-06
+GO:0000049: [MF] tRNA binding   0.0031198066590000005
+GO:0000049: [MF] tRNA binding|unclassified      0.0031198066590000005
+GO:0000103: [BP] sulfate assimilation   2.56775e-05
+GO:0000103: [BP] sulfate assimilation|unclassified      2.56775e-05
+GO:0000105: [BP] histidine biosynthetic process 0.0014610406499999996
+GO:0000105: [BP] histidine biosynthetic process|unclassified    0.0014610406499999996
+GO:0000107: [MF] imidazoleglycerol-phosphate synthase activity  0.00021605209
+GO:0000107: [MF] imidazoleglycerol-phosphate synthase activity|unclassified     0.00021605209
+GO:0000155: [MF] phosphorelay sensor kinase activity    0.0005325315649999998
+GO:0000155: [MF] phosphorelay sensor kinase activity|unclassified       0.0005325315649999998
+GO:0000156: [MF] phosphorelay response regulator activity       3.5137059999999997e-05
+GO:0000156: [MF] phosphorelay response regulator activity|unclassified  3.5137059999999997e-05
+
+...
+```
+
 :::: callout-note
 ## Challenge
+
 From our GO Terms outputs:
 
 1.  Which of the GO terms is least abundant?
@@ -469,7 +650,7 @@ From our GO Terms outputs:
 ::: {.callout-caution collapse="true"}
 ## Solution
 
-1.  methanofuran biosynthetic process\
+1.  methanofuran biosynthetic process
 2.  adenine deaminase activity
 :::
 ::::
