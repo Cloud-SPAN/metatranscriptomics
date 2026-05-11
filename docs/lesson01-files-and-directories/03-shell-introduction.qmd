@@ -147,7 +147,7 @@ ls -F
 ```
 
 ``` {.default filename="Output"}
-raw_reads/  trimmed_reads/
+raw_reads/
 ```
 
 This directory contains two subdirectories. We can tell they are directories and not files because of the trailing '/'. They contain all of the raw data we will need for the rest of the course.
