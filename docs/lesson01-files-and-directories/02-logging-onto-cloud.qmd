@@ -96,7 +96,7 @@ You can also check by typing the letters `ls` after the command prompt and press
 Enter the following command to change the access permissions of your file but **replace** NNN with the actual number in your file name:
 
 ``` {.bash filename="Code"}
-chmod 400 login-key-instanceNNN.pem 
+chmod 400 login-key-login-key-instanceNNN.pem 
 ```
 
 The command `chmod` (change access mode) makes your login key file accessible to you only (and non-accessible to any other potential users of your computer), a condition that is required and checked by the program `ssh` that you will use next to log in to your AWS instance. You will learn about file access permissions later in the course.
@@ -120,7 +120,7 @@ However, you cannot paste in the shell using <kbd>Ctrl</kbd> + <kbd>V</kbd> like
 :::
 
 ``` {.bash filename="Code"}
-ssh -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk
+ssh -i login-key-login-key-instanceNNN.pem csuser@login-key-instanceNNN.cloud-span.aws.york.ac.uk
 ```
 
 *Be sure to replace* `NNN` *twice with your unique instance number (the one in your key).* You can use the left and right arrow keys to move to where NNN is.
@@ -214,5 +214,5 @@ username@machineid $
 To login back to your instance, open a terminal, make sure you are in your `cloudspan` folder and `ssh` as before:
 
 ``` {.bash filename="Code"}
-ssh -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk
+ssh -i login-key-login-key-instanceNNN.pem csuser@login-key-instanceNNN.cloud-span.aws.york.ac.uk
 ```

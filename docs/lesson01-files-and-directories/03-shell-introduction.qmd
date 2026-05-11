@@ -44,7 +44,7 @@ We will spend most of our time learning about the basics of the shell by manipul
 As a reminder, we log in by launching Git Bash or Terminal from the `cloudspan` folder we made in today's first episode, and then using the `ssh` command.
 
 ``` {.bash filename="Code"}
-ssh -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk
+ssh -i login-key-login-key-instanceNNN.pem csuser@login-key-instanceNNN.cloud-span.aws.york.ac.uk
 ```
 
 ## Navigating your file system
