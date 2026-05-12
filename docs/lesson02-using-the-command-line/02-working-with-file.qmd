@@ -339,7 +339,7 @@ This will delete not only the directory, but all files within the directory.
 Starting in the `raw_reads` directory, do the following:
 
 1.  Make sure that you have deleted your `backup` directory and all files it contains.\
-2.  Create a backup of each of your FASTQ files using `cp`. (Note: You'll need to do this individually for each of the two FASTQ files. We haven't learned yet how to do this with a wildcard.)\
+2.  Create a backup of each of your FASTQ files using `cp`. (Note: You'll need to do this individually for each of the FASTQ files. We haven't learned yet how to do this with a wildcard.)\
 3.  Use a wildcard to move all of your backup files to a new `backup` directory.
 4.  It doesn't make sense to keep our `backup` directory inside the directory it is backing up. What if we accidentally delete the `raw_reads` directory? To fix this, move your new backup directory out of `raw_reads` and into the parent folder, `data`.
 
@@ -347,7 +347,10 @@ Starting in the `raw_reads` directory, do the following:
 ## Solution
 
 1.  `rm -r backup`\
-2.  `cp SRR6820491_1.fastq SRR6820491_1_backup.fastq` and `cp SRR6820491_2.fastq SRR6820491_2_backup.fastq`\
+2.  `cp SRR6820491_1.fastq SRR6820491_1_backup.fastq`\
+`cp SRR6820491_2.fastq SRR6820491_2_backup.fastq`\
+`cp SRR6820516_1.fastq SRR6820516_1_backup.fastq`\
+`cp SRR6820516_2.fastq SRR6820516_2_backup.fastq`\
 3.  `mkdir backup` and `mv *_backup.fastq backup`
 4.  `mv backup ..` or `mv backup ~/cs_course/data/` (note that you do not need to use the -r flag to move directories like you do when deleting them)
 
