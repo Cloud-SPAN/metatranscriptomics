@@ -614,14 +614,44 @@ The analyses in this lesson will take several hours to complete! You can find so
 <p>The reference is a database containing rRNA sequences which helps SortMeRNA determine whether reads are rRNA or not. We’ve already downloaded the rRNA database onto the instance.</p>
 <p>The reads are our trimmed FASTQ files. Since our reads are paired, we have to give this argument twice and specify each file separately. The program will take their ‘pairedness’ into account while it is sorting.</p>
 <p>We’ll also use some other optional arguments to customise the command and make our output easier to work with later:</p>
-<ul>
-<li><code>--workdir</code> tells SortMeRNA to put all outputs in a directory of our choice</li>
-<li><code>--threads</code> tells it how many cores/processors to use</li>
-<li><code>--aligned</code> tells it what we want the file containing aligned (i.e.&nbsp;rRNA) reads to be called</li>
-<li><code>--other</code> tells it what we want unaligned (i.e.&nbsp;non-rRNA) reads to be called</li>
-<li><code>--fastx</code> tells it we want our output files in fastq format</li>
-<li><code>--paired-out</code> tells it that if one read in a pair is aligned and the other is not, both reads in the pair should be classed as unaligned</li>
-</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>flag/option</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>--workdir</code></td>
+<td>tells SortMeRNA to put all outputs in a directory of our choice</td>
+</tr>
+<tr class="even">
+<td><code>--threads</code></td>
+<td>tells it how many cores/processors to use</td>
+</tr>
+<tr class="odd">
+<td><code>--aligned</code></td>
+<td>tells it what we want the file containing aligned (i.e.&nbsp;rRNA) reads to be called</td>
+</tr>
+<tr class="even">
+<td><code>--other</code></td>
+<td>tells it what we want unaligned (i.e.&nbsp;non-rRNA) reads to be called</td>
+</tr>
+<tr class="odd">
+<td><code>--fastx</code></td>
+<td>tells it we want our output files in fastq format</td>
+</tr>
+<tr class="even">
+<td><code>--paired-out</code></td>
+<td>tells it that if one read in a pair is aligned and the other is not, both reads in the pair should be classed as unaligned</td>
+</tr>
+</tbody>
+</table>
 <!--
 | flag/option       | meaning                                                                                     |
 |------------------------------|------------------------------------------|
