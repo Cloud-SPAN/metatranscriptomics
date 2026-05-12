@@ -52,7 +52,7 @@ Before we start, here's a reminder of what our file structure looks like as a hi
 
 <!-- ![A file hierarchy tree](../fig/blank_instance_file_tree_with_hidden.png){:width="400px"} -->
 
-![A file hierarchy tree.](/images/blank_instance_file_tree_with_hidden.png){width="400px" fig-alt="A file hierarchy tree."}
+![A file hierarchy tree.](/images/blank_instance_file_tree_with_hidden.png){width="800px" fig-alt="A file hierarchy tree."}
 
 Keep this in mind as we continue to navigate the file system, and don't hesitate to refer back to it if needed.
 
