@@ -225,12 +225,14 @@ The reads are our trimmed FASTQ files. Since our reads are paired, we have to gi
 
 We'll also use some other optional arguments to customise the command and make our output easier to work with later:
 
--   `--workdir` tells SortMeRNA to put all outputs in a directory of our choice
--   `--threads` tells it how many cores/processors to use
--   `--aligned` tells it what we want the file containing aligned (i.e. rRNA) reads to be called
--   `--other` tells it what we want unaligned (i.e. non-rRNA) reads to be called
--   `--fastx` tells it we want our output files in fastq format
--   `--paired-out` tells it that if one read in a pair is aligned and the other is not, both reads in the pair should be classed as unaligned
+| flag/option | meaning |
+|------------------------------------|------------------------------------|
+| `--workdir` | tells SortMeRNA to put all outputs in a directory of our choice |
+| `--threads` | tells it how many cores/processors to use |
+| `--aligned` | tells it what we want the file containing aligned (i.e. rRNA) reads to be called |
+| `--other` | tells it what we want unaligned (i.e. non-rRNA) reads to be called |
+| `--fastx` | tells it we want our output files in fastq format |
+| `--paired-out` | tells it that if one read in a pair is aligned and the other is not, both reads in the pair should be classed as unaligned |
 
 ```{=html}
 <!--
