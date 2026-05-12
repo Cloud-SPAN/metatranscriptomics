@@ -149,15 +149,15 @@ wc -l bad_reads.txt
 ```
 
 ``` {.default filename="Output"}
-52 bad_reads.txt
+208 bad_reads.txt
 ```
 
 The `--no-group-separator` flag used above prevents grep from adding unnecessary extra lines to the file which would alter the number of lines present.
 
 ::: callout-note
 ## Challenge
-1.  How many sequences are there in `ERR4998593_1.fastq`? Remember that every sequence is formed by four lines.
-2.  How many sequences in `ERR4998593_1.fastq` contain at least 5 consecutive Ns?
+1.  How many sequences are there in `SRR6820491_1.fastq`? Remember that every sequence is formed by four lines.
+2.  How many sequences in `SRR6820491_1.fastq` contain at least 5 consecutive Ns?
 
 ::: {.callout-caution collapse="true"}
 ## Solution
