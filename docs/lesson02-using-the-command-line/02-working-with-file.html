@@ -847,7 +847,7 @@ Quality score:    01........11........21........31........41   </code></pre>
 <ol type="1">
 <li>Make sure that you have deleted your <code>backup</code> directory and all files it contains.<br>
 </li>
-<li>Create a backup of each of your FASTQ files using <code>cp</code>. (Note: You’ll need to do this individually for each of the two FASTQ files. We haven’t learned yet how to do this with a wildcard.)<br>
+<li>Create a backup of each of your FASTQ files using <code>cp</code>. (Note: You’ll need to do this individually for each of the FASTQ files. We haven’t learned yet how to do this with a wildcard.)<br>
 </li>
 <li>Use a wildcard to move all of your backup files to a new <code>backup</code> directory.</li>
 <li>It doesn’t make sense to keep our <code>backup</code> directory inside the directory it is backing up. What if we accidentally delete the <code>raw_reads</code> directory? To fix this, move your new backup directory out of <code>raw_reads</code> and into the parent folder, <code>data</code>.</li>
@@ -867,7 +867,10 @@ Quality score:    01........11........21........31........41   </code></pre>
 <ol type="1">
 <li><code>rm -r backup</code><br>
 </li>
-<li><code>cp SRR6820491_1.fastq SRR6820491_1_backup.fastq</code> and <code>cp SRR6820491_2.fastq SRR6820491_2_backup.fastq</code><br>
+<li><code>cp SRR6820491_1.fastq SRR6820491_1_backup.fastq</code><br>
+<code>cp SRR6820491_2.fastq SRR6820491_2_backup.fastq</code><br>
+<code>cp SRR6820516_1.fastq SRR6820516_1_backup.fastq</code><br>
+<code>cp SRR6820516_2.fastq SRR6820516_2_backup.fastq</code><br>
 </li>
 <li><code>mkdir backup</code> and <code>mv *_backup.fastq backup</code></li>
 <li><code>mv backup ..</code> or <code>mv backup ~/cs_course/data/</code> (note that you do not need to use the -r flag to move directories like you do when deleting them)</li>
