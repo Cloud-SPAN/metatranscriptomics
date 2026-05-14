@@ -31,10 +31,10 @@ Once the command has completed you should be able to see `krona.html` in your `a
 First, open up gitbash in your CloudSPAN folder. Then we shall use the "secure copy" or `scp` function to download the file from your instance using this command:
 
 ``` {.bash filename="Code"}
-scp -i login-key-instanceXXX.pem csuser@instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona.html .
+scp -i login-key-login-key-instanceXXX.pem csuser@login-key-instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona.html .
 ```
 
-replacing XXX with your instance number. Much like cp or mv commands, this is telling the command where to copy from (`csuser@instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona.html`) and then where to copy to (remember, the `.` means current working directory).
+replacing XXX with your instance number. Much like cp or mv commands, this is telling the command where to copy from (`csuser@login-key-instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona.html`) and then where to copy to (remember, the `.` means current working directory).
 
 If you are struggling to get the download to work, don't worry, you can access a copy of it [here](/files/krona.html).
 
@@ -51,7 +51,7 @@ ktImportText data/.fullmetaphlanrun/metaphlan_fulltaxaoutput.krona.txt -o analys
 Now you can download it from our instance to your local computer, again using `scp`:
 
 ``` {.bash filename="Code"}
-scp -i login-key-instanceXXX.pem csuser@instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona_alltaxa.html .
+scp -i login-key-login-key-instanceXXX.pem csuser@login-key-instanceXXX.cloud-span.aws.york.ac.uk:~/cs_course/analysis/krona_alltaxa.html .
 ```
 
 Once again, substituting XXX for your instance number. Again if you're struggling to get this to work, don't worry, you can find a copy of it [here](/files/krona_alltaxa.html).
