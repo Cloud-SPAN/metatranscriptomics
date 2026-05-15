@@ -355,6 +355,14 @@ scp -i login-key-login-key-instanceNNN.pem csuser@login-key-instanceNNN.cloud-sp
 ```
 
 Remember to replace NNN with your instance number.
+::: callout-tip
+## Using a zsh shell on a mac?
+You might need to use quotes around the remote path like this:
+
+``` {.bash filename="Code"}
+scp -i login-key-login-key-instanceNNN.pem 'csuser@login-key-instanceNNN.cloud-span.aws.york.ac.uk:~/cs_course/analysis/qc/*_fastqc.html' . 
+```
+:::
 
 As the file is downloading you will see an output like:
 
