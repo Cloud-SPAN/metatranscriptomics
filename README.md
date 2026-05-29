@@ -9,7 +9,7 @@ This hands-on, online course teaches data analysis for metatranscriptomics proje
 
     -   Carry out adapter trimming and quality filtering
 
-    -   Remove rRNA sequences from RNA-seq data
+    -   Sort rRNA and mRNA sequences from RNA-seq data
 
     -   Merge and prepare reads for downstream analyses
 
@@ -29,7 +29,7 @@ To get started, follow the directions in the Setup tab to get access to the requ
 
 ## Acknowledgments
 
-The first two lessons are based on our [Prenomics](https://cloud-span.github.io/prenomics00-intro/) course; the rest are based on our [Metagenomics](https://cloud-span.github.io/metagenomics00-overview/) course.
+The first two lessons are based on our [Prenomics](https://cloud-span.github.io/prenomics00-intro/) course.
 -->
 ```
 New repo for metatranscriptomics course. 🚧 WIP 🚧
