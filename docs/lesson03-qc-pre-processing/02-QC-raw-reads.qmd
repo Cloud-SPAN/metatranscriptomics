@@ -29,7 +29,7 @@ Now we can open the command line.
 ##### **3. Login into your instance**
 
 ``` {.bash filename="Code"}
-ssh -i login-key-login-key-instanceNNN.pem csuser@login-key-instanceNNN.cloud-span.aws.york.ac.uk
+ssh -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk
 ```
 
 *Be sure to replace NNN with your own number, twice.*
@@ -351,7 +351,7 @@ Now use `scp` to download the file. We need to add in our .pem file, like when w
 The command will look something like:
 
 ``` {.bash filename="Code"}
-scp -i login-key-login-key-instanceNNN.pem csuser@login-key-instanceNNN.cloud-span.aws.york.ac.uk:~/cs_course/analysis/qc/*_fastqc.html .
+scp -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk:~/cs_course/analysis/qc/*_fastqc.html .
 ```
 
 Remember to replace NNN with your instance number.
@@ -360,7 +360,7 @@ Remember to replace NNN with your instance number.
 You might need to use quotes around the remote path like this:
 
 ``` {.bash filename="Code"}
-scp -i login-key-login-key-instanceNNN.pem 'csuser@login-key-instanceNNN.cloud-span.aws.york.ac.uk:~/cs_course/analysis/qc/*_fastqc.html' . 
+scp -i login-key-instanceNNN.pem 'csuser@instanceNNN.cloud-span.aws.york.ac.uk:~/cs_course/analysis/qc/*_fastqc.html' . 
 ```
 :::
 
@@ -601,7 +601,7 @@ fastqc data/trimmed_reads/*.fastq -o analysis/cutadapt/trimmed_fastqc -t 8
 In the terminal on your local machine (not the one logged into the AWS instance) use SCP to download the files.
 
 ``` {.bash filename="Code"}
-scp -i login_key_login-key-instanceNNN.pem csuser@login-key-instanceNNN.cloud-span.aws.york.ac.uk:/home/csuser/cs_course/analysis/cutadapt/trimmed_fastqc/*.html .
+scp -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk:/home/csuser/cs_course/analysis/cutadapt/trimmed_fastqc/*.html .
 ```
 
 Then take a look at the html files in your browser.

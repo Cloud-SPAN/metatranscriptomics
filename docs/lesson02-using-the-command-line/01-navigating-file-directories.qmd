@@ -41,7 +41,7 @@ The terminal displays/outputs the **command prompt** to signal that it is ready 
 ##### **3. Login into your instance**
 
 ``` {.bash filename="Code"}
-ssh -i login-key-login-key-instanceNNN.pem csuser@login-key-instanceNNN.cloud-span.aws.york.ac.uk
+ssh -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk
 ```
 
 *Be sure to replace NNN with your own number, twice.*
