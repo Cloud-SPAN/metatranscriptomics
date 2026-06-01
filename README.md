@@ -2,8 +2,6 @@
 
 # Metatranscriptomics
 
-```{=html}
-<!---
 This hands-on, online course teaches data analysis for metatranscriptomics projects. It is aimed at those with little or no experience of using high performance computing (HPC) for data analysis. In the course we will cover: - navigating file directories and using the command line - logging into a remote cloud instance - using common commands and running analysis programs in the command line - what is metagenomics? - following a metatranscriptomics analysis workflow including:
     -   Perform quality control on RNA-seq reads
 
@@ -30,6 +28,3 @@ To get started, follow the directions in the Setup tab to get access to the requ
 ## Acknowledgments
 
 The first two lessons are based on our [Prenomics](https://cloud-span.github.io/prenomics00-intro/) course.
--->
-```
-New repo for metatranscriptomics course. 🚧 WIP 🚧
