@@ -1,6 +1,9 @@
 cff-version: 1.1.0
 message: "If you reuse this training material, please cite it as below."
 authors:
+- family-names: "Pasky"
+  given-names: "Miranda"
+  orcid: "https://orcid.org/0000-0001-5337-6325"
 - family-names: "Buenabad-Chavez"
   given-names: "Jorge"
 - family-names: "Cansdale"
@@ -18,8 +21,8 @@ authors:
 - family-names: "Rand"
   given-names: "Emma"
   orcid: "https://orcid.org/0000-0002-1358-8275"
-title: "Cloud-SPAN Metagenomics Course (2024 version)"
+title: "Cloud-SPAN Metatranscriptomics Course"
 version: 1.0.0
 doi:
-date-released: 2024-05-13
-url: "https://cloud-span.github.io/nerc-metagenomics-v2q/"
+date-released: 2026-05-11
+url: "https://cloud-span.github.io/metatranscriptomics/"
